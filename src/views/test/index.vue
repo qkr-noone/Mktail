@@ -1,20 +1,18 @@
-<template ref="template">
-  <div id="app" ref="app">
+<template>
+  <div id="test-index">
     <keep-alive>
       <router-view></router-view>
     </keep-alive>
-    <div>111</div>
+    <div>232test</div>
   </div>
 </template>
 <script>
 export default {
-  name: 'app',
   data () {
     return {}
   }
 }
+
 </script>
 <style scoped>
-@import "./assets/css/app.css";
-/*@import "../static/css/app.css";*/
 </style>
