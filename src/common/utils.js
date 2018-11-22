@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-let IP = 'http://192.168.0.33:8081'
-let api = {
+let IP = 'https://easy-mock.com/mock/5bf6166bf9b2636f875b693c/test' /* http://192.168.0.33:8083 */
+let apiAxios = {
   Axios: (para, callback, error) => {
     axios({
       method: para['method'] || 'get',
@@ -37,5 +37,5 @@ let api = {
 }
 
 export {
-  api
+  apiAxios
 }
