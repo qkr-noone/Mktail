@@ -4,6 +4,7 @@ import Router from 'vue-router'
 import Home from '@/views/home/index'
 import Test from '@/views/test/index'
 import TestDetail from '@/views/test/detail'
+import Search from '@/views/search/index'
 
 Vue.use(Router)
 
@@ -38,6 +39,13 @@ export default new Router({
         keepAlive: false
       },
       component: TestDetail
+    },
+    {
+      path: '/search',
+      meta: {
+        keepAlive: false
+      },
+      component: Search
     }
   ]
 })

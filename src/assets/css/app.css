@@ -167,24 +167,6 @@
 	color: #FFFFFF;
   }
 
-/*菜单*/
-  .nav {
-    min-width: 990px;
-    margin: 0 auto;    
-  }
-  .nav_detail {
-    margin-left: 100px;
-  }
-  .nav_con {
-    /*width: 1260px;*/
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    margin-top: 15px;
-  }
-  .el-menu {
-    color: #fff;
-  }
 
 /* 搜索 */
   .search_box {
@@ -528,13 +510,9 @@
     background: #fff;
   }
   .Center {
-    width: 740px;
+    width: 990px;
     position: relative;
     z-index: 99
-  }
-  .Right {
-    width: 250px;
-    position: relative
   }
   .sort .all-sort-list2 {
     position: relative;
@@ -550,7 +528,7 @@
   }
   .sort .all-sort-list2 .item h3 {
     line-height: 30px;
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 400;
     overflow: hidden;
     padding: 0 20px;
@@ -577,7 +555,6 @@
     height: 200px;
     background: #f7f7f7;
     left: 210px;
-    border: 1px solid #DDD;
     top: 0;
     z-index: 9999 !important;
     overflow: hidden;
@@ -693,5 +670,26 @@
     color: #666
   }
 
+/* banner */
+  .sui-carousel {
+    height: 100%;
+  }
+  .el-carousel__item h3 {
+    color: #475669;
+    font-size: 18px;
+    opacity: 0.75;
+    line-height: 300px;
+    margin: 0;
+  }
+  .el-carousel{
+    height: 100%;
+  }
+  .el-carousel__item:nth-child(2n) {
+    background-color: #99a9bf;
+  }
+  
+  .el-carousel__item:nth-child(2n+1) {
+    background-color: #d3dce6;
+  }
 
   
