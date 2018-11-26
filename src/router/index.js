@@ -5,6 +5,7 @@ import Home from '@/views/home/index'
 import Test from '@/views/test/index'
 import TestDetail from '@/views/test/detail'
 import Search from '@/views/search/index'
+import Detail from '@/views/detail/index'
 
 Vue.use(Router)
 
@@ -46,6 +47,13 @@ export default new Router({
         keepAlive: false
       },
       component: Search
+    },
+    {
+      path: '/detail',
+      meta: {
+        keepAlive: false
+      },
+      component: Detail
     }
   ]
 })

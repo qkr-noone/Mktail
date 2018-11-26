@@ -28,7 +28,7 @@
             <a><img src="../../../static/img/password.png?width=20px"></a><input type="text" name="">
           </div>
           <input id="submit" type="button" value="Submit" />
-          <router-link :to="{ path: '/search' }">search</router-link>
+          <router-link :to="{ path: '/detail' }">detail</router-link>
         </form>
       </div>
   <div class="sort">
