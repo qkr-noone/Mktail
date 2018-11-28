@@ -6,6 +6,14 @@ import Test from '@/views/test/index'
 import TestDetail from '@/views/test/detail'
 import Search from '@/views/search/index'
 import Detail from '@/views/detail/index'
+import AddToCart from '@/views/cart/addToCart'
+import Cart from '@/views/cart/cart'
+import GetOrderInfo from '@/views/cart/getOrderInfo'
+import Pay from '@/views/cart/pay'
+import PaySuccess from '@/views/cart/paysuccess'
+import PayFail from '@/views/cart/payfail'
+import Register from '@/views/user/register'
+import Login from '@/views/user/login'
 
 Vue.use(Router)
 
@@ -54,6 +62,62 @@ export default new Router({
         keepAlive: false
       },
       component: Detail
+    },
+    {
+      path: '/addToCart',
+      meta: {
+        keepAlive: false
+      },
+      component: AddToCart
+    },
+    {
+      path: '/cart',
+      meta: {
+        keepAlive: false
+      },
+      component: Cart
+    },
+    {
+      path: '/getOrderInfo',
+      meta: {
+        keepAlive: false
+      },
+      component: GetOrderInfo
+    },
+    {
+      path: '/pay',
+      meta: {
+        keepAlive: false
+      },
+      component: Pay
+    },
+    {
+      path: '/paysuccess',
+      meta: {
+        keepAlive: false
+      },
+      component: PaySuccess
+    },
+    {
+      path: '/payfail',
+      meta: {
+        keepAlive: false
+      },
+      component: PayFail
+    },
+    {
+      path: '/register',
+      meta: {
+        keepAlive: false
+      },
+      component: Register
+    },
+    {
+      path: '/login',
+      meta: {
+        keepAlive: false
+      },
+      component: Login
     }
   ]
 })

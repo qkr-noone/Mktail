@@ -461,6 +461,15 @@
     height: calc(100vh - 300px);
     top: 150px;left: 300px;bottom: 150px;right: 300px;min-width:660px;min-height: 460px; 
   }
+  .mask_close {
+    position:absolute;
+    width: calc(100% - 600px);
+    /*height: calc(100vh - 300px);*/
+    top: 150px;left: 300px;
+    /*bottom: 150px;*/
+    right: 300px;min-width:660px;
+    /*min-height: 460px;*/
+  }
   .close_wrap {
     z-index: 1000;
   }

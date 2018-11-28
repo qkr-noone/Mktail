@@ -1,4 +1,4 @@
-<template ref="template">
+<template>
   <div id="index">
     <keep-alive>
       <router-view></router-view>
@@ -27,7 +27,7 @@
           <div class="sign_in_input">
             <a><img src="../../../static/img/password.png?width=20px"></a><input type="text" name="">
           </div>
-          <input id="submit" type="button" value="Submit" />
+          <input id="submit" type="button" value="Submit"  @click="register()"/>
           <router-link :to="{ path: '/detail' }">detail</router-link>
         </form>
       </div>
@@ -152,7 +152,7 @@
               </div>
               <div class="pro_show_live">
                 <div class="three_d">
-                  <a  @click="threeUrl('http://120.79.93.197/we1/')">
+                  <a  @click="threeDUrl('http://120.79.93.197/we1/')">
                     <img class="wrap" src="../../../static/img/fur_model_3.png">
                   </a>
                 </div>
@@ -207,7 +207,7 @@
     <div class="mask" v-show="is3Ding">
       <iframe class="mask_iframe" ref="threeDSrc"  frameborder="0" scrolling="no">
       </iframe>
-      <div class="mask_iframe close_wrap">
+      <div class="mask_close close_wrap">
         <i class="el-icon-close" @click="threeDclose"></i>
       </div>
     </div>
@@ -241,13 +241,13 @@ export default {
   },
   components: { proListBox },
   created () {
-    apiAxios.Axios({
+    /* apiAxios.AxiosG({
       url: '/test/getGoods/itemCat'
     }, (rtn) => {
       this.menuData = rtn.data.data.children
       console.log(this.menuData)
-    })
-    // apiAxios.Axios({
+    }) */
+    // apiAxios.AxiosG({
     //   url: '/getProList'
     // }, (rtn) => {
     //   this.proList = rtn.data.data
@@ -313,7 +313,7 @@ export default {
       console.log(key, keyPath)
     },
     onTest () {
-      apiAxios.Axios({
+      apiAxios.AxiosG({
         url: '/test/live/url'
       }, (rtn) => {
         this.playerOptions.HLS = rtn.data.data.url_hls
@@ -335,10 +335,13 @@ export default {
       this.is3Ding = false
       return false
     },
-    threeUrl (threeUrl) {
+    threeDUrl (threeDUrl) {
       this.is3Ding = true
-      this.$refs.threeDSrc.src = threeUrl
+      this.$refs.threeDSrc.src = threeDUrl
       return false
+    },
+    register () {
+      this.$router.push({path: '/register'})
     }
   }
 }
