@@ -1,5 +1,6 @@
 <template>
   <div id="detail-index">
+    <shortcutHeader></shortcutHeader>
     <div class="py-container">
       <div id="item">
         <div class="crumb-wrap">
@@ -505,9 +506,12 @@
         </div>
       </div>
     </div>
+    <Footer></Footer>
   </div>
 </template>
 <script>
+import shortcutHeader from '../../components/shortcutHeader'
+import Footer from '../../components/footer'
 export default {
   data () {
     return {
@@ -526,6 +530,7 @@ export default {
       is3Ding: false
     }
   },
+  components: { shortcutHeader, Footer },
   methods: {
     scrollBig (imgUrl) {
       this.currentImg = imgUrl

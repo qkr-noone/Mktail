@@ -14,6 +14,7 @@ import PaySuccess from '@/views/cart/paysuccess'
 import PayFail from '@/views/cart/payfail'
 import Register from '@/views/user/register'
 import Login from '@/views/user/login'
+import User from '@/views/user/user'
 
 Vue.use(Router)
 
@@ -118,6 +119,13 @@ export default new Router({
         keepAlive: false
       },
       component: Login
+    },
+    {
+      path: '/user',
+      meta: {
+        keepAlive: false
+      },
+      component: User
     }
   ]
 })

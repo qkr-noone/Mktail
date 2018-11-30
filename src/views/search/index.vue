@@ -1,5 +1,6 @@
 <template>
   <div id="search-index">
+    <shortcutHeader></shortcutHeader>
     <!--list-content-->
     <div class="main">
       <div class="py-container">
@@ -130,7 +131,7 @@
               <li  v-for="item in searchList.rows" :key="item.id">
                 <div class="p-list">
                   <div class="p-img">
-                    <router-link href="" target="_blank" title="" :to="{ path:'/test',params:{id: item.id}}"><img :src="item.image" /></router-link>
+                    <router-link :to="{ path:'/detail',params:{id: item.id}}"><img :src="item.image" /></router-link>
                   </div>
                   <div class="p-scroll">
                     <span class="ps-prev"><i class="el-icon-arrow-left"></i></span>
@@ -168,47 +169,32 @@
                     <span class="J_im_icon"><a target="_blank" :title="item.seller" >{{item.seller}}</a><b class="im-01" title="联系客服"><i class="el-icon-service"></i></b></span>
                   </div>
                   <div class="p-icons" id="J_pro_10947521008" data-done="1">
-                      <i class="goods-icons2 J-picon-tips" data-tips="退换货免运费">险</i>
+                      <i class="goods-icons2 J-picon-tips" data-tips="退换货免运费">运费险险</i>
                   </div>
-                  <span class="p-promo-flag">广告</span>
+                  <!-- 广告 -->
+                  <span class="p-promo-flag"></span>
                   <img>
                 </div>
               </li>
             </ul>
           </div>
-          <div class="fr page">
-            <div class="sui-pagination pagination-large">
-              <!-- <ul>
-              <li class="prev {{isTopPage()?'disabled':''}}">
-                <a href="#" ng-click="queryByPage(searchMap.pageNo-1)">«</a>
-              </li>
-              <li class="dotted" ng-if="firstDot==true"><span>...</span></li>
-              <li ng-repeat="page in pageLabel">
-                <a href="#" ng-click="queryByPage(page)">{{page}}</a>
-              </li>
-              <li class="dotted" ng-if="lastDot==true"><span>...</span></li>
-              <li class="next {{isEndPage()?'disabled':''}}">
-                <a href="#" ng-click="queryByPage(searchMap.pageNo+1)">»</a>
-              </li>
-            </ul> -->
-              <!-- <div><span>共{{resultMap.totalPages}}页&nbsp;</span><span> -->
-              到第
-              <!-- <input type="text" class="page-num" ng-model="searchMap.pageNo">页<button class="page-confirm" ng-click="queryByPage(searchMap.pageNo)">确定</button></span> -->
-            </div>
-          </div>
         </div>
       </div>
     </div>
+    <Footer></Footer>
   </div>
 </template>
 <script>
 import { apiAxios } from '../../common/utils'
+import shortcutHeader from '../../components/shortcutHeader'
+import Footer from '../../components/footer'
 export default {
   data () {
     return {
       searchList: ''
     }
   },
+  components: { shortcutHeader, Footer },
   created () {
     let searchMap =
       {

@@ -26,6 +26,7 @@
     border-radius: 3px;
   }
   .tags-choose {
+    display: flex;
     list-style: none;
     padding: 3px 5px;
     overflow: hidden;
@@ -330,6 +331,10 @@
     transition: height 0.08s ease;
     font-style: normal;
     font-size: 12px;
+  }
+  .p-attr a>em{
+    font-style: normal;
+    margin-right: 5px;
   }
   .p-commit {
     width: 100%;
