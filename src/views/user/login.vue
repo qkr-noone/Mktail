@@ -3,6 +3,7 @@
     <keep-alive>
       <router-view></router-view>
     </keep-alive>
+    <shortcutHeader></shortcutHeader>
     <div class="py-container">
       <h4 class="manage-title">MKTail猴尾巴</h4>
       <div class="loginform">
@@ -24,7 +25,7 @@
                   <input id="prependedPsd" name="password" type="password" placeholder="请输入密码" class="span2 input-xfat">
                 </div>
                 <div class="logined">
-                  <router-link :to="{path: '/user'}" class="sui-btn btn-block btn-xlarge btn-danger" target="_blank">登&nbsp;&nbsp;录</router-link>
+                  <a @click='userLogin' class="sui-btn btn-block btn-xlarge btn-danger" target="_blank">登&nbsp;&nbsp;录</a>
                 </div>
               </form>
             </div>
@@ -33,12 +34,27 @@
       </div>
       <div class="clearfix"></div>
     </div>
+    <pageFooter></pageFooter>
   </div>
 </template>
 <script>
+import shortcutHeader from '../../components/shortcutHeader'
+import pageFooter from '../../components/pageFooter'
+import { setCookie, getCookie } from '../../common/utils.js'
 export default {
   data () {
     return {}
+  },
+  components: { shortcutHeader, pageFooter },
+  created () {
+    setCookie('userId', 'myname')
+  },
+  methods: {
+    userLogin () {
+      if (getCookie('userId')) {
+        this.$router.replace({path: this.$route.query.back})
+      }
+    }
   }
 }
 

@@ -3,6 +3,7 @@
     <keep-alive>
       <router-view></router-view>
     </keep-alive>
+    <shortcutHeader></shortcutHeader>
     <div class="py-container">
       <div class="checkout py-container">
         <div class="checkout-tit">
@@ -184,13 +185,17 @@
         <router-link :to="{ path:'/pay' }" class="sui-btn btn-danger btn-xlarge" >提交订单</router-link>
       </div>
     </div>
+    <pageFooter></pageFooter>
   </div>
 </template>
 <script>
+import shortcutHeader from '../../components/shortcutHeader'
+import pageFooter from '../../components/pageFooter'
 export default {
   data () {
     return {}
-  }
+  },
+  components: { shortcutHeader, pageFooter }
 }
 </script>
 <style scoped>

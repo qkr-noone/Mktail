@@ -1,5 +1,6 @@
 <template>
   <div id="cart">
+    <shortcutHeader></shortcutHeader>
     <div class="py-container">
       <div class="allgoods">
         <h4>全部商品<span>11</span></h4>
@@ -331,13 +332,17 @@
         </div>
       </div>
     </div>
+    <pageFooter></pageFooter>
   </div>
 </template>
 <script>
+import shortcutHeader from '../../components/shortcutHeader'
+import pageFooter from '../../components/pageFooter'
 export default {
   data () {
     return {}
-  }
+  },
+  components: { shortcutHeader, pageFooter }
 }
 
 </script>

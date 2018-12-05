@@ -3,66 +3,71 @@
     <keep-alive>
       <router-view></router-view>
     </keep-alive>
+    <shortcutHeader></shortcutHeader>
     <div class="py-container">
       <div class="registerArea">
-      <h3>注册新用户<span class="go">我有账号，去<a href="login.html" target="_blank">登陆</a></span></h3>
-      <div class="info">
-        <form class="sui-form form-horizontal">
-          <div class="control-group">
-            <label class="control-label">用户名：</label>
-            <div class="controls">
-              <input type="text"  placeholder="请输入你的用户名" class="input-xfat input-xlarge">
+        <h3>注册新用户<span class="go">我有账号，去<a href="login.html" target="_blank">登陆</a></span></h3>
+        <div class="info">
+          <form class="sui-form form-horizontal">
+            <div class="control-group">
+              <label class="control-label">用户名：</label>
+              <div class="controls">
+                <input type="text"  placeholder="请输入你的用户名" class="input-xfat input-xlarge">
+              </div>
             </div>
-          </div>
-          <div class="control-group">
-            <label for="inputPassword" class="control-label">登录密码：</label>
-            <div class="controls">
-              <input type="password" placeholder="设置登录密码" class="input-xfat input-xlarge">
+            <div class="control-group">
+              <label for="inputPassword" class="control-label">登录密码：</label>
+              <div class="controls">
+                <input type="password" placeholder="设置登录密码" class="input-xfat input-xlarge">
+              </div>
             </div>
-          </div>
-          <div class="control-group">
-            <label for="inputPassword" class="control-label">确认密码：</label>
-            <div class="controls">
-              <input type="password" placeholder="再次确认密码" class="input-xfat input-xlarge">
+            <div class="control-group">
+              <label for="inputPassword" class="control-label">确认密码：</label>
+              <div class="controls">
+                <input type="password" placeholder="再次确认密码" class="input-xfat input-xlarge">
+              </div>
             </div>
-          </div>
-          <div class="control-group">
-            <label class="control-label">手机号：</label>
-            <div class="controls">
-              <input type="text"  placeholder="请输入你的手机号" class="input-xfat input-xlarge">
+            <div class="control-group">
+              <label class="control-label">手机号：</label>
+              <div class="controls">
+                <input type="text"  placeholder="请输入你的手机号" class="input-xfat input-xlarge">
+              </div>
             </div>
-          </div>
-          <div class="control-group">
-            <label for="inputPassword" class="control-label">短信验证码：</label>
-            <div class="controls">
-              <input type="text" placeholder="短信验证码" class="input-xfat input-xlarge"><a class="send-code" href="#">获取短信验证码</a>
+            <div class="control-group">
+              <label for="inputPassword" class="control-label">短信验证码：</label>
+              <div class="controls">
+                <input type="text" placeholder="短信验证码" class="input-xfat input-xlarge"><a class="send-code" href="#">获取短信验证码</a>
+              </div>
             </div>
-          </div>
-          <div class="control-group">
-            <label for="inputPassword" class="control-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-            <div class="controls">
-              <el-checkbox v-model="checked">同意协议并注册《MKTail用户协议》</el-checkbox>
+            <div class="control-group">
+              <label for="inputPassword" class="control-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+              <div class="controls">
+                <el-checkbox v-model="checked">同意协议并注册《MKTail用户协议》</el-checkbox>
+              </div>
             </div>
-          </div>
-          <div class="control-group">
-            <label class="control-label"></label>
-            <div class="controls btn-reg">
-              <router-link :to="{ path: '/login'}" class="sui-btn btn-block btn-xlarge btn-danger" target="_blank">注册</router-link>
+            <div class="control-group">
+              <label class="control-label"></label>
+              <div class="controls btn-reg">
+                <router-link :to="{ path: '/login'}" class="sui-btn btn-block btn-xlarge btn-danger" target="_blank">注册</router-link>
+              </div>
             </div>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
     </div>
-    </div>
+    <pageFooter></pageFooter>
   </div>
 </template>
 <script>
+import shortcutHeader from '../../components/shortcutHeader'
+import pageFooter from '../../components/pageFooter'
 export default {
   data () {
     return {
       checked: false
     }
-  }
+  },
+  components: { shortcutHeader, pageFooter }
 }
 
 </script>

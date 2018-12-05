@@ -1,13 +1,15 @@
 import axios from 'axios'
 
-let IP = 'https://easy-mock.com/mock/5bf6166bf9b2636f875b693c/test' /* http://192.168.0.33:8083 https://easy-mock.com/mock/5bf6166bf9b2636f875b693c/test */
+let IP = 'http://192.168.0.40:8083' /* http://192.168.0.40:8083 https://easy-mock.com/mock/5bf6166bf9b2636f875b693c/test */
 let apiAxios = {
   AxiosG: (para, callback, error) => {
     axios({
       method: 'get',
       url: IP + para['url'],
       params: Object.assign(para['params'] || {}, {}),
-      headers: {}
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
     }).then(callback).catch(error)
   },
   AxiosP: (para, callback, error) => {
@@ -46,7 +48,41 @@ let apiAxios = {
     }).then(callback).catch(error)
   }
 }
+// 获取cookie、
+let getCookie = (name) => {
+  let param
+  if (document.cookie.length > 0) {
+    let arr = document.cookie.split('; ')
+    for (let i = 0; i < arr.length; i++) {
+      let arr2 = arr[i].split('=')
+      if (arr2[0] === name) {
+        param = arr2[1]
+      }
+    }
+    return param
+  }
+}
+
+// 设置cookie,增加到vue实例方便全局调用
+let setCookie = (name, value, expiredays) => {
+  let exdate = new Date()
+  exdate.setDate(exdate.getDate() + expiredays)
+  document.cookie = name + '=' + escape(value) + ((expiredays == null) ? '' : ';expires=' + exdate.toGMTString())
+}
+
+// 删除cookie
+let delCookie = (name) => {
+  let exp = new Date()
+  exp.setTime(exp.getTime() - 1)
+  let cval = getCookie(name)
+  if (cval != null) {
+    document.cookie = name + '=' + cval + ';expires=' + exp.toGMTString()
+  }
+}
 
 export {
-  apiAxios
+  apiAxios,
+  getCookie,
+  setCookie,
+  delCookie
 }

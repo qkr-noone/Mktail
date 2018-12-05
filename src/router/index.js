@@ -1,131 +1,128 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// import HelloWorld from '@/components/HelloWorld'
-import Home from '@/views/home/index'
-import Test from '@/views/test/index'
-import TestDetail from '@/views/test/detail'
-import Search from '@/views/search/index'
-import Detail from '@/views/detail/index'
-import AddToCart from '@/views/cart/addToCart'
-import Cart from '@/views/cart/cart'
-import GetOrderInfo from '@/views/cart/getOrderInfo'
-import Pay from '@/views/cart/pay'
-import PaySuccess from '@/views/cart/paysuccess'
-import PayFail from '@/views/cart/payfail'
-import Register from '@/views/user/register'
-import Login from '@/views/user/login'
-import User from '@/views/user/user'
+import { getCookie } from '../common/utils'
 
 Vue.use(Router)
 
-export default new Router({
+let router = new Router({
   routes: [
-    // {
-    //   path: '/',
-    //   name: 'HelloWorld',
-    //   component: HelloWorld
-    // },
     {
       path: '/',
-      redirect: '/home'
+      redirect: '/home',
+      component: resolve => require(['@/views/home/index'], resolve)
     },
     {
       path: '/home',
       meta: {
         keepAlive: true
       },
-      component: Home
+      component: resolve => require(['@/views/home/index'], resolve)
     },
     {
       path: '/test',
       meta: {
         keepAlive: true
       },
-      component: Test
+      component: resolve => require(['@/views/test/index'], resolve)
     },
     {
       path: '/test/detail',
       meta: {
         keepAlive: false
       },
-      component: TestDetail
+      component: resolve => require(['@/views/test/detail'], resolve)
     },
     {
       path: '/search',
       meta: {
         keepAlive: false
       },
-      component: Search
+      component: resolve => require(['@/views/search/index'], resolve)
     },
     {
       path: '/detail',
       meta: {
         keepAlive: false
       },
-      component: Detail
+      component: resolve => require(['@/views/detail/index'], resolve)
     },
     {
       path: '/addToCart',
       meta: {
         keepAlive: false
       },
-      component: AddToCart
+      component: resolve => require(['@/views/cart/addToCart'], resolve)
     },
     {
       path: '/cart',
       meta: {
         keepAlive: false
       },
-      component: Cart
+      component: resolve => require(['@/views/cart/cart'], resolve)
     },
     {
       path: '/getOrderInfo',
       meta: {
-        keepAlive: false
+        keepAlive: false,
+        isLogin: true
       },
-      component: GetOrderInfo
+      component: resolve => require(['@/views/cart/getOrderInfo'], resolve)
     },
     {
       path: '/pay',
       meta: {
-        keepAlive: false
+        keepAlive: false,
+        isLogin: true
       },
-      component: Pay
+      component: resolve => require(['@/views/cart/pay'], resolve)
     },
     {
       path: '/paysuccess',
       meta: {
-        keepAlive: false
+        keepAlive: false,
+        isLogin: true
       },
-      component: PaySuccess
+      component: resolve => require(['@/views/cart/paysuccess'], resolve)
     },
     {
       path: '/payfail',
       meta: {
-        keepAlive: false
+        keepAlive: false,
+        isLogin: true
       },
-      component: PayFail
+      component: resolve => require(['@/views/cart/payfail'], resolve)
     },
     {
       path: '/register',
       meta: {
         keepAlive: false
       },
-      component: Register
+      component: resolve => require(['@/views/user/register'], resolve)
     },
     {
       path: '/login',
       meta: {
         keepAlive: false
       },
-      component: Login
+      component: resolve => require(['@/views/user/login'], resolve)
     },
     {
       path: '/user',
       meta: {
-        keepAlive: false
+        keepAlive: false,
+        isLogin: true
       },
-      component: User
+      component: resolve => require(['@/views/user/user'], resolve)
     }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.isLogin) {
+    getCookie('userId') ? next() : next({ path: '/login', query: { back: to.fullPath } })
+  } else {
+    next()
+  }
+})
+
+export default router

@@ -1,5 +1,6 @@
 <template>
   <div id="user">
+    <shortcutHeader></shortcutHeader>
     <div class="py-container">
       <div class="user">
         <!-- <el-row class="tac">
@@ -46,7 +47,7 @@
           </el-col>
         </el-row> -->
         <el-tabs  :tab-position="tabPosition" style="background-color: #fff">
-          <el-tab-pane label="全部功能">
+          <!-- <el-tab-pane label="全部功能">
             <div class="con-wrap">
               <div class="con-user">
                 <div class="con-item">
@@ -1079,7 +1080,7 @@
                 </div>
               </li>
             </ul>
-          </el-tab-pane>
+          </el-tab-pane> -->
           <el-tab-pane label="关注店铺">
             <div class="con-wrap">
               <div class="shops">
@@ -1087,9 +1088,10 @@
                   <li class="shops-li">
                     <div class="shops-detail">
                       <div class="shops-img">
-                        <a href="">
+                        <router-link :to="{path: '/detail'}">
                           <img src="../../../static/img/s3.png">
-                        </a>
+                        </router-link>
+                        <p>猴尾巴设计有限公司</p>
                       </div>
                       <div class="shops-link">
                         <div>进入店铺</div>
@@ -1097,8 +1099,36 @@
                       </div>
                     </div>
                     <ul class="shops-goods">
-                      <li>
-                        <div><img src="../../../static/img/s3.png"></div>
+                      <li class="shops-goods-li">
+                        <a><img src="../../../static/img/s3.png"></a>
+                        <p>￥44</p>
+                      </li>
+                      <li class="shops-goods-li">
+                        <a><img src="../../../static/img/s3.png"></a>
+                        <p>￥44</p>
+                      </li>
+                    </ul>
+                  </li>
+                  <li class="shops-li">
+                    <div class="shops-detail">
+                      <div class="shops-img">
+                        <router-link :to="{path: '/detail'}">
+                          <img src="../../../static/img/s3.png">
+                        </router-link>
+                        <p>猴尾巴设计有限公司</p>
+                      </div>
+                      <div class="shops-link">
+                        <div>进入店铺</div>
+                        <div>联系客服</div>
+                      </div>
+                    </div>
+                    <ul class="shops-goods">
+                      <li class="shops-goods-li">
+                        <a><img src="../../../static/img/s3.png"></a>
+                        <p>￥44</p>
+                      </li>
+                      <li class="shops-goods-li">
+                        <a><img src="../../../static/img/s3.png"></a>
                         <p>￥44</p>
                       </li>
                     </ul>
@@ -1107,30 +1137,129 @@
               </div>
             </div>
           </el-tab-pane>
-          <el-tab-pane label="客户服务">客户服务</el-tab-pane>
-          <el-tab-pane label="退款维权">退款维权</el-tab-pane>
-          <el-tab-pane label="设置">设置</el-tab-pane>
-          <el-tab-pane label="个人信息">个人信息</el-tab-pane>
-          <el-tab-pane label="地址管理">地址管理</el-tab-pane>
+          <!-- <el-tab-pane label="客户服务">客户服务</el-tab-pane> -->
+          <!-- <el-tab-pane label="退款维权">退款维权</el-tab-pane> -->
+          <!-- <el-tab-pane label="设置">设置</el-tab-pane> -->
+          <el-tab-pane label="个人信息">
+            <div class="con-wrap">
+              <el-tabs type="border-card">
+                <el-tab-pane label="基本信息" class="user-info">
+                  <div class="user-info-wrap">
+                    <div class="user-info-list">
+                      <span class="label">用户名：</span>
+                      <div class="uname">
+                        <strong>1825513892</strong><a class="change" >修改</a>
+                      </div>
+                    </div>
+                    <div class="user-info-list">
+                      <span class="label">昵称：</span>
+                      <div>
+                        <input class="text" type="text" name=""><i class="el-icon-success"></i><i class="el-icon-error"></i>
+                      </div>
+                    </div>
+                    <div class="user-info-list">
+                      <span class="label">性别：</span>
+                      <div>
+                        <input type="radio" name="sex" class="mkradio" value="0"><label class="mr10">男</label>
+                        <input type="radio" name="sex" class="mkradio" value="1"><label class="mr10">女</label>
+                        <input type="radio" name="sex" class="mkradio" value="2"><label class="mr10">保密</label>
+                      </div>
+                    </div>
+                    <div class="user-info-list">
+                      <span class="label">生日：</span>
+                      <div>
+                        <el-date-picker v-model="userBirthday" type="date" placeholder="选择日期"> </el-date-picker>
+                      </div>
+                    </div>
+                    <div class="user-info-list">
+                      <span class="label">邮箱：</span>
+                      <div class="email">
+                        <strong>1222@qq.com</strong><a class="change" >修改</a><span>已验证</span>
+                      </div>
+                    </div>
+                    <div class="user-info-list">
+                      <span class="label"></span>
+                      <div class="submit">
+                        <a>提交</a>
+                      </div>
+                    </div>
+                  </div>
+                </el-tab-pane>
+                <el-tab-pane label="头像照片">
+                  <p class="user-pic-tip ">当前头像（点击头像可修改，头像只能是JPG格式，且不能超过2M 哦）</p>
+                  <el-upload
+                    class="avatar-uploader"
+                    action="https://jsonplaceholder.typicode.com/posts/"
+                    :show-file-list="false"
+                    :on-success="handleAvatarSuccess"
+                    :before-upload="beforeAvatarUpload">
+                    <img v-if="userImageUrl" :src="userImageUrl" class="avatar">
+                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                  </el-upload>
+                  <div class="user-info-list">
+                    <span class="label"></span>
+                    <div class="submit save">
+                      <a>保存</a>
+                    </div>
+                  </div>
+                </el-tab-pane>
+              </el-tabs>
+            </div>
+          </el-tab-pane>
+          <el-tab-pane label="地址管理">
+            <div class="con-wrap">
+              <div class="address">
+                <div>
+                  <a>新增收货地址</a>
+                  <P>您已创建8 个收货地址，最多可创建20个</P>
+                </div>
+              </div>
+              <div class="address-wrap">
+                <ul class="address-ul">
+                  <li class="address-li"></li>
+                </ul>
+              </div>
+            </div>
+          </el-tab-pane>
           <el-tab-pane label="安全管理">安全管理</el-tab-pane>
         </el-tabs>
       </div>
     </div>
+    <pageFooter></pageFooter>
   </div>
 </template>
 <script>
+import shortcutHeader from '../../components/shortcutHeader'
+import pageFooter from '../../components/pageFooter'
 export default {
   data () {
     return {
-      tabPosition: 'left'
+      tabPosition: 'left',
+      userBirthday: '', // 用户生日
+      userImageUrl: '../../../static/img/logo-200.png' // 用户头像
     }
   },
+  components: { shortcutHeader, pageFooter },
   methods: {
     handleOpen (key, keyPath) {
       console.log(key, keyPath)
     },
     handleClose (key, keyPath) {
       console.log(key, keyPath)
+    },
+    handleAvatarSuccess (res, file) {
+      this.userImageUrl = URL.createObjectURL(file.raw)
+    },
+    beforeAvatarUpload (file) {
+      const isJPG = file.type === 'image/jpeg'
+      const isLt2M = file.size / 1024 / 1024 < 2
+      if (!isJPG) {
+        this.$message.error('上传头像图片只能是 JPG 格式!')
+      }
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 2MB!')
+      }
+      return isJPG && isLt2M
     }
   }
 }

@@ -1,5 +1,6 @@
 <template>
   <div id="addToCart">
+    <shortcutHeader></shortcutHeader>
     <div class="py-container">
       <div>
         <div class="add-succ-box">
@@ -144,13 +145,17 @@
         </div>
       </div>
     </div>
+    <pageFooter></pageFooter>
   </div>
 </template>
 <script>
+import shortcutHeader from '../../components/shortcutHeader'
+import pageFooter from '../../components/pageFooter'
 export default {
   data () {
     return {}
-  }
+  },
+  components: { shortcutHeader, pageFooter }
 }
 
 </script>

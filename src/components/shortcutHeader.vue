@@ -10,7 +10,7 @@
         <div class="sc-right">
           <ul>
             <li>
-              <div><a href="">我的猴尾巴</a></div>
+              <div><router-link :to="{path:'/user'}">我的猴尾巴</router-link></div>
             </li>
             <li>
               <div><a href="">购物车80件</a></div>
@@ -34,15 +34,15 @@
     <header class="mk-header">
       <div class="mk-head">
         <div class="h-logo">
-          <a href=""><img src="../../static/img/logo-234-148.png"></a>
+          <router-link :to="{path: isHome}"><img src="../../static/img/logo-234-148.png"></router-link>
         </div>
         <div class="h-search">
           <form action="#" id="search_form">
             <div class="search_box">
               <div class="search_ipt" id="search_ipt_box">
-                <input type="text" id="search_ipt" placeholder="search product">
+                <input type="text" id="search_ipt" ref="search_ipt" placeholder="search product">
               </div>
-              <router-link :to="{path: '/search'}" class="search_btn bolder" id="search_btn"><img src="../../static/img/search.png"></router-link>
+              <a @click="searchPro" class="search_btn bolder" id="search_btn"><img src="../../static/img/search.png"></a>
             </div>
           </form>
         </div>
@@ -53,12 +53,48 @@
 </template>
 
 <script>
+import { apiAxios } from '../common/utils'
 export default {
   name: 'shortcutHeader',
   data () {
-    return {}
+    return {
+      isHome: '', // 判断logo 是否可触发home点击
+      searchList: ''
+    }
   },
-  props: ['data']
+  props: ['data'],
+  created () {
+    this.isHome = (this.$route.path === '/home' ? '' : '/home')
+  },
+  methods: {
+    searchPro () {
+      if (this.$refs.search_ipt.value) {
+        let searchMap =
+          {
+            keywords: '三星',
+            category: '',
+            brand: '',
+            spec: {}, // 规格
+            price: '',
+            pageNo: 1,
+            pageSize: 40,
+            sort: '', // 排序
+            sortField: '' // 排序变量
+          }
+        apiAxios.AxiosP({
+          url: '/search/itemsearch/search',
+          method: 'post',
+          data: searchMap
+        }, (rtn) => {
+          if (rtn.status === 200) {
+            this.searchList = rtn.data
+          }
+          console.log(this.searchList)
+        })
+      }
+      console.log('search')
+    }
+  }
 }
 </script>
 

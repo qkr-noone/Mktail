@@ -350,3 +350,152 @@
     border: 1px solid #e6e6e6;
   }
 
+/* 关注店铺 */
+  .shops-li {
+    display: flex;
+  }
+   li.shops-li+li {
+    margin-top: 20px;
+  }
+  .shops-img {
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+    flex-grow: 1
+  }
+  .shops-img >a {
+    width: 120px;
+    height: 40px;
+    overflow: hidden;
+  }
+  .shops-img >a >img{
+    width: 100%;
+    height: 100%;
+  }
+  .shops-link {
+    display: flex;
+    justify-content: space-around;
+  }
+  .shops-goods {
+    flex-grow: 1;
+    display: flex;
+    flex-wrap: nowrap;
+    margin-left: 15px;
+    border: 1px solid #eee;
+  }
+  .shops-goods-li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .shops-goods-li a {
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+  }
+  .shops-goods-li a img {
+    width: 100%;
+  }
+  div.shops-detail {
+    display: flex;
+    flex-direction: column;
+    font-size: 12px;
+    transition: box-shadow 0.2s linear;
+    width: 258px;
+    box-sizing: content-box;
+    border: 1px solid #eeeeee;
+  }
+  div.shops-detail:hover {
+    box-shadow: 0 10px 10px #80008010;
+  }
+/* 个人设置 */
+  .user-info{}
+  .user-info-wrap{}
+  .user-info-list{
+    display: flex;
+    font-size: 12px;
+    margin-bottom: 20px
+  }
+  .user-info-list .label{
+    width: 100px;
+    height: 18px;
+    text-align: right;
+    line-height: 18px;
+    padding: 6px 0;
+  }
+  .user-info-list >div {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+  }
+  .user-info-list >div> i {
+    font-size: 20px;
+    line-height: 30px;
+    margin-left: 10px;
+    color: purple;
+  }
+  .user-info-list .text {
+    border: 1px solid #bbbbbb;
+    height: 18px;
+    width: 127px;
+    padding: 5px 23px 5px 5px;
+    line-height: 30px;
+    font-family: "Microsoft YaHei";
+  }
+  .mkradio {
+    margin-right: 3px;
+  }
+  .user-info-list >div>label {
+    margin-right: 20px;
+  }
+  .uname a,.email a,.email span {
+    margin-left: 10px;
+  }
+  .submit a{
+    border: 1px solid #ccc;
+    width: 60px;
+    height: 35px;
+    line-height: 35px;
+    color: purple;
+  }
+/* 头像设置 */
+  .avatar-uploader {
+    display: flex;
+    position: relative;
+  }
+  .avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+  }
+  .avatar {
+    width: 178px;
+    height: 178px;
+    display: block;
+  }
+  .user-pic-tip {
+    font-size: 12px;
+    color: #aaa;
+    margin-bottom: 15px;
+  }
+  .save {
+    margin-top: 20px;
+  }
+
+/* 地址管理 */

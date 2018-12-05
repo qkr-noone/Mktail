@@ -181,20 +181,20 @@
         </div>
       </div>
     </div>
-    <Footer></Footer>
+    <pageFooter></pageFooter>
   </div>
 </template>
 <script>
 import { apiAxios } from '../../common/utils'
 import shortcutHeader from '../../components/shortcutHeader'
-import Footer from '../../components/footer'
+import pageFooter from '../../components/pageFooter'
 export default {
   data () {
     return {
       searchList: ''
     }
   },
-  components: { shortcutHeader, Footer },
+  components: { shortcutHeader, pageFooter },
   created () {
     let searchMap =
       {

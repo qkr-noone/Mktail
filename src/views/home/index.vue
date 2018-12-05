@@ -3,55 +3,6 @@
     <keep-alive>
       <router-view></router-view>
     </keep-alive>
-    <!-- <div class="mk-shortcut">
-      <div class="shortcut">
-        <div class="sc-left">
-          <p>欢迎来到猴尾巴</p>
-          <router-link :to="{ path: '/login' }" >请登录</router-link>
-          <router-link :to="{ path: '/register' }" >免费注册</router-link>
-        </div>
-        <div class="sc-right">
-          <ul>
-            <li>
-              <div><a href="">我的猴尾巴</a></div>
-            </li>
-            <li>
-              <div><a href="">购物车80件</a></div>
-            </li>
-            <li>
-              <div><a href="">企业采购</a></div>
-            </li>
-            <li>
-              <div><a href="">实力商家</a></div>
-            </li>
-            <li>
-              <div><a href="">客服中心</a></div>
-            </li>
-            <li>
-              <div><a href="">网站导航</a></div>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <header class="mk-header">
-      <div class="mk-head">
-        <div class="h-logo">
-          <a href=""><img src="../../../static/img/logo-234-148.png"></a>
-        </div>
-        <div class="h-search">
-          <form action="#" id="search_form">
-            <div class="search_box">
-              <div class="search_ipt" id="search_ipt_box">
-                <input type="text" id="search_ipt" placeholder="search product">
-              </div>
-              <router-link :to="{path: '/search'}" class="search_btn bolder" id="search_btn"><img src="../../../static/img/search.png"></router-link>
-            </div>
-          </form>
-        </div>
-        <div class="h-other"></div>
-      </div>
-    </header> -->
     <shortcutHeader></shortcutHeader>
     <!-- 头部、登陆、标语、直播、3D -->
     <div class="container_h">
@@ -104,8 +55,8 @@
               <!--banner轮播-->
               <div id="myCarousel" data-ride="carousel" data-interval="4000" class="sui-carousel">
                  <el-carousel :interval="5000" arrow="always" height="100%">
-                  <el-carousel-item v-for="item in 4" :key="item">
-                    <a href=""><img src="../../../static/img/logo-1050-460.png"></a>
+                  <el-carousel-item v-for="item in bannerList" :key="item.id">
+                    <router-link :to="{path: '/detail'}"><img :src="item.pic"></router-link>
                   </el-carousel-item>
                 </el-carousel>
               </div>
@@ -113,20 +64,6 @@
           </div>
         </div>
       </div>
-      <!-- <div class="nav">
-        <div class="nav_con">
-          <div class="nav_search">
-            <form action="#" id="search_form">
-              <div class="search_box">
-                <div class="search_ipt" id="search_ipt_box">
-                    <input type="text" id="search_ipt" placeholder="search product">
-                </div>
-                <a class="search_btn bolder" id="search_btn"><img src="../../../static/img/search.png"></a>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div> -->
       <!-- 标语、3D 直播 -->
       <!-- <div class="pro_info">
         <div class="pro_tip">
@@ -168,6 +105,14 @@
         </div>
       </div> -->
     </div>
+    <!-- 商品推荐 -->
+    <div class="container_h">
+      <div class="recom">
+        <div class="recom-wrap">
+          <li v-for="item in recomList" :key='item.id' :data-id='item.id'><a href=""><img class="wrap" :src='item.img'></a></li>
+        </div>
+      </div>
+    </div>
     <!-- 邮件留言反馈 -->
     <!-- <div class="cla">
       <div class="con_title">
@@ -196,10 +141,9 @@
     </div> -->
     <!-- 产品系列 -->
     <div class="series">
-      <div class="series_title"></div>
       <proListBox :data="item" v-for="item in proList"  :key="item.id" :data-index="item.id"></proListBox>
     </div>
-    <Footer></Footer>
+    <pageFooter></pageFooter>
     <div class="mask" v-show="is3Ding">
       <iframe class="mask_iframe" ref="threeDSrc"  frameborder="0" scrolling="" g="no">
       </iframe>
@@ -211,11 +155,11 @@
 </template>
 
 <script>
-import { apiAxios } from '../../common/utils'
+import { apiAxios, getCookie, setCookie, delCookie } from '../../common/utils'
 import { api } from '../../common/api'
 import proListBox from '../../components/proListBox'
 import shortcutHeader from '../../components/shortcutHeader'
-import Footer from '../../components/footer'
+import pageFooter from '../../components/pageFooter'
 export default {
   data () {
     return {
@@ -232,29 +176,55 @@ export default {
       },
       is3Ding: false,
       liveSource: '',
-      proList: '',
+      proList: '', // 主页产品
       cateMenuItem: '',
       isShowNav: '', // 二级菜单显示状态
-      menuData: ''
+      menuData: '', // 条目菜单
+      bannerList: '', // banner
+      recomList: [
+        { id: '1', img: '../../../static/img/logo-234-148.png' },
+        { id: '2', img: '../../../static/img/logo-234-148.png' },
+        { id: '3', img: '../../../static/img/logo-234-148.png' }
+      ]
     }
   },
-  components: { proListBox, shortcutHeader, Footer },
+  components: { proListBox, shortcutHeader, pageFooter },
   created () {
+    apiAxios.AxiosG({
+      url: api.home
+    }, (rtn) => {
+      console.log('home', rtn)
+    })
+    // 获取条目菜单
     apiAxios.AxiosG({
       url: api.homeMenu
     }, (rtn) => {
-      this.menuData = rtn.data.data.children
-      console.log(this.menuData)
-    })
-    apiAxios.AxiosG({
-      url: api.homePro
-    }, (rtn) => {
-      this.proList = rtn.data.data
-      console.log(this.proList)
       if (rtn.data.success) {
-        this.proList = rtn.data.data
+        this.menuData = rtn.data.data.children
       }
     })
+    // 获取主页产品列表
+    // apiAxios.AxiosG({
+    //   url: api.homePro
+    // }, (rtn) => {
+    //   if (rtn.data.success) {
+    //     this.proList = rtn.data.data
+    //   }
+    // })
+    // 主页banner
+    apiAxios.AxiosG({
+      url: api.homeBanner,
+      params: { categoryId: 1 }
+    }, (rtn) => {
+      console.log(rtn)
+      if (rtn.data.success) {
+        this.bannerList = rtn.data
+      }
+    })
+    setCookie('一起')
+    getCookie('一起')
+    delCookie('一起')
+    // this.$router.push({ path:'/artist/dynamic',query:{id: this.$route.query.id} })
   },
   computed: {
   },

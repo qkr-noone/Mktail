@@ -4,38 +4,32 @@
     <div class="py-container">
       <div id="item">
         <div class="crumb-wrap">
-          <ul class="sui-breadcrumb">
-            <li>
-              <a href="#">手机、数码、通讯</a>
-            </li>
-            <li>
-              <a href="#">手机</a>
-            </li>
-            <li>
-              <a href="#">Apple苹果</a>
-            </li>
-            <li class="active">iphone 6S系类</li>
-          </ul>
+          <el-breadcrumb class="sui-breadcrumb">
+            <el-breadcrumb-item :to="{ path: '/' }">手机、数码、通讯</el-breadcrumb-item>
+            <el-breadcrumb-item>手机</el-breadcrumb-item>
+            <el-breadcrumb-item>Apple苹果</el-breadcrumb-item>
+            <el-breadcrumb-item>iphone 6S系类</el-breadcrumb-item>
+          </el-breadcrumb>
         </div>
         <!--product-info-->
         <div class="product-info">
-          <div class="fl preview-wrap">
+          <div class="preview-wrap">
             <!--放大镜效果-->
-            <div class="zoom">
+            <div>
               <!--默认第一个预览-->
               <div id="preview" class="spec-preview">
-                <span class="jqzoom"><img @click="threeDUrl('http://120.79.93.197/we1/')" :src="currentImg" /></span>
+                <span class="jqzoom"><img :src="currentImg" /></span>
               </div>
               <!--下方的缩略图-->
               <div class="spec-scroll">
-                <a class="prev">&lt;</a>
+                <a class="prev" v-if="scroolListImg.length>5"><i class="el-icon-arrow-left"></i></a>
                 <!--左右按钮-->
                 <div class="items">
-                  <ul>
+                  <ul ref="scroolUl">
                     <li v-for= "img in scroolListImg" :key="img.index" @mouseover="scrollBig(img.url)"><img :src="img.url" onmousemove="preview(this)" /></li>
                   </ul>
                 </div>
-                <a class="next">&gt;</a>
+                <a class="next" v-if="scroolListImg.length>5"><i class="el-icon-arrow-right"></i></a>
               </div>
             </div>
           </div>
@@ -324,9 +318,28 @@
               </div>
             </div>
             <div class="tab-main intro">
-              <el-tabs type="border-card" class="sui-nav nav-tabs tab-wraped" style="display: block !important;">
-                <el-tab-pane label="商品介绍">
-                  <div id="one" class="tab-pane">
+              <el-tabs  v-model="activeName" type="border-card" class="sui-nav nav-tabs tab-wraped" style="display: block !important;">
+                <el-tab-pane label="商品介绍" name="one">
+                  <div class="tab-pane">
+                    <ul class="goods-intro unstyled">
+                      <li>分辨率：1920*1080(FHD)</li>
+                      <li>后置摄像头：1200万像素</li>
+                      <li>前置摄像头：500万像素</li>
+                      <li>核 数：其他</li>
+                      <li>频 率：以官网信息为准</li>
+                      <li>品牌： Apple</li>
+                      <li>商品名称：APPLEiPhone 6s Plus</li>
+                      <li>商品编号：1861098</li>
+                    </ul>
+                    <div class="intro-detail">
+                      <img src="../../../static/img/intro01.png" />
+                      <img src="../../../static/img/intro02.png" />
+                      <img src="../../../static/img/intro03.png" />
+                    </div>
+                  </div>
+                </el-tab-pane>
+                <el-tab-pane label="规格与包装" name="two">
+                  <div class="tab-pane">
                     <ul class="goods-intro unstyled">
                       <li>分辨率：1920*1080(FHD)</li>
                       <li>后置摄像头：1200万像素</li>
@@ -343,31 +356,21 @@
                       <li>像素：1000-1600万</li>
                       <li>机身内存：64GB</li>
                     </ul>
-                    <div class="intro-detail">
-                      <img src="../../../static/img/intro01.png" />
-                      <img src="../../../static/img/intro02.png" />
-                      <img src="../../../static/img/intro03.png" />
-                    </div>
                   </div>
                 </el-tab-pane>
-                <el-tab-pane label="规格与包装">
-                  <div id="two" class="tab-pane">
-                    <p>规格与包装</p>
-                  </div>
-                </el-tab-pane>
-                <el-tab-pane label="售后保障">
-                  <div id="three" class="tab-pane">
+                <el-tab-pane label="售后保障" name="three">
+                  <div class="tab-pane">
                     <p>售后保障</p>
                   </div>
                 </el-tab-pane>
-                <el-tab-pane label="商品评价">
+                <el-tab-pane label="商品评价" name="four">
                   <div id="four" class="tab-pane">
                     <p>商品评价</p>
                   </div>
                 </el-tab-pane>
-                <el-tab-pane label="手机社区">
+                <el-tab-pane label="3D展示" name="five">
                   <div id="five" class="tab-pane">
-                    <p>手机社区</p>
+                    <p @click="threeDUrl('http://120.79.93.197/we1/')">3D展示</p>
                   </div>
                 </el-tab-pane>
               </el-tabs>
@@ -506,12 +509,12 @@
         </div>
       </div>
     </div>
-    <Footer></Footer>
+    <pageFooter></pageFooter>
   </div>
 </template>
 <script>
 import shortcutHeader from '../../components/shortcutHeader'
-import Footer from '../../components/footer'
+import pageFooter from '../../components/pageFooter'
 export default {
   data () {
     return {
@@ -520,17 +523,13 @@ export default {
         { index: 1, url: '../../../static/img/s1.png' },
         { index: 2, url: '../../../static/img/s2.png' },
         { index: 3, url: '../../../static/img/s3.png' },
-        { index: 4, url: '../../../static/img/s1.png' },
-        { index: 5, url: '../../../static/img/s2.png' },
-        { index: 6, url: '../../../static/img/s3.png' },
-        { index: 7, url: '../../../static/img/s1.png' },
-        { index: 8, url: '../../../static/img/s2.png' },
         { index: 9, url: '../../../static/img/s3.png' }
       ],
-      is3Ding: false
+      is3Ding: false,
+      activeName: 'one' // 详情参数选项卡
     }
   },
-  components: { shortcutHeader, Footer },
+  components: { shortcutHeader, pageFooter },
   methods: {
     scrollBig (imgUrl) {
       this.currentImg = imgUrl

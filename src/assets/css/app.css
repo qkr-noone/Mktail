@@ -22,10 +22,9 @@
 /*头部内容*/
 
   .container_h {
-    background: url('../../../static/img/bg_head.png') no-repeat top;
+    background-color: #038267;
     margin: 0 auto;
     min-width: 990px;
-    background-size: cover;
     height: auto;
   }
 
@@ -436,11 +435,6 @@
     background-size: 100%;
     height: auto;
   }
-  .series_title {
-    height: 74px;
-    width: 100%;
-    background: red;
-  }
 
   #google_ads_frame2 {
     width: 300px;
@@ -500,7 +494,7 @@
   .clearfix:after {
     clear: both
   }
-  .py-container {
+  .py-container,.recom {
     width: 1260px;
     margin: 0 auto
   }
@@ -697,3 +691,20 @@
   .el-carousel__item:nth-child(2n+1) {
     background-color: #d3dce6;
   }
+
+/* 商品推荐 */
+  .recom-wrap {
+    display: flex;
+    justify-content: flex-end;
+  }
+ .recom-wrap li a {
+  width: 320px;
+  overflow: hidden;
+ }
+ .recom-wrap li {
+  margin-left: 15px;
+  transition: box-shadow 0.2s linear;
+ }
+ .recom-wrap li a:hover{
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+ }
