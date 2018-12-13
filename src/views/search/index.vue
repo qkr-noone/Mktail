@@ -1,6 +1,6 @@
 <template>
   <div id="search-index">
-    <shortcutHeader></shortcutHeader>
+    <shortcutHeader :searchList="searchList" @showSearch="search"></shortcutHeader>
     <!--list-content-->
     <div class="main">
       <div class="py-container">
@@ -12,9 +12,9 @@
             </li>
           </ul>
           <ul class="tags-choose">
-          <li class="tag" ng-if="searchMap.brand!=''" ng-click="removeSearchItem('brand')">品牌：<i class="sui-icon icon-tb-close"></i></li>
-          <li class="tag" ng-repeat="(key,value) in searchMap.spec" ng-click="removeSearchItem(key)">五金工具：<i class="sui-icon icon-tb-close"></i></li>
-          <li class="tag" ng-if="searchMap.price!=''" ng-click="removeSearchItem('price')">材质：<i class="sui-icon icon-tb-close"></i></li>
+            <li class="tag">品牌：{}<i class="el-icon-close"></i></li>
+            <li class="tag">五金工具：{}<i class="el-icon-close"></i></li>
+            <li class="tag">材质：{}<i class="el-icon-close"></i></li>
           搜索结果：{{searchList.total}}条
           </ul>
           <div class="clearfix"></div>
@@ -26,16 +26,7 @@
             <div class="value logos">
               <div class="logos-list">
                 <ul class="logos-value-list logo-value-fixed">
-                  <li><a href="#">新信息G<i class="el-icon-close"></i></a></li>
-                  <li><a href="#">新信息G<i class="el-icon-close"></i></a></li>
-                  <li><a href="#">新信息G<i class="el-icon-close"></i></a></li>
-                  <li><a href="#">新信息G<i class="el-icon-close"></i></a></li>
-                  <li><a href="#">新信息G<i class="el-icon-close"></i></a></li>
-                  <li><a href="#">新信息G<i class="el-icon-close"></i></a></li>
-                  <li><a href="#">新信息G<i class="el-icon-close"></i></a></li>
-                  <li><a href="#">新信息G<i class="el-icon-close"></i></a></li>
-                  <li><a href="#">新信息G<i class="el-icon-close"></i></a></li>
-                  <li><a href="#">新信息G<i class="el-icon-close"></i></a></li>
+                  <li v-for="item in 8" :key="item" @click="selectStyle(item)"><a :class="{ cur: activeName === item }" href="#">新信息G</a><i class="el-icon-close"></i></li>
                 </ul>
               </div>
             </div>
@@ -131,7 +122,7 @@
               <li  v-for="item in searchList.rows" :key="item.id">
                 <div class="p-list">
                   <div class="p-img">
-                    <router-link :to="{ path:'/detail',params:{id: item.id}}"><img :src="item.image" /></router-link>
+                    <router-link :to="{ path:'/detail',query:{goodsId: item.goodsId, skuId: item.id}}"><img :src="item.image" /></router-link>
                   </div>
                   <div class="p-scroll">
                     <span class="ps-prev"><i class="el-icon-arrow-left"></i></span>
@@ -186,38 +177,61 @@
 </template>
 <script>
 import { apiAxios } from '../../common/utils'
+import { api } from '../../common/api'
 import shortcutHeader from '../../components/shortcutHeader'
 import pageFooter from '../../components/pageFooter'
 export default {
   data () {
     return {
-      searchList: ''
+      searchList: '',
+      activeName: ''
     }
   },
   components: { shortcutHeader, pageFooter },
   created () {
-    let searchMap =
-      {
-        keywords: '三星',
-        category: '',
-        brand: '',
-        spec: {}, // 规格
-        price: '',
-        pageNo: 1,
-        pageSize: 40,
-        sort: '', // 排序
-        sortField: '' // 排序变量
+    let SEARCH_VALUE = this.$route.query.keywords
+    if (SEARCH_VALUE) {
+      this.search(SEARCH_VALUE)
+    }
+  },
+  methods: {
+    search (keywords) {
+      let priceRange = ''
+      let userPrice = [3000, 20]
+      userPrice.sort()
+      if (userPrice.length) {
+        if (userPrice.length === 1) {
+          priceRange = userPrice[0].toString() + '-' + userPrice[0].toString()
+        } else if (userPrice.length === 2) {
+          priceRange = userPrice[0].toString() + '-' + userPrice[1].toString()
+        }
       }
-    apiAxios.AxiosP({
-      url: '/search/itemsearch/search',
-      method: 'post',
-      data: searchMap
-    }, (rtn) => {
-      if (rtn.status === 200) {
-        this.searchList = rtn.data
-      }
-      console.log(this.searchList)
-    })
+      let searchMap =
+        {
+          keywords: keywords,
+          category: '',
+          brand: '', // 品牌
+          spec: {}, // 规格
+          price: priceRange,
+          pageNo: 1,
+          pageSize: 40,
+          sort: '', // 排序  ASC -升序  DESC-降序
+          sortField: '' // 排序变量
+        }
+      apiAxios.AxiosP({
+        url: api.search,
+        method: 'post',
+        data: searchMap
+      }, (rtn) => {
+        if (rtn.status === 200) {
+          this.searchList = rtn.data
+        }
+      })
+    },
+    selectStyle (index) {
+      this.activeName = index
+      console.log(this.activeName, index)
+    }
   }
 }
 

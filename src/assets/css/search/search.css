@@ -464,6 +464,7 @@
   .selector .s-brand .logos-list li {  /*????*/
     width: 130px;
     margin-right: 5px;
+    position: relative;
   }
   .selector .s-brand .logos-list li a{ /*????*/
     width: 130px;
@@ -480,12 +481,12 @@
     color: #606266;
     box-sizing: border-box;
     border: 1px solid transparent;
-    position: relative;
   }
   .selector .logos-list li a:hover {
     border-color: red;
   }
-  .logos-list li a i{
+  .selector .logos-list li a.cur{ border-color: red; }
+  .logos-list li i{
     font-size: 10px;
     color: red;
     position: absolute;

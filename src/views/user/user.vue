@@ -1080,7 +1080,7 @@
                 </div>
               </li>
             </ul>
-          </el-tab-pane> -->
+          </el-tab-pane>
           <el-tab-pane label="关注店铺">
             <div class="con-wrap">
               <div class="shops">
@@ -1136,7 +1136,7 @@
                 </ul>
               </div>
             </div>
-          </el-tab-pane>
+          </el-tab-pane> -->
           <!-- <el-tab-pane label="客户服务">客户服务</el-tab-pane> -->
           <!-- <el-tab-pane label="退款维权">退款维权</el-tab-pane> -->
           <!-- <el-tab-pane label="设置">设置</el-tab-pane> -->
@@ -1216,12 +1216,48 @@
               </div>
               <div class="address-wrap">
                 <ul class="address-ul">
-                  <li class="address-li"></li>
+                  <li class="address-li">
+                    <div class="address-name">
+                      <a>公司</a><i @click="addressName" class="el-icon-setting"></i>
+                    </div>
+                    <div class="add-box">
+                      <div class="add-info">
+                        <div><span>收货人：</span><span>柴丽奇</span></div>
+                        <div><span>所在地区：</span><span>湖南长沙市岳麓区城区</span></div>
+                        <div><span>地址：</span><span>咸嘉湖街道枫林二路139号湖南财政经济学院</span></div>
+                        <div><span>手机：</span><span>18804321999</span></div>
+                        <div><span>固定电话：</span><span>0731835555</span></div>
+                        <div><span>电子邮件：</span><span>1666275555@qq.com</span></div>
+                      </div>
+                      <div class="add-change">
+                        <span>设为默认</span>
+                        <span>编辑</span>
+                        <span>删除</span>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="address-li">
+                    <div class="address-name"><a>公司</a><i class="el-icon-setting"></i></div>
+                    <div class="add-box">
+                      <div class="add-info">
+                        <div><span>收货人：</span><span>柴丽奇</span></div>
+                        <div><span>所在地区：</span><span>湖南长沙市岳麓区城区</span></div>
+                        <div><span>地址：</span><span>咸嘉湖街道枫林二路139号湖南财政经济学院</span></div>
+                        <div><span>手机：</span><span>18804321999</span></div>
+                        <div><span>固定电话：</span><span>0731835555</span></div>
+                        <div><span>电子邮件：</span><span>1666275555@qq.com</span></div>
+                      </div>
+                      <div class="add-change">
+                        <span>设为默认</span>
+                        <span>编辑</span>
+                        <span>删除</span>
+                      </div>
+                    </div>
+                  </li>
                 </ul>
               </div>
             </div>
           </el-tab-pane>
-          <el-tab-pane label="安全管理">安全管理</el-tab-pane>
         </el-tabs>
       </div>
     </div>
@@ -1260,6 +1296,9 @@ export default {
         this.$message.error('上传头像图片大小不能超过 2MB!')
       }
       return isJPG && isLt2M
+    },
+    addressName () {
+
     }
   }
 }

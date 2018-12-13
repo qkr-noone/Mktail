@@ -5,10 +5,7 @@
       <div id="item">
         <div class="crumb-wrap">
           <el-breadcrumb class="sui-breadcrumb">
-            <el-breadcrumb-item :to="{ path: '/' }">手机、数码、通讯</el-breadcrumb-item>
-            <el-breadcrumb-item>手机</el-breadcrumb-item>
-            <el-breadcrumb-item>Apple苹果</el-breadcrumb-item>
-            <el-breadcrumb-item>iphone 6S系类</el-breadcrumb-item>
+            <el-breadcrumb-item v-for="item in cateList" :to="{ path: '/search' }" :data_value="item" :key="item">{{item}}</el-breadcrumb-item>
           </el-breadcrumb>
         </div>
         <!--product-info-->
@@ -18,7 +15,7 @@
             <div>
               <!--默认第一个预览-->
               <div id="preview" class="spec-preview">
-                <span class="jqzoom"><img :src="currentImg" /></span>
+                <span><img :src="currentImg" /></span>
               </div>
               <!--下方的缩略图-->
               <div class="spec-scroll">
@@ -26,7 +23,7 @@
                 <!--左右按钮-->
                 <div class="items">
                   <ul ref="scroolUl">
-                    <li v-for= "img in scroolListImg" :key="img.index" @mouseover="scrollBig(img.url)"><img :src="img.url" onmousemove="preview(this)" /></li>
+                    <li v-for= "(img, index) in scroolListImg" :key="index" @mouseover="scrollBig(img.url)"><img :src="img.url" onmousemove="preview(this)" /></li>
                   </ul>
                 </div>
                 <a class="next" v-if="scroolListImg.length>5"><i class="el-icon-arrow-right"></i></a>
@@ -35,24 +32,24 @@
           </div>
           <div class="fr itemInfo-wrap">
             <div class="sku-name">
-              <h4>Apple iPhone 6s（A1700）64G玫瑰金色 移动通信电信4G手机</h4>
+              <h4>{{goods.goodsName}}</h4>
             </div>
-            <div class="news"><span>推荐选择下方[移动优惠购],手机套餐齐搞定,不用换号,每月还有花费返</span></div>
+            <div class="news" v-if="goods.caption"><span>{{goods.caption}}</span></div>
             <div class="summary">
               <div class="summary-wrap">
                 <div class="fl title">
                   <i>价&nbsp;&nbsp;格</i>
                 </div>
-                <div class="fl price">
+                <div class="price">
                   <i>¥</i>
-                  <em>5299.00</em>
-                  <span>降价通知</span>
+                  <em>{{goods.price}}</em>
+                  <!-- <span v-if="goods.caption">{{goods.caption}}</span> -->
                 </div>
-                <div class="fr remark">
+                <!-- <div class="fr remark">
                   <i>累计评价</i><em>612188</em>
-                </div>
+                </div> -->
               </div>
-              <div class="summary-wrap">
+              <!-- <div class="summary-wrap">
                 <div class="fl title">
                   <i>促&nbsp;&nbsp;销</i>
                 </div>
@@ -60,84 +57,44 @@
                   <i class="red-bg">加价购</i>
                   <em class="t-gray">满999.00另加20.00元，或满1999.00另加30.00元，或满2999.00另加40.00元，即可在购物车换购热销商品</em>
                 </div>
-              </div>
+              </div> -->
             </div>
             <div class="support">
-              <div class="summary-wrap">
+              <!-- <div class="summary-wrap">
                 <div class="fl title">
                   <i>支&nbsp;&nbsp;持</i>
                 </div>
                 <div class="fl fix-width">
                   <em class="t-gray">以旧换新，闲置手机回收  4G套餐超值抢  礼品购</em>
                 </div>
-              </div>
-              <div class="summary-wrap">
+              </div> -->
+              <!-- <div class="summary-wrap">
                 <div class="fl title">
                   <i>配 送 至</i>
                 </div>
                 <div class="fl fix-width">
                   <em class="t-gray">满999.00另加20.00元，或满1999.00另加30.00元，或满2999.00另加40.00元，即可在购物车换购热销商品</em>
                 </div>
-              </div>
+              </div> -->
             </div>
             <div class=" choose">
-              <div id="specification" class="summary-wrap ">
-                <dl>
-                  <dt>
-                    <div class="fl title">
-                      <i>选择颜色</i>
-                    </div>
-                  </dt>
-                  <dd><a href="javascript:;" class="selected">金色<span title="点击取消选择">&nbsp;</span></a></dd>
-                  <dd><a href="javascript:;">银色</a></dd>
-                  <dd><a href="javascript:;">黑色</a></dd>
-                </dl>
-                <dl>
-                  <dt>
-                    <div class="fl title">
-                      <i>内存容量</i>
-                    </div>
-                  </dt>
-                  <dd><a href="javascript:;" class="selected">16G<span title="点击取消选择">&nbsp;</span></a></dd>
-                  <dd><a href="javascript:;">64G</a></dd>
-                  <dd><a href="javascript:;" class="locked">128G</a></dd>
-                </dl>
-                <dl>
-                  <dt>
-                    <div class="fl title">
-                      <i>选择版本</i>
-                    </div>
-                  </dt>
-                  <dd><a href="javascript:;" class="selected">公开版<span title="点击取消选择">&nbsp;</span></a></dd>
-                  <dd><a href="javascript:;">移动版</a></dd>
-                </dl>
-                <dl>
-                  <dt>
-                    <div class="fl title">
-                      <i>购买方式</i>
-                    </div>
-                  </dt>
-                  <dd><a href="javascript:;" class="selected">官方标配<span title="点击取消选择">&nbsp;</span></a></dd>
-                  <dd><a href="javascript:;">移动优惠版</a></dd>
-                  <dd><a href="javascript:;"  class="locked">电信优惠版</a></dd>
-                </dl>
-                <dl>
-                  <dt>
-                    <div class="fl title">
-                      <i>套&nbsp;&nbsp;装</i>
-                    </div>
-                  </dt>
-                  <dd><a href="javascript:;" class="selected">保护套装<span title="点击取消选择">&nbsp;</span></a></dd>
-                  <dd><a href="javascript:;"  class="locked">充电套装</a></dd>
-                </dl>
-              </div>
+              <ul class="summary-wrap">
+                <li class="spec-list" v-for="(data, index) in spec" :key="data[index]">
+                  <div class="title"><i>{{data.attributeName}}</i></div>
+                  <ul>
+                    <li v-for="(list, tip) in data.attributeValue" :key="list" @click="selectSpec(index, tip)">
+                      <a :class="{selected: selectArr[index] === tip }">{{list}}</a>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
               <div id="all-add-buy" class="summary-wrap">
                 <div class="fl title">
                   <div class="control-group">
                     <div class="controls">
-                      <input autocomplete="off" type="text" value="1" minnum="1" class="itxt" />
-                      <a href="javascript:void(0)" class="increment plus">+</a>
-                      <a href="javascript:void(0)" class="increment mins">-</a>
+                      <input autocomplete="off" type="text" value="1" v-model="num" min="1" :max="num" class="itxt" />
+                      <a href="javascript:void(0)" class="increment plus" @click="addNum(limitNum)">+</a>
+                      <a href="javascript:void(0)" class="increment mins" @click="delNum()">-</a>
                     </div>
                   </div>
                 </div>
@@ -150,10 +107,10 @@
         </div>
         <!--product-detail-->
         <div class=" product-detail">
-          <div class="fl aside">
+          <div class=" aside">
             <el-tabs type="border-card" class="sui-nav nav-tabs tab-wraped">
               <el-tab-pane label="相关分类">
-                <div id="index" class="tab-pane active">
+                <!-- <div id="index" class="tab-pane active">
                   <ul class="part-list unstyled">
                     <li>手机</li>
                     <li>手机壳</li>
@@ -251,7 +208,7 @@
                             </div>
                     </li>
                   </ul>
-                </div>
+                </div> -->
               </el-tab-pane>
               <el-tab-pane label="推荐品牌">
                 <div id="profile" class="tab-pane">
@@ -261,7 +218,7 @@
             </el-tabs>
           </div>
           <div class="fr detail">
-            <div class=" fitting">
+            <!-- <div class=" fitting">
               <h4 class="kt">选择搭配</h4>
               <div class="good-suits">
                 <div class="fl master">
@@ -316,51 +273,31 @@
                   <button class="sui-btn  btn-danger addshopcar">加入购物车</button>
                 </div>
               </div>
-            </div>
+            </div> -->
             <div class="tab-main intro">
               <el-tabs  v-model="activeName" type="border-card" class="sui-nav nav-tabs tab-wraped" style="display: block !important;">
                 <el-tab-pane label="商品介绍" name="one">
                   <div class="tab-pane">
-                    <ul class="goods-intro unstyled">
-                      <li>分辨率：1920*1080(FHD)</li>
-                      <li>后置摄像头：1200万像素</li>
-                      <li>前置摄像头：500万像素</li>
-                      <li>核 数：其他</li>
-                      <li>频 率：以官网信息为准</li>
-                      <li>品牌： Apple</li>
-                      <li>商品名称：APPLEiPhone 6s Plus</li>
-                      <li>商品编号：1861098</li>
-                    </ul>
-                    <div class="intro-detail">
-                      <img src="../../../static/img/intro01.png" />
-                      <img src="../../../static/img/intro02.png" />
-                      <img src="../../../static/img/intro03.png" />
+                    <div class="intro-detail" v-html="goodsIntroduc">
+                      {{this.goodsIntroduc}}
+                      <!-- <img v-for="item in goodsDesc.itemImages" :src="item.url" :key="item.url"> -->
                     </div>
+                    <img src="../../../static/img/intro01.png" />
+                    <img src="../../../static/img/intro02.png" />
+                    <img src="../../../static/img/intro03.png" />
                   </div>
                 </el-tab-pane>
                 <el-tab-pane label="规格与包装" name="two">
                   <div class="tab-pane">
                     <ul class="goods-intro unstyled">
-                      <li>分辨率：1920*1080(FHD)</li>
-                      <li>后置摄像头：1200万像素</li>
-                      <li>前置摄像头：500万像素</li>
-                      <li>核 数：其他</li>
-                      <li>频 率：以官网信息为准</li>
-                      <li>品牌： Apple</li>
-                      <li>商品名称：APPLEiPhone 6s Plus</li>
-                      <li>商品编号：1861098</li>
-                      <li>商品毛重：0.51kg</li>
-                      <li>商品产地：中国大陆</li>
-                      <li>热点：指纹识别，Apple Pay，金属机身，拍照神器</li>
-                      <li>系统：苹果（IOS）</li>
-                      <li>像素：1000-1600万</li>
-                      <li>机身内存：64GB</li>
+                      <li v-for="(item, index) in goodsDesc.packageList" :key="index">{{item}}</li>
+                      <!-- <li v-for="item in JSON.parse(goodsDesc.customAttributeItems)" :key="item.text">{{item.text}}：{{item.value}}</li> -->
                     </ul>
                   </div>
                 </el-tab-pane>
                 <el-tab-pane label="售后保障" name="three">
                   <div class="tab-pane">
-                    <p>售后保障</p>
+                    <p>{{goodsDesc.saleService}}</p>
                   </div>
                 </el-tab-pane>
                 <el-tab-pane label="商品评价" name="four">
@@ -370,7 +307,7 @@
                 </el-tab-pane>
                 <el-tab-pane label="3D展示" name="five">
                   <div id="five" class="tab-pane">
-                    <p @click="threeDUrl('http://120.79.93.197/we1/')">3D展示</p>
+                    <p @click="threeDUrl('http://120.79.93.197/we1/')"><img src="../../../static/img/intro02.png" /></p>
                   </div>
                 </el-tab-pane>
               </el-tabs>
@@ -378,7 +315,7 @@
             </div>
           </div>
           <!--like-->
-          <div class="like">
+          <!-- <div class="like">
             <h4 class="kt">猜你喜欢</h4>
             <div class="like-list">
               <ul class="yui3-g">
@@ -498,7 +435,7 @@
                 </li>
               </ul>
             </div>
-          </div>
+          </div> -->
         </div>
         <div class="mask" v-show="is3Ding">
           <iframe class="mask_iframe" ref="threeDSrc"  frameborder="0" scrolling="no">
@@ -515,21 +452,60 @@
 <script>
 import shortcutHeader from '../../components/shortcutHeader'
 import pageFooter from '../../components/pageFooter'
+import { apiAxios } from '../../common/utils'
+import { api } from '../../common/api'
 export default {
   data () {
     return {
-      currentImg: '../../../static/img/s1.png',
-      scroolListImg: [
-        { index: 1, url: '../../../static/img/s1.png' },
-        { index: 2, url: '../../../static/img/s2.png' },
-        { index: 3, url: '../../../static/img/s3.png' },
-        { index: 9, url: '../../../static/img/s3.png' }
-      ],
+      currentImg: '',
+      scroolListImg: '',
       is3Ding: false,
-      activeName: 'one' // 详情参数选项卡
+      activeName: 'one', // 详情参数选项卡
+      goods: '',
+      goodsDesc: '',
+      chooseAttr: '', // 选择属性
+      cateList: '',
+      spec: [],
+      selectArr: [], // 被选中的sku属性的id
+      submitSelect: [], // 提交选中的sku属性
+      skuList: [], // 该商品的所有sku
+      num: 1,
+      limitNum: 11, // 限购
+      goodsIntroduc: '' // 商品介绍
     }
   },
   components: { shortcutHeader, pageFooter },
+  created () {
+    if (this.$route.query.goodsId.length > 20) {
+      // 弹框  (不确定是否需要)
+      this.$router.go(-1)
+      return false
+    }
+    apiAxios.AxiosG({
+      url: api.detailTest,
+      params: { goodsId: this.$route.query.goodsId, skuId: this.$route.query.goodsId || '' }
+    }, rtn => {
+      let data = rtn.data
+      if (data.success) {
+        this.goods = data.data.goodsAll.goods
+        this.goodsDesc = data.data.goodsAll.goodsDesc
+        this.scroolListImg = JSON.parse(this.goodsDesc.itemImages)
+        if (this.scroolListImg.length) {
+          this.currentImg = this.scroolListImg[0].url
+        }
+        this.cateList = data.data.itemCatList
+        this.goodsIntroduc = this.goodsDesc.introduction || ''
+        this.spec = JSON.parse(this.goodsDesc.specificationItems)
+        this.skuList = data.data.goodsAll.itemList
+        console.log(this.skuList, this.spec, 11)
+      } else {
+        // 弹框
+        // this.$router.go(-1)
+      }
+    })
+  },
+  mounted () {
+  },
   methods: {
     scrollBig (imgUrl) {
       this.currentImg = imgUrl
@@ -543,6 +519,29 @@ export default {
       // console.log(threeDUrl, this.$refs.threeDSrc)
       this.$refs.threeDSrc.src = threeDUrl
       return false
+    },
+    addCart () {
+    },
+    selectSpec (index, tip) {
+      this.selectArr[index] = tip
+      this.$set(this.selectArr, index, tip)
+      console.log(this.selectArr)
+    },
+    addNum (limitNum) {
+      if (limitNum) {
+        if (limitNum === this.num) {
+          // 弹框
+          return false
+        }
+      }
+      this.num++
+    },
+    delNum () {
+      if (this.num === 1) { // 限制最小数量
+        // 弹框
+        return false
+      }
+      this.num--
     }
   }
 }

@@ -4,41 +4,25 @@
       <router-view></router-view>
     </keep-alive>
     <shortcutHeader></shortcutHeader>
-    <!-- 头部、登陆、标语、直播、3D -->
+    <!-- 头部 -->
     <div class="container_h">
-      <!-- <div class="header">
-        <div class="title" @click="onTest">
-          <div class="logo_info">
-              <div class="logo"><img src="../../../static/img/logo.png?width=50px"></div>
-              <div class="logo_hopes"><img src="../../../static/img/HOPES_logo.png?width=50px"></div>
-          </div>
-          <div class="link_info">
-            <p class="hopes_fonts">XINXING:OEM</p>
-            <div class="link">
-              <div><img class="phone_img" src="../../../static/img/phone.png"><p>86-020-87937688</p></div>
-              <div><img class="phone_img email" src="../../../static/img/email.png"><p>hopes@icaster.xin</p></div>
-            </div>
-          </div>
-        </div>
-        <form class="sign_in" action="" method="get">
-          <h2>SIGN IN:</h2>
-          <div class="sign_in_input">
-            <a><img src="../../../static/img/user.png?width=20px"></a><input type="text" name="" placeholder="User name/email">
-          </div>
-          <div class="sign_in_input">
-            <a><img src="../../../static/img/password.png?width=20px"></a><input type="text" name="">
-          </div>
-          <input id="submit" type="button" value="Submit"  @click="register()"/>
-          <router-link :to="{ path: '/detail' }">detail</router-link>
-        </form>
-      </div> -->
       <div class="sort">
         <div class="py-container">
-          <div class="yui3-g SortList ">
-            <div class="yui3-u Left all-sort-list">
+          <div class="navitem">
+            <h2 class="nav-all">全部商品分类</h2>
+            <ul class="nav-ul">
+              <li><a>秒杀</a></li>
+              <li><a href="">优惠券</a></li>
+              <li><a href="">MkTail超市</a></li>
+              <li><a href="">活动特惠</a></li>
+              <li><a href="">收藏推荐</a></li>
+            </ul>
+          </div>
+          <div class="SortList ">
+            <div class=" Left all-sort-list">
               <div class="all-sort-list2">
                 <!-- 截取15条类目 -->
-                <div class="item bo" v-for="item in menuData.slice(0,15)"  :key="item.id" >
+                <div class="item bo" v-for="item in menuData.slice(0,14)"  :key="item.id" >
                   <h3><a href="">{{ item.name }}</a></h3>
                   <div class="item-list clearfix" >
                     <div class="subitem">
@@ -51,12 +35,12 @@
                 </div>
               </div>
             </div>
-            <div class="yui3-u Center banerArea">
+            <div class=" Center banerArea">
               <!--banner轮播-->
               <div id="myCarousel" data-ride="carousel" data-interval="4000" class="sui-carousel">
-                 <el-carousel :interval="5000" arrow="always" height="100%">
+                <el-carousel :interval="5000" arrow="always" height="100%">
                   <el-carousel-item v-for="item in bannerList" :key="item.id">
-                    <router-link :to="{path: '/detail'}"><img :src="item.pic"></router-link>
+                    <router-link :to="{path: '/detail', query:{}}"><img :src="item.pic"></router-link>
                   </el-carousel-item>
                 </el-carousel>
               </div>
@@ -65,51 +49,162 @@
         </div>
       </div>
       <!-- 标语、3D 直播 -->
-      <!-- <div class="pro_info">
-        <div class="pro_tip">
-          <h2>power</h2>
-          <p>Production Capacity</p>
-          <h1>2000,000 <a>Pcs/M</a></h1>
-        </div>
-        <div class="pro_show">
-          <div class="pro_show_part">
-            <h1>24-Hour Online Audit</h1>
-            <div class="live">
-              <div class="pro_show_dec">
-                <p>If Necessary, Please Contact Us To Ask About</p>
-                <p>The Monitoring Method.</p>
-              </div>
-              <div class="pro_show_live">
-                <a>
-                  <iframe class="live_iframe" ref="live_iframe" id="live_iframe" v-bind:src="liveSource" width="360" height="300" frameborder="0" scrolling="no"></iframe>
-                </a>
-                <a><img class="wrap" src="../../../static/img/fur_model_2.png"></a>
-              </div>
-            </div>
-          </div>
-          <div class="pro_show_part">
-            <h1>3D Modeling Exploded View</h1>
-            <div class="live">
-              <div class="pro_show_dec">
-                <p>3D Model Diagram1:1 Physical Production， Maximum Limit To  Restore The Authenticity Of The Object And The Pictureodel Diagram1:1 Physical Production， Maximum Limit To  Restore The Authenticity Of The Object And The Picture</p>
-              </div>
-              <div class="pro_show_live">
-                <div class="three_d">
-                  <a  @click="threeDUrl('http://120.79.93.197/we1/')">
-                    <img class="wrap" src="../../../static/img/fur_model_3.png">
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div> -->
     </div>
-    <!-- 商品推荐 -->
-    <div class="container_h">
-      <div class="recom">
-        <div class="recom-wrap">
-          <li v-for="item in recomList" :key='item.id' :data-id='item.id'><a href=""><img class="wrap" :src='item.img'></a></li>
+    <!-- black sale 秒杀 活动 -->
+    <div class="container_h" >
+      <div class="py-container bsale">
+        <el-carousel :interval="5000" indicator-position="none" arrow="always" height="100%">
+          <el-carousel-item v-for="item in bsaleList" :key="item.id">
+            <router-link :to="item.url"><img :src="item.pic"></router-link>
+          </el-carousel-item>
+        </el-carousel>
+      </div>
+    </div>
+    <!-- 优选好店 今日好货 品质生活 官方折扣-->
+    <div class="container_h" >
+      <div class="py-container activity">
+        <div class="ac-shop ac-left">
+          <div class="ac-shop-head">
+            <h3>{{shopsCate.name}}</h3>
+            <div class="more"><p>更多</p><i class="el-icon-arrow-right"></i></div>
+          </div>
+          <div class="ac-shop-con">
+            <h4 v-for="(item, index) in shopsList" :key="item.id" v-if="index===0">{{item.title}}</h4>
+            <div class="ac-shop-con-detail">
+              <router-link v-for="(item, index) in shopsList" :key="item.id" v-if="index===0" :to="item.url"><img :src="item.pic"></router-link>
+              <div>
+                <router-link v-for="(item, index) in shopsList" :key="item.id" v-if="index===1" :to="item.url"><img :src="item.pic"></router-link>
+                <router-link v-for="(item, index) in shopsList" :key="item.id" v-if="index===2" :to="item.url"><img :src="item.pic"></router-link>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ac-shop ac-right">
+          <div class="ac-shop-head">
+            <h3>{{goodsCate.name}}</h3>
+            <div class="more"><p>更多</p><i class="el-icon-arrow-right"></i></div>
+          </div>
+          <ul class="ac-shop-con">
+            <li v-for="list in goodsList" :key="list.id">
+              <h4>{{list.title}}</h4>
+              <div>
+                <router-link :to="list.url"><img :src="list.pic"></router-link>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="container_h" >
+      <div class="py-container activity">
+        <div class="ac-shop ac-right ac-right-two">
+          <div class="ac-shop-head">
+            <h3>{{lifeCate.name}}</h3>
+            <div class="more"><p>更多</p><i class="el-icon-arrow-right"></i></div>
+          </div>
+          <ul class="ac-shop-con">
+            <li v-for="list in lifeList" :key="list.id">
+              <h4>{{list.title}}</h4>
+              <div>
+                <router-link :to="list.url"><img :src="list.pic"></router-link>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="ac-shop ac-left">
+          <div class="ac-shop-head">
+            <h3>{{discountCate.name}}</h3>
+            <div class="more"><p>更多</p><i class="el-icon-arrow-right"></i></div>
+          </div>
+          <div class="ac-shop-con">
+            <h4 v-for="(list, index) in discountList" v-if="index===0" :key="list.id">{{list.title}}</h4>
+            <div class="ac-shop-con-detail">
+              <router-link v-for="(list, index) in discountList" v-if="index===0" :key="list.id" :to="list.url"><img :src="list.pic"></router-link>
+              <div>
+                <router-link v-for="(list, index) in discountList" v-if="index===1" :key="list.id" :to="list.url"><img :src="list.pic"></router-link>
+                <router-link v-for="(list, index) in discountList" v-if="index===2" :key="list.id" :to="list.url"><img :src="list.pic"></router-link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- BIG SALE 横条-->
+    <div class="container_h" >
+      <div class="py-container bsale">
+        <router-link v-for="(list,index) in bigSaleList" v-if="index===0" :to="list.url" :key="list.id"><img :src="list.pic"></router-link>
+        <!-- <a href=""><img src="../../../static/img/big-sale.png"></a> -->
+      </div>
+    </div>
+    <!-- 闪购专区 -->
+    <div class="container_h" >
+      <div class="py-container flash">
+        <div>
+          <div class="ac-shop-head">
+            <h3>{{flashCate.name}}</h3>
+            <div class="more"><p>换一换</p><p>更多</p><i class="el-icon-arrow-right"></i></div>
+          </div>
+          <div class="flash-con">
+            <ul class="flash-ul">
+              <li class="flash-li" v-for="(list, index) in flashList" :key="list.id" v-if="index < 3">
+                <router-link :to="list.url"><img :src="list.pic"></router-link>
+                <div class="flash-li-info">
+                  <h3>{{list.title}}</h3>
+                  <p>{{list.price}}</p>
+                  <div class="before-pri"><span>原价288</span></div>
+                  <div>前一小时领券下单立减20</div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 热卖单品 -->
+    <div class="container_h" >
+      <div class="py-container hot">
+        <div>
+          <div class="hot-title">
+            <p>—— 热卖单品 ——</p>
+          </div>
+          <div class="hot-con">
+            <ul class="hot-con-ul">
+              <li class="hot-con-li" v-for="list in hotList" :key="list.id">
+                <router-link :to="list.url"><img :src="list.pic"></router-link>
+                <h3>{{list.title}}</h3>
+                <p>{{list.price}}</p>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 猜你喜欢 -->
+    <div class="container_h" >
+      <div class="py-container hot">
+        <div>
+          <div class="hot-title">
+            <p>—— 猜你喜欢 ——</p>
+          </div>
+          <div class="hot-con">
+            <ul class="hot-con-ul">
+              <li class="hot-con-li" v-for="list in likeList" :key="list.id">
+                <router-link :to="list.url"><img :src="list.pic"></router-link>
+                <h3>{{list.title}}</h3>
+                <p>{{list.price}}</p>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- END -->
+    <div class="container_h" >
+      <div class="py-container hot">
+        <div>
+          <div class="hot-title">
+            <p>—— END ——</p>
+          </div>
         </div>
       </div>
     </div>
@@ -139,10 +234,6 @@
         </div>
       </div>
     </div> -->
-    <!-- 产品系列 -->
-    <div class="series">
-      <proListBox :data="item" v-for="item in proList"  :key="item.id" :data-index="item.id"></proListBox>
-    </div>
     <pageFooter></pageFooter>
     <div class="mask" v-show="is3Ding">
       <iframe class="mask_iframe" ref="threeDSrc"  frameborder="0" scrolling="" g="no">
@@ -157,7 +248,6 @@
 <script>
 import { apiAxios, getCookie, setCookie, delCookie } from '../../common/utils'
 import { api } from '../../common/api'
-import proListBox from '../../components/proListBox'
 import shortcutHeader from '../../components/shortcutHeader'
 import pageFooter from '../../components/pageFooter'
 export default {
@@ -176,25 +266,32 @@ export default {
       },
       is3Ding: false,
       liveSource: '',
-      proList: '', // 主页产品
       cateMenuItem: '',
       isShowNav: '', // 二级菜单显示状态
       menuData: '', // 条目菜单
       bannerList: '', // banner
-      recomList: [
-        { id: '1', img: '../../../static/img/logo-234-148.png' },
-        { id: '2', img: '../../../static/img/logo-234-148.png' },
-        { id: '3', img: '../../../static/img/logo-234-148.png' }
-      ]
+      bsaleList: [], // black sale
+      shopsList: [], // 优选好店
+      shopsCate: '',
+      goodsList: [], // 今日好物
+      goodsCate: '',
+      lifeList: [], // 品质生活
+      lifeCate: '',
+      discountList: [], // 官方折扣
+      discountCate: '',
+      bigSaleList: [], // 横条
+      bigSaleCate: '',
+      flashList: [], // 闪购
+      flashCate: '',
+      hotList: [], // 热卖单品
+      hotCate: '',
+      likeList: [], // 猜你喜欢
+      likeCate: ''
     }
   },
-  components: { proListBox, shortcutHeader, pageFooter },
+  components: { shortcutHeader, pageFooter },
+  computed: {},
   created () {
-    apiAxios.AxiosG({
-      url: api.home
-    }, (rtn) => {
-      console.log('home', rtn)
-    })
     // 获取条目菜单
     apiAxios.AxiosG({
       url: api.homeMenu
@@ -203,30 +300,109 @@ export default {
         this.menuData = rtn.data.data.children
       }
     })
-    // 获取主页产品列表
-    // apiAxios.AxiosG({
-    //   url: api.homePro
-    // }, (rtn) => {
-    //   if (rtn.data.success) {
-    //     this.proList = rtn.data.data
-    //   }
-    // })
     // 主页banner
     apiAxios.AxiosG({
       url: api.homeBanner,
       params: { categoryId: 1 }
     }, (rtn) => {
-      console.log(rtn)
       if (rtn.data.success) {
-        this.bannerList = rtn.data
+        this.bannerList = rtn.data.data.contentList
+      }
+    })
+    // 主页black sale
+    apiAxios.AxiosG({
+      url: api.homeBanner,
+      params: { categoryId: 5 }
+    }, (rtn) => {
+      if (rtn.data.success) {
+        this.bsaleList = rtn.data.data.contentList
+      }
+    })
+    // 主页优选好店
+    apiAxios.AxiosG({
+      url: api.homeBanner,
+      params: { categoryId: 2 }
+    }, (rtn) => {
+      if (rtn.data.success) {
+        this.shopsList = rtn.data.data.contentList
+        this.shopsCate = rtn.data.data.contentCategory
+        console.log(this.shopsList, this.shopsCate.name, 'shops')
+      }
+    })
+    // 今日好物
+    apiAxios.AxiosG({
+      url: api.homeBanner,
+      params: { categoryId: 3 }
+    }, (rtn) => {
+      if (rtn.data.success) {
+        this.goodsList = rtn.data.data.contentList.slice(0, 4)
+        this.goodsCate = rtn.data.data.contentCategory
+      }
+    })
+    // 品质生活
+    apiAxios.AxiosG({
+      url: api.homeBanner,
+      params: { categoryId: 4 }
+    }, (rtn) => {
+      if (rtn.data.success) {
+        this.lifeList = rtn.data.data.contentList.slice(0, 4)
+        this.lifeCate = rtn.data.data.contentCategory
+      }
+    })
+    // 官方折扣
+    apiAxios.AxiosG({
+      url: api.homeBanner,
+      params: { categoryId: 6 }
+    }, (rtn) => {
+      if (rtn.data.success) {
+        this.discountList = rtn.data.data.contentList
+        this.discountCate = rtn.data.data.contentCategory
+      }
+    })
+    // big sale 横条
+    apiAxios.AxiosG({
+      url: api.homeBanner,
+      params: { categoryId: 8 }
+    }, (rtn) => {
+      if (rtn.data.success) {
+        this.bigSaleList = rtn.data.data.contentList
+        this.bigSaleCate = rtn.data.data.contentCategory
+      }
+    })
+    // 闪购
+    apiAxios.AxiosG({
+      url: api.homeBanner,
+      params: { categoryId: 7 }
+    }, (rtn) => {
+      if (rtn.data.success) {
+        this.flashList = rtn.data.data.contentList.slice(0, 3)
+        this.flashCate = rtn.data.data.contentCategory
+      }
+    })
+    // 热卖单品
+    apiAxios.AxiosG({
+      url: api.homeBanner,
+      params: { categoryId: 9 }
+    }, (rtn) => {
+      if (rtn.data.success) {
+        this.hotList = rtn.data.data.contentList.slice(0, 5)
+        this.hotCate = rtn.data.data.contentCategory
+      }
+    })
+    // 猜你喜欢
+    apiAxios.AxiosG({
+      url: api.homeBanner,
+      params: { categoryId: 10 }
+    }, (rtn) => {
+      if (rtn.data.success) {
+        this.likeList = rtn.data.data.contentList.slice(0, 5)
+        this.likeCate = rtn.data.data.contentCategory
       }
     })
     setCookie('一起')
     getCookie('一起')
     delCookie('一起')
     // this.$router.push({ path:'/artist/dynamic',query:{id: this.$route.query.id} })
-  },
-  computed: {
   },
   mounted () {
     // 为iframe点击可触发点击事件
@@ -304,7 +480,7 @@ export default {
       this.is3Ding = false
       return false
     },
-    threeDUrl (threeDUrl) {
+    threeDUrl (threeDUrl) { // http://120.79.93.197/we1/
       this.is3Ding = true
       this.$refs.threeDSrc.src = threeDUrl
       return false
