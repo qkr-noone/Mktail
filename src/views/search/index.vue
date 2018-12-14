@@ -1,32 +1,31 @@
 <template>
   <div id="search-index">
-    <shortcutHeader :searchList="searchList" @showSearch="search"></shortcutHeader>
+    <shortcutHeader :searchList="searchList" @showSearch="search($event, 4)"></shortcutHeader>
     <!--list-content-->
     <div class="main">
-      <div class="py-container">
+      <div class="sear-container"> <!-- v-if="searchList.total" -->
         <!--bread-->
         <div class="bread">
-          <ul class="fl sui-breadcrumb">
-            <li>
-              <a href="#">搜索条件：</a>
+          <ul class="bread-ul">
+            <li class="bread-li">
+              <a>全部结果<i class="el-icon-arrow-right"></i></a>
             </li>
           </ul>
           <ul class="tags-choose">
-            <li class="tag">品牌：{}<i class="el-icon-close"></i></li>
-            <li class="tag">五金工具：{}<i class="el-icon-close"></i></li>
-            <li class="tag">材质：{}<i class="el-icon-close"></i></li>
-          搜索结果：{{searchList.total}}条
+            <li class="tag" v-show="keywords">"{{keywords}}"</li>
+            <li class="tag" v-show="selectBrand.length">品牌： <span v-for="(data,index) in selectBrand" :key="index">{{data.text}}</span><i class="el-icon-close"></i></li>
+            <li class="tag" v-for="list in specNavList" :key="list.spec">{{list.spec}}:<i class="el-icon-close"></i></li>
+            <li>搜索结果：{{searchList.total}}条</li>
           </ul>
-          <div class="clearfix"></div>
         </div>
         <!--selector-->
-        <div class="clearfix selector">
-          <div class="type-wrap logo s-brand">
-            <div class="fl key brand">品牌：</div>
+        <div class="selector">
+          <div class=" logo s-brand" v-if="brandList">
+            <div class="brand" data-attr="品牌" data-attr-id="">品牌：</div>
             <div class="value logos">
               <div class="logos-list">
                 <ul class="logos-value-list logo-value-fixed">
-                  <li v-for="item in 8" :key="item" @click="selectStyle(item)"><a :class="{ cur: activeName === item }" href="#">新信息G</a><i class="el-icon-close"></i></li>
+                  <li v-for="(item,index) in brandList" :key="index" @click="selectStyle(item, index)" v-if="index < 14" ref="brandli"><a href="#">11{{item.text}}</a><i class="el-icon-close"></i></li>
                 </ul>
               </div>
             </div>
@@ -35,44 +34,12 @@
               <a class="logos-e-multiple" href="javascript:;"><i class="el-icon-plus"></i>多选</a>
             </div>
           </div>
-          <div class="type-wrap logo s-brand">
-            <div class="fl key brand">五金工具：</div>
+          <div class=" logo s-brand" v-for="list in specList" :key="list.id">
+            <div class="fl brand" :data-attr="list.text" :data-attr-id="list.id">{{list.text}}：</div>
             <div class="value logos">
               <div class="logos-list">
                 <ul class="logos-value-list logo-value-fixed">
-                  <li><a href="#">新信息G<i class="el-icon-close"></i></a></li>
-                  <li><a href="#">新信息G<i class="el-icon-close"></i></a></li>
-                  <li><a href="#">新信息G<i class="el-icon-close"></i></a></li>
-                  <li><a href="#">新信息G<i class="el-icon-close"></i></a></li>
-                  <li><a href="#">新信息G<i class="el-icon-close"></i></a></li>
-                  <li><a href="#">新信息G<i class="el-icon-close"></i></a></li>
-                  <li><a href="#">新信息G<i class="el-icon-close"></i></a></li>
-                  <li><a href="#">新信息G<i class="el-icon-close"></i></a></li>
-                  <li><a href="#">新信息G<i class="el-icon-close"></i></a></li>
-                  <li><a href="#">新信息G<i class="el-icon-close"></i></a></li>
-                </ul>
-              </div>
-            </div>
-            <div class="logos-ext">
-              <a class="logos-e-more" href="javascript:;">更多<i class="el-icon-arrow-down"></i></a>
-              <a class="logos-e-multiple" href="javascript:;"><i class="el-icon-plus"></i>多选</a>
-            </div>
-          </div>
-          <div class="type-wrap logo s-brand">
-            <div class="fl key brand">材质：</div>
-            <div class="value logos">
-              <div class="logos-list">
-                <ul class="logos-value-list logo-value-fixed">
-                  <li><a href="#">新信息G<i class="el-icon-close"></i></a></li>
-                  <li><a href="#">新信息G<i class="el-icon-close"></i></a></li>
-                  <li><a href="#">新信息G<i class="el-icon-close"></i></a></li>
-                  <li><a href="#">新信息G<i class="el-icon-close"></i></a></li>
-                  <li><a href="#">新信息G<i class="el-icon-close"></i></a></li>
-                  <li><a href="#">新信息G<i class="el-icon-close"></i></a></li>
-                  <li><a href="#">新信息G<i class="el-icon-close"></i></a></li>
-                  <li><a href="#">新信息G<i class="el-icon-close"></i></a></li>
-                  <li><a href="#">新信息G<i class="el-icon-close"></i></a></li>
-                  <li><a href="#">新信息G<i class="el-icon-close"></i></a></li>
+                  <li v-for="(info, tip) in list.options" :key="tip" v-if="tip < 14"><a href="#">{{info.optionName}}<i class="el-icon-close"></i></a></li>
                 </ul>
               </div>
             </div>
@@ -100,11 +67,10 @@
                   <a href="#">评价↓</a>
                 </li>
                 <li>
-                  <a href="#">价格↑</a>
+                  <a href="#">价格</a>
                 </li>
-                <li>
-                  <a href="#">价格↓</a>
-                </li>
+                <input type="text" name="" placeholder="￥">
+                <input type="text" name="" placeholder="￥">
               </ul>
               <div class="filter-num">
                 <span class="filter-text">
@@ -122,7 +88,7 @@
               <li  v-for="item in searchList.rows" :key="item.id">
                 <div class="p-list">
                   <div class="p-img">
-                    <router-link :to="{ path:'/detail',query:{goodsId: item.goodsId, skuId: item.id}}"><img :src="item.image" /></router-link>
+                    <router-link :to="{ path:'/detail',query:{goodsId: 149187842867912, skuId: item.id}}"><img :src="item.image" /></router-link>
                   </div>
                   <div class="p-scroll">
                     <span class="ps-prev"><i class="el-icon-arrow-left"></i></span>
@@ -151,7 +117,7 @@
                     </a>
                   </div>
                   <div class="p-commit">
-                    <strong><a target="_blank" >~1000+</a>条评价</strong>
+                    <strong><a target="_blank" >销量1000</a></strong>
                   </div>
                   <div class="p-focus">
                     <a class="J_focus" data-sku="10947521008" href="javascript:;" title="点击关注"><i class="el-icon-star-off"></i>关注</a>
@@ -184,19 +150,31 @@ export default {
   data () {
     return {
       searchList: '',
-      activeName: ''
+      keywords: '',
+      brand: '',
+      brandList: '',
+      selectBrand: [],
+      specList: '',
+      specNavList: [],
+      selectSpec: []
     }
   },
   components: { shortcutHeader, pageFooter },
   created () {
-    let SEARCH_VALUE = this.$route.query.keywords
-    if (SEARCH_VALUE) {
-      this.search(SEARCH_VALUE)
+    this.keywords = this.$route.query.keywords
+    if (this.keywords) {
+      this.search(this.keywords)
     }
   },
   methods: {
     search (keywords) {
-      let priceRange = ''
+      let query = this.$router.history.current.query
+      let path = this.$router.history.current.path
+      // 对象的拷贝
+      let newQuery = JSON.parse(JSON.stringify(query))
+      console.log(newQuery, 333)
+      newQuery.keywords = keywords[0].keywords
+      let priceRange
       let userPrice = [3000, 20]
       userPrice.sort()
       if (userPrice.length) {
@@ -208,7 +186,7 @@ export default {
       }
       let searchMap =
         {
-          keywords: keywords,
+          keywords: keywords[0].keywords,
           category: '',
           brand: '', // 品牌
           spec: {}, // 规格
@@ -218,6 +196,8 @@ export default {
           sort: '', // 排序  ASC -升序  DESC-降序
           sortField: '' // 排序变量
         }
+      this.keywords = keywords[0].keywords
+      this.$router.push({ path, query: searchMap })
       apiAxios.AxiosP({
         url: api.search,
         method: 'post',
@@ -225,12 +205,37 @@ export default {
       }, (rtn) => {
         if (rtn.status === 200) {
           this.searchList = rtn.data
+
+          this.brandList = this.searchList.brandList || ''
+          this.specList = this.searchList.specList || ''
+          if (this.specList) {
+            for (let i = 0; i < this.specList.length; i++) {
+              this.specNavList.push({'spec': this.specList[i].text})
+              // this.$set(this.specNavList, 'arg', 23)
+            }
+            // for (let arg in this.specList) {
+            //   this.$set(this.specNavList, 'arg', this.specList[arg].text)
+            //   // console.log(this.specList[arg].text)
+            // }
+          }
+          console.log(this.specNavList, 22)
         }
       })
     },
-    selectStyle (index) {
-      this.activeName = index
-      console.log(this.activeName, index)
+    selectStyle (item, index) {
+      if (this.$refs.brandli[index].children[0].className.length <= 0) {
+        this.$refs.brandli[index].children[0].className = 'cur'
+      } else {
+        this.$refs.brandli[index].children[0].className = ''
+      }
+      console.log(this.$refs.brandli[index].children[0])
+      // for (let i in this.selectBrand) {
+      //   this.selectBrand
+      // }
+      // if (this.selectBrand) {}
+      
+      this.selectBrand.push({ "index"+: item.text })
+      console.log(this.selectBrand)
     }
   }
 }

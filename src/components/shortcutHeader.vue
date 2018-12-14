@@ -73,7 +73,8 @@ export default {
       if (SEARCH_VALUE) {
         // 判断当前是否在搜索页
         if (this.$route.path === '/search') {
-          this.$emit('showSearch', SEARCH_VALUE) // 调用search 页面的showSearch 方法
+          console.log('..')
+          this.$emit('showSearch', [{keywords: SEARCH_VALUE}]) // 调用search 页面的showSearch 方法
         } else {
           this.$router.push({path: '/search', query: {keywords: SEARCH_VALUE}})
         }

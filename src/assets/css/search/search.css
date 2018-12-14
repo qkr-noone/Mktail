@@ -1,218 +1,22 @@
-/*
-查询列表
-*/
+
 /* 内容 */
-  .py-container{width:1260px;margin:0 auto}
-  .header {
-    border-bottom: 2px solid #b1191a
-  }
-  .bread {
-    margin: 0;
-  }
-  .fl{
-    float: left;
-  }
-  .bread .sui-breadcrumb {
-    padding: 3px 5px 3px 15px;
-    margin: 0;
-  }
-  .sui-breadcrumb {
-    padding: 9px 15px;
-    margin: 0 0 18px;
-    list-style: none;
-    font-weight: 400;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
-  }
-  .tags-choose {
-    display: flex;
-    list-style: none;
-    padding: 3px 5px;
-    overflow: hidden;
-    float: left;
-  }
-  .clearfix {
-    clear: both;
-  }
-  .clearfix:before, .clearfix:after {
-    display: table;
-    content: "";
-    line-height: 0;
-  }
-  .sui-breadcrumb>li {
-    display: inline-block;
-    display: inline;
-    zoom: 1;
-  }
-  .selector, .filter {
-    border: 1px solid #ddd;
-  }
-  .bread, .selector, .details{
-    margin: 0;
-  }
-  .bread, .selector, .type-wrap, .value {
-    overflow: hidden;
-  }
-  .type-wrap:first-child {
-    border-top: 0;
-  }
-  .type-wrap {
-    margin: 0;
-    position: relative;
-    border-top: 1px solid #ddd;
-    background: #f1f1f1;
-  }
-  .type-wrap .key {
-    width: 100px;
-    /*background: #f1f1f1;*/
-    line-height: 26px;
-    text-align: right;
-    font-size: 14px;
-    font-weight: bolder;
-  }
-  .key {
-    padding: 10px 10px 0 15px;
-  }
-  .type-wrap ul li {
-    float: left;
-    list-style-type: none;
-  }
-  ul.type-list li a {
-    cursor: pointer;
-    color: #555;
-    padding: 2px;
-    text-decoration: none;
-  }
-  ul.type-list li {
-    display: block;
-    margin-right: 30px;
-    line-height: 26px;
-  }
-  .type-wrap .ext {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-  }
-
-
-  .page {
-    width: 733px;
-    height: 66px;
-    overflow: hidden;
-  }
-  .fr {
-    float: right;
-  }
-  .sui-pagination {
-    margin: 18px 0;
-  }
-  .sui-pagination ul {
-    display: inline-block;
-    display: inline;
-    zoom: 1;
-    width: 490px;
-    float: left;
-  }
-  .sui-pagination ul>li {
-    display: inline-block;
-    display: inline;
-    zoom: 1;
-  }
-  .sui-pagination ul>.prev>span, .sui-pagination ul>.next>span, .sui-pagination ul>.prev>a, .sui-pagination ul>.next>a {
-    background-color: #fafafa;
-  }
-  .sui-pagination ul>.disabled>span, .sui-pagination ul>.disabled>a, .sui-pagination ul>.disabled>a:hover, .sui-pagination ul>.disabled>a:focus {
-    color: #999;
-    background-color: transparent;
-    cursor: default;
-  }
-  .sui-pagination div {
-    display: inline-block;
-    display: inline;
-    zoom: 1;
-  }
-  .sui-pagination div {
-    float: right;
-    width: 241px;
-  }
-  .pagination-large div {
-    font-size: 14px;
-  }
-  .sui-pagination div {
-    display: inline-block;
-    color: #333;
-  }
-  .pagination-large div {
-    font-size: 14px;
-  }
-  .sui-pagination div {
-    display: inline-block;
-    color: #333;
-  }
-  .pagination-large div .page-num {
-    padding: 9px 18px;
-  }
-  .pagination-large div .page-num {
-    padding-top: 4px;
-    padding-bottom: 4px;
-    padding-right: 8px;
-    padding-left: 8px;
-  }
-  .sui-pagination div .page-num {
-    display: inline-block;
-    height: 18px;
-    padding: 2px 4px;
-    font-size: 12px;
-    line-height: 18px;
-    color: #555;
-    -webkit-border-radius: 2px;
-    -moz-border-radius: 2px;
-    border-radius: 2px;
-    vertical-align: middle;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-    transition: border linear .2s,box-shadow linear .2s;
-    padding-top: 2px;
-    padding-bottom: 2px;
-    margin: 0;
-    width: 15px;
-    border-radius: 0;
-    transition: width .1s linear .1s;
-  }
-  .pagination-large div .page-num+.page-confirm {
-    padding: 7px 16px;
-    color: #666;
-    background-color: #f6f6f6;
-    border: 1px solid #ddd;
-  }
-  
-  .yui3-u-1-4, .yui3-u-6-24 {
-    width: 25%;
-    width: 24.969%;
-  }
-  .p-img, .price, .cu,.operate {
-    padding-left: 15px;
-  }
-  .cu{
-    height: 22px;
-  }
-  .price {
-    font-size: 18px;
-    color: #c81623;
-  }
+  .sear-container{width:1230px;margin:0 auto; border-top: 1px solid #878787; overflow: hidden;}
+  .main { background-color: #f4f4f4; }
+  .bread { display: flex;flex-wrap: nowrap; color: #878787; font-size: 16px; 
+    padding: 14px 0; background-color :#fff; overflow: hidden;}
+  .bread-ul{}
+  .bread-li{}
+  .tags-choose{ display: flex; }
+  .tag{ max-width: 220px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis; }
+  .tag >i {line-height: 18px; color: red;}
+  li.tag +li{ margin-left: 15px;  box-sizing: content-box;border: 1px solid #878787;}
+  .tags-choose li:last-child { border: none; }
 
 /*查找商品列表*/
   .goods-list {
     margin: 20px 0;
   }
   .yui3-g {
-    letter-spacing: -.31em;
-    letter-spacing: normal;
-    word-spacing: -.43em;
-    text-rendering: optimizespeed;
-    font-family: FreeSans,Arimo,"Droid Sans",Helvetica,Arial,sans-serif;
     display: flex;
     flex-wrap: wrap;
   }
@@ -224,22 +28,22 @@
   }
 
   .goods-list ul li{
-    width: 240px; height: 466px; position: relative;
+    width: 234px; height: 446px;
   }
   .p-list {
-    padding: 12px 9px; width: 220px; position: absolute;z-index: 1; left: 0; top: 0;background:#fff; border: 1px solid #fff; transition:border-color 0.1s ease
+    padding: 10px 8px; width: 218px; background:#fff; border: 1px solid #fff; transition:border-color 0.1s ease
   }
   .p-list:hover {
     outline: #ddd auto 5px;
   }
   .p-img {
-    margin-bottom: 5px; width: 220px; padding:0;position: relative;
+    margin-bottom: 5px; width: 218px; padding:0;position: relative;
   }
   .p-img a {
-    display: block;position: relative;overflow: hidden;
+    width: 100%; display: block;position: relative;overflow: hidden;
   }
   .p-img a img {
-    width: 220px; height: 220px;
+    width: 218px; height: 218px; overflow: hidden;
   }
   .p-scroll {
     position: relative;
@@ -305,7 +109,7 @@
   .p-price strong {
     float: left;
     margin-right: 10px;
-    color: #e4393c;
+    color: #FF4606;
     font-size: 20px;
     font-weight: 400;
     font-family: Verdana;
@@ -321,6 +125,7 @@
     line-height: 20px;
     margin-bottom: 8px;
     overflow: hidden;
+    font-size: 12px;
   }
   .p-icons, .p-shop, .p-commit, .p-attr{
     text-align: left;
@@ -330,7 +135,9 @@
     overflow: hidden;
     transition: height 0.08s ease;
     font-style: normal;
-    font-size: 12px;
+  }
+  .p-attr a{
+    color: #353535;
   }
   .p-attr a>em{
     font-style: normal;
@@ -349,7 +156,7 @@
   }
   .p-commit strong a {
     font-size: 12px;
-    color: #646fb0;
+    color: #878787;
     font-family: verdana;
     font-weight: 700;
   }
@@ -399,6 +206,10 @@
   }
   .p-shop span a {
     color: #999;
+    max-width: 185px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
   .im-01 {
     cursor: pointer;
@@ -430,28 +241,26 @@
   }
 
 /* 自定义 */
+  .brand{ width: 90px; text-align: left; flex-shrink: 0; padding: 16px 0 0 16px;}
+  .selector {border-top: 1px solid #E3E3E3; border-bottom: 1px solid #E3E3E3; color: #878787; font-size: 12px; line-height: 12px;}
+  .logo{ display: flex; position: relative;background-color: #fff; }
+  div.logo +div {border-top: 1px dashed #E3E3E3;}
   .logos {
-    margin-left: 110px;
     padding-right: 130px;
     padding-left: 10px;
     overflow: hidden;
     zoom: 1;
-    background: #fff;
   }
   .logos-list {
     overflow: hidden;
-    zoom: 1;
-    padding-top: 4px;
+    padding-top: 8px;
+    padding-bottom: 8px;
   }
   .logos-value-list {
-    float: left;
     overflow: hidden;
-    zoom: 1;
-    position: relative;
-    height: 30px;
   }
   .logo-value-fixed {
-    height: 60px;
+    /*height: 60px;*/
   }
   .logos-list li{
     float: left;
@@ -478,7 +287,7 @@
     float: left;
     white-space: nowrap;
     zoom: 1;
-    color: #606266;
+    color: #878787;
     box-sizing: border-box;
     border: 1px solid transparent;
   }
@@ -493,6 +302,7 @@
     top: 2px;
     right: 0;
     line-height: 10px;
+    cursor: pointer;
   }
 
   .selector .logos-ext {
@@ -560,8 +370,9 @@
 
 /* 条件查询 过滤 */
   .details {
-    margin-top: 50px;
+    margin-top: 15px;
   }
+  .navbar{ background-color: (244,244,244,1); color: #878787; font-size: 12px; }
   .wrap-filter {
     display: flex;
     justify-content: space-between;
@@ -578,6 +389,10 @@
   }
   .filter-list li a:hover {
     color: red;
+  }
+  .filter-list > input { width: 100px; }
+  .filter-list > input:hover {
+    outline: none;
   }
   .filter-num {
     display: flex;

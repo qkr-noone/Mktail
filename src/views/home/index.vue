@@ -11,11 +11,9 @@
           <div class="navitem">
             <h2 class="nav-all">全部商品分类</h2>
             <ul class="nav-ul">
-              <li><a>秒杀</a></li>
-              <li><a href="">优惠券</a></li>
-              <li><a href="">MkTail超市</a></li>
-              <li><a href="">活动特惠</a></li>
-              <li><a href="">收藏推荐</a></li>
+              <li><a>品牌经</a></li>
+              <li><a href="">原工厂</a></li>
+              <li><a href="">商学院/指南/教程</a></li>
             </ul>
           </div>
           <div class="SortList ">
