@@ -1,8 +1,5 @@
 <template>
   <div id="index">
-    <keep-alive>
-      <router-view></router-view>
-    </keep-alive>
     <shortcutHeader></shortcutHeader>
     <!-- 头部 -->
     <div class="container_h">
@@ -402,6 +399,8 @@ export default {
     delCookie('一起')
     // this.$router.push({ path:'/artist/dynamic',query:{id: this.$route.query.id} })
   },
+  activated () {},
+  deactivated () {},
   mounted () {
     // 为iframe点击可触发点击事件
     let IframeOnClick = {

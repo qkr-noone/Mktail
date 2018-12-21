@@ -70,11 +70,25 @@ export default {
   methods: {
     searchPro () {
       let SEARCH_VALUE = this.$refs.search_ipt.value
+      let IS_LOAD = true // 重新关键词search
+      let searchMap =
+        {
+          keywords: '',
+          category: '',
+          brand: '', // 品牌
+          spec: {}, // 规格
+          price: '',
+          pageNo: 1,
+          pageSize: 40,
+          sort: '', // 排序  ASC -升序  DESC-降序
+          sortField: '' // 排序变量
+        }
+      this.$router.push({query: searchMap})
       if (SEARCH_VALUE) {
         // 判断当前是否在搜索页
         if (this.$route.path === '/search') {
           console.log('..')
-          this.$emit('showSearch', [{keywords: SEARCH_VALUE}]) // 调用search 页面的showSearch 方法
+          this.$emit('showSearch', [SEARCH_VALUE, IS_LOAD]) // 调用search 页面的showSearch 方法
         } else {
           this.$router.push({path: '/search', query: {keywords: SEARCH_VALUE}})
         }

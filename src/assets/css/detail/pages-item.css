@@ -211,15 +211,16 @@
   .summary-wrap .selected span {
     display: block
   }
-  #all-add-buy {
+  #all-add-buy {margin: 0}
+  #all-add-buy,.submit-form {
     display: flex;
   }
-  #all-add-buy .buy-word{
+  #all-add-buy .buy-word, .submit-form .buy-word{
     display: flex;
     align-items: center;
     width: 130px;
   }
-  #all-add-buy .buy-word a{
+  #all-add-buy .buy-word a, .submit-form .buy-word a{
     height: 100%;
     line-height: 30px;
     color: #fff;
@@ -257,8 +258,8 @@
     display: block;
     width: 15px;
     text-align: center;
-    height: 17px;
-    line-height: 17px;
+    height: 16px;
+    line-height: 19px;
     overflow: hidden;
     background: #f1f1f1;
     color: #666;
@@ -272,14 +273,14 @@
     width: 15px;
     text-align: center;
     height: 17px;
-    line-height: 17px;
+    line-height: 18.5px;
     overflow: hidden;
     background: #f1f1f1;
     color: #666;
     position: absolute;
     right: -8px;
     border: 1px solid #ccc;
-    top: 19px;
+    top: 18px;
     border-top: 0
   }
   
@@ -311,6 +312,12 @@
   .addshopcar {
     padding: 10px 25px;
     background: #c81623;
+    font-size: 16px;
+    font-family: 微软雅黑
+  }
+  .buyshops {
+    padding: 10px 25px;
+    background: #E5511D !important;
     font-size: 16px;
     font-family: 微软雅黑
   }

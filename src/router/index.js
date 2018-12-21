@@ -17,15 +17,15 @@ let router = new Router({
   },
   routes: [
     {
-      path: '/',
-      redirect: '/home',
-      component: resolve => require(['@/views/home/index'], resolve)
-    },
-    {
       path: '/home',
       meta: {
         keepAlive: true
       },
+      component: resolve => require(['@/views/home/index'], resolve)
+    },
+    {
+      path: '/',
+      redirect: '/home',
       component: resolve => require(['@/views/home/index'], resolve)
     },
     {
@@ -44,6 +44,7 @@ let router = new Router({
     },
     {
       path: '/search',
+      name: 'search',
       meta: {
         keepAlive: false
       },

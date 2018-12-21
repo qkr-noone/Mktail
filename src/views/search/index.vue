@@ -13,39 +13,39 @@
           </ul>
           <ul class="tags-choose">
             <li class="tag" v-show="keywords">"{{keywords}}"</li>
-            <li class="tag" v-show="selectBrand.length">品牌： <span v-for="(data,index) in selectBrand" :key="index">{{data.text}}</span><i class="el-icon-close"></i></li>
-            <li class="tag" v-for="list in specNavList" :key="list.spec">{{list.spec}}:<i class="el-icon-close"></i></li>
+            <li class="tag" v-show="selectBrand.length">品牌： <span v-for="(data,index) in selectBrand" :key="index">{{data}}</span><i class="el-icon-close"></i></li>
+            <li class="tag" v-for="list in specNavList" :key="list.spec">{{list}}:<i class="el-icon-close"></i></li>
             <li>搜索结果：{{searchList.total}}条</li>
           </ul>
         </div>
         <!--selector-->
         <div class="selector">
-          <div class=" logo s-brand" v-if="brandList">
+          <div class=" logo s-brand" v-if="brandList && isSelectBrand">
             <div class="brand" data-attr="品牌" data-attr-id="">品牌：</div>
             <div class="value logos">
               <div class="logos-list">
-                <ul class="logos-value-list logo-value-fixed">
-                  <li v-for="(item,index) in brandList" :key="index" @click="selectStyle(item, index)" v-if="index < 14" ref="brandli"><a href="#">11{{item.text}}</a><i class="el-icon-close"></i></li>
+                <ul class="logo-value-fixed" ref="brandul">
+                  <li v-for="(item,index) in brandList" :key="index" @click="selectStyle(item, index)" ref="brandli"><a>{{item.text}}</a><i></i></li>
                 </ul>
               </div>
             </div>
             <div class="logos-ext">
-              <a class="logos-e-more" href="javascript:;">更多<i class="el-icon-arrow-down"></i></a>
               <a class="logos-e-multiple" href="javascript:;"><i class="el-icon-plus"></i>多选</a>
+              <a class="logos-e-more" v-show="brandList.length > 7" @click="selectBrandMore()">更多<i class="el-icon-arrow-down"></i></a>
             </div>
           </div>
-          <div class=" logo s-brand" v-for="list in specList" :key="list.id">
+          <div class=" logo s-brand" v-for="(list, index) in specList" :key="list.id">
             <div class="fl brand" :data-attr="list.text" :data-attr-id="list.id">{{list.text}}：</div>
             <div class="value logos">
               <div class="logos-list">
-                <ul class="logos-value-list logo-value-fixed">
-                  <li v-for="(info, tip) in list.options" :key="tip" v-if="tip < 14"><a href="#">{{info.optionName}}<i class="el-icon-close"></i></a></li>
+                <ul class="logo-value-fixed" ref="specul">
+                  <li v-for="(info, tip) in list.options" :key="tip"><a href="#">{{info.optionName}}<i class="el-icon-close"></i></a></li>
                 </ul>
               </div>
             </div>
             <div class="logos-ext">
-              <a class="logos-e-more" href="javascript:;">更多<i class="el-icon-arrow-down"></i></a>
               <a class="logos-e-multiple" href="javascript:;"><i class="el-icon-plus"></i>多选</a>
+              <a class="logos-e-more" href="javascript:;" v-if="list.options.length > 7" @click="selectMore(index)">更多<i class="el-icon-arrow-down"></i></a>
             </div>
           </div>
         </div>
@@ -69,17 +69,17 @@
                 <li>
                   <a href="#">价格</a>
                 </li>
-                <input type="text" name="" placeholder="￥">
-                <input type="text" name="" placeholder="￥">
+                <input type="text" name=""  maxlength="20" @input="handlePrice" :value="smallPrice" placeholder="￥">
+                <input type="text" name=""  maxlength="20" placeholder="￥">
               </ul>
               <div class="filter-num">
                 <span class="filter-text">
-                  <b>1</b>
+                  <b>{{currentPage}}</b>
                   <em>/</em>
-                  <i>{{searchList.totalPages}}</i>
+                  <i>{{totalPages}}</i>
                 </span>
-                <a href="" class="filter-prev disabled"><i class="el-icon-arrow-left"></i></a>
-                <a href="" class="filter-next"><i class="el-icon-arrow-right"></i></a>
+                <a class="filter-prev" :class="currentPage===1?'disabled':''" @click="prevPage"><i class="el-icon-arrow-left"></i></a>
+                <a class="filter-next" :class="currentPage===totalPages?'disabled':''" @click="nextPage"><i class="el-icon-arrow-right"></i></a>
               </div>
             </div>
           </div>
@@ -135,6 +135,16 @@
               </li>
             </ul>
           </div>
+          <div class="block">
+            <el-pagination
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+              :current-page.sync="currentPage"
+              :page-size="40"
+              layout="prev, pager, next, jumper"
+              :total="searchList.total">
+            </el-pagination>
+          </div>
         </div>
       </div>
     </div>
@@ -153,27 +163,56 @@ export default {
       keywords: '',
       brand: '',
       brandList: '',
-      selectBrand: [],
+      selectBrand: [], // 选择的品牌查询
+      isSelectBrand: true, // 是否选择了品牌
       specList: '',
       specNavList: [],
-      selectSpec: []
+      selectSpec: [],
+      priceRange: [],
+      smallPrice: '',
+      currentPage: 1,
+      totalPages: 1
     }
   },
   components: { shortcutHeader, pageFooter },
   created () {
     this.keywords = this.$route.query.keywords
     if (this.keywords) {
-      this.search(this.keywords)
+      this.search([this.keywords, false])
     }
   },
+  activated () {},
+  deactivated () {
+    this.$destroy()
+  },
+  mounted () {},
   methods: {
+    handlePrice (e) {
+      // 过滤
+      // this.smallPrice = e.target.value.replace(/[^\d{1,}\.\d{1,}|\d{1,}]/g, '')
+    },
+    handleSizeChange (val) {
+      console.log(`每页 ${val} 条`)
+    },
+    handleCurrentChange (val) {
+      console.log(`当前页: ${val}`)
+    },
+    nextPage () {
+      if (this.currentPage < this.totalPages && this.totalPages > 1) {
+        this.currentPage++
+      }
+    },
+    prevPage () {
+      if (this.currentPage > 1 && this.totalPages > 1) {
+        this.currentPage--
+      }
+    },
     search (keywords) {
-      let query = this.$router.history.current.query
-      let path = this.$router.history.current.path
-      // 对象的拷贝
-      let newQuery = JSON.parse(JSON.stringify(query))
-      console.log(newQuery, 333)
-      newQuery.keywords = keywords[0].keywords
+      this.keywords = keywords[0]
+      if (keywords[1]) {
+        this.selectBrand = []
+      }
+      this.isSelectBrand = true
       let priceRange
       let userPrice = [3000, 20]
       userPrice.sort()
@@ -186,18 +225,36 @@ export default {
       }
       let searchMap =
         {
-          keywords: keywords[0].keywords,
+          keywords: this.keywords,
           category: '',
-          brand: '', // 品牌
+          brand: this.selectBrand.join('-'), // 品牌
           spec: {}, // 规格
           price: priceRange,
-          pageNo: 1,
+          pageNo: this.currentPage,
           pageSize: 40,
           sort: '', // 排序  ASC -升序  DESC-降序
           sortField: '' // 排序变量
+          /*
+            title 标题
+            price 价格
+            image 图片
+            goodsid 商品id
+            category 分类
+            brand 品牌
+            seller 商家
+            spec_* 规格
+          */
         }
-      this.keywords = keywords[0].keywords
-      this.$router.push({ path, query: searchMap })
+      this.$router.push({ path: '/search', query: searchMap })
+      if (searchMap.brand) {
+        this.isSelectBrand = false
+      }
+      // for (let value in searchMap) {
+      //   searchMap[value] ? this.brandList = '' : ''
+      //   searchMap[value] ? this.spec = '' : ''
+      // }
+      // this.searchMap = searchMap
+      // this.$message.info(this.$route.fullPath)
       apiAxios.AxiosP({
         url: api.search,
         method: 'post',
@@ -205,37 +262,56 @@ export default {
       }, (rtn) => {
         if (rtn.status === 200) {
           this.searchList = rtn.data
-
+          this.totalPages = this.searchList.totalPages || 1
           this.brandList = this.searchList.brandList || ''
           this.specList = this.searchList.specList || ''
           if (this.specList) {
             for (let i = 0; i < this.specList.length; i++) {
-              this.specNavList.push({'spec': this.specList[i].text})
+              this.specNavList.push(this.specList[i].text)
               // this.$set(this.specNavList, 'arg', 23)
             }
-            // for (let arg in this.specList) {
-            //   this.$set(this.specNavList, 'arg', this.specList[arg].text)
-            //   // console.log(this.specList[arg].text)
-            // }
           }
-          console.log(this.specNavList, 22)
+          this.specNavList = [...new Set(this.specNavList)]
         }
       })
     },
     selectStyle (item, index) {
       if (this.$refs.brandli[index].children[0].className.length <= 0) {
         this.$refs.brandli[index].children[0].className = 'cur'
+        this.$refs.brandli[index].children[1].className = 'el-icon-close'
+        this.selectBrand.push(item.text)
+        // 去重
+        this.selectBrand = [...new Set(this.selectBrand)]
       } else {
         this.$refs.brandli[index].children[0].className = ''
+        this.$refs.brandli[index].children[1].className = ''
+        this.$delete(this.selectBrand, this.selectBrand.indexOf(item.text))
       }
-      console.log(this.$refs.brandli[index].children[0])
-      // for (let i in this.selectBrand) {
-      //   this.selectBrand
-      // }
-      // if (this.selectBrand) {}
-      
-      this.selectBrand.push({ "index"+: item.text })
-      console.log(this.selectBrand)
+      this.search([this.keywords, false])
+    },
+    selectBrandMore () {
+      if (this.$refs.brandul.style.maxHeight === '120px') {
+        this.$refs.brandul.style.height = '30px'
+        this.$refs.brandul.style.maxHeight = 'initial'
+      } else {
+        this.$refs.brandul.style.height = 'initial'
+        this.$refs.brandul.style.maxHeight = '120px'
+      }
+      if (this.$refs.brandul.parentElement.offsetHeight > 136) { // 上下padding 16px
+        this.$refs.brandul.style.overflowX = 'hidden'
+        this.$refs.brandul.style.overflowY = 'auto'
+      } else {
+        this.$refs.brandul.style.overflowX = 'hidden'
+        this.$refs.brandul.style.overflowY = 'hidden'
+      }
+    },
+    selectMore (index) {
+      this.$refs.specul[index].style.height === 'auto' ? this.$refs.specul[index].style.height = '30px' : this.$refs.specul[index].style.height = 'auto'
+    }
+  },
+  watch: {
+    currentPage (newPage) {
+      this.search([this.keywords, false])
     }
   }
 }

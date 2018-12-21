@@ -1,6 +1,8 @@
 <template ref="template">
   <div id="app" ref="app">
-    <router-view></router-view>
+    <keep-alive>
+      <router-view></router-view>
+    </keep-alive>
   </div>
 </template>
 <script>

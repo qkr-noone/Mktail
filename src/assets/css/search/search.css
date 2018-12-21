@@ -260,7 +260,8 @@
     overflow: hidden;
   }
   .logo-value-fixed {
-    /*height: 60px;*/
+    overflow: hidden;
+    height: 30px;
   }
   .logos-list li{
     float: left;
@@ -306,6 +307,8 @@
   }
 
   .selector .logos-ext {
+    display: flex;
+    flex-direction: row-reverse;
     position: absolute;
     top: 5px;
     right: 10px;
@@ -391,7 +394,7 @@
     color: red;
   }
   .filter-list > input { width: 100px; }
-  .filter-list > input:hover {
+  .filter-list > input:hover,.filter-list > input:focus {
     outline: none;
   }
   .filter-num {

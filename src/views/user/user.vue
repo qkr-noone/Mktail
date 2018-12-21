@@ -47,7 +47,7 @@
           </el-col>
         </el-row> -->
         <el-tabs  :tab-position="tabPosition" style="background-color: #fff">
-          <!-- <el-tab-pane label="全部功能">
+          <el-tab-pane label="全部功能">
             <div class="con-wrap">
               <div class="con-user">
                 <div class="con-item">
@@ -1136,7 +1136,7 @@
                 </ul>
               </div>
             </div>
-          </el-tab-pane> -->
+          </el-tab-pane>
           <!-- <el-tab-pane label="客户服务">客户服务</el-tab-pane> -->
           <!-- <el-tab-pane label="退款维权">退款维权</el-tab-pane> -->
           <!-- <el-tab-pane label="设置">设置</el-tab-pane> -->

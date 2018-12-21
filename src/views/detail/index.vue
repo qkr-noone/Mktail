@@ -15,7 +15,9 @@
             <div>
               <!--默认第一个预览-->
               <div id="preview" class="spec-preview">
-                <span><img :src="currentImg" /></span>
+                <span>
+                  <pic-zoom :url="currentImg" :scale="2" :scroll="false"></pic-zoom>
+                </span>
               </div>
               <!--下方的缩略图-->
               <div class="spec-scroll">
@@ -32,7 +34,7 @@
           </div>
           <div class="fr itemInfo-wrap">
             <div class="sku-name">
-              <h4>{{goods.goodsName}}</h4>
+              <h4>{{goods.goodsName}}{{selectSku.title}}</h4>
             </div>
             <div class="news" v-if="goods.caption"><span>{{goods.caption}}</span></div>
             <div class="summary">
@@ -42,7 +44,7 @@
                 </div>
                 <div class="price">
                   <i>¥</i>
-                  <em>{{goods.price}}</em>
+                  <em>{{selectSku.price}}</em>
                   <!-- <span v-if="goods.caption">{{goods.caption}}</span> -->
                 </div>
                 <!-- <div class="fr remark">
@@ -77,29 +79,33 @@
                 </div>
               </div> -->
             </div>
-            <div class=" choose">
+            <div class="choose">
               <ul class="summary-wrap">
                 <li class="spec-list" v-for="(data, index) in spec" :key="data[index]">
                   <div class="title"><i>{{data.attributeName}}</i></div>
                   <ul>
-                    <li v-for="(list, tip) in data.attributeValue" :key="list" @click="selectSpec(index, tip)">
-                      <a :class="{selected: selectArr[index] === tip }">{{list}}</a>
+                    <li v-for="list in data.attributeValue" :key="list" @click="selectSpec(data.attributeName, list)">
+                      <a :class="{selected: selectArr[data.attributeName] === list }">{{list}}</a>
                     </li>
                   </ul>
                 </li>
-              </ul>
-              <div id="all-add-buy" class="summary-wrap">
-                <div class="fl title">
+                <li class="spec-list">
+                  <div class="title"><i>数量</i></div>
                   <div class="control-group">
                     <div class="controls">
                       <input autocomplete="off" type="text" value="1" v-model="num" min="1" :max="num" class="itxt" />
-                      <a href="javascript:void(0)" class="increment plus" @click="addNum(limitNum)">+</a>
-                      <a href="javascript:void(0)" class="increment mins" @click="delNum()">-</a>
+                      <a class="increment plus" @click="addNum(limitNum)"><i class="el-icon-plus"></i></a>
+                      <a class="increment mins" @click="delNum()"><i class="el-icon-minus"></i></a>
                     </div>
                   </div>
+                </li>
+              </ul>
+              <div class="summary-wrap submit-form">
+                <div class="buy-word">
+                  <a target="_blank" class="sui-btn  btn-danger buyshops" @click="buyShops()">立即购买</a>
                 </div>
                 <div class="buy-word">
-                  <router-link :to="{ path: '/addToCart' }" target="_blank" class="sui-btn  btn-danger addshopcar">加入购物车</router-link>
+                  <a target="_blank" class="sui-btn  btn-danger addshopcar" @click="submit()">加入购物车</a>
                 </div>
               </div>
             </div>
@@ -452,6 +458,7 @@
 <script>
 import shortcutHeader from '../../components/shortcutHeader'
 import pageFooter from '../../components/pageFooter'
+import PicZoom from 'vue-piczoom'
 import { apiAxios } from '../../common/utils'
 import { api } from '../../common/api'
 export default {
@@ -466,7 +473,8 @@ export default {
       chooseAttr: '', // 选择属性
       cateList: '',
       spec: [],
-      selectArr: [], // 被选中的sku属性的id
+      selectSku: '', // 选择的sku
+      selectArr: '', // 被选中的sku属性、默认sku属性
       submitSelect: [], // 提交选中的sku属性
       skuList: [], // 该商品的所有sku
       num: 1,
@@ -474,13 +482,19 @@ export default {
       goodsIntroduc: '' // 商品介绍
     }
   },
-  components: { shortcutHeader, pageFooter },
+  components: { shortcutHeader, pageFooter, PicZoom },
   created () {
     if (this.$route.query.goodsId.length > 20) {
       // 弹框  (不确定是否需要)
       this.$router.go(-1)
       return false
     }
+  },
+  activated () {},
+  deactivated () {
+    this.$destroy()
+  },
+  mounted () {
     apiAxios.AxiosG({
       url: api.detailTest,
       params: { goodsId: this.$route.query.goodsId, skuId: this.$route.query.goodsId || '' }
@@ -497,14 +511,18 @@ export default {
         this.goodsIntroduc = this.goodsDesc.introduction || ''
         this.spec = JSON.parse(this.goodsDesc.specificationItems)
         this.skuList = data.data.goodsAll.itemList
-        console.log(this.skuList, this.spec, 11)
+        for (let value of this.skuList) {
+          if (data.data.goodsAll.goods.defaultItemId === value.id) {
+            this.selectArr = JSON.parse(value.spec)
+            this.selectSku = value
+            break
+          }
+        }
       } else {
         // 弹框
         // this.$router.go(-1)
       }
     })
-  },
-  mounted () {
   },
   methods: {
     scrollBig (imgUrl) {
@@ -522,10 +540,10 @@ export default {
     },
     addCart () {
     },
-    selectSpec (index, tip) {
-      this.selectArr[index] = tip
-      this.$set(this.selectArr, index, tip)
-      console.log(this.selectArr)
+    selectSpec (attr, val) {
+      this.selectArr[attr] = val
+      this.$set(this.selectArr, attr, val)
+      this.searchSku()
     },
     addNum (limitNum) {
       if (limitNum) {
@@ -542,8 +560,54 @@ export default {
         return false
       }
       this.num--
+    },
+    submit () {
+      if (this.selectSku.id) {
+        apiAxios.AxiosG({
+          url: api.addToCart,
+          params: { itemId: this.selectSku.id, num: this.num }
+        }, rtn => {
+          console.log(rtn)
+          // this.$router.push({path: '/addToCart', query: {skuId: this.selectSku.id}})
+        }, () => { this.$message.error('加入购物车失败，请核对信息，重新加入') })
+      } else {
+        this.$message.info('请核对信息, 重新加入')
+      }
+    },
+    buyShops () {
+      let orderInfo = ''
+      if (orderInfo) {
+        apiAxios.AxiosP({
+          url: api.getOrderInfo,
+          data: { order: orderInfo }
+        }, rtn => {
+          console.log(rtn)
+          // this.$router.push({path: '/getOrderInfo'})
+        }, () => { this.$message.error('提交信息失败，请核对信息，重新提交') })
+      } else {
+        this.$message.info('请核对信息, 重新提交')
+      }
+    },
+    // 根据规格查询sku
+    searchSku () {
+      for (let i = 0; i < this.skuList.length; i++) {
+        if (this.matchObject(JSON.parse(this.skuList[i].spec), this.selectArr)) {
+          this.selectSku = this.skuList[i]
+          return false
+        }
+      }
+    },
+    // 匹配两个对象是否相等
+    matchObject (map1, map2) {
+      for (let k in map1) {
+        if (map1[k] !== map2[k]) {
+          return false
+        }
+      }
+      return true
     }
-  }
+  },
+  watch: {}
 }
 
 </script>
