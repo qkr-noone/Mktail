@@ -4,10 +4,12 @@ import mutations from './mutations'
 import actions from './actions'
 Vue.use(Vuex)
 
-const store = new Vuex.Store({
-  state: {},
-  mutations,
-  actions
-})
+const state = {
+  cartList: [] // 购物车列表
+}
 
-export default store
+export default new Vuex.Store({
+  state,
+  actions,
+  mutations
+})

@@ -102,10 +102,10 @@
               </ul>
               <div class="summary-wrap submit-form">
                 <div class="buy-word">
-                  <a target="_blank" class="sui-btn  btn-danger buyshops" @click="buyShops()">立即购买</a>
+                  <a class="sui-btn  btn-danger buyshops" @click="buyShops()">立即购买</a>
                 </div>
                 <div class="buy-word">
-                  <a target="_blank" class="sui-btn  btn-danger addshopcar" @click="submit()">加入购物车</a>
+                  <a class="sui-btn  btn-danger addshopcar" @click="submit()">加入购物车</a>
                 </div>
               </div>
             </div>
@@ -453,13 +453,41 @@
       </div>
     </div>
     <pageFooter></pageFooter>
+    <div class="mask mask-login" v-show="isMaskLogin">
+      <div class="is-login">
+        <el-tabs type="border-card" class="sui-nav nav-tabs tab-wraped">
+          <el-tab-pane label="扫描登录" >
+            <div class="tab-pane">
+              <img src="../../../static/img/erweima.png" />
+              <p>剩余事件60s</p>
+            </div>
+          </el-tab-pane>
+          <el-tab-pane label="账户登录">
+            <div class="tab-pane  active">
+              <form class="sui-form" method="post">
+                <div class="input-prepend">
+                  <span class="add-on loginname"></span>
+                  <input type="text" placeholder="邮箱/用户名/手机号" class="span2 input-xfat" v-model="username">
+                </div>
+                <div class="input-prepend"><span class="add-on loginpwd"></span>
+                  <input type="password" placeholder="请输入密码" class="span2 input-xfat" v-model="password">
+                </div>
+                <div class="logined">
+                  <a @click='userLogin' class="sui-btn btn-block btn-xlarge btn-danger">登&nbsp;&nbsp;录</a>
+                </div>
+              </form>
+            </div>
+          </el-tab-pane>
+        </el-tabs>
+      </div>
+    </div>
   </div>
 </template>
 <script>
 import shortcutHeader from '../../components/shortcutHeader'
 import pageFooter from '../../components/pageFooter'
 import PicZoom from 'vue-piczoom'
-import { apiAxios } from '../../common/utils'
+import { apiAxios, getCookie, setCookie } from '../../common/utils'
 import { api } from '../../common/api'
 export default {
   data () {
@@ -479,7 +507,10 @@ export default {
       skuList: [], // 该商品的所有sku
       num: 1,
       limitNum: 11, // 限购
-      goodsIntroduc: '' // 商品介绍
+      goodsIntroduc: '', // 商品介绍
+      isMaskLogin: false,
+      username: '',
+      password: ''
     }
   },
   components: { shortcutHeader, pageFooter, PicZoom },
@@ -511,11 +542,21 @@ export default {
         this.goodsIntroduc = this.goodsDesc.introduction || ''
         this.spec = JSON.parse(this.goodsDesc.specificationItems)
         this.skuList = data.data.goodsAll.itemList
-        for (let value of this.skuList) {
-          if (data.data.goodsAll.goods.defaultItemId === value.id) {
-            this.selectArr = JSON.parse(value.spec)
-            this.selectSku = value
-            break
+        if (this.$route.query.skuId) {
+          for (let value of this.skuList) {
+            if (String(this.$route.query.skuId) === String(value.id)) {
+              this.selectArr = JSON.parse(value.spec)
+              this.selectSku = value
+              break
+            }
+          }
+        } else {
+          for (let value of this.skuList) {
+            if (data.data.goodsAll.goods.defaultItemId === value.id) {
+              this.selectArr = JSON.parse(value.spec)
+              this.selectSku = value
+              break
+            }
           }
         }
       } else {
@@ -534,7 +575,6 @@ export default {
     },
     threeDUrl (threeDUrl) {
       this.is3Ding = true
-      // console.log(threeDUrl, this.$refs.threeDSrc)
       this.$refs.threeDSrc.src = threeDUrl
       return false
     },
@@ -563,30 +603,68 @@ export default {
     },
     submit () {
       if (this.selectSku.id) {
-        apiAxios.AxiosG({
-          url: api.addToCart,
-          params: { itemId: this.selectSku.id, num: this.num }
-        }, rtn => {
-          console.log(rtn)
-          // this.$router.push({path: '/addToCart', query: {skuId: this.selectSku.id}})
-        }, () => { this.$message.error('加入购物车失败，请核对信息，重新加入') })
+        if (getCookie('user-key')) { // 判断是否登陆
+          apiAxios.AxiosG({
+            url: api.addToCart,
+            params: { itemId: this.selectSku.id, num: this.num, name: getCookie('user-key') }
+          }, rtn => {
+            if (rtn.data.success) {
+              this.$message.success('成功加入购物车')
+              this.$router.push({path: '/addToCart', query: {skuId: this.selectSku.id, num: this.num}})
+            } else {
+              this.$message.error('加入购物车失败')
+            }
+          })
+        } else {
+          this.isMaskLogin = true
+        }
       } else {
         this.$message.info('请核对信息, 重新加入')
       }
     },
     buyShops () {
-      let orderInfo = ''
-      if (orderInfo) {
-        apiAxios.AxiosP({
-          url: api.getOrderInfo,
-          data: { order: orderInfo }
-        }, rtn => {
-          console.log(rtn)
-          // this.$router.push({path: '/getOrderInfo'})
-        }, () => { this.$message.error('提交信息失败，请核对信息，重新提交') })
+      if (this.selectSku.id) {
+        if (getCookie('user-key')) { // 判断是否登陆
+          apiAxios.AxiosG({
+            url: api.addToCart,
+            params: { itemId: this.selectSku.id, num: this.num, name: getCookie('user-key') }
+          }, rtn => {
+            if (rtn.data.success) {
+              this.$router.push({path: '/getOrderInfo', query: {skuId: this.selectSku.id, num: this.num}})
+            } else {
+              this.$message.error('信息有误')
+            }
+          })
+        } else {
+          this.isMaskLogin = true
+        }
       } else {
-        this.$message.info('请核对信息, 重新提交')
+        this.$message.info('请核对信息, 重新购买')
       }
+    },
+    userLogin () {
+      if (getCookie('user-key')) {
+        this.$message.error('当前设备已登陆，切换用户需先退出当前用户')
+        return false
+      }
+      if (!this.username || !this.password) {
+        this.$message.warning('请输入用户名和密码')
+        return false
+      }
+      apiAxios.AxiosG({
+        url: api.login,
+        params: {name: this.username, password: this.password}
+      }, rtn => {
+        if (rtn.data.success) {
+          this.$message.success('登陆成功')
+          setCookie('user-key', this.username)
+          this.isMaskLogin = false
+          this.password = ''
+        } else {
+          this.$message.error(rtn.data.message)
+          this.password = ''
+        }
+      })
     },
     // 根据规格查询sku
     searchSku () {

@@ -10,15 +10,16 @@
               <h3 class="succ-tip">商品已成功加入购物车！</h3>
             </div>
             <div class="succ-item">
-              <div class="p-item"><a href=""><img src="../../../static/img/s3.png"></a></div>
+              <div class="p-item"><router-link :to="{ path: '/detail', query: {goodsId: goodSkuList.goodsId, skuId: goodSkuList.id}}"><img :src="goodSkuList.image"></router-link></div>
               <div class="p-info">
-                <div class="p-name"><a href="">士军刀威戈Wenger双肩包商务笔记本enger双肩包商务笔enger双肩包商务笔电脑包14.4英寸 时尚休闲双肩背包男书</a></div>
-                <div class="p-extra"><span>颜色：热卖爆款</span><span>/&nbsp; 数量：1</span></div>
+                <div class="p-name"><a>{{goodsName}}{{goodSkuList.title}}</a></div>
+                <div class="p-extra"><span>{{spec}}</span><span>/&nbsp; 数量：{{num}}</span></div>
               </div>
             </div>
           </div>
           <div class="add-succ-btn">
-            <a class="add-succ-detail">查看商品详情</a>
+            <router-link :to="{ path: '/detail', query: {goodsId: goodSkuList.goodsId, skuId: goodSkuList.id}}" class="add-succ-detail">查看商品详情</router-link>
+            <!-- <a class="add-succ-detail">查看商品详情</a> -->
             <router-link :to="{ path: '/cart'}" class="add-summ">去购物车结算 <i class="el-icon-arrow-right"></i></router-link>
           </div>
         </div>
@@ -151,11 +152,44 @@
 <script>
 import shortcutHeader from '../../components/shortcutHeader'
 import pageFooter from '../../components/pageFooter'
+import { apiAxios } from '../../common/utils'
+import { api } from '../../common/api'
 export default {
   data () {
-    return {}
+    return {
+      goodSkuList: '',
+      num: 1,
+      goodsName: '',
+      spec: ''
+    }
   },
-  components: { shortcutHeader, pageFooter }
+  components: { shortcutHeader, pageFooter },
+  activated () {},
+  deactivated () {
+    this.$destroy()
+  },
+  mounted () {
+    apiAxios.AxiosG({
+      url: api.singleCart,
+      params: {itemId: this.$route.query.skuId || '', num: this.$route.query.num || ''}
+    }, rtn => {
+      if (rtn.data.success) {
+        this.goodSkuList = rtn.data.data.skuInformation
+        this.spec = JSON.parse(this.goodSkuList.spec)
+        let ts = ''
+        for (let val in this.spec) {
+          ts += val + '：' + this.spec[val]
+          ts += ''
+        }
+        this.spec = ts
+        console.log(this.spec)
+        this.num = rtn.data.data.num
+        this.goodsName = rtn.data.data.goodsName
+      } else {
+        this.$message.warning('显示有误')
+      }
+    })
+  }
 }
 
 </script>

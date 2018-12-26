@@ -19,27 +19,12 @@
             <div class="addressInfo">
               <ul class="addr-detail">
                 <li class="addr-item">
-                  <div>
-                    <div class="con name selected"><a href="javascript:;" >张默<span title="点击取消选择">&nbsp;</span></a></div>
-                    <div class="con address">张默 北京市海淀区三环内 中关村软件园9号楼 <span>159****3201</span>
-                      <span class="base">默认地址</span>
-                      <span class="edittext"><a data-toggle="modal" data-target=".edit" data-keyboard="false" >编辑</a>&nbsp;&nbsp;<a href="javascript:;">删除</a></span>
+                  <div v-for="(list, index) in addressList" :key="list.id" v-if="index<3">
+                    <div class="con name selected"><a>{{list.contact}}<span title="点击取消选择"><i class="el-icon-check"></i></span></a></div>
+                    <div class="con address">{{list.contact}}&nbsp;&nbsp;{{list.address}}<span>{{list.mobile}}</span>
+                      <span class="base" v-if="list.isDefault === '1'" :data-isDefault="list.isDefault">默认地址</span>
+                      <span class="edittext"><a>编辑</a>&nbsp;&nbsp;<a>删除</a></span>
                     </div>
-                    <div class="clearfix"></div>
-                  </div>
-                  <div>
-                    <div class="con name"><a href="javascript:;">李煜<span title="点击取消选择">&nbsp;</span></a></div>
-                    <div class="con address">李煜 北京市海淀区三环内 中关村软件园8号楼 <span>187****4201</span>
-                      <span class="edittext"><a data-toggle="modal" data-target=".edit" data-keyboard="false" >编辑</a>&nbsp;&nbsp;<a href="javascript:;">删除</a></span>
-                    </div>
-                    <div class="clearfix"></div>
-                  </div>
-                  <div>
-                    <div class="con name"><a href="javascript:;">王希<span title="点击取消选择">&nbsp;</span></a></div>
-                    <div class="con address">王希 北京市海淀区三环内 中关村软件园6号楼 <span>156****5681</span>
-                      <span class="edittext"><a data-toggle="modal" data-target=".edit" data-keyboard="false" >编辑</a>&nbsp;&nbsp;<a href="javascript:;">删除</a></span>
-                    </div>
-                    <div class="clearfix"></div>
                   </div>
                 </li>
               </ul>
@@ -120,20 +105,18 @@
                   <div class="sendGoods">
                     <ul class="yui3-g">
                       <li class="yui3-u-1-6">
-                        <span><img src="../../../static/img/itemlike01.png"/></span>
+                        <span><img :src="goodSkuList.image"/></span>
                       </li>
                       <li class="yui3-u-7-12 send-goods-desc" >
-                        <div class="desc">Apple iPhone 6s (A1700) 64G 玫瑰金色 移动联通电信4G手机硅胶透明防摔软壳 本色系列</div>
+                        <div class="desc">{{goodsName}}{{goodSkuList.title}}</div>
+                        <div class="p-extra"><span>{{spec}}</span></div>
                         <div class="seven">7天无理由退货</div>
                       </li>
                       <li class="yui3-u-1-12">
-                        <div class="price">￥5399.00</div>
+                        <div class="price">￥{{goodSkuList.price}}</div>
                       </li>
                       <li class="yui3-u-1-12">
-                        <div class="num">X1</div>
-                      </li>
-                      <li class="yui3-u-1-12">
-                        <div class="exit">有货</div>
+                        <div class="num">X{{num}}</div>
                       </li>
                     </ul>
                   </div>
@@ -164,8 +147,8 @@
       <div class="order-summary">
         <div class="static fr">
           <div class="list">
-            <span><i class="number">1</i>件商品，总商品金额</span>
-            <em class="allprice">¥5399.00</em>
+            <span><i class="number">{{totalNum}}</i>件商品，总商品金额</span>
+            <em class="allprice">¥{{totalPrice}}</em>
           </div>
           <div class="list">
             <span>返现：</span>
@@ -178,11 +161,11 @@
         </div>
       </div>
       <div class="clearfix trade">
-        <div class="fc-price">应付金额:<span class="price">¥5399.00</span></div>
-        <div class="fc-receiverInfo">寄送至:北京市海淀区三环内 中关村软件园9号楼 收货人：某某某 159****3201</div>
+        <div class="fc-price">应付金额:<span class="price">¥{{submitPrice}}</span></div>
+        <div class="fc-receiverInfo">寄送至:{{defaultAddress.address}} 收货人：{{defaultAddress.contact}}&nbsp;&nbsp;{{defaultAddress.mobile}}</div>
       </div>
       <div class="submit">
-        <router-link :to="{ path:'/pay' }" class="sui-btn btn-danger btn-xlarge" >提交订单</router-link>
+        <a class="sui-btn btn-danger btn-xlarge" @click="submitOrder">提交订单</a>
       </div>
     </div>
     <pageFooter></pageFooter>
@@ -191,11 +174,120 @@
 <script>
 import shortcutHeader from '../../components/shortcutHeader'
 import pageFooter from '../../components/pageFooter'
+import { apiAxios, getCookie } from '../../common/utils'
+import { api } from '../../common/api'
 export default {
   data () {
-    return {}
+    return {
+      addressList: '',
+      goodSkuList: '',
+      spec: '',
+      num: '',
+      goodsName: '',
+      totalNum: 0,
+      totalPrice: 0,
+      submitPrice: 0,
+      defaultAddress: '',
+      sellerId: 0
+    }
   },
-  components: { shortcutHeader, pageFooter }
+  components: { shortcutHeader, pageFooter },
+  activated () {},
+  deactivated () {
+    this.$destroy()
+  },
+  mounted () {
+    apiAxios.AxiosG({
+      url: api.addressListByUser,
+      params: {userId: getCookie('user-key')}
+    }, rtn => {
+      this.addressList = rtn.data
+      this.addressList.sort(this.compare('isDefault'))
+      for (let val of this.addressList) {
+        if (val.isDefault === '1') {
+          this.defaultAddress = val
+          break
+        }
+      }
+    })
+    apiAxios.AxiosG({
+      url: api.singleCart,
+      params: {itemId: this.$route.query.skuId || '', num: this.$route.query.num || ''}
+    }, rtn => {
+      if (rtn.data.success) {
+        this.goodSkuList = rtn.data.data.skuInformation
+        this.spec = JSON.parse(this.goodSkuList.spec)
+        let ts = ''
+        for (let val in this.spec) {
+          ts += val + '：' + this.spec[val]
+          ts += ''
+        }
+        this.spec = ts
+        this.num = rtn.data.data.num
+        this.goodsName = rtn.data.data.goodsName
+        this.totalNum = this.num
+        this.totalPrice = this.num * this.goodSkuList.price
+        this.submitPrice = this.totalPrice
+      } else {
+        this.$message.warning('显示有误')
+      }
+    })
+  },
+  methods: {
+    compare (property) { // 比较指定对象属性值大小 降序
+      return (a, b) => {
+        let value1 = a[property]
+        let value2 = b[property]
+        return value2 - value1
+      }
+    },
+    submitOrder () {
+      let time = new Date()
+      let createTime = time.toLocaleString('chinese', {hour12: false})
+      if (!getCookie('user-key')) {
+        this.router.push({path: '/login'})
+        return false
+      }
+      let order = {
+        payment: this.submitPrice, // "实付金额",
+        payment_type: 1, // "支付类型,1、在线支付，2、货到付款"
+        post_fee: '', // "邮费",
+        status: 1, // "状态：1未付款.2已付款.3未发货.4已发货.5交易成功.6交易关闭.7待评价",
+        create_time: createTime, // "订单创建时间",
+        update_time: '', // "订单更新时间",
+        payment_time: '', // "付款时间",
+        consign_time: '', // "发货时间",
+        end_time: '', // "交易完成时间",
+        close_time: '', // "交易关闭时间",
+        shipping_name: '', // "物流名称",
+        shipping_code: '', // "物流单号",
+        user_id: '', // "用户id",
+        buyer_message: '', // "买家留言",
+        buyer_nick: '', // "买家昵称",
+        buyer_rate: '', // "买家是否已经评价",
+        receiver_area_name: this.defaultAddress.address, // "收货人地区名称(省，市，县)街道",
+        receiver_mobile: this.defaultAddress.mobile, // "收货人手机",
+        receiver_zip_code: '', // "收货人邮编",
+        receiver: this.defaultAddress.contact, // "收货人",
+        expire: '', // "过期时间，定期清理",
+        invoice_type: '', // "发票类型(1普通发票，2电子发票，3增值税发票)",
+        source_type: 2, // "订单来源：1:app端，2：pc端，3：M端，4：微信端，5：手机qq端",
+        seller_id: '' // "商家ID"
+      }
+      apiAxios.AxiosP({
+        url: api.getOrderInfo,
+        params: {userName: getCookie('user-key')},
+        data: order
+      }, rtn => {
+        if (rtn.data.success) {
+          this.$message.success('提交订单成功')
+          this.$router.push({path: '/pay'})
+        } else {
+          this.$message.error('提交订单失败')
+        }
+      })
+    }
+  }
 }
 </script>
 <style scoped>

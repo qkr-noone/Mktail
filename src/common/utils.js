@@ -16,8 +16,11 @@ let apiAxios = {
     axios({
       method: 'post',
       url: IP + para['url'],
+      params: Object.assign(para['params'] || {}, {}),
       data: Object.assign(para['data'] || {}, {}),
-      headers: {}
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8'
+      }
     }).then(callback).catch(error)
   },
   AxiosForm: (para, callback, error) => {
@@ -62,14 +65,12 @@ let getCookie = (name) => {
     return param
   }
 }
-
 // 设置cookie,增加到vue实例方便全局调用
 let setCookie = (name, value, expiredays) => {
   let exdate = new Date()
   exdate.setDate(exdate.getDate() + expiredays)
   document.cookie = name + '=' + escape(value) + ((expiredays == null) ? '' : ';expires=' + exdate.toGMTString())
 }
-
 // 删除cookie
 let delCookie = (name) => {
   let exp = new Date()
@@ -78,6 +79,32 @@ let delCookie = (name) => {
   if (cval != null) {
     document.cookie = name + '=' + cval + ';expires=' + exp.toGMTString()
   }
+}
+/**
+ * 存储localStorage
+ */
+export const setStore = (name, content) => {
+  if (!name) return
+  if (typeof content !== 'string') {
+    content = JSON.stringify(content)
+  }
+  window.localStorage.setItem(name, content)
+}
+
+/**
+ * 获取localStorage
+ */
+export const getStore = name => {
+  if (!name) return
+  return window.localStorage.getItem(name)
+}
+
+/**
+ * 删除localStorage
+ */
+export const removeStore = name => {
+  if (!name) return
+  window.localStorage.removeItem(name)
 }
 
 export {

@@ -9,30 +9,29 @@
       <div class="loginform">
         <el-tabs type="border-card" class="sui-nav nav-tabs tab-wraped">
           <el-tab-pane label="扫描登录" >
-            <div id="index" class="tab-pane">
+            <div class="tab-pane">
               <img src="../../../static/img/erweima.png" />
               <p>剩余事件60s</p>
             </div>
           </el-tab-pane>
           <el-tab-pane label="账户登录">
-            <div id="profile" class="tab-pane  active">
+            <div class="tab-pane  active">
               <form class="sui-form" method="post">
                 <div class="input-prepend">
                   <span class="add-on loginname"></span>
-                  <input id="prependedAdmin" name="username" type="text" placeholder="邮箱/用户名/手机号" class="span2 input-xfat">
+                  <input type="text" placeholder="邮箱/用户名/手机号" class="span2 input-xfat" v-model="username">
                 </div>
                 <div class="input-prepend"><span class="add-on loginpwd"></span>
-                  <input id="prependedPsd" name="password" type="password" placeholder="请输入密码" class="span2 input-xfat">
+                  <input type="password" placeholder="请输入密码" class="span2 input-xfat" v-model="password">
                 </div>
                 <div class="logined">
-                  <a @click='userLogin' class="sui-btn btn-block btn-xlarge btn-danger" target="_blank">登&nbsp;&nbsp;录</a>
+                  <a @click='userLogin' class="sui-btn btn-block btn-xlarge btn-danger">登&nbsp;&nbsp;录</a>
                 </div>
               </form>
             </div>
           </el-tab-pane>
         </el-tabs>
       </div>
-      <div class="clearfix"></div>
     </div>
     <pageFooter></pageFooter>
   </div>
@@ -40,20 +39,45 @@
 <script>
 import shortcutHeader from '../../components/shortcutHeader'
 import pageFooter from '../../components/pageFooter'
-import { setCookie, getCookie } from '../../common/utils.js'
+import { apiAxios, getCookie, setCookie } from '../../common/utils'
+import { api } from '../../common/api'
 export default {
   data () {
-    return {}
+    return {
+      username: '',
+      password: ''
+    }
   },
   components: { shortcutHeader, pageFooter },
-  created () {
-    setCookie('userId', 'myname')
-  },
+  created () {},
+  mounted () {},
   methods: {
     userLogin () {
-      if (getCookie('userId')) {
-        this.$router.replace({path: this.$route.query.back})
+      if (getCookie('user-key')) {
+        this.$message.error('当前设备已登陆，切换用户需先退出当前用户')
+        return false
       }
+      if (!this.username || !this.password) {
+        this.$message.warning('请输入用户名和密码')
+        return false
+      }
+      apiAxios.AxiosG({
+        url: api.login,
+        params: {name: this.username, password: this.password}
+      }, rtn => {
+        if (rtn.data.success) {
+          this.$message.success('登陆成功')
+          setCookie('user-key', this.username)
+          this.password = ''
+          this.$router.push({path: '/home'})
+        } else {
+          this.$message.error(rtn.data.message)
+          this.password = ''
+        }
+      })
+      // if (getCookie('userId')) {
+      //   this.$router.replace({path: this.$route.query.back})
+      // }
     }
   }
 }

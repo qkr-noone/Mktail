@@ -60,14 +60,16 @@ let router = new Router({
     {
       path: '/addToCart',
       meta: {
-        keepAlive: false
+        keepAlive: false,
+        isLogin: true
       },
       component: resolve => require(['@/views/cart/addToCart'], resolve)
     },
     {
       path: '/cart',
       meta: {
-        keepAlive: false
+        keepAlive: false,
+        isLogin: true
       },
       component: resolve => require(['@/views/cart/cart'], resolve)
     },
@@ -137,7 +139,7 @@ let router = new Router({
 
 router.beforeEach((to, from, next) => {
   if (to.meta.isLogin) {
-    getCookie('userId') ? next() : next({ path: '/login', query: { back: to.fullPath } })
+    getCookie('user-key') ? next() : next({ path: '/login', query: { back: to.fullPath } })
   } else {
     next()
   }

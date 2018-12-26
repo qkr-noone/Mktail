@@ -6,25 +6,25 @@
     <shortcutHeader></shortcutHeader>
     <div class="py-container">
       <div class="registerArea">
-        <h3>注册新用户<span class="go">我有账号，去<a href="login.html" target="_blank">登陆</a></span></h3>
+        <h3>注册新用户<span class="go">我有账号，去<router-link :to="{path: '/login'}">登陆</router-link></span></h3>
         <div class="info">
           <form class="sui-form form-horizontal">
             <div class="control-group">
               <label class="control-label">用户名：</label>
               <div class="controls">
-                <input type="text"  placeholder="请填写用户名" class="input-xfat input-xlarge">
+                <input type="text"  placeholder="请填写用户名" class="input-xfat input-xlarge" v-model="userName">
               </div>
             </div>
             <div class="control-group">
               <label for="inputPassword" class="control-label">登录密码：</label>
               <div class="controls">
-                <input type="password" placeholder="设置登录密码" class="input-xfat input-xlarge">
+                <input type="password" placeholder="请设置6-18位数字、字母、字符密码" class="input-xfat input-xlarge" v-model="password">
               </div>
             </div>
             <div class="control-group">
               <label for="inputPassword" class="control-label">确认密码：</label>
               <div class="controls">
-                <input type="password" placeholder="再次确认密码" class="input-xfat input-xlarge">
+                <input type="password" placeholder="再次确认密码" class="input-xfat input-xlarge" v-model="REpassword">
               </div>
             </div>
             <div class="control-group">
@@ -36,7 +36,7 @@
             <div class="control-group">
               <label for="inputPassword" class="control-label">短信验证码：</label>
               <div class="controls">
-                <input type="text" placeholder="短信验证码" class="input-xfat input-xlarge" ><a class="send-code" @click="sendCode">{{newsTip}}</a>
+                <input type="text" placeholder="短信验证码" class="input-xfat input-xlarge" v-model="smscode" ><a class="send-code" @click="sendCode">{{newsTip}}</a>
               </div>
             </div>
             <div class="control-group">
@@ -48,7 +48,7 @@
             <div class="control-group">
               <label class="control-label"></label>
               <div class="controls btn-reg">
-                <router-link :to="{ path: '/login'}" class="sui-btn btn-block btn-xlarge btn-danger" target="_blank">注册</router-link>
+                <a class="sui-btn btn-block btn-xlarge btn-danger" @click="register">注册</a>
               </div>
             </div>
           </form>
@@ -66,20 +66,22 @@ import { api } from '../../common/api'
 export default {
   data () {
     return {
+      userName: '',
+      password: '',
+      REpassword: '',
       checked: false,
-      phoneValue: '',
-      flag: 1, // 是否已发送验证码
-      time: 1, // 验证码限制时间
-      newsTip: '获取短信验证码'
+      phoneValue: '', // 13109098765
+      flag: false, // 是否已发送验证码
+      time: 60, // 验证码限制时间
+      newsTip: '获取短信验证码',
+      smscode: ''
     }
   },
   components: { shortcutHeader, pageFooter },
   methods: {
     sendCode () {
-      this.setTime()
-      return false
       if (this.flag) {
-        this.$message.warning('验证码已发送，' + this.time + 's后可重新获取')
+        this.$message.warning('验证码已发送，' + this.time + '秒后可重新获取')
         return false
       }
       if (this.phoneValue === null || this.phoneValue === '') {
@@ -95,40 +97,88 @@ export default {
         params: {phone: this.phoneValue}
       }, rtn => {
         if (rtn.data.success) {
-          this.$message.info(rtn.data.data.message)
+          this.$message.success(rtn.data.message)
           this.flag = true
-          // this.setTime()
+          this.newsTip = this.time + '秒后可重新获取'
+          this.setTime()
         } else {
-          this.$message.error(rtn.data.data.message)
+          this.$message.error(rtn.data.message)
         }
-      }, () => {
-        this.$message.error('获取验证码失败，请重新获取')
       })
     },
     register () {
       // 比较两次输入的密码是否一致
-      if (password !== entity.password) {
-        alert('两次输入密码不一致，请重新输入')
-        entity.password = ''
-        password = ''
-        return
+      if (!this.userName || !this.password) {
+        this.$message.warning('请输入完整信息')
+        return false
+      }
+      if (this.password !== this.REpassword) {
+        this.$message.warning('两次输入密码不一致，请重新输入')
+        return false
+      }
+      if (this.phoneValue === null || this.phoneValue === '') {
+        this.$message.warning('请输入填写手机号')
+        return false
+      }
+      if (this.phoneValue.length !== 11) {
+        this.$message.warning('请输入正确的手机号')
+        return false
+      }
+      if (!this.flag) {
+        this.$message.warning('请先获取验证码，再输入')
+        return false
+      }
+      if (!this.smscode) {
+        this.$message.warning('请获取验证码')
+        return false
+      }
+      if (!this.checked) {
+        this.$message.warning('请先同意并且勾选协议~')
+        return false
       }
       // 新增
-      userService.add(entity, smscode).success(
-        response => {
-          alert(response.message)
+      let user = {
+        username: this.userName,
+        password: this.password,
+        phone: this.phoneValue
+      }
+      apiAxios.AxiosP({
+        url: api.register,
+        method: 'post',
+        params: {smscode: this.smscode},
+        data: user
+      }, rtn => {
+        if (rtn.data.success) {
+          this.smscode = ''
+          this.time = 60
+          this.password = ''
+          this.REpassword = ''
+          this.$message.success(rtn.data.message)
+          this.$router.push({path: '/login'})
+        } else {
+          this.smscode = ''
+          this.time = 60
+          this.$message.error(rtn.data.message)
         }
-      )
+      })
     },
     setTime () {
-      this.time = 5
-      if (this.time === 0) {
-        console.log('免费获取验证码' + this.time)
-        this.time = 5
+      if (this.time === 1 || this.time === 0) {
+        console.log('可免费获取验证码' + this.time)
+        this.time = 60
       } else {
         this.time--
         setTimeout(() => { this.setTime() }, 1000)
-        console.log('重新发送' + this.time)
+      }
+    }
+  },
+  watch: {
+    time (newTime, oldTime) {
+      if (newTime === 60) {
+        this.newsTip = '获取短信验证码'
+        this.flag = false
+      } else {
+        this.newsTip = newTime + '秒后可重新获取'
       }
     }
   }
