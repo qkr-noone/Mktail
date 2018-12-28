@@ -1,0 +1,87 @@
+	#addToCart{
+		background:#f2f6fc;
+	}
+	.py-container{
+		width:1260px;margin:0 auto;
+	}
+	.add-succ-box {
+		overflow: hidden;
+		display: flex;
+		justify-content: space-between;
+	}
+
+	.succ-item{
+		display: flex;
+	}
+
+	.p-info{
+		flex-grow: 1;
+		display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: center;
+	}
+	.succ-top {
+		display: flex;
+    font-size: 16px;
+    color: #67c23a;
+    align-items: center;
+    margin: 20px 0;
+	}
+	.succ-top >i {
+		font-size: 25px;
+	}
+	.succ-top h3{ margin-left: 10px; }
+	.p-item{
+		width: 60px;height: 60px;
+		margin-right: 10px;
+		border: 1px solid #e8e8e8;
+	}
+	.p-item >a, .p-item> a >img {
+		width: 100%;
+		height: 100%;
+	}
+	.p-name >a {
+		width: 500px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: #333;
+    text-align: left;
+	}
+	.p-extra{
+		color: #666;
+    font-size: 14px;
+	}
+	.add-succ-btn {
+		display: flex;
+    margin-bottom: 20px;
+    align-items: flex-end;
+	}
+	.add-succ-detail, .add-summ {
+		height: 34px;
+    line-height: 36px;
+    font-size: 16px;
+    vertical-align: middle;
+	}
+	.add-succ-detail {
+		padding: 0 30px;
+    margin-right: 10px;
+    background: #fff;
+    color: #e4393c;
+    border: 1px solid #fff;
+	}
+	.add-succ-detail:hover{
+		border-color: #e4393c
+	}
+	.add-summ {
+		position: relative;
+    width: 158px;
+    padding-left: 8px;
+    background: #e4393c;
+    border: 1px solid #e4393c;
+    color: #fff;
+	}
+	.add-summ:hover {
+		background: #c91623;
+	}
