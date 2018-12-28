@@ -6,7 +6,7 @@
         <h4>全部商品<span>{{totalNum}}</span></h4>
         <div class="cart-main">
           <div class="yui3-g cart-th">
-            <div class="yui3-u-1-4"><input type="checkbox" name="" id="" value="" /> 全部</div>
+            <div class="yui3-u-1-4"><input type="checkbox" :checked="cartList.length && cartList.allChecked === 1" @click="allCheck($event)"/> 全部</div>
             <div class="yui3-u-1-4">商品</div>
             <div class="yui3-u-1-8">单价（元）</div>
             <div class="yui3-u-1-8">数量</div>
@@ -15,7 +15,7 @@
           </div>
           <div class="cart-item-list" v-for="list in cartList" :key="list.sellerId">
             <div class="cart-shop">
-              <input type="checkbox" name="" id="" value="" :checked="isGoodsAll" />
+              <input type="checkbox" :checked="list.checked === 1" @click="shopCheck($event, list)" />
               <span class="shopname">{{list.sellerName}}</span>
             </div>
             <div class="cart-body">
@@ -232,13 +232,12 @@ import { mapMutations, mapState } from 'vuex'
 import shortcutHeader from '../../components/shortcutHeader'
 import pageFooter from '../../components/pageFooter'
 import buyNum from '../../components/buyNum'
-import { apiAxios, getCookie } from '../../common/utils'
+import { apiAxios, getCookie, setStore } from '../../common/utils'
 import { api } from '../../common/api'
 export default {
   data () {
     return {
       selectList: [], // 选中商品列表
-      isGoodsAll: false, // 店铺商品是否全选
       free: 0
     }
   },
@@ -283,50 +282,82 @@ export default {
     }, rtn => {
       if (rtn.data.success) {
         this.setCartList(rtn.data.data)
+        // 附加店铺选择属性，用于判断全部商品店铺选择状态
+        this.$set(this.cartList, 'allChecked', 0)
         for (let val of this.cartList) {
+          // 附加店铺选择属性，用于判断店铺选择状态
+          this.$set(val, 'checked', 0)
           for (let item of val.orderItemList) {
             if (item.checked === 1) {
               this.selectList.push(item)
             }
           }
         }
+        this.isShopsChecked(this.cartList)
+        this.isAllShops(this.cartList)
+        // this.setCartList(this.cartList)
       } else {
         this.$message.info('购物车为空')
       }
-      console.log(rtn.data)
     })
   },
   methods: {
     ...mapMutations([
       'setCartList'
     ]),
-    count () {},
-    goodsCheck (event, item) {
-      // debugger
+    count () {
+      if (this.selectList.length) {
+        setStore('selectList', this.selectList)
+        this.$router.push({path: '/getOrderInfo', query: {list: this.selectList}})
+      }
+      return false
+    },
+    goodsCheck (event, item) { // 商品选择
       if (event.currentTarget.checked) {
         this._cartEditChecked(item.itemId, item.num, item.sellerId, 1)
         this.selectList.push(item)
-        let arr = this.cartList
-        arr.forEach(tip => { // 到这里
-          let arrlist = tip.orderItemList
-          let isAll = arrlist.every(data => {
-            return (arrlist.indexOf(data.checked === 1) !== -1)
-            // if (data.checked === 0 ) {
-            //   break;
-            // } else {
-            //   if (tip.orderItemList.length - 1 === i) {
-            //     this.isGoodsAll = true
-            //   }
-            // }
-          })
-          console.log(isAll, 111111)
-        })
-        console.log(arr, 22)
       } else {
         this._cartEditChecked(item.itemId, item.num, item.sellerId, 0)
         this.$delete(this.selectList, this.selectList.indexOf(item))
       }
-      console.log(2, event.currentTarget.checked)
+    },
+    shopCheck (event, shopsList) { // 店铺选择
+      if (event.currentTarget.checked) {
+        shopsList.orderItemList.forEach(item => {
+          if (!item.checked) {
+            this._cartEditChecked(item.itemId, item.num, item.sellerId, 1)
+            this.selectList.push(item)
+          }
+        })
+      } else {
+        shopsList.orderItemList.forEach(item => {
+          if (item.checked) {
+            this._cartEditChecked(item.itemId, item.num, item.sellerId, 0)
+            this.$delete(this.selectList, this.selectList.indexOf(item))
+          }
+        })
+      }
+    },
+    allCheck (event) {
+      if (event.currentTarget.checked) {
+        this.cartList.forEach(data => {
+          data.orderItemList.forEach(item => {
+            if (!item.checked) {
+              this._cartEditChecked(item.itemId, item.num, item.sellerId, 1)
+              this.selectList.push(item)
+            }
+          })
+        })
+      } else {
+        this.cartList.forEach(data => {
+          data.orderItemList.forEach(item => {
+            if (item.checked) {
+              this._cartEditChecked(item.itemId, item.num, item.sellerId, 0)
+              this.$delete(this.selectList, this.selectList.indexOf(item))
+            }
+          })
+        })
+      }
     },
     EditNum (productNum, productSkuId, sellerId) { // 修改数量
       this._cartEditNum(productSkuId, productNum, sellerId)
@@ -345,7 +376,6 @@ export default {
       })
     },
     _cartEditChecked (productSkuId, productNum, sellerId, checked) { // 修改选中状态
-      console.log('axios11', checked)
       apiAxios.AxiosG({
         url: api.cartEdit,
         params: {userName: getCookie('user-key'), itemId: productSkuId, num: productNum, sellerId: sellerId, checked: checked}
@@ -368,7 +398,6 @@ export default {
     EDIT_CART ({productSkuId, productNum, checked}) {
       let cart = this.cartList
       if (productNum) { // 修改数量
-        console.log('edit11')
         let isFind = false
         for (let item of cart) { // 多级联动
           for (let list of item.orderItemList) {
@@ -383,7 +412,6 @@ export default {
           }
         }
       } else if (checked === 1 || checked === 0) { // 修改选中状态
-        console.log('edit22', checked)
         for (let item of cart) {
           for (let list of item.orderItemList) {
             if (list.itemId === productSkuId) {
@@ -391,8 +419,10 @@ export default {
             }
           }
         }
+        this.isShopsChecked(cart)
+        this.isAllShops(cart)
+        // this.setCartList(this.cartList)
       } else { // 根据sku数据删除购物车
-        console.log('edit33', checked)
         for (let item of cart) {
           for (let index in item.orderItemList) {
             if (item.orderItemList[index].itemId === productSkuId) {
@@ -412,6 +442,20 @@ export default {
       this.setCartList(cart)
       // 存入localStorage
       // setStore('buyCart', state.cartList)
+    },
+    isShopsChecked (cart) { // 遍历店铺，判断店铺选中状态
+      cart.forEach(tip => {
+        let isAll = tip.orderItemList.every(data => {
+          return (data.checked === 1)
+        })
+        isAll ? tip.checked = 1 : tip.checked = 0
+      })
+    },
+    isAllShops (cart) { // 是否选择全部商品
+      let isAllShops = cart.every(data => {
+        return (data.checked === 1)
+      })
+      isAllShops ? cart.allChecked = 1 : cart.allChecked = 0
     }
   }
 }

@@ -101,28 +101,26 @@
             </div>
             <div class="step-cont">
               <ul class="send-detail">
-                <li>
+                <li v-for="list in goodSkuList" :key="list.itemId">
                   <div class="sendGoods">
                     <ul class="yui3-g">
                       <li class="yui3-u-1-6">
-                        <span><img :src="goodSkuList.image"/></span>
+                        <span><img :src="list.picPath"/></span>
                       </li>
                       <li class="yui3-u-7-12 send-goods-desc" >
-                        <div class="desc">{{goodsName}}{{goodSkuList.title}}</div>
-                        <div class="p-extra"><span>{{spec}}</span></div>
+                        <div class="desc">{{list.title}}</div>
+                        <div class="p-extra"><span>{{list.spec}}</span></div>
                         <div class="seven">7天无理由退货</div>
                       </li>
                       <li class="yui3-u-1-12">
-                        <div class="price">￥{{goodSkuList.price}}</div>
+                        <div class="price">￥{{list.price}}</div>
                       </li>
                       <li class="yui3-u-1-12">
-                        <div class="num">X{{num}}</div>
+                        <div class="num">X{{list.num}}</div>
                       </li>
                     </ul>
                   </div>
                 </li>
-                <li></li>
-                <li></li>
               </ul>
             </div>
             <div class="hr"></div>
@@ -172,29 +170,36 @@
   </div>
 </template>
 <script>
+import { mapState } from 'vuex'
 import shortcutHeader from '../../components/shortcutHeader'
 import pageFooter from '../../components/pageFooter'
-import { apiAxios, getCookie } from '../../common/utils'
+import { apiAxios, getCookie, getStore, removeStore } from '../../common/utils'
 import { api } from '../../common/api'
 export default {
   data () {
     return {
       addressList: '',
       goodSkuList: '',
-      spec: '',
-      num: '',
-      goodsName: '',
       totalNum: 0,
       totalPrice: 0,
-      submitPrice: 0,
+      submitPrice: '',
       defaultAddress: '',
       sellerId: 0
     }
   },
   components: { shortcutHeader, pageFooter },
+  computed: {
+    ...mapState(['cartList'])
+  },
   activated () {},
   deactivated () {
     this.$destroy()
+  },
+  created () {
+    if (!JSON.parse(getStore('selectList'))) {
+      this.$message.warning('信息有误')
+      this.$router.go(-1)
+    }
   },
   mounted () {
     apiAxios.AxiosG({
@@ -210,28 +215,18 @@ export default {
         }
       }
     })
-    apiAxios.AxiosG({
-      url: api.singleCart,
-      params: {itemId: this.$route.query.skuId || '', num: this.$route.query.num || ''}
-    }, rtn => {
-      if (rtn.data.success) {
-        this.goodSkuList = rtn.data.data.skuInformation
-        this.spec = JSON.parse(this.goodSkuList.spec)
-        let ts = ''
-        for (let val in this.spec) {
-          ts += val + '：' + this.spec[val]
-          ts += ''
-        }
-        this.spec = ts
-        this.num = rtn.data.data.num
-        this.goodsName = rtn.data.data.goodsName
-        this.totalNum = this.num
-        this.totalPrice = this.num * this.goodSkuList.price
-        this.submitPrice = this.totalPrice
-      } else {
-        this.$message.warning('显示有误')
-      }
+    this.goodSkuList = JSON.parse(getStore('selectList'))
+    // for (let val in this.spec) {
+    //   ts += val + '：' + this.spec[val]
+    //   ts += ''
+    // }
+    this.goodSkuList.forEach(item => {
+      this.totalNum += Number(item.num)
     })
+    this.goodSkuList.forEach(item => {
+      this.totalPrice += Number(item.totalFee)
+    })
+    this.submitPrice = this.totalPrice
   },
   methods: {
     compare (property) { // 比较指定对象属性值大小 降序
@@ -261,7 +256,7 @@ export default {
         close_time: '', // "交易关闭时间",
         shipping_name: '', // "物流名称",
         shipping_code: '', // "物流单号",
-        user_id: '', // "用户id",
+        user_id: getCookie('user-key'), // "用户id",
         buyer_message: '', // "买家留言",
         buyer_nick: '', // "买家昵称",
         buyer_rate: '', // "买家是否已经评价",
@@ -274,13 +269,16 @@ export default {
         source_type: 2, // "订单来源：1:app端，2：pc端，3：M端，4：微信端，5：手机qq端",
         seller_id: '' // "商家ID"
       }
+      console.log(this.$route.query.skuId)
+      let orderInfo = this.$route.query.skuId ? api.directOrderInfo : api.getOrderInfo
       apiAxios.AxiosP({
-        url: api.getOrderInfo,
+        url: orderInfo,
         params: {userName: getCookie('user-key')},
         data: order
       }, rtn => {
         if (rtn.data.success) {
           this.$message.success('提交订单成功')
+          removeStore('selectList')
           this.$router.push({path: '/pay'})
         } else {
           this.$message.error('提交订单失败')

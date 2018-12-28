@@ -484,10 +484,11 @@
   </div>
 </template>
 <script>
+import { mapState, mapMutations } from 'vuex'
 import shortcutHeader from '../../components/shortcutHeader'
 import pageFooter from '../../components/pageFooter'
 import PicZoom from 'vue-piczoom'
-import { apiAxios, getCookie, setCookie } from '../../common/utils'
+import { apiAxios, getCookie, setCookie, setStore } from '../../common/utils'
 import { api } from '../../common/api'
 export default {
   data () {
@@ -514,6 +515,9 @@ export default {
     }
   },
   components: { shortcutHeader, pageFooter, PicZoom },
+  computed: {
+    ...mapState(['cartList'])
+  },
   created () {
     if (this.$route.query.goodsId.length > 20) {
       // 弹框  (不确定是否需要)
@@ -566,6 +570,9 @@ export default {
     })
   },
   methods: {
+    ...mapMutations([
+      'setCartList'
+    ]),
     scrollBig (imgUrl) {
       this.currentImg = imgUrl
     },
@@ -625,16 +632,26 @@ export default {
     buyShops () {
       if (this.selectSku.id) {
         if (getCookie('user-key')) { // 判断是否登陆
-          apiAxios.AxiosG({
-            url: api.addToCart,
-            params: { itemId: this.selectSku.id, num: this.num, name: getCookie('user-key') }
-          }, rtn => {
-            if (rtn.data.success) {
+          for (let val of this.skuList) {
+            if (val.id === this.selectSku.id) {
+              let lend = {}
+              let lendArr = []
+              lend.checked = 1
+              lend.goodsId = val.goodsId
+              lend.itemId = val.id
+              lend.num = this.num
+              lend.picPath = val.image
+              lend.price = val.price
+              lend.sellerId = val.sellerId
+              lend.spec = val.spec
+              lend.title = val.title
+              lend.totalFee = (this.num * val.price).toFixed(2)
+              lendArr.push(lend)
+              setStore('selectList', lendArr)
               this.$router.push({path: '/getOrderInfo', query: {skuId: this.selectSku.id, num: this.num}})
-            } else {
-              this.$message.error('信息有误')
+              break
             }
-          })
+          }
         } else {
           this.isMaskLogin = true
         }
