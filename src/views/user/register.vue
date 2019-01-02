@@ -142,6 +142,21 @@ export default {
         password: this.password,
         phone: this.phoneValue
       }
+      // register(this.smscode, user).then(res => {
+      //   console.log(res)
+      //   if (res.data.success) {
+      //     this.smscode = ''
+      //     this.time = 60
+      //     this.password = ''
+      //     this.REpassword = ''
+      //     this.$message.success(res.data.message)
+      //     this.$router.push({path: '/login'})
+      //   } else {
+      //     this.smscode = ''
+      //     this.time = 60
+      //     this.$message.error(res.data.message)
+      //   }
+      // })
       apiAxios.AxiosP({
         url: api.register,
         method: 'post',
