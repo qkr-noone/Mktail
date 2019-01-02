@@ -287,7 +287,7 @@ export default {
   components: { shortcutHeader, pageFooter },
   computed: {},
   created () {
-    // 获取条目菜单
+    // 获取条目菜单 1111
     apiAxios.AxiosG({
       url: api.homeMenu
     }, (rtn) => {
