@@ -4,6 +4,7 @@ let api = {
   homeMenu: '/portal/content/getNavigationInfo', // 菜单导航
   homePro: '/getProList', // 产品列表数据
   homeBanner: '/portal/content/findByCategoryId', // banner,black sale
+  homeClass: '/portal/content/findByContentId', // 主页分类
   search: '/search/itemsearch/search', // 产品搜索
   detail: '/goods/goods/getGoodsById', // 产品详情detail
   detailTest: '/page/goods/getGoodsGroup', // 产品详情test

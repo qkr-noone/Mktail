@@ -1,6 +1,7 @@
 <template>
   <div id="index">
-    <shortcutHeader></shortcutHeader>
+    <shortcut></shortcut>
+    <headerNav></headerNav>
     <!-- 头部 -->
     <div class="container_h">
       <div class="sort">
@@ -8,18 +9,28 @@
           <div class="navitem">
             <h2 class="nav-all">全部商品分类</h2>
             <ul class="nav-ul">
-              <li><a>品牌经</a></li>
-              <li><a href="">原工厂</a></li>
-              <li><a href="">商学院/指南/教程</a></li>
+              <li><a class="active">首页</a></li>
+              <li><a>品牌站</a></li>
+              <li><a>原工厂</a></li>
+              <li><a>商学院</a></li>
+              <li><a>服务</a></li>
+              <li><a>直播</a></li>
+              <li><a>社区</a></li>
             </ul>
           </div>
+        </div>
+      </div>
+    </div>
+    <div class="container_h">
+      <div class="sort">
+        <div class="py-container">
           <div class="SortList ">
             <div class=" Left all-sort-list">
               <div class="all-sort-list2">
                 <!-- 截取15条类目 -->
                 <div class="item bo" v-for="item in menuData.slice(0,14)"  :key="item.id" >
-                  <h3><a href="">{{ item.name }}</a></h3>
-                  <div class="item-list clearfix" >
+                  <h3><a href="">{{ item.name }}</a><i class="el-icon-arrow-right"></i></h3>
+                  <div class="item-list clearfix">
                     <div class="subitem">
                       <dl class="fore1" v-for="list in item.children" :key="list.id">
                         <dt><a href="">{{ list.name }}</a></dt>
@@ -39,20 +50,103 @@
                   </el-carousel-item>
                 </el-carousel>
               </div>
+              <div class="style-recom">
+                <li v-for="list in absList" :key="list.id" :data-href="list.url">
+                  <div><h3>{{list.title}}</h3><h4>{{list.subTitle}}</h4></div>
+                  <a><img class="wrap" :src="list.pic"></a>
+                </li>
+              </div>
+            </div>
+            <div class="Right">
+              <div class="user-info">
+                <a><img src="../../../static/img/mk_logo_login.png"></a>
+                <p class="user-tip">Hi，你好</p>
+                <div class="user-coming">
+                  <a>登陆</a>
+                  <a>注册</a>
+                </div>
+                <div class="user-out">
+                  <a>新人有礼</a>
+                  <a>购物车</a>
+                </div>
+              </div>
+              <div class="news-info">
+                <li><a><span class="news-tip">【热门】</span>新能源车企不能再躺在政策温床上睡懒觉</a></li>
+                <li><a><span class="news-tip">【知识】</span>新能源车企不能再躺在政策温床上睡懒觉</a></li>
+                <li><a><span class="news-tip">【公告】</span>新能源车企不能再躺在政策温床上睡懒觉</a></li>
+              </div>
+              <div class="other-info">
+                <li><a><img src="../../../static/img/mk_huiyuan.png"><h5>会员</h5></a></li>
+                <li><a><img src="../../../static/img/mk_chongzhi.png"><h5>充值</h5></a></li>
+                <li><a><img src="../../../static/img/mk_hongbao.png"><h5>红包</h5></a></li>
+                <li><a><img src="../../../static/img/mk_gongyi.png"><h5>公益</h5></a></li>
+              </div>
             </div>
           </div>
         </div>
       </div>
       <!-- 标语、3D 直播 -->
     </div>
-    <!-- black sale 秒杀 活动 -->
+    <!-- 会员3D服务 -->
     <div class="container_h" >
       <div class="py-container bsale">
-        <el-carousel :interval="5000" indicator-position="none" arrow="always" height="100%">
+        <el-carousel :interval="5000" indicator-position="none" arrow="never" height="100%">
           <el-carousel-item v-for="item in bsaleList" :key="item.id">
             <router-link :to="item.url"><img :src="item.pic"></router-link>
           </el-carousel-item>
         </el-carousel>
+      </div>
+    </div>
+    <!-- 分类 类别 -->
+    <div class="container_h">
+      <div class="py-container classify">
+        <div class="sty-con" v-for="list in classList" :key="list.id">
+          <div class="sty-con-left">
+            <h1>{{list.title}}</h1>
+            <a><img :src="list.pic"></a>
+            <h2>五金工具频道</h2>
+            <h3>{{list.subTitle}}</h3>
+          </div>
+          <div class="sty-con-right">
+            <div class="style-con-class">
+              <a>电动工具</a>
+              <a>电动工具</a>
+              <a>电动工具</a>
+            </div>
+            <ul class="sty-con-ul">
+              <li class="sty-con-li" v-for="(data, index) in hardwareList" :key="data.id" v-if="index < 4 && list.id === data.contentId">
+                <h2>{{data.title}}</h2>
+                <a :href="data.url"><img class="wrap" :src="data.pic"></a>
+                <div><span>{{data.price}}元</span><div class="before-pri"><span>288元</span></div></div>
+              </li>
+              <li class="sty-con-li" v-for="(data, index) in lifeShops" :key="data.id" v-if="index < 4 && list.id === data.contentId">
+                <h2>{{data.title}}</h2>
+                <a :href="data.url"><img class="wrap" :src="data.pic"></a>
+                <div><span>{{data.price}}元</span><div class="before-pri"><span>288元</span></div></div>
+              </li>
+              <li class="sty-con-li" v-for="(data, index) in mechanicList" :key="data.id" v-if="index < 4 && list.id === data.contentId">
+                <h2>{{data.title}}</h2>
+                <a :href="data.url"><img class="wrap" :src="data.pic"></a>
+                <div><span>{{data.price}}元</span><div class="before-pri"><span>288元</span></div></div>
+              </li>
+              <li class="sty-con-li" v-for="(data, index) in elecList" :key="data.id" v-if="index < 4 && list.id === data.contentId">
+                <h2>{{data.title}}</h2>
+                <a :href="data.url"><img class="wrap" :src="data.pic"></a>
+                <div><span>{{data.price}}元</span><div class="before-pri"><span>288元</span></div></div>
+              </li>
+              <li class="sty-con-li" v-for="(data, index) in threeCList" :key="data.id" v-if="index < 4 && list.id === data.contentId">
+                <h2>{{data.title}}</h2>
+                <a :href="data.url"><img class="wrap" :src="data.pic"></a>
+                <div><span>{{data.price}}元</span><div class="before-pri"><span>288元</span></div></div>
+              </li>
+              <li class="sty-con-li" v-for="(data, index) in cartLife" :key="data.id" v-if="index < 4 && list.id === data.contentId">
+                <h2>{{data.title}}</h2>
+                <a :href="data.url"><img class="wrap" :src="data.pic"></a>
+                <div><span>{{data.price}}元</span><div class="before-pri"><span>288元</span></div></div>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
     <!-- 优选好店 今日好货 品质生活 官方折扣-->
@@ -243,7 +337,8 @@
 <script>
 import { apiAxios, getCookie, setCookie, delCookie } from '../../common/utils'
 import { api } from '../../common/api'
-import shortcutHeader from '../../components/shortcutHeader'
+import shortcut from '../../components/shortcutHeader'
+import headerNav from '../../components/headerNav'
 import pageFooter from '../../components/pageFooter'
 export default {
   data () {
@@ -265,7 +360,15 @@ export default {
       isShowNav: '', // 二级菜单显示状态
       menuData: '', // 条目菜单
       bannerList: '', // banner
-      bsaleList: [], // black sale
+      absList: [], // 轮播广告
+      bsaleList: [], // 会员3D
+      hardwareList: [], // 五金工具
+      lifeShops: [], // 日用百货
+      mechanicList: [], // 机械
+      elecList: [], // 机电设备
+      threeCList: [], // 3c数码
+      cartLife: [], // 汽车用品
+      classList: [], // 大类分类
       shopsList: [], // 优选好店
       shopsCate: '',
       goodsList: [], // 今日好物
@@ -284,10 +387,10 @@ export default {
       likeCate: ''
     }
   },
-  components: { shortcutHeader, pageFooter },
+  components: { shortcut, headerNav, pageFooter },
   computed: {},
   created () {
-    // 获取条目菜单 1111
+    // 获取条目菜单
     apiAxios.AxiosG({
       url: api.homeMenu
     }, (rtn) => {
@@ -304,13 +407,85 @@ export default {
         this.bannerList = rtn.data.data.contentList
       }
     })
-    // 主页black sale
+    // 主页banner广告
     apiAxios.AxiosG({
       url: api.homeBanner,
-      params: { categoryId: 5 }
+      params: { categoryId: 2 }
+    }, (rtn) => {
+      if (rtn.data.success) {
+        this.absList = rtn.data.data.contentList
+      }
+    })
+    // 会员3D
+    apiAxios.AxiosG({
+      url: api.homeBanner,
+      params: { categoryId: 3 }
     }, (rtn) => {
       if (rtn.data.success) {
         this.bsaleList = rtn.data.data.contentList
+      }
+    })
+    // 大类 分类
+    apiAxios.AxiosG({
+      url: api.homeBanner,
+      params: { categoryId: 4 }
+    }, (rtn) => {
+      if (rtn.data.success) {
+        this.classList = rtn.data.data.contentList
+      }
+    })
+    // 五金工具 内容
+    apiAxios.AxiosG({
+      url: api.homeClass,
+      params: { contentId: 19 }
+    }, (rtn) => {
+      if (rtn.data.success) {
+        this.hardwareList = rtn.data.data
+      }
+    })
+    // 日用百货
+    apiAxios.AxiosG({
+      url: api.homeClass,
+      params: { contentId: 20 }
+    }, (rtn) => {
+      if (rtn.data.success) {
+        this.lifeShops = rtn.data.data
+      }
+    })
+    // 机械
+    apiAxios.AxiosG({
+      url: api.homeClass,
+      params: { contentId: 21 }
+    }, (rtn) => {
+      if (rtn.data.success) {
+        this.mechanicList = rtn.data.data
+      }
+    })
+    // 机电设备
+    apiAxios.AxiosG({
+      url: api.homeClass,
+      params: { contentId: 22 }
+    }, (rtn) => {
+      if (rtn.data.success) {
+        this.elecList = rtn.data.data
+      }
+    })
+    // 3c数码
+    apiAxios.AxiosG({
+      url: api.homeClass,
+      params: { contentId: 23 }
+    }, (rtn) => {
+      if (rtn.data.success) {
+        this.threeCList = rtn.data.data
+      }
+    })
+    // 汽车用品
+    apiAxios.AxiosG({
+      url: api.homeClass,
+      params: { contentId: 24 }
+    }, (rtn) => {
+      if (rtn.data.success) {
+        this.cartLife = rtn.data.data
       }
     })
     // 主页优选好店
@@ -321,7 +496,6 @@ export default {
       if (rtn.data.success) {
         this.shopsList = rtn.data.data.contentList
         this.shopsCate = rtn.data.data.contentCategory
-        console.log(this.shopsList, this.shopsCate.name, 'shops')
       }
     })
     // 今日好物
