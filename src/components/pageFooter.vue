@@ -3,13 +3,13 @@
     <footer>
       <div class="footer-wrap">
         <div class="footer-tip">
-          <div><i class="el-icon-warning"></i><p>品质保障</p></div>
-          <div><i class="el-icon-sort"></i><p>七天无理由退换货</p></div>
-          <div><i class="el-icon-setting"></i><p>特色服务体验</p></div>
-          <div><i class="el-icon-service"></i><p>帮助中心</p></div>
+          <div><a><img src="../../static/img/mk_end_tip.png"></a><p>新手上路</p></div>
+          <div><a><img src="../../static/img/mk_end_pay.png"></a><p>付款方式</p></div>
+          <div><a><img src="../../static/img/mk_end_depart.png"></a><p>我们特色</p></div>
+          <div><a><img src="../../static/img/mk_end_protect.png"></a><p>消费者保障</p></div>
         </div>
       </div>
-      <div class="footer-service">
+      <!-- <div class="footer-service">
         <ul class="fs-ul">
           <li class="fs-list">
             <ul>
@@ -72,7 +72,7 @@
             <p>copyright@&nbsp;2017&nbsp;cool&nbsp;mail&nbsp;All&nbsp;rights&nbsp;reserver.&nbsp;&nbsp;&nbsp;京&nbsp;ICP&nbsp;备：00000000&nbsp;号</p>
           </div>
         </div>
-      </div>
+      </div> -->
     </footer>
   </div>
 </template>
@@ -92,6 +92,10 @@ export default {
     min-width: 990px;
     background-size: cover;
     background-color: #f5f5f5;
+    overflow: hidden;
+  }
+  .footer-wrap {
+    margin-bottom: 50px;
   }
   .footer-tip {
     max-width: 1230px;
@@ -100,6 +104,7 @@ export default {
     justify-content: space-around;
     align-items: center;
     height: 80px;
+    color: #373737;
   }
   .footer-tip >div {
     display: flex;
@@ -108,7 +113,7 @@ export default {
     align-items: center;
   }
   .footer-tip >div >p {
-    margin-left: 15px;
+    margin-left: 10px;
   }
   .fs-ul {
     max-width: 1230px;

@@ -132,7 +132,7 @@ export default {
   }
   .search_ipt {
     width: 650px;
-    border: 2px solid #FFD704;
+    border: 2px solid #E71600;
     border-radius: 23px 23px 23px 23px;
     height: 46px;
     overflow: hidden;
@@ -161,7 +161,7 @@ export default {
     font-size: 26px;
     color: #fff;
     cursor: pointer;
-    background-color: #FFD704;
+    background-color: #E71600;
   }
   .search-tip {
     display: flex;

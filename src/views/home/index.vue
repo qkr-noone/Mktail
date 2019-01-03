@@ -1,6 +1,6 @@
 <template>
   <div id="index">
-    <shortcut></shortcut>
+    <shortcut id="headTop"></shortcut>
     <headerNav></headerNav>
     <!-- 头部 -->
     <div class="container_h">
@@ -88,7 +88,7 @@
       <!-- 标语、3D 直播 -->
     </div>
     <!-- 会员3D服务 -->
-    <div class="container_h" >
+    <div class="container_h" id="threeD">
       <div class="py-container bsale">
         <el-carousel :interval="5000" indicator-position="none" arrow="never" height="100%">
           <el-carousel-item v-for="item in bsaleList" :key="item.id">
@@ -149,131 +149,84 @@
         </div>
       </div>
     </div>
-    <!-- 优选好店 今日好货 品质生活 官方折扣-->
-    <div class="container_h" >
-      <div class="py-container activity">
-        <div class="ac-shop ac-left">
-          <div class="ac-shop-head">
-            <h3>{{shopsCate.name}}</h3>
-            <div class="more"><p>更多</p><i class="el-icon-arrow-right"></i></div>
-          </div>
-          <div class="ac-shop-con">
-            <h4 v-for="(item, index) in shopsList" :key="item.id" v-if="index===0">{{item.title}}</h4>
-            <div class="ac-shop-con-detail">
-              <router-link v-for="(item, index) in shopsList" :key="item.id" v-if="index===0" :to="item.url"><img :src="item.pic"></router-link>
-              <div>
-                <router-link v-for="(item, index) in shopsList" :key="item.id" v-if="index===1" :to="item.url"><img :src="item.pic"></router-link>
-                <router-link v-for="(item, index) in shopsList" :key="item.id" v-if="index===2" :to="item.url"><img :src="item.pic"></router-link>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="ac-shop ac-right">
-          <div class="ac-shop-head">
-            <h3>{{goodsCate.name}}</h3>
-            <div class="more"><p>更多</p><i class="el-icon-arrow-right"></i></div>
-          </div>
-          <ul class="ac-shop-con">
-            <li v-for="list in goodsList" :key="list.id">
-              <h4>{{list.title}}</h4>
-              <div>
-                <router-link :to="list.url"><img :src="list.pic"></router-link>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <div class="container_h" >
-      <div class="py-container activity">
-        <div class="ac-shop ac-right ac-right-two">
-          <div class="ac-shop-head">
-            <h3>{{lifeCate.name}}</h3>
-            <div class="more"><p>更多</p><i class="el-icon-arrow-right"></i></div>
-          </div>
-          <ul class="ac-shop-con">
-            <li v-for="list in lifeList" :key="list.id">
-              <h4>{{list.title}}</h4>
-              <div>
-                <router-link :to="list.url"><img :src="list.pic"></router-link>
-              </div>
-            </li>
-          </ul>
-        </div>
-        <div class="ac-shop ac-left">
-          <div class="ac-shop-head">
-            <h3>{{discountCate.name}}</h3>
-            <div class="more"><p>更多</p><i class="el-icon-arrow-right"></i></div>
-          </div>
-          <div class="ac-shop-con">
-            <h4 v-for="(list, index) in discountList" v-if="index===0" :key="list.id">{{list.title}}</h4>
-            <div class="ac-shop-con-detail">
-              <router-link v-for="(list, index) in discountList" v-if="index===0" :key="list.id" :to="list.url"><img :src="list.pic"></router-link>
-              <div>
-                <router-link v-for="(list, index) in discountList" v-if="index===1" :key="list.id" :to="list.url"><img :src="list.pic"></router-link>
-                <router-link v-for="(list, index) in discountList" v-if="index===2" :key="list.id" :to="list.url"><img :src="list.pic"></router-link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- BIG SALE 横条-->
-    <div class="container_h" >
+    <!-- 企业直播 -->
+    <div class="container_h" id="live">
       <div class="py-container bsale">
-        <router-link v-for="(list,index) in bigSaleList" v-if="index===0" :to="list.url" :key="list.id"><img :src="list.pic"></router-link>
-        <!-- <a href=""><img src="../../../static/img/big-sale.png"></a> -->
+        <el-carousel :interval="5000" indicator-position="none" arrow="never" height="100%">
+          <el-carousel-item v-for="item in companyLive" :key="item.id">
+            <router-link :to="item.url"><img :src="item.pic"></router-link>
+          </el-carousel-item>
+        </el-carousel>
       </div>
     </div>
-    <!-- 闪购专区 -->
+    <!-- 主题货源 -->
     <div class="container_h" >
-      <div class="py-container flash">
-        <div>
-          <div class="ac-shop-head">
-            <h3>{{flashCate.name}}</h3>
-            <div class="more"><p>换一换</p><p>更多</p><i class="el-icon-arrow-right"></i></div>
-          </div>
-          <div class="flash-con">
-            <ul class="flash-ul">
-              <li class="flash-li" v-for="(list, index) in flashList" :key="list.id" v-if="index < 3">
-                <router-link :to="list.url"><img :src="list.pic"></router-link>
-                <div class="flash-li-info">
-                  <h3>{{list.title}}</h3>
-                  <p>{{list.price}}</p>
-                  <div class="before-pri"><span>原价288</span></div>
-                  <div>前一小时领券下单立减20</div>
-                </div>
+      <div class="py-container source">
+        <div class="source-title">
+          <span></span><p>主题货源</p>
+        </div>
+        <div class="source-con">
+          <div class="source-box" v-for="list in sourceList" :key="list.id" :data-id="list.id">
+            <h2>{{list.title}}</h2>
+            <ul class="source-box-ul">
+              <li class="source-box-li" v-for="data in lightList" :key="data.id" :data-id="data.id" v-if="list.id === data.contentId">
+                <a :href="data.url"><img class="wrap" :src="data.pic"></a>
+              <h4>{{data.title}}</h4>
+              </li>
+              <li class="source-box-li" v-for="data in lightList1" :key="data.id" :data-id="data.id" v-if="list.id === data.contentId">
+                <a :href="data.url"><img class="wrap" :src="data.pic"></a>
+              <h4>{{data.title}}</h4>
+              </li>
+              <li class="source-box-li" v-for="data in lightList2" :key="data.id" :data-id="data.id" v-if="list.id === data.contentId">
+                <a :href="data.url"><img class="wrap" :src="data.pic"></a>
+              <h4>{{data.title}}</h4>
+              </li>
+              <li class="source-box-li" v-for="data in lightList3" :key="data.id" :data-id="data.id" v-if="list.id === data.contentId">
+                <a :href="data.url"><img class="wrap" :src="data.pic"></a>
+              <h4>{{data.title}}</h4>
+              </li>
+              <li class="source-box-li" v-for="data in lightList4" :key="data.id" :data-id="data.id" v-if="list.id === data.contentId">
+                <a :href="data.url"><img class="wrap" :src="data.pic"></a>
+              <h4>{{data.title}}</h4>
+              </li>
+              <li class="source-box-li" v-for="data in lightList5" :key="data.id" :data-id="data.id" v-if="list.id === data.contentId">
+                <a :href="data.url"><img class="wrap" :src="data.pic"></a>
+              <h4>{{data.title}}</h4>
+              </li>
+              <li class="source-box-li" v-for="data in lightList6" :key="data.id" :data-id="data.id" v-if="list.id === data.contentId">
+                <a :href="data.url"><img class="wrap" :src="data.pic"></a>
+              <h4>{{data.title}}</h4>
+              </li>
+              <li class="source-box-li" v-for="data in lightList7" :key="data.id" :data-id="data.id" v-if="list.id === data.contentId">
+                <a :href="data.url"><img class="wrap" :src="data.pic"></a>
+              <h4>{{data.title}}</h4>
+              </li>
+              <li class="source-box-li" v-for="data in lightList8" :key="data.id" :data-id="data.id" v-if="list.id === data.contentId">
+                <a :href="data.url"><img class="wrap" :src="data.pic"></a>
+              <h4>{{data.title}}</h4>
               </li>
             </ul>
           </div>
         </div>
       </div>
     </div>
-    <!-- 热卖单品 -->
-    <div class="container_h" >
-      <div class="py-container hot">
-        <div>
-          <div class="hot-title">
-            <p>—— 热卖单品 ——</p>
-          </div>
-          <div class="hot-con">
-            <ul class="hot-con-ul">
-              <li class="hot-con-li" v-for="list in hotList" :key="list.id">
-                <router-link :to="list.url"><img :src="list.pic"></router-link>
-                <h3>{{list.title}}</h3>
-                <p>{{list.price}}</p>
-              </li>
-            </ul>
-          </div>
-        </div>
+    <!-- 商学院 -->
+    <div class="container_h" id="school">
+      <div class="py-container bsale">
+        <el-carousel :interval="5000" indicator-position="none" arrow="never" height="100%">
+          <el-carousel-item v-for="item in school" :key="item.id">
+            <router-link :to="item.url"><img :src="item.pic"></router-link>
+          </el-carousel-item>
+        </el-carousel>
       </div>
     </div>
     <!-- 猜你喜欢 -->
-    <div class="container_h" >
+    <div class="container_h" id="yourLike">
       <div class="py-container hot">
         <div>
           <div class="hot-title">
-            <p>—— 猜你喜欢 ——</p>
+            <p>猜你喜欢</p>
+            <p>换一换</p>
           </div>
           <div class="hot-con">
             <ul class="hot-con-ul">
@@ -289,41 +242,31 @@
     </div>
     <!-- END -->
     <div class="container_h" >
-      <div class="py-container hot">
+      <div class="py-container end">
         <div>
-          <div class="hot-title">
+          <div class="end-title">
             <p>—— END ——</p>
           </div>
         </div>
       </div>
     </div>
-    <!-- 邮件留言反馈 -->
-    <!-- <div class="cla">
-      <div class="con_title">
-        <h2>PLEASE CONTACT OUR SALES TO GET MORE INFORMATION THANKS</h2>
-      </div>
-      <div class="con_info">
-        <div class="con_detail">
-          <p class="con_tip">Send message to supplier</p>
-          <p class="con_name">To:&nbsp;&nbsp;sean lee</p>
-          <div class="con_mes">
-          <el-form ref="form" :model="formMessage" label-width="80px">
-            <el-form-item label="Message">
-              <el-input type="textarea" placeholder="Eneter your inquiry details such as product name,color,size,quantity,material,etc" v-model="formMessage.desc"></el-input>
-            </el-form-item>
-            <el-form-item>
-              <el-button class="form_cha" type="primary" @click="onSubmit">SEND</el-button>
-            </el-form-item>
-            <div class="form_ag_ku">
-              <input class="form_agree" type="checkbox" value="agree" v-model="formMessage.agree" >
-              <label>I agree to share my Business Card to the supplier</label>
-            </div>
-          </el-form>
-          </div>
-        </div>
-      </div>
-    </div> -->
     <pageFooter></pageFooter>
+    <div class="point">
+      <a class="point-logo">
+        <img src="../../../static/img/mk_logo_tip.png">
+      </a>
+      <div class="point-con">
+        <ul class="point-ul">
+          <li class="point-li point-ffd" v-scroll-to="'#threeD'"><a>3D</a></li>
+          <li class="point-li point-ff9" v-scroll-to="'#live'"><a>直播</a></li>
+          <li class="point-li point-bd4" v-scroll-to="'#school'"><a>商学院</a></li>
+          <li class="point-li point-ad5" v-scroll-to="'#yourLike'"><a>猜你喜欢</a></li>
+          <li class="point-li" v-scroll-to="'#headTop'"><a class=" top"><i class="el-icon-arrow-up"></i><p>顶部</p></a></li>
+          <li class="point-li"><a>反馈</a></li>
+          <li class="point-li"><a>举报</a></li>
+        </ul>
+      </div>
+    </div>
     <div class="mask" v-show="is3Ding">
       <iframe class="mask_iframe" ref="threeDSrc"  frameborder="0" scrolling="" g="no">
       </iframe>
@@ -343,17 +286,6 @@ import pageFooter from '../../components/pageFooter'
 export default {
   data () {
     return {
-      formMessage: {
-        name: '',
-        region: '',
-        date1: '',
-        date2: '',
-        delivery: false,
-        type: [],
-        resource: '',
-        desc: '',
-        agree: false
-      },
       is3Ding: false,
       liveSource: '',
       cateMenuItem: '',
@@ -369,22 +301,19 @@ export default {
       threeCList: [], // 3c数码
       cartLife: [], // 汽车用品
       classList: [], // 大类分类
-      shopsList: [], // 优选好店
-      shopsCate: '',
-      goodsList: [], // 今日好物
-      goodsCate: '',
-      lifeList: [], // 品质生活
-      lifeCate: '',
-      discountList: [], // 官方折扣
-      discountCate: '',
-      bigSaleList: [], // 横条
-      bigSaleCate: '',
-      flashList: [], // 闪购
-      flashCate: '',
-      hotList: [], // 热卖单品
-      hotCate: '',
-      likeList: [], // 猜你喜欢
-      likeCate: ''
+      companyLive: [], // 企业直播
+      sourceList: [], // 主题货源
+      lightList: [], // 照明
+      lightList1: [],
+      lightList2: [],
+      lightList3: [],
+      lightList4: [],
+      lightList5: [],
+      lightList6: [],
+      lightList7: [],
+      lightList8: [],
+      school: [], // 商学院
+      likeList: [] // 猜你喜欢
     }
   },
   components: { shortcut, headerNav, pageFooter },
@@ -488,84 +417,114 @@ export default {
         this.cartLife = rtn.data.data
       }
     })
-    // 主页优选好店
-    apiAxios.AxiosG({
-      url: api.homeBanner,
-      params: { categoryId: 2 }
-    }, (rtn) => {
-      if (rtn.data.success) {
-        this.shopsList = rtn.data.data.contentList
-        this.shopsCate = rtn.data.data.contentCategory
-      }
-    })
-    // 今日好物
-    apiAxios.AxiosG({
-      url: api.homeBanner,
-      params: { categoryId: 3 }
-    }, (rtn) => {
-      if (rtn.data.success) {
-        this.goodsList = rtn.data.data.contentList.slice(0, 4)
-        this.goodsCate = rtn.data.data.contentCategory
-      }
-    })
-    // 品质生活
-    apiAxios.AxiosG({
-      url: api.homeBanner,
-      params: { categoryId: 4 }
-    }, (rtn) => {
-      if (rtn.data.success) {
-        this.lifeList = rtn.data.data.contentList.slice(0, 4)
-        this.lifeCate = rtn.data.data.contentCategory
-      }
-    })
-    // 官方折扣
-    apiAxios.AxiosG({
-      url: api.homeBanner,
-      params: { categoryId: 6 }
-    }, (rtn) => {
-      if (rtn.data.success) {
-        this.discountList = rtn.data.data.contentList
-        this.discountCate = rtn.data.data.contentCategory
-      }
-    })
-    // big sale 横条
-    apiAxios.AxiosG({
-      url: api.homeBanner,
-      params: { categoryId: 8 }
-    }, (rtn) => {
-      if (rtn.data.success) {
-        this.bigSaleList = rtn.data.data.contentList
-        this.bigSaleCate = rtn.data.data.contentCategory
-      }
-    })
-    // 闪购
+    // 企业直播
     apiAxios.AxiosG({
       url: api.homeBanner,
       params: { categoryId: 7 }
     }, (rtn) => {
       if (rtn.data.success) {
-        this.flashList = rtn.data.data.contentList.slice(0, 3)
-        this.flashCate = rtn.data.data.contentCategory
+        this.companyLive = rtn.data.data.contentList
       }
     })
-    // 热卖单品
+    // 主题货源
     apiAxios.AxiosG({
       url: api.homeBanner,
-      params: { categoryId: 9 }
+      params: { categoryId: 5 }
     }, (rtn) => {
       if (rtn.data.success) {
-        this.hotList = rtn.data.data.contentList.slice(0, 5)
-        this.hotCate = rtn.data.data.contentCategory
+        this.sourceList = rtn.data.data.contentList
+      }
+      console.log(this.sourceList, 11111)
+    })
+    // 照明工具
+    apiAxios.AxiosG({
+      url: api.homeClass,
+      params: { contentId: 25 }
+    }, (rtn) => {
+      if (rtn.data.success) {
+        this.lightList = rtn.data.data
+      }
+    })
+    apiAxios.AxiosG({
+      url: api.homeClass,
+      params: { contentId: 26 }
+    }, (rtn) => {
+      if (rtn.data.success) {
+        this.lightList1 = rtn.data.data
+      }
+    })
+    apiAxios.AxiosG({
+      url: api.homeClass,
+      params: { contentId: 27 }
+    }, (rtn) => {
+      if (rtn.data.success) {
+        this.lightList2 = rtn.data.data
+      }
+    })
+    apiAxios.AxiosG({
+      url: api.homeClass,
+      params: { contentId: 28 }
+    }, (rtn) => {
+      if (rtn.data.success) {
+        this.lightList3 = rtn.data.data
+      }
+    })
+    apiAxios.AxiosG({
+      url: api.homeClass,
+      params: { contentId: 29 }
+    }, (rtn) => {
+      if (rtn.data.success) {
+        this.lightList4 = rtn.data.data
+      }
+    })
+    apiAxios.AxiosG({
+      url: api.homeClass,
+      params: { contentId: 30 }
+    }, (rtn) => {
+      if (rtn.data.success) {
+        this.lightList5 = rtn.data.data
+      }
+    })
+    apiAxios.AxiosG({
+      url: api.homeClass,
+      params: { contentId: 31 }
+    }, (rtn) => {
+      if (rtn.data.success) {
+        this.lightList6 = rtn.data.data
+      }
+    })
+    apiAxios.AxiosG({
+      url: api.homeClass,
+      params: { contentId: 32 }
+    }, (rtn) => {
+      if (rtn.data.success) {
+        this.lightList7 = rtn.data.data
+      }
+    })
+    apiAxios.AxiosG({
+      url: api.homeClass,
+      params: { contentId: 33 }
+    }, (rtn) => {
+      if (rtn.data.success) {
+        this.lightList8 = rtn.data.data
+      }
+    })
+    // 商学院
+    apiAxios.AxiosG({
+      url: api.homeBanner,
+      params: { categoryId: 8 }
+    }, (rtn) => {
+      if (rtn.data.success) {
+        this.school = rtn.data.data.contentList
       }
     })
     // 猜你喜欢
     apiAxios.AxiosG({
       url: api.homeBanner,
-      params: { categoryId: 10 }
+      params: { categoryId: 6 }
     }, (rtn) => {
       if (rtn.data.success) {
-        this.likeList = rtn.data.data.contentList.slice(0, 5)
-        this.likeCate = rtn.data.data.contentCategory
+        this.likeList = rtn.data.data.contentList
       }
     })
     setCookie('一起')
@@ -635,14 +594,6 @@ export default {
         this.playerOptions.HLS = rtn.data.data.url_hls
         console.log(this.playerOptions.HLS)
       })
-    },
-    onSubmit () {
-      // console.log(IP)
-      if (this.formMessage.agree && this.formMessage.desc) {
-        console.log('submit!')
-      } else {
-        console.log('请同意', this.formMessage)
-      }
     },
     liveShow () {
       this.liveSource = '../static/live.html'
