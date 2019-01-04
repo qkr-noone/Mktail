@@ -1,6 +1,8 @@
 <template>
   <div id="search-index">
-    <shortcutHeader :searchList="searchList" @showSearch="search($event, 4)"></shortcutHeader>
+    <shortcut id="headTop"></shortcut>
+    <headerNav :searchList="searchList" @showSearch="search($event, 4)"></headerNav>
+    <!-- <shortcutHeader :searchList="searchList" @showSearch="search($event, 4)"></shortcutHeader> -->
     <!--list-content-->
     <div class="main">
       <div class="sear-container"> <!-- v-if="searchList.total" -->
@@ -51,100 +53,154 @@
         </div>
         <!--details-->
         <div class="details">
-          <div class="navbar">
-            <div class="wrap-filter">
-              <ul class="filter-list">
-                <li class="active">
-                  <a href="#">综合↓</a>
+          <!-- 左侧精选 广告 -->
+          <div class="details-abs">
+            <div class="abs-title">
+              <p>{{absCate.name}}</p>
+              <span>广告</span>
+            </div>
+            <div class="abs-con">
+              <ul class="abs-ul">
+                <li class="abs-li" v-for="list in absList" :key="list.id">
+                  <router-link :to="{path: '/detail', query: {goodsId: list.url}}" class="abs-li-a"><img :src="list.pic"></router-link>
+                  <p class="abs-li-pri">¥{{list.price}}</p>
+                  <div class="abs-li-des">
+                    <a>{{list.title}}</a>
+                  </div>
+                  <span class="abs-li-com">已有<em>233</em>人评价</span>
                 </li>
-                <li>
-                  <a href="#">销量↓</a>
-                </li>
-                <li>
-                  <a href="#">新品↓</a>
-                </li>
-                <li>
-                  <a href="#">评价↓</a>
-                </li>
-                <li>
-                  <a href="#">价格</a>
-                </li>
-                <input type="text" name=""  maxlength="20" @input="handlePrice" :value="smallPrice" placeholder="￥">
-                <input type="text" name=""  maxlength="20" placeholder="￥">
               </ul>
-              <div class="filter-num">
-                <span class="filter-text">
-                  <b>{{currentPage}}</b>
-                  <em>/</em>
-                  <i>{{totalPages}}</i>
-                </span>
-                <a class="filter-prev" :class="currentPage===1?'disabled':''" @click="prevPage"><i class="el-icon-arrow-left"></i></a>
-                <a class="filter-next" :class="currentPage===totalPages?'disabled':''" @click="nextPage"><i class="el-icon-arrow-right"></i></a>
-              </div>
             </div>
           </div>
-          <div class="goods-list">
-            <ul class="yui3-g">
-              <li  v-for="item in searchList.rows" :key="item.id">
-                <div class="p-list">
-                  <div class="p-img">
-                    <router-link :to="{ path:'/detail',query:{goodsId: 149187842867912, skuId: item.id}}"><img :src="item.image" /></router-link>
-                  </div>
-                  <div class="p-scroll">
-                    <span class="ps-prev"><i class="el-icon-arrow-left"></i></span>
-                    <span class="ps-next"><i class="el-icon-arrow-right"></i></span>
-                    <div class="ps-wrap">
-                      <ul class="ps-main">
-                        <li class="ps-item">
-                          <a href="" class="curr" title=""><img :src="item.image" data-sku="" data-lazy-img="" width="25" height="25"></a>
-                        </li>
-                        <li class="ps-item">
-                          <a href="" class="curr" title=""><img src="../../../static/img/phone.png" data-sku="" data-lazy-img="" width="25" height="25"></a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div class="p-price">
-                    <strong>
-                      <em>¥</em>
-                      <i>{{ item.price }}</i>
-                    </strong>
-                  </div>
-                  <div class="p-attr">
-                    <!-- 修改 -->
-                    <a v-html="item.title">
-                      <em>{{item.title}}</em>
-                    </a>
-                  </div>
-                  <div class="p-commit">
-                    <strong><a target="_blank" >销量1000</a></strong>
-                  </div>
-                  <div class="p-focus">
-                    <a class="J_focus" data-sku="10947521008" href="javascript:;" title="点击关注"><i class="el-icon-star-off"></i>关注</a>
-                  </div>
-                  <div class="p-shop" data-selfware="0" data-score="0" data-reputation="99" data-verderid="594052" data-done="1">
-                    <span class="J_im_icon"><a target="_blank" :title="item.seller" >{{item.seller}}</a><b class="im-01" title="联系客服"><i class="el-icon-service"></i></b></span>
-                  </div>
-                  <div class="p-icons" id="J_pro_10947521008" data-done="1">
-                      <i class="goods-icons2 J-picon-tips" data-tips="退换货免运费">运费险险</i>
-                  </div>
-                  <!-- 广告 -->
-                  <span class="p-promo-flag"></span>
-                  <img>
+          <!-- search 列表内容 -->
+          <div class="details-con">
+            <div class="navbar">
+              <div class="wrap-filter">
+                <ul class="filter-list">
+                  <li class="active">
+                    <a href="#">综合↓</a>
+                  </li>
+                  <li>
+                    <a href="#">销量↓</a>
+                  </li>
+                  <li>
+                    <a href="#">新品↓</a>
+                  </li>
+                  <li>
+                    <a href="#">评价↓</a>
+                  </li>
+                  <li>
+                    <a href="#">价格</a>
+                  </li>
+                  <input type="text" name=""  maxlength="20" @input="handlePrice" :value="smallPrice" placeholder="￥">
+                  <input type="text" name=""  maxlength="20" placeholder="￥">
+                </ul>
+                <div class="filter-num">
+                  <span class="filter-text">
+                    <b>{{currentPage}}</b>
+                    <em>/</em>
+                    <i>{{totalPages}}</i>
+                  </span>
+                  <a class="filter-prev" :class="currentPage===1?'disabled':''" @click="prevPage"><i class="el-icon-arrow-left"></i></a>
+                  <a class="filter-next" :class="currentPage===totalPages?'disabled':''" @click="nextPage"><i class="el-icon-arrow-right"></i></a>
                 </div>
-              </li>
-            </ul>
+              </div>
+            </div>
+            <div class="goods-list">
+              <ul class="yui3-g">
+                <li  v-for="item in searchList.rows" :key="item.id">
+                  <div class="p-list">
+                    <div class="p-img">
+                      <router-link :to="{ path:'/detail',query:{goodsId: 740031180800, skuId: item.id}}"><img :src="item.image" /></router-link>
+                    </div>
+                    <!-- <div class="p-scroll">
+                      <span class="ps-prev"><i class="el-icon-arrow-left"></i></span>
+                      <span class="ps-next"><i class="el-icon-arrow-right"></i></span>
+                      <div class="ps-wrap">
+                        <ul class="ps-main">
+                          <li class="ps-item">
+                            <a href="" class="curr" title=""><img :src="item.image" data-sku="" data-lazy-img="" width="25" height="25"></a>
+                          </li>
+                          <li class="ps-item">
+                            <a href="" class="curr" title=""><img src="../../../static/img/phone.png" data-sku="" data-lazy-img="" width="25" height="25"></a>
+                          </li>
+                        </ul>
+                      </div>
+                    </div> -->
+                    <div class="p-price">
+                      <strong>
+                        <em>¥</em>
+                        <i>{{ item.price }}</i>
+                      </strong>
+                    </div>
+                    <div class="p-attr">
+                      <!-- 修改 -->
+                      <a v-html="item.title">
+                        <em>{{item.title}}</em>
+                      </a>
+                    </div>
+                    <div class="p-shop">
+                      <strong><a target="_blank" :title="item.seller">{{item.seller}}</a></strong>
+                    </div>
+                    <div class="p-commit" data-selfware="0" data-score="0" data-reputation="99" data-verderid="594052" data-done="1">
+                      <span class="J_im_icon"><a target="_blank">销量1000</a><b class="im-01" title="联系客服"><i class="el-icon-service"></i></b></span>
+                    </div>
+                    <div class="p-add">
+                      <a><img src="../../../static/img/mk_search_addgoods.png"><span>收藏</span></a>
+                      <a><img src="../../../static/img/mk_search_addcart.png"><span>加购物车</span></a>
+                    </div>
+                    <!-- <div class="p-focus">
+                      <a class="J_focus" data-sku="10947521008" href="javascript:;" title="点击关注"><i class="el-icon-star-off"></i>关注</a>
+                    </div>   -->
+                    <!-- <div class="p-icons" id="J_pro_10947521008" data-done="1">
+                        <i class="goods-icons2 J-picon-tips" data-tips="退换货免运费">运费险险</i>
+                    </div> -->
+                    <!-- 广告 -->
+                    <!-- <span class="p-promo-flag"></span> -->
+                    <img>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="block">
+              <el-pagination
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+                :current-page.sync="currentPage"
+                :page-size="40"
+                layout="prev, pager, next, jumper"
+                :total="searchList.total">
+              </el-pagination>
+            </div>
           </div>
-          <div class="block">
-            <el-pagination
-              @size-change="handleSizeChange"
-              @current-change="handleCurrentChange"
-              :current-page.sync="currentPage"
-              :page-size="40"
-              layout="prev, pager, next, jumper"
-              :total="searchList.total">
-            </el-pagination>
-          </div>
+        </div>
+        <!-- 底部商品精选 -->
+        <div class="bestGoods">
+          <h2>{{bestGoCate.name}}</h2>
+          <ul class="best-go-ul">
+            <li class="best-go-li" v-for="list in bestGoList" :key="list.id">
+              <router-link :to="{path: '/detail', query: {goodsId: list.url}}" class="best-go-li-a"><img :src="list.pic"></router-link>
+              <div class="best-go-li-des">
+                <a>{{list.title}}</a>
+              </div>
+              <p class="best-go-li-pri">¥{{list.price}}</p>
+              <span class="best-go-li-com">已有<em>233</em>人评价</span>
+            </li>
+          </ul>
+        </div>
+        <!-- 猜你喜欢 -->
+        <div class="youlike">
+          <h2>{{likeCate.name}}</h2>
+          <ul class="youlike-ul">
+            <li class="youlike-li" v-for="list in likeList" :key="list.id">
+              <router-link :to="{path: '/detail', query: {goodsId: list.url}}" class="youlike-li-a"><img :src="list.pic"></router-link>
+              <div class="youlike-li-des">
+                <a>{{list.title}}</a>
+              </div>
+              <p class="youlike-li-pri">¥{{list.price}}</p>
+              <span class="youlike-li-com">已有<em>233</em>人评价</span>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
@@ -154,7 +210,8 @@
 <script>
 import { apiAxios } from '../../common/utils'
 import { api } from '../../common/api'
-import shortcutHeader from '../../components/shortcutHeader'
+import shortcut from '../../components/shortcutHeader'
+import headerNav from '../../components/headerNav'
 import pageFooter from '../../components/pageFooter'
 export default {
   data () {
@@ -171,10 +228,16 @@ export default {
       priceRange: [],
       smallPrice: '',
       currentPage: 1,
-      totalPages: 1
+      totalPages: 1,
+      absList: [], // 搜索左侧商品精选
+      absCate: '',
+      bestGoList: [], // 搜索底部商品精选
+      bestGoCate: '',
+      likeList: [], // 搜索底部猜你喜欢
+      likeCate: ''
     }
   },
-  components: { shortcutHeader, pageFooter },
+  components: { pageFooter, shortcut, headerNav },
   created () {
     this.keywords = this.$route.query.keywords
     if (this.keywords) {
@@ -185,7 +248,35 @@ export default {
   deactivated () {
     this.$destroy()
   },
-  mounted () {},
+  mounted () {
+    apiAxios.AxiosG({
+      url: api.detailCon,
+      params: {categoryId: 10}
+    }, res => {
+      if (res.data.success) {
+        this.absList = res.data.data.contentList
+        this.absCate = res.data.data.contentCategory
+      }
+    })
+    apiAxios.AxiosG({
+      url: api.detailCon,
+      params: {categoryId: 11}
+    }, res => {
+      if (res.data.success) {
+        this.bestGoList = res.data.data.contentList
+        this.bestGoCate = res.data.data.contentCategory
+      }
+    })
+    apiAxios.AxiosG({
+      url: api.detailCon,
+      params: {categoryId: 9}
+    }, res => {
+      if (res.data.success) {
+        this.likeList = res.data.data.contentList
+        this.likeCate = res.data.data.contentCategory
+      }
+    })
+  },
   methods: {
     handlePrice (e) {
       // 过滤

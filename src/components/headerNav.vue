@@ -24,9 +24,15 @@
             </ul>
           </div>
         </div>
-        <div class="download-app">
+        <div class="download-app" v-if="!isHome">
           <img src="../../static/img/mk_app_download.png">
           <p>扫码安装APP端</p>
+        </div>
+        <div class="addCart" v-else>
+          <img src="../../static/img/mk_search_cart.png">
+          <p>我的购物车</p>
+          <span v-if="isOver">99</span>
+          <span v-else>{{cartNum}}</span>
         </div>
       </div>
     </header>
@@ -38,11 +44,18 @@ export default {
   name: 'headerNav',
   data () {
     return {
-      isHome: '' // 判断logo 是否可触发home点击
+      isHome: '', // 判断logo 是否可触发home点击
       // isShops: false
+      isOver: 0 // 是否超过99
     }
   },
   props: [],
+  computed: {
+    cartNum () {
+      let num = 0
+      return num
+    }
+  },
   created () {
     let curRoute = this.$route.path
     this.isHome = (curRoute === '/home' ? '' : '/home')
@@ -99,7 +112,7 @@ export default {
   .mk-header {
     min-width: 990px;
     margin: 0 auto;
-    background-color: #F4F4F4;
+    background-color: #FFFFFF;
   }
   .h-logo {
     padding:29px 23px 36px 23px;
@@ -188,9 +201,28 @@ export default {
     display: flex;
     align-items: center;
     margin-right: 68px;
-    font-size: 16px;
+    font-size: 14px;
+    margin-bottom: 23px;
   }
   .download-app p{
     margin-left: 12px;
   }
+
+/* 加入购物车 */
+  .addCart {
+    width:150px;
+    height:35px;
+    background:rgba(246,246,246,1);
+    border:1px solid rgba(198,198,198,1);
+    margin-bottom: 23px;
+    margin-right: 68px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .addCart p{
+    margin: 0 4px;
+  }
+  .addCart img{margin-left: 5px;}
+  .addCart span{margin-right: 5px; width: 21px; height: 21px; border-radius: 50%;background-color: red; color: #fff;line-height: 21px; text-align: center;}
 </style>

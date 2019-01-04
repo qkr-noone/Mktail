@@ -32,7 +32,7 @@
                   <h3><a href="">{{ item.name }}</a><i class="el-icon-arrow-right"></i></h3>
                   <div class="item-list clearfix">
                     <div class="subitem">
-                      <dl class="fore1" v-for="list in item.children" :key="list.id">
+                      <dl class="fore1" v-for="list in item.children" v-if="list.children.length" :key="list.id">
                         <dt><a href="">{{ list.name }}</a></dt>
                         <dd><a href="" v-for="series in list.children" :key="series.id">{{ series.name }}</a></dd>
                       </dl>
