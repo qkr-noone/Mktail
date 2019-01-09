@@ -3,6 +3,7 @@
     <div class="mk-shortcut">
       <div class="shortcut">
         <div class="sc-left">
+          <p v-if="!this.isHome" class="backHome">返回首页</p>
           <p>网站导航</p>
           <a>商家服务</a>
           <a>客户服务</a>
@@ -20,7 +21,7 @@
               <div><router-link :to="{path:''}">我的订单</router-link></div>
             </li>
             <li>
-              <div><router-link :to="{path:''}">消息中心</router-link></div>
+              <div><router-link :to="{path:'/user'}">消息中心</router-link></div>
             </li>
           </ul>
         </div>
@@ -33,15 +34,25 @@
 export default {
   name: 'shortcutHeader',
   data () {
-    return {}
+    return {
+      isHome: ''
+    }
   },
-  props: []
+  props: [],
+  created () {
+    let curRoute = this.$route.path
+    this.isHome = (curRoute === '/home' ? '' : '/home')
+  },
+  mounted () {}
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 /* shortcut*/
+  .backHome {
+    margin-right: 24px;
+  }
   .mk-shortcut {
     min-width: 990px;
     margin: 0 auto;

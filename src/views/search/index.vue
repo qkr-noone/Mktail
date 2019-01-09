@@ -86,23 +86,22 @@
             <div class="navbar">
               <div class="wrap-filter">
                 <ul class="filter-list">
-                  <li class="active">
-                    <a href="#">综合↓</a>
+                  <li :class="{active: choose_sort === 'complex'}" @click="chooseSort('complex')">
+                    <a><h4>综合</h4></a>
                   </li>
-                  <li>
-                    <a href="#">销量↓</a>
+                  <li :class="{active: choose_sort === 'salesNum'}" @click="chooseSort('salesNum')">
+                    <a><h4>销量</h4><span>↓</span></a>
                   </li>
-                  <li>
-                    <a href="#">新品↓</a>
+                  <li :class="{active: choose_sort === 'creditNum'}" @click="chooseSort('creditNum')">
+                    <a><h4>信用</h4><span :class="{cur: choose_sort === 'creditNum'}">↓</span></a>
                   </li>
-                  <li>
-                    <a href="#">评价↓</a>
+                  <li :class="{active: choose_sort === 'salesPrice'}" @click="chooseSort('salesPrice')">
+                    <a><h4>价格</h4><span class="price-sort-tip" :class="isPriceSort ? 'cur' : ''"><i class="el-icon-arrow-up"></i><i class="el-icon-arrow-down"></i></span></a>
                   </li>
-                  <li>
-                    <a href="#">价格</a>
-                  </li>
-                  <input type="text" name=""  maxlength="20" @input="handlePrice" :value="smallPrice" placeholder="￥">
-                  <input type="text" name=""  maxlength="20" placeholder="￥">
+                  <input class="fil-price" type="text" name=""  maxlength="20" @input="handleOnePrice" :value="smallPrice" placeholder="￥">
+                  <span class="fil-price-line"></span>
+                  <input class="fil-price" @input="handleTwoPrice" :value="bigPrice" type="text" name=""  maxlength="20" placeholder="￥">
+                  <a class="fil-price-btn" @click="btnPrice">确定</a>
                 </ul>
                 <div class="filter-num">
                   <span class="filter-text">
@@ -220,6 +219,17 @@
       </div>
     </div>
     <pageFooter></pageFooter>
+    <div class="point">
+      <div class="point-con">
+        <ul class="point-ul">
+          <li class="point-li"><a><img src="../../../static/img/mk_search_point_1.png"></a></li>
+          <li class="point-li"><a><img src="../../../static/img/mk_search_point_2.png"></a></li>
+          <li class="point-li"><a><img src="../../../static/img/mk_search_point_3.png"></a></li>
+          <li class="point-li"><a><img src="../../../static/img/mk_search_point_4.png"></a></li>
+        </ul>
+      </div>
+      <div class="point-li"  v-scroll-to="'#headTop'"><a class="top"><i class="el-icon-caret-top"></i><p>TOP</p></a></div>
+    </div>
   </div>
 </template>
 <script>
@@ -245,7 +255,14 @@ export default {
       isSelectSpec: [],
       temSelectList: [], // 多选时临时存取数据
       priceRange: [],
+      isPriceSort: false, // 判断价格升序和降序图标
       smallPrice: '',
+      bigPrice: '',
+      choose_sort: 'complex', // 排序筛选条件
+      temSort: { // // 临时存放排序变量
+        field: '',
+        sort: ''
+      },
       currentPage: 1,
       totalPages: 1,
       absList: [], // 搜索左侧商品精选
@@ -306,9 +323,12 @@ export default {
     })
   },
   methods: {
-    handlePrice (e) {
+    handleOnePrice (e) {
       // 过滤
-      // this.smallPrice = e.target.value.replace(/[^\d{1,}\.\d{1,}|\d{1,}]/g, '')
+      this.smallPrice = e.target.value.replace(/[^\d]/g, '')
+    },
+    handleTwoPrice (e) {
+      this.bigPrice = e.target.value.replace(/[^\d]/g, '')
     },
     handleSizeChange (val) {
       console.log(`每页 ${val} 条`)
@@ -332,8 +352,14 @@ export default {
         this.selectBrand = []
       }
       this.isSelectBrand = true
-      let priceRange
-      let userPrice = [3000, 20]
+      let priceRange = ''
+      let userPrice = []
+      if (this.smallPrice !== '' && this.smallPrice >= 0) {
+        userPrice.push(this.smallPrice)
+      }
+      if (this.bigPrice !== '' && this.bigPrice >= 0) {
+        userPrice.push(this.bigPrice)
+      }
       userPrice.sort()
       if (userPrice.length) {
         if (userPrice.length === 1) {
@@ -342,6 +368,9 @@ export default {
           priceRange = userPrice[0].toString() + '-' + userPrice[1].toString()
         }
       }
+      // 初始化价格区间
+      this.bigPrice = ''
+      this.smallPrice = ''
       let spec = {}
       for (let val of this.selectSpec) {
         let tem = []
@@ -359,8 +388,8 @@ export default {
           price: priceRange,
           pageNo: this.currentPage,
           pageSize: 40,
-          sort: '', // 排序  ASC -升序  DESC-降序
-          sortField: '' // 排序变量
+          sort: this.temSort.sort, // 排序  ASC -升序  DESC-降序
+          sortField: this.temSort.field // 排序变量 salesCount 销量 sellerCredit 信用 price 价格
           /*
             "spec":{"机身内存":"16G","网络":"联通3G"}
             title 标题
@@ -393,7 +422,6 @@ export default {
             }
           }
           // this.specNavList = [...new Set(this.specNavList)]
-          console.log(this.specNavList, 'spec')
         }
       })
     },
@@ -543,6 +571,46 @@ export default {
       }
       this.search([this.keywords, false])
       // this.isSelectBrandMore = true
+    },
+    // 提交指定价格区间
+    btnPrice () {
+      this.search([this.keywords, false])
+    },
+    chooseSort (type) {
+      if (this.choose_sort !== type) {
+        this.isPriceSort = false
+        this.choose_sort = type
+        // 销量salesNum 信用creditNum 价格salesPrice
+        if (type === 'salesNum') {
+          this.$set(this.temSort, 'field', 'salesCount')
+          this.$set(this.temSort, 'sort', 'DESC')
+        } else if (type === 'creditNum') {
+          this.$set(this.temSort, 'field', 'sellerCredit')
+          this.$set(this.temSort, 'sort', 'DESC')
+        } else if (type === 'salesPrice') {
+          this.$set(this.temSort, 'field', 'price')
+          this.$set(this.temSort, 'sort', 'DESC')
+          this.isPriceSort = true
+        } else {
+          this.$set(this.temSort, 'field', '')
+          this.$set(this.temSort, 'sort', '')
+        }
+      } else {
+        if (type === 'complex') { // 综合
+          this.$set(this.temSort, 'field', '')
+          this.$set(this.temSort, 'sort', '')
+        } else if (type === 'salesPrice') {
+          if (this.temSort.sort === 'ASC') {
+            this.$set(this.temSort, 'sort', 'DESC')
+            this.isPriceSort = true
+          } else {
+            this.$set(this.temSort, 'sort', 'ASC')
+            this.isPriceSort = false
+          }
+          this.$set(this.temSort, 'field', 'price')
+        }
+      }
+      this.search([this.keywords, false])
     }
   },
   watch: {

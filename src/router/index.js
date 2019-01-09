@@ -37,30 +37,20 @@ let router = new Router({
     },
     {
       path: '/test/detail',
-      meta: {
-        keepAlive: false
-      },
       component: resolve => require(['@/views/test/detail'], resolve)
     },
     {
       path: '/search',
       name: 'search',
-      meta: {
-        keepAlive: false
-      },
       component: resolve => require(['@/views/search/index'], resolve)
     },
     {
       path: '/detail',
-      meta: {
-        keepAlive: false
-      },
       component: resolve => require(['@/views/detail/index'], resolve)
     },
     {
       path: '/addToCart',
       meta: {
-        keepAlive: false,
         isLogin: true
       },
       component: resolve => require(['@/views/cart/addToCart'], resolve)
@@ -68,7 +58,6 @@ let router = new Router({
     {
       path: '/cart',
       meta: {
-        keepAlive: false,
         isLogin: true
       },
       component: resolve => require(['@/views/cart/cart'], resolve)
@@ -76,7 +65,6 @@ let router = new Router({
     {
       path: '/getOrderInfo',
       meta: {
-        keepAlive: false,
         isLogin: true
       },
       component: resolve => require(['@/views/cart/getOrderInfo'], resolve)
@@ -84,7 +72,6 @@ let router = new Router({
     {
       path: '/pay',
       meta: {
-        keepAlive: false,
         isLogin: true
       },
       component: resolve => require(['@/views/cart/pay'], resolve)
@@ -92,7 +79,6 @@ let router = new Router({
     {
       path: '/paysuccess',
       meta: {
-        keepAlive: false,
         isLogin: true
       },
       component: resolve => require(['@/views/cart/paysuccess'], resolve)
@@ -100,17 +86,17 @@ let router = new Router({
     {
       path: '/payfail',
       meta: {
-        keepAlive: false,
         isLogin: true
       },
       component: resolve => require(['@/views/cart/payfail'], resolve)
     },
     {
       path: '/register',
-      meta: {
-        keepAlive: false
-      },
       component: resolve => require(['@/views/user/register'], resolve)
+    },
+    {
+      path: '/register/zz',
+      component: resolve => require(['@/views/user/children/zz'], resolve)
     },
     {
       path: '/login',
@@ -125,7 +111,45 @@ let router = new Router({
         keepAlive: false,
         isLogin: true
       },
-      component: resolve => require(['@/views/user/user'], resolve)
+      component: resolve => require(['@/views/user/user'], resolve),
+      children: [
+        {
+          path: 'userCart',
+          component: resolve => require(['@/views/user/children/userCart'], resolve)
+        },
+        {
+          path: 'userOrder',
+          component: resolve => require(['@/views/user/children/userOrder'], resolve)
+        },
+        {
+          path: 'userCollect',
+          component: resolve => require(['@/views/user/children/userCollect'], resolve)
+        },
+        {
+          path: 'userAssess',
+          component: resolve => require(['@/views/user/children/userAssess'], resolve)
+        },
+        {
+          path: 'userHistory',
+          component: resolve => require(['@/views/user/children/userHistory'], resolve)
+        },
+        {
+          path: 'userFee',
+          component: resolve => require(['@/views/user/children/userFee'], resolve)
+        },
+        {
+          path: 'userTip',
+          component: resolve => require(['@/views/user/children/userTip'], resolve)
+        },
+        {
+          path: 'userProtect',
+          component: resolve => require(['@/views/user/children/userProtect'], resolve)
+        },
+        {
+          path: 'userBuyHistory',
+          component: resolve => require(['@/views/user/children/userBuyHistory'], resolve)
+        }
+      ]
     },
     {
       path: '/shops',

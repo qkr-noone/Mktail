@@ -1,8 +1,6 @@
 <template>
   <div id="test-index">
-    <keep-alive>
-      <router-view></router-view>
-    </keep-alive>
+    <router-view></router-view>
     <shortcutHeader></shortcutHeader>
     <div class="py-container">
       <div class="registerArea">

@@ -1,6 +1,7 @@
 <template>
   <div id="detail-index">
-    <shortcutHeader></shortcutHeader>
+    <shortcut></shortcut>
+    <headerNav></headerNav>
     <div class="py-container">
       <div id="item">
         <div class="crumb-wrap">
@@ -485,7 +486,8 @@
 </template>
 <script>
 import { mapState, mapMutations } from 'vuex'
-import shortcutHeader from '../../components/shortcutHeader'
+import shortcut from '../../components/shortcutHeader'
+import headerNav from '../../components/headerNav'
 import pageFooter from '../../components/pageFooter'
 import PicZoom from 'vue-piczoom'
 import { apiAxios, getCookie, setCookie, setStore } from '../../common/utils'
@@ -514,7 +516,7 @@ export default {
       password: ''
     }
   },
-  components: { shortcutHeader, pageFooter, PicZoom },
+  components: { shortcut, headerNav, pageFooter, PicZoom },
   computed: {
     ...mapState(['cartList'])
   },
