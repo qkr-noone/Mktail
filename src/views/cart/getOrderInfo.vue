@@ -173,7 +173,7 @@
 import { mapState } from 'vuex'
 import shortcutHeader from '../../components/shortcutHeader'
 import pageFooter from '../../components/pageFooter'
-import { apiAxios, getCookie, getStore, removeStore } from '../../common/utils'
+import { apiAxios, getStore, removeStore } from '../../common/utils'
 import { api } from '../../common/api'
 export default {
   data () {
@@ -204,7 +204,7 @@ export default {
   mounted () {
     apiAxios.AxiosG({
       url: api.addressListByUser,
-      params: {userId: getCookie('user-key')}
+      params: {userId: this.$cookies.get('user-key')}
     }, rtn => {
       this.addressList = rtn.data
       this.addressList.sort(this.compare('isDefault'))
@@ -239,7 +239,7 @@ export default {
     submitOrder () {
       let time = new Date()
       let createTime = time.toLocaleString('chinese', {hour12: false})
-      if (!getCookie('user-key')) {
+      if (!this.$cookies.get('user-key')) {
         this.router.push({path: '/login'})
         return false
       }
@@ -256,7 +256,7 @@ export default {
         close_time: '', // "交易关闭时间",
         shipping_name: '', // "物流名称",
         shipping_code: '', // "物流单号",
-        user_id: getCookie('user-key'), // "用户id",
+        user_id: this.$cookies.get('user-key'), // "用户id",
         buyer_message: '', // "买家留言",
         buyer_nick: '', // "买家昵称",
         buyer_rate: '', // "买家是否已经评价",
@@ -273,7 +273,7 @@ export default {
       let orderInfo = this.$route.query.skuId ? api.directOrderInfo : api.getOrderInfo
       apiAxios.AxiosP({
         url: orderInfo,
-        params: {userName: getCookie('user-key')},
+        params: {userName: this.$cookies.get('user-key')},
         data: order
       }, rtn => {
         if (rtn.data.success) {

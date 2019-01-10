@@ -22,7 +22,9 @@ let api = {
   payOrder: '/cart/pay/queryPayStatus', // 支付订单状态查询
   sendCode: '/user/user/sendCode', // 发送手机验证码
   register: '/user/user/add', // 注册用户
-  login: '/user/login/authenticateUser' // 登陆
+  login: '/user/login/authenticateUser', // 登陆
+  user: '/personCenter/personCenter/findByCategoryIdInPersonCenter', // 进入用户中心
+  userOrderStates: '/personCenter/personCenter/findAllOrderStatusByUsername' // 用户订单状态数量
 }
 export {
   api

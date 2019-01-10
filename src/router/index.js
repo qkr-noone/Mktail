@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import { getCookie } from '../common/utils'
+import VueCookies from 'vue-cookies'
 
+Vue.use(VueCookies)
 Vue.use(Router)
 
 let router = new Router({
@@ -100,15 +101,11 @@ let router = new Router({
     },
     {
       path: '/login',
-      meta: {
-        keepAlive: false
-      },
       component: resolve => require(['@/views/user/login'], resolve)
     },
     {
       path: '/user',
       meta: {
-        keepAlive: false,
         isLogin: true
       },
       component: resolve => require(['@/views/user/user'], resolve),
@@ -152,6 +149,26 @@ let router = new Router({
       ]
     },
     {
+      path: '/userSet',
+      meta: {
+        isLogin: true
+      },
+      component: resolve => require(['@/views/user/userSet'], resolve),
+      children: [
+        {
+          path: 'userCollectShop',
+          component: resolve => require(['@/views/user/children/userCollectShop'], resolve)
+        }
+      ]
+    },
+    {
+      path: '/userInfo',
+      meta: {
+        isLogin: true
+      },
+      component: resolve => require(['@/views/user/userInfo'], resolve)
+    },
+    {
       path: '/shops',
       meta: {
         keepAlive: true
@@ -163,7 +180,9 @@ let router = new Router({
 
 router.beforeEach((to, from, next) => {
   if (to.meta.isLogin) {
-    getCookie('user-key') ? next() : next({ path: '/login', query: { back: to.fullPath } })
+    // 占坑 this.$cookies 获取不到 => router.app.$cookies
+    // console.log(this, router.app.$cookies)
+    router.app.$cookies.get('user-key') ? next() : next({ path: '/login', query: { back: to.fullPath } })
   } else {
     next()
   }

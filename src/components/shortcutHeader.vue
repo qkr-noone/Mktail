@@ -3,7 +3,7 @@
     <div class="mk-shortcut">
       <div class="shortcut">
         <div class="sc-left">
-          <p v-if="!this.isHome" class="backHome">返回首页</p>
+          <p v-if="this.isHome" class="backHome" @click="home">返回首页</p>
           <p>网站导航</p>
           <a>商家服务</a>
           <a>客户服务</a>
@@ -43,7 +43,12 @@ export default {
     let curRoute = this.$route.path
     this.isHome = (curRoute === '/home' ? '' : '/home')
   },
-  mounted () {}
+  mounted () {},
+  methods: {
+    home () {
+      this.$router.push({path: '/home'})
+    }
+  }
 }
 </script>
 

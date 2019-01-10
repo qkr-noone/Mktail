@@ -8,9 +8,9 @@
         <div class="title-se">
           <h1>我的MKTail</h1>
           <div class="title-con">
-            <a class="title-li"><h2>首页</h2></a>
-            <a class="title-li"><h2>账号设置</h2></a>
-            <a class="title-li"><h2>消息</h2></a>
+            <router-link :to="{path: '/user'}" class="title-li"><h2>首页</h2></router-link>
+            <router-link :to="{path: '/userSet'}" class="title-li"><h2>账号设置</h2></router-link>
+            <router-link :to="{path: '/userInfo'}" class="title-li"><h2>消息</h2></router-link>
           </div>
         </div>
         <div class="h-search">
@@ -29,7 +29,7 @@
           <span v-if="isOver">99</span>
           <span v-else>{{cartNum}}</span>
         </div>
-        <div class="switch">
+        <div class="switch" v-if="isUser">
           <div class="switch-line"></div>
           <div class="switch-p"><a>切换卖家版</a></div>
         </div>
@@ -43,7 +43,8 @@ export default {
   name: 'headerNav',
   data () {
     return {
-      isOver: 0 // 是否超过99
+      isOver: 0, // 是否超过99
+      isUser: false // 用户中心首页
     }
   },
   props: [],
@@ -54,6 +55,10 @@ export default {
     }
   },
   created () {
+    let path = this.$route.path.split('/')[1]
+    if (path === 'user') {
+      this.isUser = true
+    }
   },
   mounted () {
   },

@@ -232,7 +232,7 @@ import { mapMutations, mapState } from 'vuex'
 import shortcutHeader from '../../components/shortcutHeader'
 import pageFooter from '../../components/pageFooter'
 import buyNum from '../../components/buyNum'
-import { apiAxios, getCookie, setStore } from '../../common/utils'
+import { apiAxios, setStore } from '../../common/utils'
 import { api } from '../../common/api'
 export default {
   data () {
@@ -278,7 +278,7 @@ export default {
     // this.INIT_BUYCART()
     apiAxios.AxiosG({
       url: api.cartList,
-      params: {username: getCookie('user-key')}
+      params: {username: this.$cookies.get('user-key')}
     }, rtn => {
       if (rtn.data.success) {
         this.setCartList(rtn.data.data)
@@ -368,7 +368,7 @@ export default {
     _cartEditNum (productSkuId, productNum, sellerId, checked) { // 修改数量
       apiAxios.AxiosG({
         url: api.cartEdit,
-        params: {userName: getCookie('user-key'), itemId: productSkuId, num: productNum, sellerId: sellerId, checked: checked}
+        params: {userName: this.$cookies.get('user-key'), itemId: productSkuId, num: productNum, sellerId: sellerId, checked: checked}
       }, res => {
         if (res.data.success === true) {
           this.EDIT_CART({productSkuId, productNum, checked})
@@ -378,7 +378,7 @@ export default {
     _cartEditChecked (productSkuId, productNum, sellerId, checked) { // 修改选中状态
       apiAxios.AxiosG({
         url: api.cartEdit,
-        params: {userName: getCookie('user-key'), itemId: productSkuId, num: productNum, sellerId: sellerId, checked: checked}
+        params: {userName: this.$cookies.get('user-key'), itemId: productSkuId, num: productNum, sellerId: sellerId, checked: checked}
       }, res => {
         if (res.data.success === true) {
           this.EDIT_CART({productSkuId, checked})
@@ -388,7 +388,7 @@ export default {
     _cartDel (productSkuId, sellerId) { // 删除购物车
       apiAxios.AxiosG({
         url: api.cartDelete,
-        params: {userName: getCookie('user-key'), itemId: productSkuId, sellerId: sellerId}
+        params: {userName: this.$cookies.get('user-key'), itemId: productSkuId, sellerId: sellerId}
       }, res => {
         if (res.data.success === true) {
           this.EDIT_CART({productSkuId})

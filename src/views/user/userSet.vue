@@ -9,203 +9,18 @@
             <div class="box-inner">
               <ul class="account-nav">
                 <li v-for="(item,i) in nav" :key='i' :class="{current:item.name===title}"  @click="tab(item)">
-                  <a href="javascript:;"><span>{{item.name}}</span></a></li>
+                  <a href="javascript:;">{{item.name}}</a></li>
               </ul>
             </div>
           </div>
         </div>
         <div class="account-content">
-          <div class="con-wrap" v-if="!title">
-            <div class="con-user">
-              <div class="con-item">
-                <div class="con-item-user">
-                  <a href="" class="user-head">
-                    <img src="../../../static/img/mk_logo_login.png">
-                  </a>
-                  <span class="user-name">爱你呦</span>
-                  <div class="user-service">
-                    <p>开通尊享会员服务</p>
-                    <a>立即开通</a>
-                  </div>
-                </div>
-                <div class="con-item-other">
-                  <div>
-                    <a>我的收货地址</a>
-                  </div>
-                  <div>
-                    <a>我的优惠信息</a>
-                  </div>
-                  <div>
-                    <a>我的支付方式</a>
-                  </div>
-                </div>
-              </div>
+          <div class="con-wrap" v-if="title">
+            <div class="title">
+              <a>微博绑定微博绑定</a>
             </div>
             <div class="con-de">
-              <div class="con-de-order">
-                <div class="con-de-li">
-                  <div class="con-de-title">
-                    <h2>大家都在看</h2>
-                  </div>
-                  <ul class="con-de-item us-look">
-                    <li v-for="item in usLook" :key="item.id">
-                      <router-link :to="{path: '/detail', query: {goodsId: item.id}}"><img :src="item.pic"></router-link>
-                    </li>
-                  </ul>
-                </div>
-                <div class="con-de-li">
-                  <div class="con-de-title">
-                    <h2>我的订单</h2><a>所有订单</a>
-                  </div>
-                  <ul class="con-de-item us-order">
-                    <li>
-                      <a class="us-order-a"><span>待付款</span><strong class="us-order-str">{{orderStatesNum.pendingPaymentCount}}</strong></a>
-                    </li>
-                    <li>
-                      <a class="us-order-a"><span>待发货</span><strong class="us-order-str">{{orderStatesNum.toBeShippedCount}}</strong></a>
-                    </li>
-                    <li>
-                      <a class="us-order-a"><span>待收货</span><strong class="us-order-str">{{orderStatesNum.toBeEvaluatedCount}}</strong></a>
-                    </li>
-                    <li>
-                      <a class="us-order-a"><span>待评价</span><strong class="us-order-str">{{orderStatesNum.goodsReceivedCount}}</strong></a>
-                    </li>
-                    <li>
-                      <a class="us-order-a"><span>退换/售后</span></a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <!-- 物流 喜欢 关注 -->
-            <div class="con-all">
-              <div class="con-all-left">
-                <div class="con-le-flow">
-                  <div class="le-flow-title">
-                    <h2>物流</h2>
-                  </div>
-                  <ul class="le-flow-ul">
-                    <li class="order-li">
-                      <a href=""><img src="../../../static/img/mk_logo_login.png"></a>
-                      <div class="detail-desc">
-                        <p>我是您的专属配送员王智，您的订单已到达广州明珠站，配</p>
-                        <div><span>2018-11-29 08:00:00</span><a class="flow-de">查看物流明细</a></div>
-                      </div>
-                      <div class="detail-more">
-                        <a href="">确认收货</a>
-                      </div>
-                    </li>
-                    <li class="order-li">
-                      <a href=""><img src="../../../static/img/mk_logo_login.png"></a>
-                      <div class="detail-desc">
-                        <p>我是您的专属配送员王智，您的订单已到达广州明珠站，配</p>
-                        <div><span>2018-11-29 08:00:00</span><a class="flow-de">查看物流明细</a></div>
-                      </div>
-                      <div class="detail-more">
-                        <a href="">确认收货</a>
-                      </div>
-                    </li>
-                    <li class="order-li">
-                      <a href=""><img src="../../../static/img/mk_logo_login.png"></a>
-                      <div class="detail-desc">
-                        <p>我是您的专属配送员王智，您的订单已到达广州明珠站，配</p>
-                        <div><span>2018-11-29 08:00:00</span><a class="flow-de">查看物流明细</a></div>
-                      </div>
-                      <div class="detail-more">
-                        <a href="">确认收货</a>
-                      </div>
-                    </li>
-                    <div class="flow-more">
-                      <a>展开</a>
-                      <i v-if="isflowMore" class="el-icon-arrow-down"></i>
-                      <i v-else class="el-icon-arrow-up"></i>
-                    </div>
-                  </ul>
-                </div>
-                <div class="con-le-like">
-                  <div class="le-flow-title">
-                    <h2>猜你喜欢</h2>
-                  </div>
-                  <ul class="hot-con-ul">
-                    <li v-for="(list, tip) in likeList" :key="list.id" v-if="tip < 6">
-                      <youLike :like="list"></youLike>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-              <div class="con-all-right">
-                <div class="con-ri-focus">
-                  <div class="ri-focus-title">
-                    <h3>我的关注</h3>
-                  </div>
-                  <ul class="focus-con">
-                    <li class="focus-li"><div class="focus-box"><a><span>0</span><h4>商品关注</h4></a></div></li>
-                    <li class="focus-li"><div class="focus-box"><a><span>0</span><h4>店铺关注</h4></a></div></li>
-                    <li class="focus-li"><div class="focus-box"><a><span>0</span><h4>收藏内容</h4></a></div></li>
-                  </ul>
-                </div>
-                <div class="con-ri-his">
-                  <div class="ri-his-abs" v-for="list in rightAbs" :key="list.id">
-                    <router-link :to="{path:'/detail', query: {goodsId: list.id}}"><img :src="list.pic"></router-link>
-                  </div>
-                  <div class="ri-focus-title">
-                    <h3>浏览记录</h3>
-                    <a><span>更多</span><i class="el-icon-arrow-right"></i></a>
-                  </div>
-                  <ul  class="focus-ul">
-                    <li class="focus-li" v-for="(list, index) in hisList" :key="list.id" v-if="index < 6">
-                      <router-link :to="{path:'/detail', query: {goodsId: list.id}}" class="focus-tag"><img :src="list.pic"></router-link>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div class="con-order">
-              <div class="order-desc">
-                <h2 class="title">我的订单</h2>
-                <div class="order-list">
-                  <div><i class="el-icon-goods"></i><p>代付款<span class="num">(2)</span></p></div>
-                  <div><i class="el-icon-date"></i><p>待收货<span class="num">(12)</span></p></div>
-                  <div><i class="el-icon-edit"></i><p>待评价<span class="num">(2)</span></p></div>
-                  <div><i class="el-icon-service"></i><p>退换/售后</p></div>
-                  <div><i class="el-icon-arrow-right"></i><p>全部订单</p></div>
-                </div>
-                <ul class="order-list-detail">
-                  <li class="order-li">
-                    <a href=""><i class="el-icon-picture"></i></a>
-                    <div class="detail-desc">
-                      <p>我是您的专属配送员王智，您的订单已到达广州明珠站，配</p>
-                      <div><span>普通快递</span><span>2018-11-29 08:00:00</span></div>
-                    </div>
-                    <div class="detail-more">
-                      <a href="">查看详情</a>
-                      <a href="">查看发票/物流跟踪</a>
-                    </div>
-                  </li>
-                  <li class="order-li">
-                    <a href=""><i class="el-icon-picture"></i></a>
-                    <div class="detail-desc">
-                      <p>我是您的专属配送员王智，您的订单已到达广州明珠站，配</p>
-                      <div><span>普通快递</span><span>2018-11-29 08:00:00</span></div>
-                    </div>
-                    <div class="detail-more">
-                      <a href="">查看详情</a>
-                      <a href="">查看发票/物流跟踪</a>
-                    </div>
-                  </li>
-                  <li class="order-li">
-                    <a href=""><i class="el-icon-picture"></i></a>
-                    <div class="detail-desc">
-                      <p>我是您的专属配送员王智，您的订单已到达广州明珠站，配</p>
-                      <div><span>普通快递</span><span>2018-11-29 08:00:00</span></div>
-                    </div>
-                    <div class="detail-more">
-                      <a href="">查看详情</a>
-                      <a href="">查看发票/物流跟踪</a>
-                    </div>
-                  </li>
-                </ul>
-              </div>
+              <div>111</div>
             </div>
           </div>
           <transition v-else>
@@ -1431,40 +1246,33 @@
   </div>
 </template>
 <script>
-import { apiAxios } from '../../common/utils'
-import { api } from '../../common/api'
+// import { apiAxios } from '../../common/utils'
+// import { api } from '../../common/api'
 import shortcut from '../../components/shortcutHeader'
 import userNav from '../../components/userNav'
 import pageFooter from '../../components/pageFooter'
-import youLike from '../../components/youLike'
 export default {
   data () {
     return {
-      title: '',
+      title: '1',
       nav: [
-        {name: '购物车', path: 'userCart'},
-        {name: '我的订单', path: 'userOrder'},
-        {name: '我的收藏', path: 'userCollect'}, // 收藏店铺userCollectShop收藏宝贝userCollectGoods
-        {name: '我的评价', path: 'userAssess'},
-        {name: '我的足迹', path: 'userHistory'},
-        {name: '我的优惠', path: 'userFee'},
-        {name: '我的发票', path: 'userTip'},
-        {name: '退款维权', path: 'userProtect'},
-        {name: '购买过的店铺', path: 'userBuyHistory'}
-      ],
-      orderStatesNum: '', // 用户订单状态数量
-      likeList: [],
-      usLook: [], // 大家都在看
-      flowList: [], // 物流列表
-      hisList: [], // 浏览记录
-      rightAbs: [], // 右侧广告
-      isflowMore: true, // 展开更多物流信息
-      tabPosition: 'left',
-      userBirthday: '', // 用户生日
-      userImageUrl: '../../../static/img/logo-200.png' // 用户头像
+        {name: '账号管理', path: 'userCollectShop'},
+        {name: '安全设置', path: 'userOrder'},
+        {name: '手机绑定', path: 'userCollect'},
+        {name: '密保问题设置', path: 'userAssess'},
+        {name: '个人资料', path: 'userAssess'},
+        {name: '收货地址', path: 'userHistory'},
+        {name: '消息提醒设置', path: 'userFee'},
+        {name: '支付宝绑定', path: 'userTip'},
+        {name: '微博绑定', path: 'userProtect'},
+        {name: '微信绑定', path: 'userBuyHistory'},
+        {name: '银联卡绑定', path: 'userProtect'},
+        {name: '分享绑定', path: 'userProtect'},
+        {name: '应用绑定', path: 'userProtect'}
+      ]
     }
   },
-  components: { shortcut, userNav, pageFooter, youLike },
+  components: { shortcut, userNav, pageFooter },
   created () {
     this.$cookies.get('userInfo')
     let path = this.$route.path.split('/')[2]
@@ -1475,133 +1283,16 @@ export default {
     })
   },
   mounted () {
-    // 用户订单状态数据
-    apiAxios.AxiosG({
-      url: api.userOrderStates,
-      params: {userName: this.$cookies.get('user-key')}
-    }, res => {
-      if (res.data.success) {
-        this.orderStatesNum = res.data.data
-      }
-    })
-    // 大家都在看
-    apiAxios.AxiosG({
-      url: api.user,
-      params: {categoryId: 14}
-    }, res => {
-      if (res.data.success) {
-        this.usLook = res.data.data.contentList
-      }
-    })
-    // 猜你喜欢
-    apiAxios.AxiosG({
-      url: api.user,
-      params: {categoryId: 13}
-    }, res => {
-      if (res.data.success) {
-        this.likeList = res.data.data.contentList
-      }
-    })
-    // 浏览记录
-    apiAxios.AxiosG({
-      url: api.user,
-      params: {categoryId: 15}
-    }, res => {
-      if (res.data.success) {
-        this.hisList = res.data.data.contentList
-      }
-    })
-    // 浏览记录
-    apiAxios.AxiosG({
-      url: api.user,
-      params: {categoryId: 16}
-    }, res => {
-      if (res.data.success) {
-        this.rightAbs = res.data.data.contentList
-      }
-    })
   },
   methods: {
     tab (e) {
-      this.$router.push({path: '/user/' + e.path})
+      this.$router.push({path: '/userSet/' + e.path})
       this.title = e.name
-    },
-    handleOpen (key, keyPath) {
-      console.log(key, keyPath)
-    },
-    handleClose (key, keyPath) {
-      console.log(key, keyPath)
-    },
-    handleAvatarSuccess (res, file) {
-      this.userImageUrl = URL.createObjectURL(file.raw)
-    },
-    beforeAvatarUpload (file) {
-      const isJPG = file.type === 'image/jpeg'
-      const isLt2M = file.size / 1024 / 1024 < 2
-      if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!')
-      }
-      if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 2MB!')
-      }
-      return isJPG && isLt2M
-    },
-    addressName () {
     }
   }
 }
 
 </script>
 <style scoped>
-/*@import '../../assets/css/cart/webbase.css';
-@import '../../assets/css/user/pages-seckillOrder.css';*/
-@import '../../assets/css/user/user.css';
-/*@import "../../assets/css/search/search.css"*/
-  .user {
-    display: flex;
-    justify-content: space-between;
-  }
-  .account-sidebar {
-    width: 135px;
-    border-radius: 6px;
-  }
-  .gray-box {
-    overflow: hidden;
-    background: #fff;
-    box-shadow: 0 3px 8px -6px rgba(0,0,0,.1);
-  }
-  .account-sidebar .account-nav {
-    padding-top: 15px;
-    padding-bottom: 15px;
-  }
-  .account-sidebar .avatar {
-    padding-top: 20px;
-    border-radius: 10px;
-    text-align: center;
-  }
-  .account-sidebar .account-nav li {
-    position: relative;
-    margin-top: 13px;
-  }
-  .account-sidebar .account-nav li a {
-    font-style: normal;
-    text-decoration: none;
-    color:rgba(36,36,36,1);
-    font-size:14px;
-    cursor: pointer;
-    transition: all .15s ease-out;
-    display: block;
-    padding-left: 30px;
-    text-align: left;
-  }
-  .account-sidebar .account-nav li.current a {
-    position: relative;
-    z-index: 1;
-    color: red;
-  }
-  .account-content {
-    width: 1083px;
-    margin-left: 5px;
-  }
-
+@import '../../assets/css/user/user-set.css';
 </style>

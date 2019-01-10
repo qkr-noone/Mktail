@@ -218,10 +218,8 @@
           </div>
           <div class="hot-con">
             <ul class="hot-con-ul">
-              <li class="hot-con-li" v-for="list in likeList" :key="list.id">
-                <router-link :to="list.url"><img :src="list.pic"></router-link>
-                <h3>{{list.title}}</h3>
-                <p>{{list.price}}</p>
+              <li v-for="list in likeList" :key="list.id">
+                <youLike :like="list"></youLike>
               </li>
             </ul>
           </div>
@@ -266,11 +264,12 @@
 </template>
 
 <script>
-import { apiAxios, getCookie, setCookie, delCookie } from '../../common/utils'
+import { apiAxios } from '../../common/utils'
 import { api } from '../../common/api'
 import shortcut from '../../components/shortcutHeader'
 import headerNav from '../../components/headerNav'
 import absBox from '../../components/absBox'
+import youLike from '../../components/youLike'
 import pageFooter from '../../components/pageFooter'
 export default {
   data () {
@@ -306,7 +305,7 @@ export default {
       likeList: [] // 猜你喜欢
     }
   },
-  components: { shortcut, headerNav, pageFooter, absBox },
+  components: { shortcut, headerNav, pageFooter, absBox, youLike },
   computed: {},
   created () {
     // 获取条目菜单
@@ -516,9 +515,6 @@ export default {
         this.likeList = rtn.data.data.contentList
       }
     })
-    setCookie('一起')
-    getCookie('一起')
-    delCookie('一起')
     // this.$router.push({ path:'/artist/dynamic',query:{id: this.$route.query.id} })
   },
   activated () {},

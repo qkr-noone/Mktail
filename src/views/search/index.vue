@@ -228,7 +228,7 @@
           <li class="point-li"><a><img src="../../../static/img/mk_search_point_4.png"></a></li>
         </ul>
       </div>
-      <div class="point-li"  v-scroll-to="'#headTop'"><a class="top"><i class="el-icon-caret-top"></i><p>TOP</p></a></div>
+      <div class="point-li top-box"  v-scroll-to="'#headTop'"><a class="top"><i class="el-icon-caret-top"></i><p>TOP</p></a></div>
     </div>
   </div>
 </template>
