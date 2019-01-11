@@ -4,7 +4,8 @@ import { getCookie } from '../common/utils'
 
 Vue.use(Router)
 
-let router = new Router({
+let router
+router = new Router({
   scrollBehavior (to, from, savedPosition) {
     if (savedPosition) {
       return savedPosition
@@ -12,7 +13,7 @@ let router = new Router({
       if (from.meta.keepAlive) {
         from.meta.savedPosition = document.body.scrollTop
       }
-      return { x: 0, y: to.meta.savedPosition || 0 }
+      return {x: 0, y: to.meta.savedPosition || 0}
     }
   },
   routes: [
@@ -111,6 +112,26 @@ let router = new Router({
         keepAlive: false
       },
       component: resolve => require(['@/views/user/register'], resolve)
+    },
+    {
+      path: '/register/paas',
+      name: 'paas',
+      component: resolve => require(['@/views/user/children/paas'], resolve)
+    },
+    {
+      path: '/register/legal',
+      name: 'legal',
+      component: resolve => require(['@/views/user/children/legal'], resolve)
+    },
+    {
+      path: '/register/pay',
+      name: 'pay',
+      component: resolve => require(['@/views/user/children/pay'], resolve)
+    },
+    {
+      path: '/register/privacy',
+      name: 'privacy',
+      component: resolve => require(['@/views/user/children/privacy'], resolve)
     },
     {
       path: '/login',
