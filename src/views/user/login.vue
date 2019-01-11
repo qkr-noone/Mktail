@@ -3,55 +3,92 @@
     <keep-alive>
       <router-view></router-view>
     </keep-alive>
-    <shortcutHeader></shortcutHeader>
     <div class="py-container">
-      <h4 class="manage-title">MKTail猴尾巴</h4>
-      <div class="loginform">
-        <el-tabs type="border-card" class="sui-nav nav-tabs tab-wraped">
-          <el-tab-pane label="扫描登录" >
-            <div class="tab-pane">
-              <img src="../../../static/img/erweima.png" />
-              <p>剩余事件60s</p>
+      <div class="top">
+          <div class="top_left">
+            <div class="h-logo" ref='logoIsCursor'>
+              <router-link :to="{path: isHome}" ><img src="static/img/log/log_logo1.png"></router-link>
             </div>
-          </el-tab-pane>
-          <el-tab-pane label="账户登录">
-            <div class="tab-pane  active">
-              <form class="sui-form" method="post">
-                <div class="input-prepend">
-                  <span class="add-on loginname"></span>
-                  <input type="text" placeholder="邮箱/用户名/手机号" class="span2 input-xfat" v-model="username">
-                </div>
-                <div class="input-prepend"><span class="add-on loginpwd"></span>
-                  <input type="password" placeholder="请输入密码" class="span2 input-xfat" v-model="password">
-                </div>
-                <div class="logined">
-                  <a @click='userLogin' class="sui-btn btn-block btn-xlarge btn-danger">登&nbsp;&nbsp;录</a>
-                </div>
-              </form>
+            <p class="title">欢迎登陆</p>
+          </div>
+          <div class="top_right">为确保您账户的安全及正常使用，依《网络安全法》相关要求，6月1日起会员账户需绑定手机。如您还未绑定，请尽快完成，感谢您的理解及支持！</div>
+          <div class="opinion">
+            <img src="static/img/log/log_ opinion1.png">
+            <a>我想对"登陆"提意见</a>
+          </div>
+      </div>
+      <div class="middle">
+          <div class="middle_left">
+            <img src="static/img/log/log_christmas1.png">
+          </div>
+          <div class="loginform">
+            <div class="title">
+              <p @click= "accountNumber()" :class="{active:account == true }">账号登陆</p>|
+              <p @click= "sweepCode()" :class="{active:account == false }">扫码登陆</p>
             </div>
-          </el-tab-pane>
-        </el-tabs>
+            <section v-show="account === true" >
+              <input type="text" placeholder="邮箱/手机号码"/>
+              <input type="text" placeholder="密码"/>
+              <input type="button" value="登陆" class="btn"/>
+              <p>
+                <span class="sort">
+                  <a>手机短信登陆</a>/
+                  <a>注册</a>
+                </span>
+                 <a>立即注册</a>&nbsp;|
+                 <a>忘记密码</a>
+              </p>
+            </section>
+            <section v-show="account === false" >
+              <p>这是扫码扫码登陆</p>
+            </section>
+            <div class="otherLogin">
+              <p>_______________其他登陆方式________________</p>
+              <span>
+                <a><img src="static/img/log/log_qq1.png"></a>
+                <a><img src="static/img/log/log_WeiBo1.png"></a>
+                <a><img src="static/img/log/log_WeChat1.png"></a>
+                <a><img src="static/img/log/log_pay1.png"></a>
+              </span>
+            </div>
+          </div>
+      </div>
+      <div class="bottom">
+        <regFooter></regFooter>
       </div>
     </div>
-    <pageFooter></pageFooter>
   </div>
 </template>
 <script>
-import shortcutHeader from '../../components/shortcutHeader'
-import pageFooter from '../../components/pageFooter'
+import regFooter from '../../components/regFooter'
 import { apiAxios } from '../../common/utils'
 import { api } from '../../common/api'
 export default {
   data () {
     return {
       username: '',
-      password: ''
+      password: '',
+      account: true
     }
   },
-  components: { shortcutHeader, pageFooter },
-  created () {},
-  mounted () {},
+  components: {regFooter},
+  created () {
+    let curRoute = this.$route.path
+    this.isHome = (curRoute === '/home' ? '' : '/home')
+    // curRoute === '/shops' ? this.isShops = true : this.isShops = false
+  },
+  mounted () {
+    if (!this.isHome) {
+      this.$refs.logoIsCursor.children[0].style.cursor = 'default'
+    }
+  },
   methods: {
+    accountNumber () {
+      this.account = true
+    },
+    sweepCode () {
+      this.account = false
+    },
     userLogin () {
       if (this.$cookies.get('user-key')) {
         this.$message.error('当前设备已登陆，切换用户需先退出当前用户')
@@ -85,100 +122,132 @@ export default {
 
 </script>
 <style scoped>
-  .manage-title{
-    font-size: 36px;
-    color: #777;
-  }
-  .el-tabs__nav{
-    width: 100%;
-  }
-  .el-tabs--border-card>.el-tabs__header .el-tabs__item {
-    width: 45%;
-  }
-  .loginform >ul{
-    display: flex;
-  }
-  .input-prepend >input:focus{
-    outline: none
-  }
   .py-container{
     width: 1260px;
     margin: 0 auto;
   }
-  .sui-nav.nav-tabs.tab-wraped>li {
-    width: 50%
+  img{
+    display: inline;
   }
-  .sui-nav.nav-tabs.tab-wraped>li.active>a {
-    padding-top: 0;
-    border-top: 1px solid #28a3ef
-  }
-  .sui-nav.nav-tabs.tab-wraped>li>a {
-    padding: 0
-  }
-  .sui-nav.nav-tabs.tab-wraped>li.active h3 {
-    color: #c8111a
-  }
-  .sui-form {
-    margin-top: 15px
-  }
-  span.loginname {
-    background: url(../../../static/img/user.png);
-    background-position: center;
-    background-size: 35px;
-    background-repeat: no-repeat;
-  }
-  .sui-form .input-prepend {
-    margin-bottom: 16px;
+ .top{
+    height:90px;
+    background: #F4F4F4;
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
-  }
-  .sui-form .input-prepend .add-on {
-    background-color: #cfcdcd;
-    width: 45px;
-    height: 45px;
-  }
-  .sui-form input[type=text],
-  .sui-form input[type=password] {
-      height: 45px
-  }
-  .sui-form input.span2 {
-    width: 284px;
-    border: 1px solid #dcdfe6;
-    box-sizing: border-box;
-  }
-  .loginpwd {
-    background: url(../../../static/img/password.png);
-    background-position: center;
-    background-size: 35px;
-    background-repeat: no-repeat;
-  }
-  .loginmanage {
-    height: 500px;
-    width: 1920px;
-    background: url(../../../static/img/bg_head.png);
-    vertical-align: middle;
-    display: table-cell
-  }
-  .btn-danger {
-    background-color: #c81623;
-    padding: 6px;
-    border-radius: 0;
-    font-size: 16px;
-    font-family: 微软雅黑;
-    word-spacing: 4px;
-    width: 318px;
-    text-align: center;
-    color: #fff;
-  }
-  .loginform {
-    width: 380px;
-    background: #fff;
-    margin: 45px auto 0;
     position: relative;
-    padding: 20px
+    font-size:12px;
+    font-family:SimHei;
+    font-weight:400;
+    color:rgba(135,135,135,1);
   }
-  .tab-pane >img{
-    margin: 0 auto;
+  .top .top_left img{
+    margin-left:70px;
+    margin-bottom:14px;
+  }
+  .top_left{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .top .title{
+    height:31px;
+    font-size:32px;
+    font-family:SourceHanSansCN-Regular;
+    color:rgba(74,74,74,1);
+    line-height:25px;
+    margin-left:8px;
+  }
+  .top .top_right{
+    width:800px;
+    height:30px;
+    line-height:30px;
+    background:rgba(255,252,237,1);
+    border:1px solid rgba(255,215,4,1);
+    position: absolute;
+    right:70px;
+    top:19px;
+  }
+ .top .opinion img,.top .opinion a{
+   display: inline;
+ }
+  .top .opinion{
+    width:150px;
+    height:20px;
+    position: absolute;
+    top:59px;
+    right:58px;
+  }
+ .middle{
+   box-sizing:border-box;
+   height:500px;
+   background:rgba(240,62,62,1);
+   padding:39px 70px 38px 71px;
+   position: relative;
+ }
+  .middle .middle_left{
+    float: left;
+  }
+ .middle .loginform{
+   position: absolute;
+   right:70px;
+   display: inline;
+   width:370px;
+   height:407px;
+   background:rgba(255,255,255,1);
+ }
+  .middle .loginform p{
+  font-size:16px;
+  font-family:SimHei;
+  font-weight:400;
+  color:rgba(135,135,135,1);
+  margin-top: 10px;
+}
+ .active{
+   color:#FFD704
+ }
+ .loginform .title{
+   font-size:25px;
+   font-family:SimHei;
+   font-weight:400;
+   color:rgba(135,135,135,1);
+   height:50px;
+   display: flex;
+   align-items: center;
+   justify-content: space-around;
+ }
+  .loginform .title p{
+    display:inline;
+  }
+  .loginform input{
+    width:319px;
+    height:44px;
+    background:rgba(255,255,255,1);
+    border:1px solid rgba(227,227,227,1);
+    margin-top: 23px;
+    font-size:16px;
+    font-family:SimHei;
+    font-weight:400;
+    color:rgba(192,192,192,1);
+  }
+  .loginform .sort{
+    color:#FFD704;
+    margin:0 25px 0 22px;
+  }
+  .loginform .btn{
+    font-size:19px;
+    color:rgba(53,53,53,1);
+    background:rgba(255,215,4,1);
+  }
+  .loginform .otherLogin p{
+    margin: 30px  0 0 15px;
+  }
+  .loginform .otherLogin a{
+    margin: 15px 10px 0 10px;
+  }
+  .bottom{
+    height:165px;
+    background: #F4F4F4;
+    padding-top:55px;
   }
 </style>
