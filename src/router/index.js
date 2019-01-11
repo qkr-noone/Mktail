@@ -99,22 +99,22 @@ router = new Router({
     {
       path: '/register/paas',
       name: 'paas',
-      component: resolve => require(['@/views/user/children/paas'], resolve)
+      component: resolve => require(['@/views/user/children/regPaas'], resolve)
     },
     {
       path: '/register/legal',
       name: 'legal',
-      component: resolve => require(['@/views/user/children/legal'], resolve)
+      component: resolve => require(['@/views/user/children/regLegal'], resolve)
     },
     {
       path: '/register/pay',
       name: 'pay',
-      component: resolve => require(['@/views/user/children/pay'], resolve)
+      component: resolve => require(['@/views/user/children/regPay'], resolve)
     },
     {
       path: '/register/privacy',
       name: 'privacy',
-      component: resolve => require(['@/views/user/children/privacy'], resolve)
+      component: resolve => require(['@/views/user/children/regPrivacy'], resolve)
     },
     {
       path: '/login',
