@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import { getCookie } from '../common/utils'
+import VueCookies from 'vue-cookies'
 
+Vue.use(VueCookies)
 Vue.use(Router)
 
 let router
@@ -38,30 +39,20 @@ router = new Router({
     },
     {
       path: '/test/detail',
-      meta: {
-        keepAlive: false
-      },
       component: resolve => require(['@/views/test/detail'], resolve)
     },
     {
       path: '/search',
       name: 'search',
-      meta: {
-        keepAlive: false
-      },
       component: resolve => require(['@/views/search/index'], resolve)
     },
     {
       path: '/detail',
-      meta: {
-        keepAlive: false
-      },
       component: resolve => require(['@/views/detail/index'], resolve)
     },
     {
       path: '/addToCart',
       meta: {
-        keepAlive: false,
         isLogin: true
       },
       component: resolve => require(['@/views/cart/addToCart'], resolve)
@@ -69,7 +60,6 @@ router = new Router({
     {
       path: '/cart',
       meta: {
-        keepAlive: false,
         isLogin: true
       },
       component: resolve => require(['@/views/cart/cart'], resolve)
@@ -77,7 +67,6 @@ router = new Router({
     {
       path: '/getOrderInfo',
       meta: {
-        keepAlive: false,
         isLogin: true
       },
       component: resolve => require(['@/views/cart/getOrderInfo'], resolve)
@@ -85,7 +74,6 @@ router = new Router({
     {
       path: '/pay',
       meta: {
-        keepAlive: false,
         isLogin: true
       },
       component: resolve => require(['@/views/cart/pay'], resolve)
@@ -93,7 +81,6 @@ router = new Router({
     {
       path: '/paysuccess',
       meta: {
-        keepAlive: false,
         isLogin: true
       },
       component: resolve => require(['@/views/cart/paysuccess'], resolve)
@@ -101,16 +88,12 @@ router = new Router({
     {
       path: '/payfail',
       meta: {
-        keepAlive: false,
         isLogin: true
       },
       component: resolve => require(['@/views/cart/payfail'], resolve)
     },
     {
       path: '/register',
-      meta: {
-        keepAlive: false
-      },
       component: resolve => require(['@/views/user/register'], resolve)
     },
     {
@@ -135,18 +118,72 @@ router = new Router({
     },
     {
       path: '/login',
-      meta: {
-        keepAlive: false
-      },
       component: resolve => require(['@/views/user/login'], resolve)
     },
     {
       path: '/user',
       meta: {
-        keepAlive: false,
         isLogin: true
       },
-      component: resolve => require(['@/views/user/user'], resolve)
+      component: resolve => require(['@/views/user/user'], resolve),
+      children: [
+        {
+          path: 'userCart',
+          component: resolve => require(['@/views/user/children/userCart'], resolve)
+        },
+        {
+          path: 'userOrder',
+          component: resolve => require(['@/views/user/children/userOrder'], resolve)
+        },
+        {
+          path: 'userCollect',
+          component: resolve => require(['@/views/user/children/userCollect'], resolve)
+        },
+        {
+          path: 'userAssess',
+          component: resolve => require(['@/views/user/children/userAssess'], resolve)
+        },
+        {
+          path: 'userHistory',
+          component: resolve => require(['@/views/user/children/userHistory'], resolve)
+        },
+        {
+          path: 'userFee',
+          component: resolve => require(['@/views/user/children/userFee'], resolve)
+        },
+        {
+          path: 'userTip',
+          component: resolve => require(['@/views/user/children/userTip'], resolve)
+        },
+        {
+          path: 'userProtect',
+          component: resolve => require(['@/views/user/children/userProtect'], resolve)
+        },
+        {
+          path: 'userBuyHistory',
+          component: resolve => require(['@/views/user/children/userBuyHistory'], resolve)
+        }
+      ]
+    },
+    {
+      path: '/userSet',
+      meta: {
+        isLogin: true
+      },
+      component: resolve => require(['@/views/user/userSet'], resolve),
+      children: [
+        {
+          path: 'userCollectShop',
+          component: resolve => require(['@/views/user/children/userCollectShop'], resolve)
+        }
+      ]
+    },
+    {
+      path: '/userInfo',
+      meta: {
+        isLogin: true
+      },
+      component: resolve => require(['@/views/user/userInfo'], resolve)
     },
     {
       path: '/shops',
@@ -160,7 +197,9 @@ router = new Router({
 
 router.beforeEach((to, from, next) => {
   if (to.meta.isLogin) {
-    getCookie('user-key') ? next() : next({ path: '/login', query: { back: to.fullPath } })
+    // 占坑 this.$cookies 获取不到 => router.app.$cookies
+    // console.log(this, router.app.$cookies)
+    router.app.$cookies.get('user-key') ? next() : next({ path: '/login', query: { back: to.fullPath } })
   } else {
     next()
   }

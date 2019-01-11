@@ -4,7 +4,7 @@
     <headerNav></headerNav>
     <!-- 头部 -->
     <div class="container_h">
-      <div class="sort">
+      <div class="sort nav-top">
         <div class="py-container">
           <div class="navitem">
             <h2 class="nav-all">全部商品分类</h2>
@@ -22,7 +22,7 @@
       </div>
     </div>
     <div class="container_h">
-      <div class="sort">
+      <div class="sort" :style="'background-color:'+ bgImg + ''">
         <div class="py-container">
           <div class="SortList ">
             <div class=" Left all-sort-list">
@@ -44,7 +44,7 @@
             <div class=" Center banerArea">
               <!--banner轮播-->
               <div id="myCarousel" data-ride="carousel" data-interval="4000" class="sui-carousel">
-                <el-carousel :interval="5000" arrow="always" height="100%">
+                <el-carousel :interval="5000" arrow="always" height="100%" @change="carouselChange">
                   <el-carousel-item v-for="item in bannerList" :key="item.id">
                     <router-link :to="{path: '/detail', query:{}}"><img :src="item.pic"></router-link>
                   </el-carousel-item>
@@ -90,11 +90,7 @@
     <!-- 会员3D服务 -->
     <div class="container_h" id="threeD">
       <div class="py-container bsale">
-        <el-carousel :interval="5000" indicator-position="none" arrow="never" height="100%">
-          <el-carousel-item v-for="item in bsaleList" :key="item.id">
-            <router-link :to="item.url"><img :src="item.pic"></router-link>
-          </el-carousel-item>
-        </el-carousel>
+        <absBox :data="bsaleList" :indicator="'none'" :arrow="'never'"></absBox>
       </div>
     </div>
     <!-- 分类 类别 -->
@@ -152,11 +148,7 @@
     <!-- 企业直播 -->
     <div class="container_h" id="live">
       <div class="py-container bsale">
-        <el-carousel :interval="5000" indicator-position="none" arrow="never" height="100%">
-          <el-carousel-item v-for="item in companyLive" :key="item.id">
-            <router-link :to="item.url"><img :src="item.pic"></router-link>
-          </el-carousel-item>
-        </el-carousel>
+        <absBox :data="companyLive" :indicator="'none'" :arrow="'never'"></absBox>
       </div>
     </div>
     <!-- 主题货源 -->
@@ -213,11 +205,7 @@
     <!-- 商学院 -->
     <div class="container_h" id="school">
       <div class="py-container bsale">
-        <el-carousel :interval="5000" indicator-position="none" arrow="never" height="100%">
-          <el-carousel-item v-for="item in school" :key="item.id">
-            <router-link :to="item.url"><img :src="item.pic"></router-link>
-          </el-carousel-item>
-        </el-carousel>
+        <absBox :data="school" :indicator="'none'" :arrow="'never'"></absBox>
       </div>
     </div>
     <!-- 猜你喜欢 -->
@@ -230,10 +218,8 @@
           </div>
           <div class="hot-con">
             <ul class="hot-con-ul">
-              <li class="hot-con-li" v-for="list in likeList" :key="list.id">
-                <router-link :to="list.url"><img :src="list.pic"></router-link>
-                <h3>{{list.title}}</h3>
-                <p>{{list.price}}</p>
+              <li v-for="list in likeList" :key="list.id">
+                <youLike :like="list"></youLike>
               </li>
             </ul>
           </div>
@@ -278,10 +264,12 @@
 </template>
 
 <script>
-import { apiAxios, getCookie, setCookie, delCookie } from '../../common/utils'
+import { apiAxios } from '../../common/utils'
 import { api } from '../../common/api'
 import shortcut from '../../components/shortcutHeader'
 import headerNav from '../../components/headerNav'
+import absBox from '../../components/absBox'
+import youLike from '../../components/youLike'
 import pageFooter from '../../components/pageFooter'
 export default {
   data () {
@@ -292,6 +280,7 @@ export default {
       isShowNav: '', // 二级菜单显示状态
       menuData: '', // 条目菜单
       bannerList: '', // banner
+      bgImg: '#f4f4f4',
       absList: [], // 轮播广告
       bsaleList: [], // 会员3D
       hardwareList: [], // 五金工具
@@ -316,7 +305,7 @@ export default {
       likeList: [] // 猜你喜欢
     }
   },
-  components: { shortcut, headerNav, pageFooter },
+  components: { shortcut, headerNav, pageFooter, absBox, youLike },
   computed: {},
   created () {
     // 获取条目菜单
@@ -434,7 +423,6 @@ export default {
       if (rtn.data.success) {
         this.sourceList = rtn.data.data.contentList
       }
-      console.log(this.sourceList, 11111)
     })
     // 照明工具
     apiAxios.AxiosG({
@@ -527,9 +515,6 @@ export default {
         this.likeList = rtn.data.data.contentList
       }
     })
-    setCookie('一起')
-    getCookie('一起')
-    delCookie('一起')
     // this.$router.push({ path:'/artist/dynamic',query:{id: this.$route.query.id} })
   },
   activated () {},
@@ -584,8 +569,8 @@ export default {
     }
   },
   methods: {
-    handleSelect (key, keyPath) {
-      console.log(key, keyPath)
+    carouselChange (index, key) {
+      this.bgImg = this.bannerList[index].bgcolor
     },
     onTest () {
       apiAxios.AxiosG({

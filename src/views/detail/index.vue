@@ -1,6 +1,7 @@
 <template>
   <div id="detail-index">
-    <shortcutHeader></shortcutHeader>
+    <shortcut></shortcut>
+    <headerNav></headerNav>
     <div class="py-container">
       <div id="item">
         <div class="crumb-wrap">
@@ -485,10 +486,11 @@
 </template>
 <script>
 import { mapState, mapMutations } from 'vuex'
-import shortcutHeader from '../../components/shortcutHeader'
+import shortcut from '../../components/shortcutHeader'
+import headerNav from '../../components/headerNav'
 import pageFooter from '../../components/pageFooter'
 import PicZoom from 'vue-piczoom'
-import { apiAxios, getCookie, setCookie, setStore } from '../../common/utils'
+import { apiAxios, setStore } from '../../common/utils'
 import { api } from '../../common/api'
 export default {
   data () {
@@ -514,7 +516,7 @@ export default {
       password: ''
     }
   },
-  components: { shortcutHeader, pageFooter, PicZoom },
+  components: { shortcut, headerNav, pageFooter, PicZoom },
   computed: {
     ...mapState(['cartList'])
   },
@@ -610,10 +612,10 @@ export default {
     },
     submit () {
       if (this.selectSku.id) {
-        if (getCookie('user-key')) { // 判断是否登陆
+        if (this.$cookies.get('user-key')) { // 判断是否登陆
           apiAxios.AxiosG({
             url: api.addToCart,
-            params: { itemId: this.selectSku.id, num: this.num, name: getCookie('user-key') }
+            params: { itemId: this.selectSku.id, num: this.num, name: this.$cookies.get('user-key') }
           }, rtn => {
             if (rtn.data.success) {
               this.$message.success('成功加入购物车')
@@ -631,7 +633,7 @@ export default {
     },
     buyShops () {
       if (this.selectSku.id) {
-        if (getCookie('user-key')) { // 判断是否登陆
+        if (this.$cookies.get('user-key')) { // 判断是否登陆
           for (let val of this.skuList) {
             if (val.id === this.selectSku.id) {
               let lend = {}
@@ -660,7 +662,7 @@ export default {
       }
     },
     userLogin () {
-      if (getCookie('user-key')) {
+      if (this.$cookies.get('user-key')) {
         this.$message.error('当前设备已登陆，切换用户需先退出当前用户')
         return false
       }
@@ -674,7 +676,7 @@ export default {
       }, rtn => {
         if (rtn.data.success) {
           this.$message.success('登陆成功')
-          setCookie('user-key', this.username)
+          this.$cookies.set('user-key', this.username)
           this.isMaskLogin = false
           this.password = ''
         } else {

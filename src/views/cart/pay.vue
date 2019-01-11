@@ -39,7 +39,7 @@
 <script>
 import shortcutHeader from '../../components/shortcutHeader'
 import pageFooter from '../../components/pageFooter'
-import { apiAxios, getCookie } from '../../common/utils'
+import { apiAxios } from '../../common/utils'
 import { api } from '../../common/api'
 export default {
   data () {
@@ -56,7 +56,7 @@ export default {
   mounted () {
     apiAxios.AxiosG({
       url: api.payPageInfo,
-      params: {userName: getCookie('user-key')}
+      params: {userName: this.$cookies.get('user-key')}
     }, rtn => {
       if (rtn.data.success) {
         this.orderInfo = rtn.data.data
@@ -65,7 +65,7 @@ export default {
     })
     apiAxios.AxiosG({
       url: api.payCreate,
-      params: {userName: getCookie('user-key')}
+      params: {userName: this.$cookies.get('user-key')}
     }, rtn => {
       if (rtn.data.success) {
         console.log(rtn)

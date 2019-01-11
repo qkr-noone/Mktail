@@ -39,7 +39,7 @@
 <script>
 import shortcutHeader from '../../components/shortcutHeader'
 import pageFooter from '../../components/pageFooter'
-import { apiAxios, getCookie, setCookie } from '../../common/utils'
+import { apiAxios } from '../../common/utils'
 import { api } from '../../common/api'
 export default {
   data () {
@@ -53,7 +53,7 @@ export default {
   mounted () {},
   methods: {
     userLogin () {
-      if (getCookie('user-key')) {
+      if (this.$cookies.get('user-key')) {
         this.$message.error('当前设备已登陆，切换用户需先退出当前用户')
         return false
       }
@@ -67,7 +67,8 @@ export default {
       }, rtn => {
         if (rtn.data.success) {
           this.$message.success('登陆成功')
-          setCookie('user-key', this.username)
+          this.$cookies.set('user-key', this.username)
+          this.$cookies.set('userInfo', (rtn.data.data))
           this.password = ''
           this.$router.push({path: '/home'})
         } else {

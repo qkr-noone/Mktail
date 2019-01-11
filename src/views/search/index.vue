@@ -7,7 +7,7 @@
     <div class="main">
       <div class="sear-container"> <!-- v-if="searchList.total" -->
         <!--bread-->
-        <div class="bread">
+        <div class="bread" v-if="searchList.total">
           <ul class="bread-ul">
             <li class="bread-li">
               <a>全部结果<i class="el-icon-arrow-right"></i></a>
@@ -15,8 +15,8 @@
           </ul>
           <ul class="tags-choose">
             <li class="tag" v-show="keywords">"{{keywords}}"</li>
-            <li class="tag" v-show="selectBrand.length">品牌： <span v-for="(data,index) in selectBrand" :key="index">{{data}}</span><i class="el-icon-close"></i></li>
-            <li class="tag" v-for="list in specNavList" :key="list.spec">{{list}}:<i class="el-icon-close"></i></li>
+            <li class="tag" v-show="selectBrand.length">品牌： <span v-for="(data,index) in selectBrand" :key="index">{{data}}</span></li>
+            <li class="tag"  v-for="list in selectSpec" v-if="list.childList.length" :data-attr="list.spec" :key="list.spec">{{list.spec}}:<span v-for="tip in list.childList" :key="tip.attr">{{tip.attr}}</span></li>
             <li>搜索结果：{{searchList.total}}条</li>
           </ul>
         </div>
@@ -27,32 +27,41 @@
             <div class="value logos">
               <div class="logos-list">
                 <ul class="logo-value-fixed" ref="brandul">
-                  <li v-for="(item,index) in brandList" :key="index" @click="selectStyle(item, index)" ref="brandli"><a>{{item.text}}</a><i></i></li>
+                  <li v-for="(item, index) in brandList" :key="index" @click="selectStyle(item, index)" ref="brandli"><a>{{item.text}}</a><i v-if="!isSelectBrandMore" class="el-icon-circle-check-outline"></i></li>
                 </ul>
+                <div class="brand-btn" v-if="!isSelectBrandMore">
+                  <a class="disabled" @click="btnComfirm(1)" :class="temSelectList.length > 0 ?'select':''">确定</a>
+                  <a @click="btnCancel">取消</a>
+                </div>
               </div>
             </div>
             <div class="logos-ext">
-              <a class="logos-e-multiple" href="javascript:;"><i class="el-icon-plus"></i>多选</a>
-              <a class="logos-e-more" v-show="brandList.length > 7" @click="selectBrandMore()">更多<i class="el-icon-arrow-down"></i></a>
+              <a class="logos-e-multiple" @click="selectBrandMore($event)" ref="brandselMore"><i class="el-icon-plus"></i>多选</a>
+              <a class="logos-e-more" v-show="brandList.length > 7 && isSelectBrandMore" @click="more($event)" ref="brandMore"><p>更多</p><i class="el-icon-arrow-down"></i></a>
             </div>
           </div>
-          <div class=" logo s-brand" v-for="(list, index) in specList" :key="list.id">
+          <div class=" logo s-brand"  v-if="isSelectSpec.indexOf(index) === -1" v-for="(list, index) in specList" :key="list.id">
             <div class="fl brand" :data-attr="list.text" :data-attr-id="list.id">{{list.text}}：</div>
             <div class="value logos">
               <div class="logos-list">
                 <ul class="logo-value-fixed" ref="specul">
-                  <li v-for="(info, tip) in list.options" :key="tip"><a href="#">{{info.optionName}}<i class="el-icon-close"></i></a></li>
+                  <li v-for="(info, tip) in list.options" :key="tip" @click="selectAttr(info, tip, index)"><a>{{info.optionName}}</a></li>
+                  <!-- <i class="el-icon-circle-check-outline"></i> -->
                 </ul>
+                <!-- <div class="brand-btn">
+                  <a class="disabled" @click="btnComfirm(2)">确定</a>
+                  <a @click="btnCancel">取消</a>
+                </div> -->
               </div>
             </div>
             <div class="logos-ext">
-              <a class="logos-e-multiple" href="javascript:;"><i class="el-icon-plus"></i>多选</a>
-              <a class="logos-e-more" href="javascript:;" v-if="list.options.length > 7" @click="selectMore(index)">更多<i class="el-icon-arrow-down"></i></a>
+              <a class="logos-e-multiple" @click="selectMore($event, index)"><i class="el-icon-plus"></i>多选</a>
+              <a class="logos-e-more" v-if="list.options.length > 7" @click="more($event, index)"><p>更多</p><i class="el-icon-arrow-down"></i></a>
             </div>
           </div>
         </div>
         <!--details-->
-        <div class="details">
+        <div class="details" v-if="searchList.total">
           <!-- 左侧精选 广告 -->
           <div class="details-abs">
             <div class="abs-title">
@@ -77,23 +86,22 @@
             <div class="navbar">
               <div class="wrap-filter">
                 <ul class="filter-list">
-                  <li class="active">
-                    <a href="#">综合↓</a>
+                  <li :class="{active: choose_sort === 'complex'}" @click="chooseSort('complex')">
+                    <a><h4>综合</h4></a>
                   </li>
-                  <li>
-                    <a href="#">销量↓</a>
+                  <li :class="{active: choose_sort === 'salesNum'}" @click="chooseSort('salesNum')">
+                    <a><h4>销量</h4><span>↓</span></a>
                   </li>
-                  <li>
-                    <a href="#">新品↓</a>
+                  <li :class="{active: choose_sort === 'creditNum'}" @click="chooseSort('creditNum')">
+                    <a><h4>信用</h4><span :class="{cur: choose_sort === 'creditNum'}">↓</span></a>
                   </li>
-                  <li>
-                    <a href="#">评价↓</a>
+                  <li :class="{active: choose_sort === 'salesPrice'}" @click="chooseSort('salesPrice')">
+                    <a><h4>价格</h4><span class="price-sort-tip" :class="isPriceSort ? 'cur' : ''"><i class="el-icon-arrow-up"></i><i class="el-icon-arrow-down"></i></span></a>
                   </li>
-                  <li>
-                    <a href="#">价格</a>
-                  </li>
-                  <input type="text" name=""  maxlength="20" @input="handlePrice" :value="smallPrice" placeholder="￥">
-                  <input type="text" name=""  maxlength="20" placeholder="￥">
+                  <input class="fil-price" type="text" name=""  maxlength="20" @input="handleOnePrice" :value="smallPrice" placeholder="￥">
+                  <span class="fil-price-line"></span>
+                  <input class="fil-price" @input="handleTwoPrice" :value="bigPrice" type="text" name=""  maxlength="20" placeholder="￥">
+                  <a class="fil-price-btn" @click="btnPrice">确定</a>
                 </ul>
                 <div class="filter-num">
                   <span class="filter-text">
@@ -162,7 +170,7 @@
                 </li>
               </ul>
             </div>
-            <div class="block">
+            <div class="block" v-if="totalPages > 1">
               <el-pagination
                 @size-change="handleSizeChange"
                 @current-change="handleCurrentChange"
@@ -173,6 +181,9 @@
               </el-pagination>
             </div>
           </div>
+        </div>
+        <div class="details" v-else>
+          <p><i class="el-icon-warning"></i>抱歉未找到与 <em>{{keywords}}</em>相关的商品</p>
         </div>
         <!-- 底部商品精选 -->
         <div class="bestGoods">
@@ -202,9 +213,23 @@
             </li>
           </ul>
         </div>
+        <div class="bottom-abs">
+          <absBox :data="bottomAbs" :indicator="'none'" :arrow="'never'"></absBox>
+        </div>
       </div>
     </div>
     <pageFooter></pageFooter>
+    <div class="point">
+      <div class="point-con">
+        <ul class="point-ul">
+          <li class="point-li"><a><img src="../../../static/img/mk_search_point_1.png"></a></li>
+          <li class="point-li"><a><img src="../../../static/img/mk_search_point_2.png"></a></li>
+          <li class="point-li"><a><img src="../../../static/img/mk_search_point_3.png"></a></li>
+          <li class="point-li"><a><img src="../../../static/img/mk_search_point_4.png"></a></li>
+        </ul>
+      </div>
+      <div class="point-li top-box"  v-scroll-to="'#headTop'"><a class="top"><i class="el-icon-caret-top"></i><p>TOP</p></a></div>
+    </div>
   </div>
 </template>
 <script>
@@ -212,6 +237,7 @@ import { apiAxios } from '../../common/utils'
 import { api } from '../../common/api'
 import shortcut from '../../components/shortcutHeader'
 import headerNav from '../../components/headerNav'
+import absBox from '../../components/absBox'
 import pageFooter from '../../components/pageFooter'
 export default {
   data () {
@@ -221,12 +247,22 @@ export default {
       brand: '',
       brandList: '',
       selectBrand: [], // 选择的品牌查询
-      isSelectBrand: true, // 是否选择了品牌
+      isSelectBrand: true, // 是否显示品牌列表，即未选择品牌
+      isSelectBrandMore: true,
       specList: '',
       specNavList: [],
       selectSpec: [],
+      isSelectSpec: [],
+      temSelectList: [], // 多选时临时存取数据
       priceRange: [],
+      isPriceSort: false, // 判断价格升序和降序图标
       smallPrice: '',
+      bigPrice: '',
+      choose_sort: 'complex', // 排序筛选条件
+      temSort: { // // 临时存放排序变量
+        field: '',
+        sort: ''
+      },
       currentPage: 1,
       totalPages: 1,
       absList: [], // 搜索左侧商品精选
@@ -234,10 +270,11 @@ export default {
       bestGoList: [], // 搜索底部商品精选
       bestGoCate: '',
       likeList: [], // 搜索底部猜你喜欢
-      likeCate: ''
+      likeCate: '',
+      bottomAbs: [] // 底部广告
     }
   },
-  components: { pageFooter, shortcut, headerNav },
+  components: { pageFooter, shortcut, headerNav, absBox },
   created () {
     this.keywords = this.$route.query.keywords
     if (this.keywords) {
@@ -276,11 +313,22 @@ export default {
         this.likeCate = res.data.data.contentCategory
       }
     })
+    apiAxios.AxiosG({
+      url: api.detailCon,
+      params: {categoryId: 12}
+    }, res => {
+      if (res.data.success) {
+        this.bottomAbs = res.data.data.contentList
+      }
+    })
   },
   methods: {
-    handlePrice (e) {
+    handleOnePrice (e) {
       // 过滤
-      // this.smallPrice = e.target.value.replace(/[^\d{1,}\.\d{1,}|\d{1,}]/g, '')
+      this.smallPrice = e.target.value.replace(/[^\d]/g, '')
+    },
+    handleTwoPrice (e) {
+      this.bigPrice = e.target.value.replace(/[^\d]/g, '')
     },
     handleSizeChange (val) {
       console.log(`每页 ${val} 条`)
@@ -304,8 +352,14 @@ export default {
         this.selectBrand = []
       }
       this.isSelectBrand = true
-      let priceRange
-      let userPrice = [3000, 20]
+      let priceRange = ''
+      let userPrice = []
+      if (this.smallPrice !== '' && this.smallPrice >= 0) {
+        userPrice.push(this.smallPrice)
+      }
+      if (this.bigPrice !== '' && this.bigPrice >= 0) {
+        userPrice.push(this.bigPrice)
+      }
       userPrice.sort()
       if (userPrice.length) {
         if (userPrice.length === 1) {
@@ -314,18 +368,30 @@ export default {
           priceRange = userPrice[0].toString() + '-' + userPrice[1].toString()
         }
       }
+      // 初始化价格区间
+      this.bigPrice = ''
+      this.smallPrice = ''
+      let spec = {}
+      for (let val of this.selectSpec) {
+        let tem = []
+        for (let tip of val.childList) {
+          tem.push(tip.attr)
+        }
+        spec[val.spec] = tem.join('-')
+      }
       let searchMap =
         {
           keywords: this.keywords,
           category: '',
           brand: this.selectBrand.join('-'), // 品牌
-          spec: {}, // 规格
+          spec: spec, // 规格
           price: priceRange,
           pageNo: this.currentPage,
           pageSize: 40,
-          sort: '', // 排序  ASC -升序  DESC-降序
-          sortField: '' // 排序变量
+          sort: this.temSort.sort, // 排序  ASC -升序  DESC-降序
+          sortField: this.temSort.field // 排序变量 salesCount 销量 sellerCredit 信用 price 价格
           /*
+            "spec":{"机身内存":"16G","网络":"联通3G"}
             title 标题
             price 价格
             image 图片
@@ -340,12 +406,6 @@ export default {
       if (searchMap.brand) {
         this.isSelectBrand = false
       }
-      // for (let value in searchMap) {
-      //   searchMap[value] ? this.brandList = '' : ''
-      //   searchMap[value] ? this.spec = '' : ''
-      // }
-      // this.searchMap = searchMap
-      // this.$message.info(this.$route.fullPath)
       apiAxios.AxiosP({
         url: api.search,
         method: 'post',
@@ -358,46 +418,199 @@ export default {
           this.specList = this.searchList.specList || ''
           if (this.specList) {
             for (let i = 0; i < this.specList.length; i++) {
-              this.specNavList.push(this.specList[i].text)
-              // this.$set(this.specNavList, 'arg', 23)
+              this.specNavList.push({spec: this.specList[i].text, id: this.specList[i].id})
             }
           }
-          this.specNavList = [...new Set(this.specNavList)]
+          // this.specNavList = [...new Set(this.specNavList)]
         }
       })
     },
     selectStyle (item, index) {
-      if (this.$refs.brandli[index].children[0].className.length <= 0) {
-        this.$refs.brandli[index].children[0].className = 'cur'
-        this.$refs.brandli[index].children[1].className = 'el-icon-close'
-        this.selectBrand.push(item.text)
-        // 去重
-        this.selectBrand = [...new Set(this.selectBrand)]
+      if (this.isSelectBrandMore) { // 正常选择单个品牌
+        if (this.$refs.brandli[index].children[0].className.length <= 0) {
+          this.$refs.brandli[index].children[0].className = 'cur'
+          if (this.$refs.brandli[index].children[1]) { // 防止节点不存在 bug
+            this.$refs.brandli[index].children[1].className = 'el-icon-circle-check-outline cur'
+          }
+          this.selectBrand.push(item.text)
+          // 去重
+          this.selectBrand = [...new Set(this.selectBrand)]
+        } else {
+          this.$refs.brandli[index].children[0].className = ''
+          this.$refs.brandli[index].children[1].className = 'el-icon-circle-check-outline'
+          this.$delete(this.selectBrand, this.selectBrand.indexOf(item.text))
+        }
+        this.search([this.keywords, false])
+      } else { // 下拉多选
+        if (this.$refs.brandli[index].children[0].className.length <= 0) {
+          this.$refs.brandli[index].children[0].className = 'cur'
+          if (this.$refs.brandli[index].children[1]) { // 防止节点不存在 bug
+            this.$refs.brandli[index].children[1].className = 'el-icon-circle-check-outline cur'
+          }
+          this.temSelectList.push(item.text)
+          // 去重
+          this.temSelectList = [...new Set(this.temSelectList)]
+        } else {
+          this.$refs.brandli[index].children[0].className = ''
+          this.$refs.brandli[index].children[1].className = 'el-icon-circle-check-outline'
+          this.$delete(this.temSelectList, this.temSelectList.indexOf(item.text))
+        }
+      }
+    },
+    selectAttr (item, index, rollNum) {
+      let specIdList = this.specNavList.find(tip => {
+        return tip.id === item.specId
+      })
+      if (this.selectSpec.length) {
+        let isAll = this.selectSpec.every(list => {
+          return (list.spec !== specIdList.spec)
+        })
+        if (isAll) {
+          this.selectSpec.push({spec: specIdList.spec, childList: [{'attr': item.optionName, 'id': item.id}]})
+        } else {
+          for (let val of this.selectSpec) {
+            if (val.spec === specIdList.spec) {
+              let isSelect = val.childList.every(box => {
+                return (box.id !== item.id)
+              })
+              if (isSelect) {
+                val.childList.push({'attr': item.optionName, 'id': item.id})
+              } else {
+                for (let i = 0; i < val.childList.length; i++) {
+                  if (JSON.stringify(val.childList[i]) === JSON.stringify({'attr': item.optionName, 'id': item.id})) {
+                    val.childList.splice(i, 1)
+                    break
+                  }
+                }
+              }
+              break
+            }
+          }
+        }
       } else {
-        this.$refs.brandli[index].children[0].className = ''
-        this.$refs.brandli[index].children[1].className = ''
-        this.$delete(this.selectBrand, this.selectBrand.indexOf(item.text))
+        this.selectSpec.push({spec: specIdList.spec, childList: [{'attr': item.optionName, 'id': item.id}]})
+      }
+      console.log('over', this.selectSpec)
+      // this.isSelectBrandMore = true
+      this.search([this.keywords, false])
+      this.isSelectSpec.push(rollNum)
+    },
+    selectBrandMore (event) { // 品牌多选
+      let brandTag = this.$refs.brandul.style
+      brandTag.height = 'initial'
+      brandTag.maxHeight = '60px'
+      this.isSelectBrandMore = false
+      this.$refs.brandselMore.style.display = 'none'
+      console.log(1, this.$refs.brandul.parentElement)
+      // 16+120+40(btn)  16 + 30 + 40
+      if (this.$refs.brandul.parentElement.offsetHeight > 86) {
+        brandTag.overflowX = 'hidden'
+        brandTag.overflowY = 'auto'
+      } else {
+        brandTag.overflowX = 'hidden'
+        brandTag.overflowY = 'hidden'
+      }
+      console.log(2, this.$refs.brandul.parentElement.offsetHeight)
+    },
+    selectMore (event, index) { // spec多选
+      let specul = this.$refs.specul[index].style
+      if (specul.maxHeight === '120px') {
+        specul.height = '30px'
+        specul.maxHeight = 'initial'
+      } else {
+        specul.height = 'initial'
+        specul.maxHeight = '120px'
+      }
+      if (this.$refs.specul[index].parentElement.offsetHeight > 136) {
+        specul.overflowX = 'hidden'
+        specul.overflowY = 'auto'
+      } else {
+        specul.overflowX = 'hidden'
+        specul.overflowY = 'hidden'
+      }
+    },
+    more (event, index) { // 更多
+      let specUl
+      if (index !== undefined) {
+        specUl = this.$refs.specul[index].style
+      } else {
+        specUl = this.$refs.brandul.style
+      }
+      let curTag = event.currentTarget
+      if (specUl.height === 'auto') {
+        (specUl.height = '30px')
+        curTag.children[0].textContent = '更多'
+        curTag.children[1].className = 'el-icon-arrow-down'
+      } else {
+        specUl.height = 'auto'
+        curTag.children[0].textContent = '收起'
+        curTag.children[1].className = 'el-icon-arrow-up'
+      }
+    },
+    btnCancel () {
+      let brandTag = this.$refs.brandul.style
+      brandTag.height = '30px'
+      brandTag.maxHeight = 'initial'
+      this.isSelectBrandMore = true
+      this.$refs.brandselMore.style.display = 'block'
+      let brandIsMore = this.$refs.brandMore
+      brandIsMore.children[0].textContent = '更多'
+      brandIsMore.children[1].className = 'el-icon-arrow-down'
+      if (this.$refs.brandul.parentElement.offsetHeight > 86) {
+        brandTag.overflowX = 'hidden'
+        brandTag.overflowY = 'auto'
+      } else {
+        brandTag.overflowX = 'hidden'
+        brandTag.overflowY = 'hidden'
+      }
+    },
+    btnComfirm (index) {
+      if (index === 1) { // 1 为品牌
+        this.selectBrand = this.temSelectList
+      } else if (index === 2) { // 2 为spec list
       }
       this.search([this.keywords, false])
+      // this.isSelectBrandMore = true
     },
-    selectBrandMore () {
-      if (this.$refs.brandul.style.maxHeight === '120px') {
-        this.$refs.brandul.style.height = '30px'
-        this.$refs.brandul.style.maxHeight = 'initial'
-      } else {
-        this.$refs.brandul.style.height = 'initial'
-        this.$refs.brandul.style.maxHeight = '120px'
-      }
-      if (this.$refs.brandul.parentElement.offsetHeight > 136) { // 上下padding 16px
-        this.$refs.brandul.style.overflowX = 'hidden'
-        this.$refs.brandul.style.overflowY = 'auto'
-      } else {
-        this.$refs.brandul.style.overflowX = 'hidden'
-        this.$refs.brandul.style.overflowY = 'hidden'
-      }
+    // 提交指定价格区间
+    btnPrice () {
+      this.search([this.keywords, false])
     },
-    selectMore (index) {
-      this.$refs.specul[index].style.height === 'auto' ? this.$refs.specul[index].style.height = '30px' : this.$refs.specul[index].style.height = 'auto'
+    chooseSort (type) {
+      if (this.choose_sort !== type) {
+        this.isPriceSort = false
+        this.choose_sort = type
+        // 销量salesNum 信用creditNum 价格salesPrice
+        if (type === 'salesNum') {
+          this.$set(this.temSort, 'field', 'salesCount')
+          this.$set(this.temSort, 'sort', 'DESC')
+        } else if (type === 'creditNum') {
+          this.$set(this.temSort, 'field', 'sellerCredit')
+          this.$set(this.temSort, 'sort', 'DESC')
+        } else if (type === 'salesPrice') {
+          this.$set(this.temSort, 'field', 'price')
+          this.$set(this.temSort, 'sort', 'DESC')
+          this.isPriceSort = true
+        } else {
+          this.$set(this.temSort, 'field', '')
+          this.$set(this.temSort, 'sort', '')
+        }
+      } else {
+        if (type === 'complex') { // 综合
+          this.$set(this.temSort, 'field', '')
+          this.$set(this.temSort, 'sort', '')
+        } else if (type === 'salesPrice') {
+          if (this.temSort.sort === 'ASC') {
+            this.$set(this.temSort, 'sort', 'DESC')
+            this.isPriceSort = true
+          } else {
+            this.$set(this.temSort, 'sort', 'ASC')
+            this.isPriceSort = false
+          }
+          this.$set(this.temSort, 'field', 'price')
+        }
+      }
+      this.search([this.keywords, false])
     }
   },
   watch: {
