@@ -112,7 +112,7 @@
                   <div class="active item">
                     <ul>
                       <li>
-                        <img src="../../../static/img/part03.png" />
+                        <img src="static/img/part03.png" />
                         <div class="intro">
                           <i>Apple苹果iPhone 6s (A1699)</i>
                         </div>
@@ -124,7 +124,7 @@
                         </div>
                       </li>
                       <li>
-                        <img src="../../../static/img/part03.png" />
+                        <img src="static/img/part03.png" />
                         <div class="intro">
                           <i>Apple苹果iPhone 6s (A1699)</i>
                         </div>
@@ -136,7 +136,7 @@
                         </div>
                       </li>
                       <li>
-                        <img src="../../../static/img/part03.png" />
+                        <img src="static/img/part03.png" />
                         <div class="intro">
                           <i>Apple苹果iPhone 6s (A1699)</i>
                         </div>
@@ -148,7 +148,7 @@
                         </div>
                       </li>
                       <li>
-                        <img src="../../../static/img/part03.png" />
+                        <img src="static/img/part03.png" />
                         <div class="intro">
                           <i>Apple苹果iPhone 6s (A1699)</i>
                         </div>
@@ -164,7 +164,7 @@
                   <div class="item">
                     <ul>
                       <li>
-                        <img src="../../../static/img/part03.png" />
+                        <img src="static/img/part03.png" />
                         <div class="intro">
                           <i>Apple苹果iPhone 6s (A1699)</i>
                         </div>
@@ -176,7 +176,7 @@
                         </div>
                       </li>
                       <li>
-                        <img src="../../../static/img/part03.png" />
+                        <img src="static/img/part03.png" />
                         <div class="intro">
                           <i>Apple苹果iPhone 6s (A1699)</i>
                         </div>
@@ -188,7 +188,7 @@
                         </div>
                       </li>
                       <li>
-                        <img src="../../../static/img/part03.png" />
+                        <img src="static/img/part03.png" />
                         <div class="intro">
                           <i>Apple苹果iPhone 6s (A1699)</i>
                         </div>
@@ -200,7 +200,7 @@
                         </div>
                       </li>
                       <li>
-                        <img src="../../../static/img/part03.png" />
+                        <img src="static/img/part03.png" />
                         <div class="intro">
                           <i>Apple苹果iPhone 6s (A1699)</i>
                         </div>

@@ -1,6 +1,6 @@
 <template>
     <div class="top">
-      <router-link :to="{path: isHome}" ><img src="../../static/img/reg/reg_logo-118-69.png"></router-link>
+      <router-link :to="{path: isHome}" ><img src="static/img/reg/reg_logo-118-69.png"></router-link>
     </div>
 </template>
 <script>

@@ -130,7 +130,7 @@
                             <a href="" class="curr" title=""><img :src="item.image" data-sku="" data-lazy-img="" width="25" height="25"></a>
                           </li>
                           <li class="ps-item">
-                            <a href="" class="curr" title=""><img src="../../../static/img/phone.png" data-sku="" data-lazy-img="" width="25" height="25"></a>
+                            <a href="" class="curr" title=""><img src="static/img/phone.png" data-sku="" data-lazy-img="" width="25" height="25"></a>
                           </li>
                         </ul>
                       </div>
@@ -154,8 +154,8 @@
                       <span class="J_im_icon"><a target="_blank">销量1000</a><b class="im-01" title="联系客服"><i class="el-icon-service"></i></b></span>
                     </div>
                     <div class="p-add">
-                      <a><img src="../../../static/img/mk_search_addgoods.png"><span>收藏</span></a>
-                      <a><img src="../../../static/img/mk_search_addcart.png"><span>加购物车</span></a>
+                      <a><img src="static/img/mk_search_addgoods.png"><span>收藏</span></a>
+                      <a><img src="static/img/mk_search_addcart.png"><span>加购物车</span></a>
                     </div>
                     <!-- <div class="p-focus">
                       <a class="J_focus" data-sku="10947521008" href="javascript:;" title="点击关注"><i class="el-icon-star-off"></i>关注</a>
@@ -222,10 +222,10 @@
     <div class="point">
       <div class="point-con">
         <ul class="point-ul">
-          <li class="point-li"><a><img src="../../../static/img/mk_search_point_1.png"></a></li>
-          <li class="point-li"><a><img src="../../../static/img/mk_search_point_2.png"></a></li>
-          <li class="point-li"><a><img src="../../../static/img/mk_search_point_3.png"></a></li>
-          <li class="point-li"><a><img src="../../../static/img/mk_search_point_4.png"></a></li>
+          <li class="point-li"><a><img src="static/img/mk_search_point_1.png"></a></li>
+          <li class="point-li"><a><img src="static/img/mk_search_point_2.png"></a></li>
+          <li class="point-li"><a><img src="static/img/mk_search_point_3.png"></a></li>
+          <li class="point-li"><a><img src="static/img/mk_search_point_4.png"></a></li>
         </ul>
       </div>
       <div class="point-li top-box"  v-scroll-to="'#headTop'"><a class="top"><i class="el-icon-caret-top"></i><p>TOP</p></a></div>

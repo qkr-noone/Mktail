@@ -31,7 +31,7 @@
             <li class="yui3-u-1-6">
               <div class="list-wrap">
                 <div class="p-img">
-                  <img src="../../../static/img/itemlike01.png" />
+                  <img src="static/img/itemlike01.png" />
                 </div>
                   <div class="attr">
                     <em>DELL戴尔Ins 15MR-7528SS 15英寸 银色 笔记本</em>
@@ -50,7 +50,7 @@
             <li class="yui3-u-1-6">
               <div class="list-wrap">
                 <div class="p-img">
-                  <img src="../../../static/img/itemlike02.png" />
+                  <img src="static/img/itemlike02.png" />
                 </div>
                   <div class="attr">
                     <em>Apple苹果iPhone 6s/6s Plus 16G 64G 128G</em>
@@ -69,7 +69,7 @@
             <li class="yui3-u-1-6">
               <div class="list-wrap">
                 <div class="p-img">
-                  <img src="../../../static/img/itemlike03.png" />
+                  <img src="static/img/itemlike03.png" />
                 </div>
                   <div class="attr">
                     <em>DELL戴尔Ins 15MR-7528SS 15英寸 银色 笔记本</em>
@@ -88,7 +88,7 @@
             <li class="yui3-u-1-6">
               <div class="list-wrap">
                 <div class="p-img">
-                  <img src="../../../static/img/itemlike04.png" />
+                  <img src="static/img/itemlike04.png" />
                 </div>
                   <div class="attr">
                     <em>DELL戴尔Ins 15MR-7528SS 15英寸 银色 笔记本</em>
@@ -107,7 +107,7 @@
             <li class="yui3-u-1-6">
               <div class="list-wrap">
                 <div class="p-img">
-                  <img src="../../../static/img/itemlike05.png" />
+                  <img src="static/img/itemlike05.png" />
                 </div>
                   <div class="attr">
                     <em>DELL戴尔Ins 15MR-7528SS 15英寸 银色 笔记本</em>
@@ -126,7 +126,7 @@
             <li class="yui3-u-1-6">
               <div class="list-wrap">
                 <div class="p-img">
-                  <img src="../../../static/img/itemlike06.png" />
+                  <img src="static/img/itemlike06.png" />
                 </div>
                   <div class="attr">
                     <em>DELL戴尔Ins 15MR-7528SS 15英寸 银色 笔记本</em>

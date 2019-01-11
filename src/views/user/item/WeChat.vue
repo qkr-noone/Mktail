@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div>testDetail</div>
+    <div>secure</div>
   </div>
 </template>
 <script>

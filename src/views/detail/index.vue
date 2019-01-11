@@ -132,7 +132,7 @@
                     <li>
                       <div class="list-wrap">
                         <div class="p-img">
-                          <img src="../../../static/img/part01.png" />
+                          <img src="static/img/part01.png" />
                         </div>
                         <div class="attr">
                           <em>Apple苹果iPhone 6s (A1699)</em>
@@ -148,7 +148,7 @@
                     <li>
                       <div class="list-wrap">
                         <div class="p-img">
-                          <img src="../../../static/img/part02.png" />
+                          <img src="static/img/part02.png" />
                         </div>
                         <div class="attr">
                             <em>Apple苹果iPhone 6s (A1699)</em>
@@ -164,7 +164,7 @@
                     <li>
                       <div class="list-wrap">
                         <div class="p-img">
-                          <img src="../../../static/img/part03.png" />
+                          <img src="static/img/part03.png" />
                                 </div>
                           <div class="attr">
                             <em>Apple苹果iPhone 6s (A1699)</em>
@@ -181,7 +181,7 @@
                         </div>
                         <div class="list-wrap">
                           <div class="p-img">
-                            <img src="../../../static/img/part02.png" />
+                            <img src="static/img/part02.png" />
                                 </div>
                             <div class="attr">
                               <em>Apple苹果iPhone 6s (A1699)</em>
@@ -198,7 +198,7 @@
                           </div>
                           <div class="list-wrap">
                             <div class="p-img">
-                              <img src="../../../static/img/part03.png" />
+                              <img src="static/img/part03.png" />
                                 </div>
                               <div class="attr">
                                 <em>Apple苹果iPhone 6s (A1699)</em>
@@ -231,7 +231,7 @@
                 <div class="fl master">
                   <div class="list-wrap">
                     <div class="p-img">
-                      <img src="../../../static/img/l-m01.png" />
+                      <img src="static/img/l-m01.png" />
                     </div>
                     <em>￥5299</em>
                     <i>+</i>
@@ -241,7 +241,7 @@
                   <ul class="suit-list">
                     <li class="">
                       <div id="">
-                        <img src="../../../static/img/dp01.png" />
+                        <img src="static/img/dp01.png" />
                       </div>
                       <i>Feless费勒斯VR</i>
                       <label data-toggle="checkbox" class="checkbox-pretty">
@@ -250,7 +250,7 @@
                     </li>
                     <li class="">
                       <div id="">
-                        <img src="../../../static/img/dp02.png" />
+                        <img src="static/img/dp02.png" />
                       </div>
                       <i>Feless费勒斯VR</i>
                       <label data-toggle="checkbox" class="checkbox-pretty">
@@ -258,14 +258,14 @@
                       </label>
                     </li>
                     <li class="">
-                      <div id=""><img src="../../../static/img/dp03.png" /></div>
+                      <div id=""><img src="static/img/dp03.png" /></div>
                       <i>Feless费勒斯VR</i>
                       <label data-toggle="checkbox" class="checkbox-pretty">
                         <input type="checkbox"><span>59</span>
                       </label>
                     </li>
                     <li class="">
-                      <div id=""><img src="../../../static/img/dp04.png" /></div>
+                      <div id=""><img src="static/img/dp04.png" /></div>
                       <i>Feless费勒斯VR</i>
                       <label data-toggle="checkbox" class="checkbox-pretty">
                         <input type="checkbox"><span>99</span>
@@ -289,9 +289,9 @@
                       {{this.goodsIntroduc}}
                       <!-- <img v-for="item in goodsDesc.itemImages" :src="item.url" :key="item.url"> -->
                     </div>
-                    <img src="../../../static/img/intro01.png" />
-                    <img src="../../../static/img/intro02.png" />
-                    <img src="../../../static/img/intro03.png" />
+                    <img src="static/img/intro01.png" />
+                    <img src="static/img/intro02.png" />
+                    <img src="static/img/intro03.png" />
                   </div>
                 </el-tab-pane>
                 <el-tab-pane label="规格与包装" name="two">
@@ -314,7 +314,7 @@
                 </el-tab-pane>
                 <el-tab-pane label="3D展示" name="five">
                   <div id="five" class="tab-pane">
-                    <p @click="threeDUrl('http://120.79.93.197/we1/')"><img src="../../../static/img/intro02.png" /></p>
+                    <p @click="threeDUrl('http://120.79.93.197/we1/')"><img src="static/img/intro02.png" /></p>
                   </div>
                 </el-tab-pane>
               </el-tabs>
@@ -329,7 +329,7 @@
                 <li class="yui3-u-1-6">
                   <div class="list-wrap">
                     <div class="p-img">
-                      <img src="../../../static/img/itemlike01.png" />
+                      <img src="static/img/itemlike01.png" />
                     </div>
                       <div class="attr">
                         <em>DELL戴尔Ins 15MR-7528SS 15英寸 银色 笔记本</em>
@@ -348,7 +348,7 @@
                 <li class="yui3-u-1-6">
                   <div class="list-wrap">
                     <div class="p-img">
-                      <img src="../../../static/img/itemlike02.png" />
+                      <img src="static/img/itemlike02.png" />
                     </div>
                       <div class="attr">
                         <em>Apple苹果iPhone 6s/6s Plus 16G 64G 128G</em>
@@ -367,7 +367,7 @@
                 <li class="yui3-u-1-6">
                   <div class="list-wrap">
                     <div class="p-img">
-                      <img src="../../../static/img/itemlike03.png" />
+                      <img src="static/img/itemlike03.png" />
                     </div>
                       <div class="attr">
                         <em>DELL戴尔Ins 15MR-7528SS 15英寸 银色 笔记本</em>
@@ -386,7 +386,7 @@
                 <li class="yui3-u-1-6">
                   <div class="list-wrap">
                     <div class="p-img">
-                      <img src="../../../static/img/itemlike04.png" />
+                      <img src="static/img/itemlike04.png" />
                     </div>
                       <div class="attr">
                         <em>DELL戴尔Ins 15MR-7528SS 15英寸 银色 笔记本</em>
@@ -405,7 +405,7 @@
                 <li class="yui3-u-1-6">
                   <div class="list-wrap">
                     <div class="p-img">
-                      <img src="../../../static/img/itemlike05.png" />
+                      <img src="static/img/itemlike05.png" />
                     </div>
                       <div class="attr">
                         <em>DELL戴尔Ins 15MR-7528SS 15英寸 银色 笔记本</em>
@@ -424,7 +424,7 @@
                 <li class="yui3-u-1-6">
                   <div class="list-wrap">
                     <div class="p-img">
-                      <img src="../../../static/img/itemlike06.png" />
+                      <img src="static/img/itemlike06.png" />
                     </div>
                       <div class="attr">
                         <em>DELL戴尔Ins 15MR-7528SS 15英寸 银色 笔记本</em>
@@ -459,7 +459,7 @@
         <el-tabs type="border-card" class="sui-nav nav-tabs tab-wraped">
           <el-tab-pane label="扫描登录" >
             <div class="tab-pane">
-              <img src="../../../static/img/erweima.png" />
+              <img src="static/img/erweima.png" />
               <p>剩余事件60s</p>
             </div>
           </el-tab-pane>

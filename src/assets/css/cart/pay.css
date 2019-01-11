@@ -77,7 +77,7 @@
   width: 30px;
   height: 30px;
   display: inline-block;
-  background: url(../../../../static/img/success-icon.png);
+  background: url(/static/img/success-icon.png);
   background-position: 0 0
 }
 
@@ -141,7 +141,7 @@
 }
 
 .checkout-steps .phone {
-  background: url(../../../../static/img/phone-bg.png) no-repeat;
+  background: url(/static/img/phone-bg.png) no-repeat;
   width: 350px;
   height: 400px;
   margin-left: 40px
@@ -152,7 +152,7 @@
 }
 
 .checkout-steps .saosao {
-  background: url(../../../../static/img/icon-red.png) 50px 8px no-repeat #ff7674;
+  background: url(/static/img/icon-red.png) 50px 8px no-repeat #ff7674;
   margin-top: 15px;
   padding: 8px 0 8px 125px
 }

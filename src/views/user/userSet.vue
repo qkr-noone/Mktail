@@ -15,15 +15,10 @@
           </div>
         </div>
         <div class="account-content">
-          <div class="con-wrap" v-if="title">
-            <div class="title">
-              <a>微博绑定微博绑定</a>
-            </div>
-            <div class="con-de">
-              <div>111</div>
-            </div>
+          <div class="con-wrap" v-if="!title">
+            aaa
           </div>
-          <transition v-else>
+          <transition>
             <router-view></router-view>
           </transition>
         </div>
@@ -140,7 +135,7 @@
                           <tr>
                             <td width="45%">
                               <div class="typographic">
-                                <div><img src="../../../static/img/dp03.png"></div>
+                                <div><img src="static/img/dp03.png"></div>
                                 <div>
                                   <a href="" class="block-text">包邮&nbsp;正品玛姬儿压缩面膜无纺布纸膜100粒&nbsp;送泡瓶面膜刷喷瓶&nbsp;新款</a>
                                   <span class="guige">规格：温泉喷雾150ml</span>
@@ -186,7 +181,7 @@
                           <tr>
                             <td width="45%">
                               <div class="typographic">
-                                <div><img src="../../../static/img/dp03.png"></div>
+                                <div><img src="static/img/dp03.png"></div>
                                 <div>
                                   <a href="" class="block-text">包邮&nbsp;正品玛姬儿压缩面膜无纺布纸膜100粒&nbsp;送泡瓶面膜刷喷瓶&nbsp;新款</a>
                                   <span class="guige">规格：温泉喷雾150ml</span>
@@ -232,7 +227,7 @@
                           <tr>
                             <td width="45%">
                               <div class="typographic">
-                                <div><img src="../../../static/img/dp03.png"></div>
+                                <div><img src="static/img/dp03.png"></div>
                                 <div>
                                   <a href="" class="block-text">包邮&nbsp;正品玛姬儿压缩面膜无纺布纸膜100粒&nbsp;送泡瓶面膜刷喷瓶&nbsp;新款</a>
                                   <span class="guige">规格：温泉喷雾150ml</span>
@@ -316,7 +311,7 @@
                           <tr>
                             <td width="45%">
                               <div class="typographic">
-                                <div><img src="../../../static/img/dp03.png"></div>
+                                <div><img src="static/img/dp03.png"></div>
                                 <div>
                                   <a href="" class="block-text">包邮&nbsp;正品玛姬儿压缩面膜无纺布纸膜100粒&nbsp;送泡瓶面膜刷喷瓶&nbsp;新款</a>
                                   <span class="guige">规格：温泉喷雾150ml</span>
@@ -362,7 +357,7 @@
                           <tr>
                             <td width="45%">
                               <div class="typographic">
-                                <div><img src="../../../static/img/dp03.png"></div>
+                                <div><img src="static/img/dp03.png"></div>
                                 <div>
                                   <a href="" class="block-text">包邮&nbsp;正品玛姬儿压缩面膜无纺布纸膜100粒&nbsp;送泡瓶面膜刷喷瓶&nbsp;新款</a>
                                   <span class="guige">规格：温泉喷雾150ml</span>
@@ -408,7 +403,7 @@
                           <tr>
                             <td width="45%">
                               <div class="typographic">
-                                <div><img src="../../../static/img/dp03.png"></div>
+                                <div><img src="static/img/dp03.png"></div>
                                 <div>
                                   <a href="" class="block-text">包邮&nbsp;正品玛姬儿压缩面膜无纺布纸膜100粒&nbsp;送泡瓶面膜刷喷瓶&nbsp;新款</a>
                                   <span class="guige">规格：温泉喷雾150ml</span>
@@ -492,7 +487,7 @@
                           <tr>
                             <td width="45%">
                               <div class="typographic">
-                                <div><img src="../../../static/img/dp03.png"></div>
+                                <div><img src="static/img/dp03.png"></div>
                                 <div>
                                   <a href="" class="block-text">包邮&nbsp;正品玛姬儿压缩面膜无纺布纸膜100粒&nbsp;送泡瓶面膜刷喷瓶&nbsp;新款</a>
                                   <span class="guige">规格：温泉喷雾150ml</span>
@@ -538,7 +533,7 @@
                           <tr>
                             <td width="45%">
                               <div class="typographic">
-                                <div><img src="../../../static/img/dp03.png"></div>
+                                <div><img src="static/img/dp03.png"></div>
                                 <div>
                                   <a href="" class="block-text">包邮&nbsp;正品玛姬儿压缩面膜无纺布纸膜100粒&nbsp;送泡瓶面膜刷喷瓶&nbsp;新款</a>
                                   <span class="guige">规格：温泉喷雾150ml</span>
@@ -584,7 +579,7 @@
                           <tr>
                             <td width="45%">
                               <div class="typographic">
-                                <div><img src="../../../static/img/dp03.png"></div>
+                                <div><img src="static/img/dp03.png"></div>
                                 <div>
                                   <a href="" class="block-text">包邮&nbsp;正品玛姬儿压缩面膜无纺布纸膜100粒&nbsp;送泡瓶面膜刷喷瓶&nbsp;新款</a>
                                   <span class="guige">规格：温泉喷雾150ml</span>
@@ -668,7 +663,7 @@
                           <tr>
                             <td width="45%">
                               <div class="typographic">
-                                <div><img src="../../../static/img/dp03.png"></div>
+                                <div><img src="static/img/dp03.png"></div>
                                 <div>
                                   <a href="" class="block-text">包邮&nbsp;正品玛姬儿压缩面膜无纺布纸膜100粒&nbsp;送泡瓶面膜刷喷瓶&nbsp;新款</a>
                                   <span class="guige">规格：温泉喷雾150ml</span>
@@ -714,7 +709,7 @@
                           <tr>
                             <td width="45%">
                               <div class="typographic">
-                                <div><img src="../../../static/img/dp03.png"></div>
+                                <div><img src="static/img/dp03.png"></div>
                                 <div>
                                   <a href="" class="block-text">包邮&nbsp;正品玛姬儿压缩面膜无纺布纸膜100粒&nbsp;送泡瓶面膜刷喷瓶&nbsp;新款</a>
                                   <span class="guige">规格：温泉喷雾150ml</span>
@@ -760,7 +755,7 @@
                           <tr>
                             <td width="45%">
                               <div class="typographic">
-                                <div><img src="../../../static/img/dp03.png"></div>
+                                <div><img src="static/img/dp03.png"></div>
                                 <div>
                                   <a href="" class="block-text">包邮&nbsp;正品玛姬儿压缩面膜无纺布纸膜100粒&nbsp;送泡瓶面膜刷喷瓶&nbsp;新款</a>
                                   <span class="guige">规格：温泉喷雾150ml</span>
@@ -844,7 +839,7 @@
                           <tr>
                             <td width="45%">
                               <div class="typographic">
-                                <div><img src="../../../static/img/dp03.png"></div>
+                                <div><img src="static/img/dp03.png"></div>
                                 <div>
                                   <a href="" class="block-text">包邮&nbsp;正品玛姬儿压缩面膜无纺布纸膜100粒&nbsp;送泡瓶面膜刷喷瓶&nbsp;新款</a>
                                   <span class="guige">规格：温泉喷雾150ml</span>
@@ -890,7 +885,7 @@
                           <tr>
                             <td width="45%">
                               <div class="typographic">
-                                <div><img src="../../../static/img/dp03.png"></div>
+                                <div><img src="static/img/dp03.png"></div>
                                 <div>
                                   <a href="" class="block-text">包邮&nbsp;正品玛姬儿压缩面膜无纺布纸膜100粒&nbsp;送泡瓶面膜刷喷瓶&nbsp;新款</a>
                                   <span class="guige">规格：温泉喷雾150ml</span>
@@ -936,7 +931,7 @@
                           <tr>
                             <td width="45%">
                               <div class="typographic">
-                                <div><img src="../../../static/img/dp03.png"></div>
+                                <div><img src="static/img/dp03.png"></div>
                                 <div>
                                   <a href="" class="block-text">包邮&nbsp;正品玛姬儿压缩面膜无纺布纸膜100粒&nbsp;送泡瓶面膜刷喷瓶&nbsp;新款</a>
                                   <span class="guige">规格：温泉喷雾150ml</span>
@@ -992,7 +987,7 @@
             <ul class="atten-ul">
               <li class="atten-li">
                 <div class="atten-img">
-                  <a href=""><img src="../../../static/img/s3.png"></a>
+                  <a href=""><img src="static/img/s3.png"></a>
                 </div>
                 <div class="atten-desc">
                   <p>商品描述吗日本 Dr.Ci.Labo城野医生毛孔收敛水 10本 Dr.Ci.Labo城野医生毛孔收敛</p>
@@ -1006,7 +1001,7 @@
               </li>
               <li class="atten-li">
                 <div class="atten-img">
-                  <a href=""><img src="../../../static/img/s3.png"></a>
+                  <a href=""><img src="static/img/s3.png"></a>
                 </div>
                 <div class="atten-desc">
                   <p>商品描述吗日本 Dr.Ci.Labo城野医生毛孔收敛水 10本 Dr.Ci.Labo城野医生毛孔收敛</p>
@@ -1020,7 +1015,7 @@
               </li>
               <li class="atten-li">
                 <div class="atten-img">
-                  <a href=""><img src="../../../static/img/s3.png"></a>
+                  <a href=""><img src="static/img/s3.png"></a>
                 </div>
                 <div class="atten-desc">
                   <p>商品描述吗日本 Dr.Ci.Labo城野医生毛孔收敛水 10本 Dr.Ci.Labo城野医生毛孔收敛</p>
@@ -1034,7 +1029,7 @@
               </li>
               <li class="atten-li">
                 <div class="atten-img">
-                  <a href=""><img src="../../../static/img/s3.png"></a>
+                  <a href=""><img src="static/img/s3.png"></a>
                 </div>
                 <div class="atten-desc">
                   <p>商品描述吗日本 Dr.Ci.Labo城野医生毛孔收敛水 10本 Dr.Ci.Labo城野医生毛孔收敛</p>
@@ -1048,7 +1043,7 @@
               </li>
               <li class="atten-li">
                 <div class="atten-img">
-                  <a href=""><img src="../../../static/img/s3.png"></a>
+                  <a href=""><img src="static/img/s3.png"></a>
                 </div>
                 <div class="atten-desc">
                   <p>商品描述吗日本 Dr.Ci.Labo城野医生毛孔收敛水 10本 Dr.Ci.Labo城野医生毛孔收敛</p>
@@ -1070,7 +1065,7 @@
                     <div class="shops-detail">
                       <div class="shops-img">
                         <router-link :to="{path: '/detail'}">
-                          <img src="../../../static/img/s3.png">
+                          <img src="static/img/s3.png">
                         </router-link>
                         <p>猴尾巴设计有限公司</p>
                       </div>
@@ -1081,11 +1076,11 @@
                     </div>
                     <ul class="shops-goods">
                       <li class="shops-goods-li">
-                        <a><img src="../../../static/img/s3.png"></a>
+                        <a><img src="static/img/s3.png"></a>
                         <p>￥44</p>
                       </li>
                       <li class="shops-goods-li">
-                        <a><img src="../../../static/img/s3.png"></a>
+                        <a><img src="static/img/s3.png"></a>
                         <p>￥44</p>
                       </li>
                     </ul>
@@ -1094,7 +1089,7 @@
                     <div class="shops-detail">
                       <div class="shops-img">
                         <router-link :to="{path: '/detail'}">
-                          <img src="../../../static/img/s3.png">
+                          <img src="static/img/s3.png">
                         </router-link>
                         <p>猴尾巴设计有限公司</p>
                       </div>
@@ -1105,11 +1100,11 @@
                     </div>
                     <ul class="shops-goods">
                       <li class="shops-goods-li">
-                        <a><img src="../../../static/img/s3.png"></a>
+                        <a><img src="static/img/s3.png"></a>
                         <p>￥44</p>
                       </li>
                       <li class="shops-goods-li">
-                        <a><img src="../../../static/img/s3.png"></a>
+                        <a><img src="static/img/s3.png"></a>
                         <p>￥44</p>
                       </li>
                     </ul>
@@ -1254,21 +1249,21 @@ import pageFooter from '../../components/pageFooter'
 export default {
   data () {
     return {
-      title: '1',
+      title: '安全设置',
       nav: [
-        {name: '账号管理', path: 'userCollectShop'},
-        {name: '安全设置', path: 'userOrder'},
-        {name: '手机绑定', path: 'userCollect'},
-        {name: '密保问题设置', path: 'userAssess'},
-        {name: '个人资料', path: 'userAssess'},
-        {name: '收货地址', path: 'userHistory'},
-        {name: '消息提醒设置', path: 'userFee'},
-        {name: '支付宝绑定', path: 'userTip'},
-        {name: '微博绑定', path: 'userProtect'},
-        {name: '微信绑定', path: 'userBuyHistory'},
-        {name: '银联卡绑定', path: 'userProtect'},
-        {name: '分享绑定', path: 'userProtect'},
-        {name: '应用绑定', path: 'userProtect'}
+        {name: '账号管理', path: 'account'},
+        {name: '安全设置', path: 'secure'},
+        {name: '手机绑定', path: 'bindingPhone'},
+        {name: '密保问题设置', path: 'secretSet'},
+        {name: '个人资料', path: 'personalInfo'},
+        {name: '收货地址', path: 'address'},
+        {name: '消息提醒设置', path: 'message'},
+        {name: '支付宝绑定', path: 'alipay'},
+        {name: '微博绑定', path: 'weibo'},
+        {name: '微信绑定', path: 'WeChat'},
+        {name: '银联卡绑定', path: 'bankCard'},
+        {name: '分享绑定', path: 'share'},
+        {name: '应用绑定', path: 'app'}
       ]
     }
   },

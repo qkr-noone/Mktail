@@ -3,7 +3,7 @@
     <header class="mk-header">
       <div class="mk-head">
         <div class="h-logo" ref='logoIsCursor'>
-          <router-link :to="{path: '/home'}" ><img src="../../static/img/mk_user_logo.png"></router-link>
+          <router-link :to="{path: '/home'}" ><img src="static/img/mk_user_logo.png"></router-link>
         </div>
         <div class="title-se">
           <h1>我的MKTail</h1>
@@ -24,7 +24,7 @@
           </form>
         </div>
         <div class="addCart">
-          <img src="../../static/img/mk_search_cart.png">
+          <img src="static/img/mk_search_cart.png">
           <p>我的购物车</p>
           <span v-if="isOver">99</span>
           <span v-else>{{cartNum}}</span>

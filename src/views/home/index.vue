@@ -46,28 +46,28 @@
               <div id="myCarousel" data-ride="carousel" data-interval="4000" class="sui-carousel">
                 <el-carousel :interval="5000" arrow="always" height="100%" @change="carouselChange">
                   <el-carousel-item v-for="item in bannerList" :key="item.id">
-                    <router-link :to="{path: '/detail', query:{}}"><img :src="item.pic"></router-link>
+                    <router-link :to="{path: item.url}"><img :src="item.pic"></router-link>
                   </el-carousel-item>
                 </el-carousel>
               </div>
               <div class="style-recom">
                 <li v-for="list in absList" :key="list.id" :data-href="list.url">
                   <div><h3>{{list.title}}</h3><h4>{{list.subTitle}}</h4></div>
-                  <a><img class="wrap" :src="list.pic"></a>
+                  <router-link :to="{path: list.url}"><img class="wrap" :src="list.pic"></router-link>
                 </li>
               </div>
             </div>
             <div class="Right">
               <div class="user-info">
-                <a><img src="../../../static/img/mk_logo_login.png"></a>
+                <a><img src="static/img/mk_logo_login.png"></a>
                 <p class="user-tip">Hi，你好</p>
                 <div class="user-coming">
-                  <a>登陆</a>
-                  <a>注册</a>
+                  <router-link :to="{path: '/login'}">登陆</router-link>
+                  <router-link :to="{path: '/register'}">注册</router-link>
                 </div>
                 <div class="user-out">
                   <a>新人有礼</a>
-                  <a>购物车</a>
+                  <router-link :to="{path: '/cart'}">购物车</router-link>
                 </div>
               </div>
               <div class="news-info">
@@ -76,10 +76,10 @@
                 <li><a><span class="news-tip">【公告】</span>新能源车企不能再躺在政策温床上睡懒觉</a></li>
               </div>
               <div class="other-info">
-                <li><a><img src="../../../static/img/mk_huiyuan.png"><h5>会员</h5></a></li>
-                <li><a><img src="../../../static/img/mk_chongzhi.png"><h5>充值</h5></a></li>
-                <li><a><img src="../../../static/img/mk_hongbao.png"><h5>红包</h5></a></li>
-                <li><a><img src="../../../static/img/mk_gongyi.png"><h5>公益</h5></a></li>
+                <li><a><img src="static/img/mk_huiyuan.png"><h5>会员</h5></a></li>
+                <li><a><img src="static/img/mk_chongzhi.png"><h5>充值</h5></a></li>
+                <li><a><img src="static/img/mk_hongbao.png"><h5>红包</h5></a></li>
+                <li><a><img src="static/img/mk_gongyi.png"><h5>公益</h5></a></li>
               </div>
             </div>
           </div>
@@ -89,7 +89,7 @@
     </div>
     <!-- 会员3D服务 -->
     <div class="container_h" id="threeD">
-      <div class="py-container bsale">
+      <div class="py-container bsale" @click="threeDUrl('http://192.168.0.33:8080/qn5/')" >
         <absBox :data="bsaleList" :indicator="'none'" :arrow="'never'"></absBox>
       </div>
     </div>
@@ -111,33 +111,33 @@
             </div>
             <ul class="sty-con-ul">
               <li class="sty-con-li" v-for="(data, index) in hardwareList" :key="data.id" v-if="index < 4 && list.id === data.contentId">
-                <h2>{{data.title}}</h2>
-                <a :href="data.url"><img class="wrap" :src="data.pic"></a>
+                <h2>{{data.title}}</h2>router
+                <router-link :to="{path: '/detail', query:{goodsId: data.goodsId}}"><img class="wrap" :src="data.pic"></router-link>
                 <div><span>{{data.price}}元</span><div class="before-pri"><span>288元</span></div></div>
               </li>
               <li class="sty-con-li" v-for="(data, index) in lifeShops" :key="data.id" v-if="index < 4 && list.id === data.contentId">
                 <h2>{{data.title}}</h2>
-                <a :href="data.url"><img class="wrap" :src="data.pic"></a>
+                <router-link :to="{path: '/detail', query:{goodsId: data.goodsId}}"><img class="wrap" :src="data.pic"></router-link>
                 <div><span>{{data.price}}元</span><div class="before-pri"><span>288元</span></div></div>
               </li>
               <li class="sty-con-li" v-for="(data, index) in mechanicList" :key="data.id" v-if="index < 4 && list.id === data.contentId">
                 <h2>{{data.title}}</h2>
-                <a :href="data.url"><img class="wrap" :src="data.pic"></a>
+                <router-link :to="{path: '/detail', query:{goodsId: data.goodsId}}"><img class="wrap" :src="data.pic"></router-link>
                 <div><span>{{data.price}}元</span><div class="before-pri"><span>288元</span></div></div>
               </li>
               <li class="sty-con-li" v-for="(data, index) in elecList" :key="data.id" v-if="index < 4 && list.id === data.contentId">
                 <h2>{{data.title}}</h2>
-                <a :href="data.url"><img class="wrap" :src="data.pic"></a>
+                <router-link :to="{path: '/detail', query:{goodsId: data.goodsId}}"><img class="wrap" :src="data.pic"></router-link>
                 <div><span>{{data.price}}元</span><div class="before-pri"><span>288元</span></div></div>
               </li>
               <li class="sty-con-li" v-for="(data, index) in threeCList" :key="data.id" v-if="index < 4 && list.id === data.contentId">
                 <h2>{{data.title}}</h2>
-                <a :href="data.url"><img class="wrap" :src="data.pic"></a>
+                <router-link :to="{path: '/detail', query:{goodsId: data.goodsId}}"><img class="wrap" :src="data.pic"></router-link>
                 <div><span>{{data.price}}元</span><div class="before-pri"><span>288元</span></div></div>
               </li>
               <li class="sty-con-li" v-for="(data, index) in cartLife" :key="data.id" v-if="index < 4 && list.id === data.contentId">
                 <h2>{{data.title}}</h2>
-                <a :href="data.url"><img class="wrap" :src="data.pic"></a>
+                <router-link :to="{path: '/detail', query:{goodsId: data.goodsId}}"><img class="wrap" :src="data.pic"></router-link>
                 <div><span>{{data.price}}元</span><div class="before-pri"><span>288元</span></div></div>
               </li>
             </ul>
@@ -147,7 +147,7 @@
     </div>
     <!-- 企业直播 -->
     <div class="container_h" id="live">
-      <div class="py-container bsale">
+      <div class="py-container bsale" @click="livePage('http://192.168.1.11/')">
         <absBox :data="companyLive" :indicator="'none'" :arrow="'never'"></absBox>
       </div>
     </div>
@@ -162,11 +162,12 @@
             <h2>{{list.title}}</h2>
             <ul class="source-box-ul">
               <li class="source-box-li" v-for="data in lightList" :key="data.id" :data-id="data.id" v-if="list.id === data.contentId">
+                <router-link :to="{path: '/detail', query:{goodsId: data.goodsId}}"><img class="wrap" :src="data.pic"></router-link>
                 <a :href="data.url"><img class="wrap" :src="data.pic"></a>
               <h4>{{data.title}}</h4>
               </li>
               <li class="source-box-li" v-for="data in lightList1" :key="data.id" :data-id="data.id" v-if="list.id === data.contentId">
-                <a :href="data.url"><img class="wrap" :src="data.pic"></a>
+                <router-link :to="{path: '/detail', query:{goodsId: data.goodsId}}"><img class="wrap" :src="data.pic"></router-link>
               <h4>{{data.title}}</h4>
               </li>
               <li class="source-box-li" v-for="data in lightList2" :key="data.id" :data-id="data.id" v-if="list.id === data.contentId">
@@ -174,27 +175,27 @@
               <h4>{{data.title}}</h4>
               </li>
               <li class="source-box-li" v-for="data in lightList3" :key="data.id" :data-id="data.id" v-if="list.id === data.contentId">
-                <a :href="data.url"><img class="wrap" :src="data.pic"></a>
+                <router-link :to="{path: '/detail', query:{goodsId: data.goodsId}}"><img class="wrap" :src="data.pic"></router-link>
               <h4>{{data.title}}</h4>
               </li>
               <li class="source-box-li" v-for="data in lightList4" :key="data.id" :data-id="data.id" v-if="list.id === data.contentId">
-                <a :href="data.url"><img class="wrap" :src="data.pic"></a>
+                <router-link :to="{path: '/detail', query:{goodsId: data.goodsId}}"><img class="wrap" :src="data.pic"></router-link>
               <h4>{{data.title}}</h4>
               </li>
               <li class="source-box-li" v-for="data in lightList5" :key="data.id" :data-id="data.id" v-if="list.id === data.contentId">
-                <a :href="data.url"><img class="wrap" :src="data.pic"></a>
+                <router-link :to="{path: '/detail', query:{goodsId: data.goodsId}}"><img class="wrap" :src="data.pic"></router-link>
               <h4>{{data.title}}</h4>
               </li>
               <li class="source-box-li" v-for="data in lightList6" :key="data.id" :data-id="data.id" v-if="list.id === data.contentId">
-                <a :href="data.url"><img class="wrap" :src="data.pic"></a>
+                <router-link :to="{path: '/detail', query:{goodsId: data.goodsId}}"><img class="wrap" :src="data.pic"></router-link>
               <h4>{{data.title}}</h4>
               </li>
               <li class="source-box-li" v-for="data in lightList7" :key="data.id" :data-id="data.id" v-if="list.id === data.contentId">
-                <a :href="data.url"><img class="wrap" :src="data.pic"></a>
+                <router-link :to="{path: '/detail', query:{goodsId: data.goodsId}}"><img class="wrap" :src="data.pic"></router-link>
               <h4>{{data.title}}</h4>
               </li>
               <li class="source-box-li" v-for="data in lightList8" :key="data.id" :data-id="data.id" v-if="list.id === data.contentId">
-                <a :href="data.url"><img class="wrap" :src="data.pic"></a>
+                <router-link :to="{path: '/detail', query:{goodsId: data.goodsId}}"><img class="wrap" :src="data.pic"></router-link>
               <h4>{{data.title}}</h4>
               </li>
             </ul>
@@ -239,7 +240,7 @@
     <pageFooter></pageFooter>
     <div class="point">
       <a class="point-logo">
-        <img src="../../../static/img/mk_logo_tip.png">
+        <img src="static/img/mk_logo_tip.png">
       </a>
       <div class="point-con">
         <ul class="point-ul">
@@ -253,6 +254,7 @@
         </ul>
       </div>
     </div>
+    <!-- </a><iframe class="live_iframe" ref="live_iframe" id="live_iframe" v-bind:src="liveSource" width="360" height="300" frameborder="0" scrolling="no"></iframe></a> -->
     <div class="mask" v-show="is3Ding">
       <iframe class="mask_iframe" ref="threeDSrc"  frameborder="0" scrolling="" g="no">
       </iframe>
@@ -580,6 +582,10 @@ export default {
         console.log(this.playerOptions.HLS)
       })
     },
+    livePage (url) { // http://192.168.1.11/
+      window.open(url)
+      return false
+    },
     liveShow () {
       this.liveSource = '../static/live.html'
     },
@@ -587,7 +593,8 @@ export default {
       this.is3Ding = false
       return false
     },
-    threeDUrl (threeDUrl) { // http://120.79.93.197/we1/
+    threeDUrl (threeDUrl) { // http://192.168.0.33:8080/qn5/ http://120.79.93.197/we/
+      console.log(1)
       this.is3Ding = true
       this.$refs.threeDSrc.src = threeDUrl
       return false

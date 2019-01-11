@@ -3,10 +3,10 @@
     <footer>
       <div class="footer-wrap">
         <div class="footer-tip">
-          <div><a><img src="../../static/img/mk_end_tip.png"></a><p>新手上路</p></div>
-          <div><a><img src="../../static/img/mk_end_pay.png"></a><p>付款方式</p></div>
-          <div><a><img src="../../static/img/mk_end_depart.png"></a><p>我们特色</p></div>
-          <div><a><img src="../../static/img/mk_end_protect.png"></a><p>消费者保障</p></div>
+          <div><a><img src="static/img/mk_end_tip.png"></a><p>新手上路</p></div>
+          <div><a><img src="static/img/mk_end_pay.png"></a><p>付款方式</p></div>
+          <div><a><img src="static/img/mk_end_depart.png"></a><p>我们特色</p></div>
+          <div><a><img src="static/img/mk_end_protect.png"></a><p>消费者保障</p></div>
         </div>
       </div>
       <!-- <div class="footer-service">

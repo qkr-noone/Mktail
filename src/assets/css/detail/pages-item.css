@@ -205,7 +205,7 @@
     bottom: 0;
     _bottom: -1px;
     overflow: hidden;
-    background: url(../../../../static/img/choosed.png) no-repeat
+    background: url(/static/img/choosed.png) no-repeat
   }
   
   .summary-wrap .selected span {
@@ -803,7 +803,7 @@
     margin-top: 15px
   }
   span.loginname {
-    background: url(../../../../static/img/user.png);
+    background: url(/static/img/user.png);
     background-position: center;
     background-size: 35px;
     background-repeat: no-repeat;
@@ -829,7 +829,7 @@
     box-sizing: border-box;
   }
   .loginpwd {
-    background: url(../../../../static/img/password.png);
+    background: url(/static/img/password.png);
     background-position: center;
     background-size: 35px;
     background-repeat: no-repeat;
@@ -837,7 +837,7 @@
   .loginmanage {
     height: 500px;
     width: 1920px;
-    background: url(../../../../static/img/bg_head.png);
+    background: url(/static/img/bg_head.png);
     vertical-align: middle;
     display: table-cell
   }

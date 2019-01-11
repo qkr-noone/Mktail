@@ -10,7 +10,7 @@
         <el-tabs type="border-card" class="sui-nav nav-tabs tab-wraped">
           <el-tab-pane label="扫描登录" >
             <div class="tab-pane">
-              <img src="../../../static/img/erweima.png" />
+              <img src="static/img/erweima.png" />
               <p>剩余事件60s</p>
             </div>
           </el-tab-pane>
@@ -122,7 +122,7 @@ export default {
     margin-top: 15px
   }
   span.loginname {
-    background: url(../../../static/img/user.png);
+    background: url(/static/img/user.png);
     background-position: center;
     background-size: 35px;
     background-repeat: no-repeat;
@@ -148,7 +148,7 @@ export default {
     box-sizing: border-box;
   }
   .loginpwd {
-    background: url(../../../static/img/password.png);
+    background: url(/static/img/password.png);
     background-position: center;
     background-size: 35px;
     background-repeat: no-repeat;
@@ -156,7 +156,7 @@ export default {
   .loginmanage {
     height: 500px;
     width: 1920px;
-    background: url(../../../static/img/bg_head.png);
+    background: url(/static/img/bg_head.png);
     vertical-align: middle;
     display: table-cell
   }

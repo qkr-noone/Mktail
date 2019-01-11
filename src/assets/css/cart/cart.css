@@ -8,7 +8,7 @@
 }
 
 .logo {
-  background: url(../../../../static/img/icons.png) no-repeat;
+  background: url(/static/img/icons.png) no-repeat;
   background-position: -370px 0;
   width: 177px;
   height: 75px
@@ -283,7 +283,7 @@ a.sum-btn {
   width: 20px;
   height: 20px;
   position: absolute;
-  background: url(../../../../static/img/icons.png) no-repeat;
+  background: url(/static/img/icons.png) no-repeat;
   background-position: -422px -135px
 }
 
