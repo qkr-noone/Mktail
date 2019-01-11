@@ -97,6 +97,10 @@ router = new Router({
       component: resolve => require(['@/views/user/register'], resolve)
     },
     {
+      path: '/register/zz',
+      component: resolve => require(['@/views/user/children/zz'], resolve)
+    },
+    {
       path: '/register/paas',
       name: 'paas',
       component: resolve => require(['@/views/user/children/paas'], resolve)

@@ -1,0 +1,55 @@
+.container{
+  width:1366px;
+  height:1010px;
+  margin:0 auto;
+  border:1px solid rgba(227,227,227,0.5);
+}
+/*中部*/
+.middle .title{
+  height:62px;
+  line-height:62px;
+  text-align: left !important;
+}
+.middle .title .title-text,.effective-date{
+  display: inline;
+  font-family:SourceHanSansCN-Regular;
+  font-weight:400;
+}
+.middle .title .title-text{
+  font-size:22px;
+  color:rgba(74,74,74,1);
+  margin-left:70px;
+}
+.middle .title .effective-date{
+  font-size:12px;
+  color:rgba(124,124,124,1);
+  margin-left:911px;
+}
+.middle .middle-content{
+  box-sizing:border-box;
+  padding:21px 57px 0 45px;
+  width:1226px;
+  border:2px solid rgba(227,227,227,1);
+  height:650px;
+  font-family:SourceHanSansCN-Regular;
+  font-weight:400;
+  overflow-y: scroll;
+  font-size: 12px;
+  margin: 0 auto 62px;
+  line-height: 20px;
+}
+.middle .middle-content a{
+  color: #4A7DDA;
+}
+.middle .middle-content p{
+  margin-top: 20px;
+  color: #878787;
+}
+.middle .middle-content h3{
+  text-align: left !important;
+  margin-top: 30px;
+  color:#353535;
+}
+.middle .middle-content strong{
+  color:#353535;
+}
