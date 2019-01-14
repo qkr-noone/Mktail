@@ -3,47 +3,54 @@
     <keep-alive>
       <router-view></router-view>
     </keep-alive>
-    <div class="py-container">
-      <div class="top">
-          <div class="top_left">
-            <div class="h-logo" ref='logoIsCursor'>
-              <router-link :to="{path: isHome}" ><img src="static/img/log/log_logo1.png"></router-link>
-            </div>
-            <p class="title">欢迎登陆</p>
-          </div>
-          <div class="top_right">为确保您账户的安全及正常使用，依《网络安全法》相关要求，6月1日起会员账户需绑定手机。如您还未绑定，请尽快完成，感谢您的理解及支持！</div>
-          <div class="opinion">
-            <img src="static/img/log/log_ opinion1.png">
-            <a>我想对"登陆"提意见</a>
+      <div class="log-top">
+        <div class="py-container">
+          <div class="top">
+        <div class="top_left">
+          <div class="h-logo" ref='logoIsCursor'>
+                <router-link :to="{path: isHome}" ><img src="static/img/log/log_logo1.png"></router-link>
+              </div>
+          <p class="title">欢迎登陆</p>
+        </div>
+        <div class="top_right">为确保您账户的安全及正常使用，依《网络安全法》相关要求，6月1日起会员账户需绑定手机。如您还未绑定，请尽快完成，感谢您的理解及支持！</div>
+        <div class="opinion">
+              <img src="static/img/log/log_ opinion1.png">
+              <a>我想对"登陆"提意见</a>
           </div>
       </div>
-      <div class="middle">
+        </div>
+      </div>
+      <div class="log-middle">
+        <div class="py-container">
+          <div class="middle">
           <div class="middle_left">
-            <img src="static/img/log/log_christmas1.png">
+            <img src="static/img/log/log_christmas1.jpg">
           </div>
           <div class="loginform">
             <div class="title">
-              <p @click= "accountNumber()" :class="{active:account == true }">账号登陆</p>|
-              <p @click= "sweepCode()" :class="{active:account == false }">扫码登陆</p>
+              <p @click= "accountNumber()" :class="{active:account === true }">账号登陆</p>
+              <p>|</p>
+              <p @click= "sweepCode()" :class="{active:account === false }">扫码登陆</p>
             </div>
             <section v-show="account === true" >
-              <input type="text" placeholder="邮箱/手机号码"  v-model="username"/>
-              <input type="text" placeholder="密码" v-model="password"/>
+              <input type="text" placeholder="邮箱/手机号码" v-model="username"/>
+              <input type="password" placeholder="密码" v-model="password"/>
               <input type="button" value="登陆" class="btn" @click="userLogin"/>
-              <p>
+              <p class="reg">
                 <span class="sort">
                   <a>手机短信登陆</a>/
                   <a>注册</a>
                 </span>
-                 <a>立即注册</a>&nbsp;|
-                 <a>忘记密码</a>
+                <router-link :to="{path:'/register'}">立即注册</router-link>&nbsp;|
+                <a>忘记密码</a>
               </p>
             </section>
             <section v-show="account === false" >
-              <p>这是扫码扫码登陆</p>
+              <img src="static/img/log/log_scan1.png">
+              <p class="openAPP">打开 <router-link :to="{}">猴尾巴商城APP</router-link>扫一扫登陆</p>
             </section>
             <div class="otherLogin">
-              <p @click="userLogin()">_______________其他登陆方式________________</p>
+              <p>_____________<span class="text">其他登陆方式</span>_____________</p>
               <span>
                 <a><img src="static/img/log/log_qq1.png"></a>
                 <a><img src="static/img/log/log_WeiBo1.png"></a>
@@ -53,10 +60,15 @@
             </div>
           </div>
       </div>
-      <div class="bottom">
-        <regFooter></regFooter>
+       </div>
       </div>
-    </div>
+      <div class="log-bottom">
+        <div class="py-container">
+         <div class="bottom">
+          <regFooter></regFooter>
+      </div>
+       </div>
+      </div>
   </div>
 </template>
 <script>
@@ -123,7 +135,7 @@ export default {
 </script>
 <style scoped>
   .py-container{
-    width: 1260px;
+    width: 1226px;
     margin: 0 auto;
   }
   img{
@@ -131,7 +143,6 @@ export default {
   }
  .top{
     height:90px;
-    background: #F4F4F4;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -141,68 +152,16 @@ export default {
     font-weight:400;
     color:rgba(135,135,135,1);
   }
-  span.loginname {
-    background: url(/static/img/user.png);
-    background-position: center;
-    background-size: 35px;
-    background-repeat: no-repeat;
-  }
   .top .top_left img{
     margin-left:70px;
     margin-bottom:14px;
+    margin-top: 2px;
+    margin-left: 70px;
   }
   .top_left{
     display: flex;
     justify-content: center;
     align-items: center;
-  }
-  .sui-form .input-prepend .add-on {
-    background-color: #cfcdcd;
-    width: 45px;
-    height: 45px;
-  }
-  .sui-form input[type=text],
-  .sui-form input[type=password] {
-      height: 45px
-  }
-  .sui-form input.span2 {
-    width: 284px;
-    border: 1px solid #dcdfe6;
-    box-sizing: border-box;
-  }
-  .loginpwd {
-    background: url(/static/img/password.png);
-    background-position: center;
-    background-size: 35px;
-    background-repeat: no-repeat;
-  }
-  .loginmanage {
-    height: 500px;
-    width: 1920px;
-    background: url(/static/img/bg_head.png);
-    vertical-align: middle;
-    display: table-cell
-  }
-  .btn-danger {
-    background-color: #c81623;
-    padding: 6px;
-    border-radius: 0;
-    font-size: 16px;
-    font-family: 微软雅黑;
-    word-spacing: 4px;
-    width: 318px;
-    text-align: center;
-    color: #fff;
-  }
-  .loginform {
-    width: 380px;
-    background: #fff;
-    margin: 45px auto 0;
-    position: relative;
-    padding: 20px
-  }
-  .tab-pane >img{
-    margin: 0 auto;
   }
   .top .title{
     height:31px;
@@ -232,6 +191,15 @@ export default {
     top:59px;
     right:58px;
   }
+  .log-top{
+    background: #F4F4F4;
+  }
+  .log-middle{
+    background:rgba(240,62,62,1);
+  }
+  .log-bottom{
+    background: #F4F4F4;
+  }
  .middle{
    box-sizing:border-box;
    height:500px;
@@ -242,29 +210,35 @@ export default {
   .middle .middle_left{
     float: left;
   }
+  .middle .middle_left img{
+    width:800px;
+    height:423px;
+  }
  .middle .loginform{
    position: absolute;
-   right:70px;
    display: inline;
-   width:370px;
-   height:407px;
+   width:350px;
+   height:423px;
    background:rgba(255,255,255,1);
+   right:70px;
  }
-  .middle .loginform p{
-  font-size:16px;
-  font-family:SimHei;
-  font-weight:400;
-  color:rgba(135,135,135,1);
-  margin-top: 10px;
-}
- .active{
-   color:#FFD704
- }
- .loginform .title{
-   font-size:25px;
+ .loginform p{
+   font-size:16px;
    font-family:SimHei;
    font-weight:400;
    color:rgba(135,135,135,1);
+   margin-top: 20px;
+  }
+  .loginform .reg a{
+    font-size:16px;
+    font-family:SimHei;
+    font-weight:400;
+    color:rgba(135,135,135,1);
+  }
+ .active{
+   color:#FFD704 !important
+ }
+ .loginform .title {
    height:50px;
    display: flex;
    align-items: center;
@@ -272,6 +246,13 @@ export default {
  }
   .loginform .title p{
     display:inline;
+    font-size:25px;
+    font-family:SimHei;
+    font-weight:400;
+    color:rgba(135,135,135,1);
+  }
+  .otherLogin .text{
+    margin-top: 10px;
   }
   .loginform input{
     width:319px;
@@ -284,9 +265,12 @@ export default {
     font-weight:400;
     color:rgba(192,192,192,1);
   }
-  .loginform .sort{
-    color:#FFD704;
-    margin:0 25px 0 22px;
+  .loginform .sort {
+    color: #FFD704 !important;
+    margin: 0 10px 0 10px;
+  }
+  .sort a{
+    color: #FFD704 !important;
   }
   .loginform .btn{
     font-size:19px;
@@ -299,9 +283,22 @@ export default {
   .loginform .otherLogin a{
     margin: 15px 10px 0 10px;
   }
+  .loginform section img{
+    margin-top: 30px;
+  }
+  .loginform section .openAPP{
+    font-size:17px;
+    font-family:SimHei;
+    font-weight:400;
+    color:rgba(135,135,135,1);
+    text-align: center;
+  }
+  .loginform section .openAPP a{
+    color:#FF4606;
+    margin:0 5px  0 5px;
+  }
   .bottom{
     height:165px;
-    background: #F4F4F4;
     padding-top:55px;
   }
 </style>
