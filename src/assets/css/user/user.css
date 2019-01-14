@@ -117,6 +117,7 @@
   .us-look li {
     width: 172px;
     height: 172px;
+    border:1px solid rgba(237,237,237,1);
     overflow: hidden;
   }
   .us-look li a{
@@ -281,7 +282,7 @@
   }
   .focus-con {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     border-top: 1px solid #E2E2E2;
   }
   .focus-box {

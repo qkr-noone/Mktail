@@ -21,7 +21,7 @@
           <a ref="http://www.baidu.com" >会员认证</a>
         </li>
       </ul>
-      <p>MKtail公司版权所有-粤ICP备京公网安备 <img src="../../static/img/reg/reg_ghs1.png">11010820220134号-京ICP证110507</p>
+      <p>MKtail公司版权所有-粤ICP备京公网安备 <img src="static/img/reg/reg_ghs1.png">11010820220134号-京ICP证110507</p>
     </footer>
   </div>
 </template>

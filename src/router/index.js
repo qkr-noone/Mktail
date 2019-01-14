@@ -97,10 +97,6 @@ router = new Router({
       component: resolve => require(['@/views/user/register'], resolve)
     },
     {
-      path: '/register/zz',
-      component: resolve => require(['@/views/user/children/zz'], resolve)
-    },
-    {
       path: '/register/paas',
       name: 'paas',
       component: resolve => require(['@/views/user/children/regPaas'], resolve)
@@ -124,7 +120,7 @@ router = new Router({
       path: '/login',
       component: resolve => require(['@/views/user/login'], resolve)
     },
-    {
+    { // 用户中心首页
       path: '/user',
       meta: {
         isLogin: true
@@ -169,7 +165,7 @@ router = new Router({
         }
       ]
     },
-    {
+    { // 用户中心账户设置
       path: '/userSet',
       meta: {
         isLogin: true
@@ -177,8 +173,56 @@ router = new Router({
       component: resolve => require(['@/views/user/userSet'], resolve),
       children: [
         {
-          path: 'userCollectShop',
-          component: resolve => require(['@/views/user/children/userCollectShop'], resolve)
+          path: 'account',
+          component: resolve => require(['@/views/user/item/account'], resolve)
+        },
+        {
+          path: 'address',
+          component: resolve => require(['@/views/user/item/address'], resolve)
+        },
+        {
+          path: 'alipay',
+          component: resolve => require(['@/views/user/item/alipay'], resolve)
+        },
+        {
+          path: 'app',
+          component: resolve => require(['@/views/user/item/app'], resolve)
+        },
+        {
+          path: 'bankCard',
+          component: resolve => require(['@/views/user/item/bankCard'], resolve)
+        },
+        {
+          path: 'bindingPhone',
+          component: resolve => require(['@/views/user/item/bindingPhone'], resolve)
+        },
+        {
+          path: 'message',
+          component: resolve => require(['@/views/user/item/message'], resolve)
+        },
+        {
+          path: 'personalInfo',
+          component: resolve => require(['@/views/user/item/personalInfo'], resolve)
+        },
+        {
+          path: 'secretSet',
+          component: resolve => require(['@/views/user/item/secretSet'], resolve)
+        },
+        {
+          path: 'secure',
+          component: resolve => require(['@/views/user/item/secure'], resolve)
+        },
+        {
+          path: 'share',
+          component: resolve => require(['@/views/user/item/share'], resolve)
+        },
+        {
+          path: 'WeChat',
+          component: resolve => require(['@/views/user/item/WeChat'], resolve)
+        },
+        {
+          path: 'weibo',
+          component: resolve => require(['@/views/user/item/weibo'], resolve)
         }
       ]
     },

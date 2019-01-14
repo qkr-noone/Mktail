@@ -16,7 +16,7 @@
           <div class="sao">
             <div class="code">
               <p class="red">二维码已过期，刷新页面重新获取二维码。</p>
-              <img src="../../../static/img/erweima.png" alt="">
+              <img src="static/img/erweima.png" alt="">
               <div class="saosao">
                 <p>请使用微信扫一扫</p>
                 <p>扫描二维码支付</p>

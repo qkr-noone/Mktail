@@ -141,15 +141,72 @@ export default {
     font-weight:400;
     color:rgba(135,135,135,1);
   }
+<<<<<<< HEAD
+  span.loginname {
+    background: url(/static/img/user.png);
+    background-position: center;
+    background-size: 35px;
+    background-repeat: no-repeat;
+=======
   .top .top_left img{
     margin-left:70px;
     margin-bottom:14px;
+>>>>>>> 9027b4a562b12fa8cfb9aa4cc848b0ad036ff67c
   }
   .top_left{
     display: flex;
     justify-content: center;
     align-items: center;
   }
+<<<<<<< HEAD
+  .sui-form .input-prepend .add-on {
+    background-color: #cfcdcd;
+    width: 45px;
+    height: 45px;
+  }
+  .sui-form input[type=text],
+  .sui-form input[type=password] {
+      height: 45px
+  }
+  .sui-form input.span2 {
+    width: 284px;
+    border: 1px solid #dcdfe6;
+    box-sizing: border-box;
+  }
+  .loginpwd {
+    background: url(/static/img/password.png);
+    background-position: center;
+    background-size: 35px;
+    background-repeat: no-repeat;
+  }
+  .loginmanage {
+    height: 500px;
+    width: 1920px;
+    background: url(/static/img/bg_head.png);
+    vertical-align: middle;
+    display: table-cell
+  }
+  .btn-danger {
+    background-color: #c81623;
+    padding: 6px;
+    border-radius: 0;
+    font-size: 16px;
+    font-family: 微软雅黑;
+    word-spacing: 4px;
+    width: 318px;
+    text-align: center;
+    color: #fff;
+  }
+  .loginform {
+    width: 380px;
+    background: #fff;
+    margin: 45px auto 0;
+    position: relative;
+    padding: 20px
+  }
+  .tab-pane >img{
+    margin: 0 auto;
+=======
   .top .title{
     height:31px;
     font-size:32px;
@@ -249,5 +306,6 @@ export default {
     height:165px;
     background: #F4F4F4;
     padding-top:55px;
+>>>>>>> 9027b4a562b12fa8cfb9aa4cc848b0ad036ff67c
   }
 </style>

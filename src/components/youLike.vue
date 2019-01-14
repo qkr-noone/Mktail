@@ -1,6 +1,6 @@
 <template>
   <div class="hot-con-li">
-    <router-link :to="like.url"><img :src="like.pic"></router-link>
+    <router-link :to="{path: '/detail', query:{goodsId: like.goodsId}}"><img :src="like.pic"></router-link>
       <h3>{{like.title}}</h3>
       <p>{{like.price}}</p>
   </div>

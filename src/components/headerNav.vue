@@ -3,7 +3,7 @@
     <header class="mk-header">
       <div class="mk-head">
         <div class="h-logo" ref='logoIsCursor'>
-          <router-link :to="{path: isHome}" ><img src="../../static/img/mk_logo_main.png"></router-link>
+          <router-link :to="{path: isHome}" ><img src="static/img/mk_logo_main.png"></router-link>
         </div>
         <div class="h-search">
           <form action="#">
@@ -25,11 +25,11 @@
           </div>
         </div>
         <div class="download-app" v-if="!isHome">
-          <img src="../../static/img/mk_app_download.png">
+          <img src="static/img/mk_app_download.png">
           <p>扫码安装APP端</p>
         </div>
         <div class="addCart" v-else>
-          <img src="../../static/img/mk_search_cart.png">
+          <img src="static/img/mk_search_cart.png">
           <p>我的购物车</p>
           <span v-if="isOver">99</span>
           <span v-else>{{cartNum}}</span>
