@@ -111,6 +111,26 @@
               </div>
             </div>
           </div>
+          <div class="se-look">
+            <div class="look-title">
+              <span class="lo-line"></span>
+              <h4>看了又看</h4>
+              <span class="lo-line"></span>
+            </div>
+            <ul class="look-box">
+              <li class="lo-box-li">
+                <div class="lo-box-con">
+                  <a class="lo-box-wrap"><img src="static/img/mk_logo_login.png" class="wrap"></a>
+                  <h5>博世(Bosch) GB</h5>
+                  <span>￥699.00</span>
+                </div>
+              </li>
+            </ul>
+            <div>
+              <i class="el-icon-arrow-up"></i>
+              <i class="el-icon-arrow-down"></i>
+            </div>
+          </div>
         </div>
         <!--product-detail-->
         <div class=" product-detail">
@@ -513,7 +533,8 @@ export default {
       goodsIntroduc: '', // 商品介绍
       isMaskLogin: false,
       username: '',
-      password: ''
+      password: '',
+      viewList: [] // 看了又看
     }
   },
   components: { shortcut, headerNav, pageFooter, PicZoom },
@@ -568,6 +589,16 @@ export default {
       } else {
         // 弹框
         // this.$router.go(-1)
+      }
+    })
+    // 看了又看
+    apiAxios.AxiosG({
+      url: api.detailLook,
+      params: { categoryId: 17 }
+    }, res => {
+      let data = res.data
+      if (data.success) {
+        this.viewList = data.contentList
       }
     })
   },

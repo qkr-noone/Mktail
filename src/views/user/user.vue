@@ -159,53 +159,6 @@
                 </div>
               </div>
             </div>
-            <div class="con-order">
-              <div class="order-desc">
-                <h2 class="title">我的订单</h2>
-                <div class="order-list">
-                  <div><i class="el-icon-goods"></i><p>代付款<span class="num">(2)</span></p></div>
-                  <div><i class="el-icon-date"></i><p>待收货<span class="num">(12)</span></p></div>
-                  <div><i class="el-icon-edit"></i><p>待评价<span class="num">(2)</span></p></div>
-                  <div><i class="el-icon-service"></i><p>退换/售后</p></div>
-                  <div><i class="el-icon-arrow-right"></i><p>全部订单</p></div>
-                </div>
-                <ul class="order-list-detail">
-                  <li class="order-li">
-                    <a href=""><i class="el-icon-picture"></i></a>
-                    <div class="detail-desc">
-                      <p>我是您的专属配送员王智，您的订单已到达广州明珠站，配</p>
-                      <div><span>普通快递</span><span>2018-11-29 08:00:00</span></div>
-                    </div>
-                    <div class="detail-more">
-                      <a href="">查看详情</a>
-                      <a href="">查看发票/物流跟踪</a>
-                    </div>
-                  </li>
-                  <li class="order-li">
-                    <a href=""><i class="el-icon-picture"></i></a>
-                    <div class="detail-desc">
-                      <p>我是您的专属配送员王智，您的订单已到达广州明珠站，配</p>
-                      <div><span>普通快递</span><span>2018-11-29 08:00:00</span></div>
-                    </div>
-                    <div class="detail-more">
-                      <a href="">查看详情</a>
-                      <a href="">查看发票/物流跟踪</a>
-                    </div>
-                  </li>
-                  <li class="order-li">
-                    <a href=""><i class="el-icon-picture"></i></a>
-                    <div class="detail-desc">
-                      <p>我是您的专属配送员王智，您的订单已到达广州明珠站，配</p>
-                      <div><span>普通快递</span><span>2018-11-29 08:00:00</span></div>
-                    </div>
-                    <div class="detail-more">
-                      <a href="">查看详情</a>
-                      <a href="">查看发票/物流跟踪</a>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </div>
           </div>
           <transition v-else>
             <router-view></router-view>

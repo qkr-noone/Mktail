@@ -27,9 +27,9 @@
               <p @click= "sweepCode()" :class="{active:account == false }">扫码登陆</p>
             </div>
             <section v-show="account === true" >
-              <input type="text" placeholder="邮箱/手机号码"/>
-              <input type="text" placeholder="密码"/>
-              <input type="button" value="登陆" class="btn"/>
+              <input type="text" placeholder="邮箱/手机号码"  v-model="username"/>
+              <input type="text" placeholder="密码" v-model="password"/>
+              <input type="button" value="登陆" class="btn" @click="userLogin"/>
               <p>
                 <span class="sort">
                   <a>手机短信登陆</a>/
@@ -43,7 +43,7 @@
               <p>这是扫码扫码登陆</p>
             </section>
             <div class="otherLogin">
-              <p>_______________其他登陆方式________________</p>
+              <p @click="userLogin()">_______________其他登陆方式________________</p>
               <span>
                 <a><img src="static/img/log/log_qq1.png"></a>
                 <a><img src="static/img/log/log_WeiBo1.png"></a>
@@ -141,24 +141,21 @@ export default {
     font-weight:400;
     color:rgba(135,135,135,1);
   }
-<<<<<<< HEAD
   span.loginname {
     background: url(/static/img/user.png);
     background-position: center;
     background-size: 35px;
     background-repeat: no-repeat;
-=======
+  }
   .top .top_left img{
     margin-left:70px;
     margin-bottom:14px;
->>>>>>> 9027b4a562b12fa8cfb9aa4cc848b0ad036ff67c
   }
   .top_left{
     display: flex;
     justify-content: center;
     align-items: center;
   }
-<<<<<<< HEAD
   .sui-form .input-prepend .add-on {
     background-color: #cfcdcd;
     width: 45px;
@@ -206,7 +203,7 @@ export default {
   }
   .tab-pane >img{
     margin: 0 auto;
-=======
+  }
   .top .title{
     height:31px;
     font-size:32px;
@@ -306,6 +303,5 @@ export default {
     height:165px;
     background: #F4F4F4;
     padding-top:55px;
->>>>>>> 9027b4a562b12fa8cfb9aa4cc848b0ad036ff67c
   }
 </style>

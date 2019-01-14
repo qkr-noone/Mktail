@@ -7,6 +7,7 @@ let api = {
   homeClass: '/portal/content/findByContentId', // 主页分类
   search: '/search/itemsearch/search', // 产品搜索
   detail: '/goods/goods/getGoodsById', // 产品详情detail
+  detailLook: '/page/goods/findByCategoryIdInGoods', // 产品详情detail
   detailCon: '/search/itemsearch/findByCategoryIdInSerach', // 根据ID去获取具体的搜索页数据
   detailTest: '/page/goods/getGoodsGroup', // 产品详情test
   addToCart: '/cart/cart/addGoodsToCartList', // 加入购物车

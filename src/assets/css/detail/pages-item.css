@@ -1,4 +1,8 @@
 .py-container{width:1230px;margin:0 auto; overflow: hidden;}
+.wrap {
+  width: 100%;
+  overflow: hidden;
+}
 /* 3d弹框阴影 */
   .mask{
     position:fixed;top:0;right:0; bottom:0; left:0;height: 100vh;background: rgba(0, 0, 0, 0.7);z-index: 1000;
@@ -47,13 +51,14 @@
       text-decoration: none;
   }
   .preview-wrap {
-    width: 412px
+    width: 334px;
   }
   
   .itemInfo-wrap {
+    margin-left: 50px;
     font-size: 12px;
     color: #333;
-    width: 700px;
+    width: 600px;
   }
   
   .aside {
@@ -77,7 +82,6 @@
     overflow: hidden;
     margin: 5px 0 15px;
     display: flex;
-    justify-content: space-between;
   }
   
   .itemInfo-wrap {
@@ -582,6 +586,55 @@
     color: #fff;
   }
 
+  /* 看了又看*/
+  .se-look {
+    margin-left: 33px;
+    flex-direction: column;
+    align-items: center;
+    width: 165px;
+  }
+  .look-title {
+    height: 20px;
+    line-height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .lo-line {
+    width: 44px;
+    height: 1px;
+    background-color: #E3E3E3;
+  }
+  .look-title h4{
+    margin: 0 6px;
+    color:rgba(53,53,53,1);
+    font-size:14px;
+  }
+  .lo-box-li {margin-top: 17px;}
+  .lo-box-con {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 14px;
+  }
+  .lo-box-wrap {
+    width: 150px;
+    display: flex;
+    height: 150px;
+    justify-content: center;
+    align-items: center;
+  }
+  .lo-box-con h5{
+    background-color: #FFFFFF;
+    opacity:0.86;
+    color: #878787;
+    font-size: 14px;
+    margin-top: -20px;
+    width: 100%;
+  }
+  .lo-box-con span{
+    color: #FF4606;
+  }
 /* zoom */
   .tab {
       overflow: hidden
@@ -695,8 +748,8 @@
   }
   
   .spec-preview {
-      width: 410px;
-      height: 410px;
+      width: 332px;
+      height: 332px;
       border: 1px solid #DFDFDF;
       overflow: hidden;
   }
@@ -708,7 +761,7 @@
   .spec-scroll {
     display: flex;justify-content: space-between;
       margin-top: 5px;
-      width: 410px;
+      width: 334px;
       overflow: hidden
   }
   
