@@ -18,19 +18,19 @@
           <section class="middle-title">
             <div class="title " :class="{active: show == 0}" @click="companyShow()">
               <a class="fixed-height">
-              <img :src="show ==0? 'static/img/reg/reg_rectangle_active1.png' :'static/img/reg/reg_rectangle1.png'">
-              <p class="title-text " :class='{activity_show: changeShowType =="company"}' @click="changeShowType='company'">企业账户注册</p>
+              <img :src="show ==0? '../../../static/img/reg/reg_rectangle_active1.png' :'./../../static/img/reg/reg_rectangle1.png'">
+              <p class="title-text "  @click="changeShowType='company'">企业账户注册</p>
               </a>
             </div>
             <div class="title" :class="{active: show == 1}" @click="personShow()">
               <a class="fixed-height">
-              <img :src=" show==1? 'static/img/reg/reg_slice_active1.png' :'static/img/reg/reg_slice1.png'" class="reduce-height">
-              <p class="title-text" :class='{activity_show: changeShowType =="person" }' @click="changeShowType='person'">个人账户注册</p>
+              <img :src=" show==1? '../../../static/img/reg/reg_slice_active1.png' :'../../../static/img/reg/reg_slice1.png'" class="reduce-height">
+              <p class="title-text"  @click="changeShowType='person'">个人账户注册</p>
               </a>
             </div>
           </section>
           <transition>
-            <section class="middle-contaiber " v-show="changeShowType =='company'" :class="{ back: isBackground}">
+            <section class="middle-contaiber " v-show="changeShowType =='company'" :class="{ back: isAgree===false}">
               <span class="explain">有企业营业执照（含个体工商户）的用户请注册。权益如下：做企业实名认证；作为卖家身份开店；作为买家身份采购。</span>
               <div class="agreement" v-show="isAgree == false">
                 <div class="regagreement">注册协议</div>
@@ -80,27 +80,41 @@
                     </div>
                   </div>
                   <div class="control-group">
+                    <label  class="control-label">联系人姓名：</label>
+                    <div class="controls">
+                      <input type="text"  placeholder="请输入真实名字" class="input-xfat input-xlarge" >
+                    </div>
+                  </div>
+                  <div class="control-group">
                     <label class="control-label">企业名称：</label>
                     <div class="controls">
-                      <input type="text" placeholder="请填写手机号" class="input-xfat input-xlarge" maxlength="16" v-model="phoneValue">
+                      <input type="text" placeholder="请输入营业执照上的企业名称" class="input-xfat input-xlarge">
+                    </div>
+                  </div>
+                  <div class="control-group">
+                    <label class="control-label">手机号码：</label>
+                    <div class="controls">
+                      <select>
+                        <option>中国大陆&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+86</option>
+                        <option>中国香港</option>
+                      </select>
+                      <input type="text" class="input-xfat input-xlarge mobile" maxlength="16" v-model="phoneValue">
                     </div>
                   </div>
                   <div class="control-group">
                     <label class="control-label">验证码：</label>
                     <div class="controls">
-                      <input type="text" placeholder="请填写手机号" class="input-xfat input-xlarge" maxlength="16" v-model="phoneValue">
+                      <input type="text" placeholder="请输入验证码" class="input-xfat input-xlarge" >
                     </div>
                   </div>
                   <div class="control-group">
-                    <label for="inputPassword" class="control-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                     <div class="controls">
-                      <el-checkbox v-model="checked">创建网站账号的同时，我同意遵守：《平台服务条款》及《隐私声明》</el-checkbox>
+                      <el-checkbox v-model="checked" >创建网站账号的同时，我同意遵守：<br><a ref="https://www.baidu.com">《平台服务条款》</a>及 <a ref="https://www.baidu.com">《隐私声明》</a></el-checkbox>
                     </div>
                   </div>
                   <div class="control-group">
-                    <label class="control-label"></label>
                     <div class="controls btn-reg">
-                      <a class="sui-btn btn-block btn-xlarge btn-danger" @click="register">注册</a>
+                      <a class="sui-btn btn-block btn-xlarge btn-danger" @click="register">同意并注册</a>
                     </div>
                   </div>
                 </form>
@@ -133,25 +147,27 @@
                   <div class="control-group">
                     <label class="control-label">手机号码：</label>
                     <div class="controls">
-                      <input type="text" placeholder="请填写手机号" class="input-xfat input-xlarge" maxlength="16" v-model="phoneValue">
+                      <select>
+                        <option>中国大陆&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+86</option>
+                        <option>中国香港</option>
+                      </select>
+                      <input type="text" class="input-xfat input-xlarge mobile" maxlength="16" v-model="phoneValue">
                     </div>
                   </div>
                   <div class="control-group">
                     <label class="control-label">验证码：</label>
                     <div class="controls">
-                      <input type="text" placeholder="请填写手机号" class="input-xfat input-xlarge" maxlength="16" v-model="phoneValue">
+                      <input type="text" placeholder="请填写手机号" class="input-xfat input-xlarge" maxlength="16" >
                     </div>
                   </div>
                   <div class="control-group">
-                    <label for="inputPassword" class="control-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                     <div class="controls">
-                      <el-checkbox v-model="checked">创建网站账号的同时，我同意遵守：《平台服务条款》及《隐私声明》</el-checkbox>
+                      <el-checkbox v-model="checked" >创建网站账号的同时，我同意遵守：<br><a ref="https://www.baidu.com">《平台服务条款》</a>及<a ref="https://www.baidu.com">《隐私声明》</a></el-checkbox>
                     </div>
                   </div>
                   <div class="control-group">
-                    <label class="control-label"></label>
                     <div class="controls btn-reg">
-                      <a class="sui-btn btn-block btn-xlarge btn-danger" @click="register">注册</a>
+                      <a class="sui-btn btn-block btn-xlarge btn-danger " @click="register">同意并注册</a>
                     </div>
                   </div>
                 </form>
@@ -173,7 +189,7 @@
               <div class="clikeme">
                 <img src="static/img/reg/reg_oval1.png"/>
                 <span class="text">?</span>
-                <a>点我提问</a>
+                <a class="a">点我提问</a>
               </div>
             </div>
           </div>
@@ -226,8 +242,7 @@ export default {
       isHome: '',
       changeShowType: 'company',
       show: 0,
-      isAgree: false,
-      isBackground: true
+      isAgree: false
     }
   },
   methods: {
@@ -338,7 +353,6 @@ export default {
     },
     agree () {
       this.isAgree = true
-      this.isBackground = false
     }
   },
   watch: {
@@ -364,6 +378,9 @@ export default {
 </script>
 <style scoped>
   /* 注册页面*/
+  .lable{
+    color:yellow;
+  }
   .py-container{
     width: 1366px;
     margin: 0 auto;
@@ -455,8 +472,7 @@ export default {
   }
   .middle  .title{
     width:200px;
-    margin-top: 30px;
-    padding-bottom:8px;
+    margin-top: 28px;
     font-size:20px;
     font-family:SimHei;
     font-weight:400;
@@ -554,6 +570,7 @@ export default {
     height:312px;
     border: 2px solid #F4AC00;
     border-radius:10px;
+    position: relative;
   }
   .question .know-more P {
     margin:10px 0 5px 5px;
@@ -575,7 +592,7 @@ export default {
   .question .know-more ul>li:nth-of-type(odd){
     background:rgba(255,233,125,0.37);
   }
-  .question .clikeme img,a{
+  .question .clikeme img, .question  a{
     display: inline;
     margin: 0 10px  0 10px;
   }
@@ -587,14 +604,17 @@ export default {
     font-weight:300;
     color:rgba(255,255,255,1);
     line-height:32px;
-    margin-top: 48px;
     border-radius: 0 0 8px 8px;
+    position: absolute;
+    top:280px;
   }
   .question .text{
     margin: 2px 0 0 -28px;
   }
   .btn-reg {
-    width: 270px
+    width: 100px;
+    height:40px;
+    margin:5px 0 0 100px;
   }
 
   .top h3{
@@ -608,7 +628,7 @@ export default {
   }
   .control-label {
     font-size: 14px;
-    width: 100px;
+    width: 105px;
     text-align: right;
     line-height: 42px;
   }
@@ -620,8 +640,31 @@ export default {
     color: orangered;
     margin-right:7px;
   }
+
+  .control-label:before{
+    content: "*";
+    color:#FF4606;
+    margin-right:10px;
+  }
+ .el-checkbox a{
+    color:#FF4606
+  }
+ .controls select{
+   height:40px;
+   width:140px;
+   margin-left: 10px;
+   border-right:none;
+   margin-right: 0;
+ }
+  .control-group .el-checkbox{
+    margin-left:110px;
+  }
   .controls {
     display: flex;
+  }
+  .controls .mobile{
+    margin-left: -5px !important;
+    width:145px!important;
   }
   .controls .agree{
     color: orangered;
@@ -650,7 +693,7 @@ export default {
   }
   .btn-danger {
     background-color: orangered;
-    padding: 6px;
+    padding: 4px;
     border-radius: 0;
     font-size: 16px;
     font-family: 微软雅黑;
