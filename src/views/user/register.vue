@@ -8,7 +8,7 @@
         <div class="top">
           <div class="top_left">
             <div class="h-logo" ref='logoIsCursor'>
-              <router-link :to="{path: isHome}" ><img src="../../../static/img/logo-118-69.png"></router-link>
+              <router-link :to="{path: isHome}" ><img src="static/img/logo-118-69.png"></router-link>
             </div>
             <p class="title">账户注册</p>
           </div>
@@ -16,23 +16,23 @@
         </div>
         <div class="middle">
           <section class="middle-title">
-            <div class="title " :class="{active: show == 0}" @click="companyShow()">
+            <div class="title " :class="{active: show === 0}" @click="companyShow()">
               <a class="fixed-height">
-              <img :src="show ==0? '../../../static/img/reg/reg_rectangle_active1.png' :'./../../static/img/reg/reg_rectangle1.png'">
+              <img :src="show ===0? 'static/img/reg/reg_rectangle_active1.png' :'./../../static/img/reg/reg_rectangle1.png'">
               <p class="title-text "  @click="changeShowType='company'">企业账户注册</p>
               </a>
             </div>
-            <div class="title" :class="{active: show == 1}" @click="personShow()">
+            <div class="title" :class="{active: show === 1}" @click="personShow()">
               <a class="fixed-height">
-              <img :src=" show==1? '../../../static/img/reg/reg_slice_active1.png' :'../../../static/img/reg/reg_slice1.png'" class="reduce-height">
+              <img :src=" show===1? 'static/img/reg/reg_slice_active1.png' :'static/img/reg/reg_slice1.png'" class="reduce-height">
               <p class="title-text"  @click="changeShowType='person'">个人账户注册</p>
               </a>
             </div>
           </section>
           <transition>
-            <section class="middle-contaiber " v-show="changeShowType =='company'" :class="{ back: isAgree===false}">
+            <section class="middle-contaiber " v-show="changeShowType ==='company'" :class="{ back: isAgree===false}">
               <span class="explain">有企业营业执照（含个体工商户）的用户请注册。权益如下：做企业实名认证；作为卖家身份开店；作为买家身份采购。</span>
-              <div class="agreement" v-show="isAgree == false">
+              <div class="agreement" v-show="isAgree === false">
                 <div class="regagreement">注册协议</div>
                 <hr>
                 <div class="agreement-detail">
@@ -59,7 +59,7 @@
                 </div>
                 <button class="btn_agree" @click="agree()">同意并继续</button>
               </div>
-              <div class="info"  v-show="isAgree == true">
+              <div class="info"  v-show="isAgree === true">
                 <form class="sui-form form-horizontal">
                   <div class="control-group">
                     <label class="control-label">会员名：</label>
@@ -122,7 +122,7 @@
             </section>
           </transition>
           <transition>
-            <section  v-show="changeShowType =='person'">
+            <section  v-show="changeShowType ==='person'">
               <span class="explain">无企业营业执照的个人用户请注册个人账户。权益如下：做个人实名认证；作为买家身份采购；</span>
               <div class="info">
                 <form class="sui-form form-horizontal">
@@ -175,7 +175,7 @@
             </section>
           </transition>
           <div class="question">
-            <img src="../../../static/img/reg/reg_monkey1.png">
+            <img src="static/img/reg/reg_monkey1.png">
             <div class="know-more">
               <p>了解更多</p>
               <ul>
@@ -187,7 +187,7 @@
                 <li><a>其他问题</a></li>
               </ul>
               <div class="clikeme">
-                <img src="../../../static/img/reg/reg_oval1.png"/>
+                <img src="static/img/reg/reg_oval1.png"/>
                 <span class="text">?</span>
                 <a class="a">点我提问</a>
               </div>
@@ -215,7 +215,7 @@
               <a ref="http://www.baidu.com" >会员认证</a>&nbsp;&nbsp;||
             </li>
           </ul>
-          <p>MKtail公司版权所有-粤ICP备京公网安备 <img src="../../../static/img/reg/reg_ghs1.png">11010820220134号-京ICP证110507</p>
+          <p>MKtail公司版权所有-粤ICP备京公网安备 <img src="static/img/reg/reg_ghs1.png">11010820220134号-京ICP证110507</p>
         </footer>
       </div>
     </div>
