@@ -161,7 +161,9 @@
             </div>
           </div>
           <transition v-else>
-            <router-view></router-view>
+            <keep-alive>
+              <router-view></router-view>
+            </keep-alive>
           </transition>
         </div>
         <!-- <el-tabs  :tab-position="tabPosition" style="background-color: #fff">

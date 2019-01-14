@@ -4,11 +4,11 @@
     <headerNav></headerNav>
     <div class="py-container">
       <div id="item">
-        <div class="crumb-wrap">
+        <!-- <div class="crumb-wrap">
           <el-breadcrumb class="sui-breadcrumb">
             <el-breadcrumb-item v-for="item in cateList" :to="{ path: '/search' }" :data_value="item" :key="item">{{item}}</el-breadcrumb-item>
           </el-breadcrumb>
-        </div>
+        </div> -->
         <!--product-info-->
         <div class="product-info">
           <div class="preview-wrap">
@@ -31,6 +31,12 @@
                 </div>
                 <a class="next" v-if="scroolListImg.length>5"><i class="el-icon-arrow-right"></i></a>
               </div>
+            </div>
+            <div class="collect">
+              <i class="el-icon-share"></i>
+              <span>分享</span>
+              <i class="el-icon-star-on"></i>
+              <span>关注</span>
             </div>
           </div>
           <div class="fr itemInfo-wrap">
@@ -103,12 +109,18 @@
               </ul>
               <div class="summary-wrap submit-form">
                 <div class="buy-word">
+                  <a class="sui-btn  btn-danger addshopcar" @click="submit()">加入购物车</a>
+                </div>
+                <div class="buy-word">
                   <a class="sui-btn  btn-danger buyshops" @click="buyShops()">立即购买</a>
                 </div>
                 <div class="buy-word">
-                  <a class="sui-btn  btn-danger addshopcar" @click="submit()">加入购物车</a>
+                  <a class="sui-btn  btn-danger buyma"><img src="/static/img/二维码.svg"><span>扫一扫购买</span><i class="el-icon-arrow-down"></i></a>
                 </div>
               </div>
+            </div>
+            <div class="box-tip">
+              <p>温馨提示·支持7天无理由退货</p>
             </div>
           </div>
           <div class="se-look">
@@ -118,11 +130,11 @@
               <span class="lo-line"></span>
             </div>
             <ul class="look-box">
-              <li class="lo-box-li">
+              <li class="lo-box-li" v-for="list in viewList" :key="list.id">
                 <div class="lo-box-con">
-                  <a class="lo-box-wrap"><img src="static/img/mk_logo_login.png" class="wrap"></a>
-                  <h5>博世(Bosch) GB</h5>
-                  <span>￥699.00</span>
+                  <router-link :to="{path: '/detail', query: {goodsId: list.goodsId}}" class="lo-box-wrap"><img :src="list.pic" class="wrap"></router-link>
+                  <h5>{{list.title}}</h5>
+                  <span>￥{{list.price}}</span>
                 </div>
               </li>
             </ul>
@@ -132,110 +144,28 @@
             </div>
           </div>
         </div>
+        <div class="recom">
+          <div class="recom-title">
+            <h3>店长推荐</h3>
+          </div>
+          <div class="recom-box">
+            <ul class="recom-ul">
+              <li class="recom-li" v-for="list in recomList" :key="list.id">
+                <div class="recom-de">
+                  <router-link :to="{path: '/detail', query: {goodsId:list.goodsId}}" class="recom-de-a">
+                    <img class="wrap" :src="list.pic">
+                  </router-link>
+                  <h5 class="recom-de-price">¥{{list.price}}</h5>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
         <!--product-detail-->
         <div class=" product-detail">
           <div class=" aside">
             <el-tabs type="border-card" class="sui-nav nav-tabs tab-wraped">
               <el-tab-pane label="相关分类">
-                <!-- <div id="index" class="tab-pane active">
-                  <ul class="part-list unstyled">
-                    <li>手机</li>
-                    <li>手机壳</li>
-                    <li>内存卡</li>
-                    <li>Iphone配件</li>
-                    <li>贴膜</li>
-                    <li>手机耳机</li>
-                    <li>移动电源</li>
-                    <li>平板电脑</li>
-                  </ul>
-                  <ul class="goods-list unstyled">
-                    <li>
-                      <div class="list-wrap">
-                        <div class="p-img">
-                          <img src="static/img/part01.png" />
-                        </div>
-                        <div class="attr">
-                          <em>Apple苹果iPhone 6s (A1699)</em>
-                        </div>
-                        <div class="price">
-                          <strong><em>¥</em><i>6088.00</i></strong>
-                        </div>
-                        <div class="operate">
-                          <a href="javascript:void(0);" class="sui-btn btn-bordered">加入购物车</a>
-                        </div>
-                      </div>
-                    </li>
-                    <li>
-                      <div class="list-wrap">
-                        <div class="p-img">
-                          <img src="static/img/part02.png" />
-                        </div>
-                        <div class="attr">
-                            <em>Apple苹果iPhone 6s (A1699)</em>
-                        </div>
-                        <div class="price">
-                            <strong><em>¥</em><i>6088.00</i></strong>
-                        </div>
-                        <div class="operate">
-                          <a href="javascript:void(0);" class="sui-btn btn-bordered">加入购物车</a>
-                        </div>
-                      </div>
-                    </li>
-                    <li>
-                      <div class="list-wrap">
-                        <div class="p-img">
-                          <img src="static/img/part03.png" />
-                                </div>
-                          <div class="attr">
-                            <em>Apple苹果iPhone 6s (A1699)</em>
-                          </div>
-                          <div class="price">
-                            <strong>
-                                  <em>¥</em>
-                                  <i>6088.00</i>
-                                </strong>
-                          </div>
-                          <div class="operate">
-                            <a href="javascript:void(0);" class="sui-btn btn-bordered">加入购物车</a>
-                          </div>
-                        </div>
-                        <div class="list-wrap">
-                          <div class="p-img">
-                            <img src="static/img/part02.png" />
-                                </div>
-                            <div class="attr">
-                              <em>Apple苹果iPhone 6s (A1699)</em>
-                            </div>
-                            <div class="price">
-                              <strong>
-                                  <em>¥</em>
-                                  <i>6088.00</i>
-                                </strong>
-                            </div>
-                            <div class="operate">
-                              <a href="javascript:void(0);" class="sui-btn btn-bordered">加入购物车</a>
-                            </div>
-                          </div>
-                          <div class="list-wrap">
-                            <div class="p-img">
-                              <img src="static/img/part03.png" />
-                                </div>
-                              <div class="attr">
-                                <em>Apple苹果iPhone 6s (A1699)</em>
-                              </div>
-                              <div class="price">
-                                <strong>
-                                  <em>¥</em>
-                                  <i>6088.00</i>
-                                </strong>
-                              </div>
-                              <div class="operate">
-                                <a href="javascript:void(0);" class="sui-btn btn-bordered">加入购物车</a>
-                              </div>
-                            </div>
-                    </li>
-                  </ul>
-                </div> -->
               </el-tab-pane>
               <el-tab-pane label="推荐品牌">
                 <div id="profile" class="tab-pane">
@@ -245,80 +175,35 @@
             </el-tabs>
           </div>
           <div class="fr detail">
-            <!-- <div class=" fitting">
-              <h4 class="kt">选择搭配</h4>
-              <div class="good-suits">
-                <div class="fl master">
-                  <div class="list-wrap">
-                    <div class="p-img">
-                      <img src="static/img/l-m01.png" />
-                    </div>
-                    <em>￥5299</em>
-                    <i>+</i>
-                  </div>
-                </div>
-                <div class="fl suits">
-                  <ul class="suit-list">
-                    <li class="">
-                      <div id="">
-                        <img src="static/img/dp01.png" />
-                      </div>
-                      <i>Feless费勒斯VR</i>
-                      <label data-toggle="checkbox" class="checkbox-pretty">
-                        <input type="checkbox"><span>39</span>
-                      </label>
-                    </li>
-                    <li class="">
-                      <div id="">
-                        <img src="static/img/dp02.png" />
-                      </div>
-                      <i>Feless费勒斯VR</i>
-                      <label data-toggle="checkbox" class="checkbox-pretty">
-                        <input type="checkbox"><span>50</span>
-                      </label>
-                    </li>
-                    <li class="">
-                      <div id=""><img src="static/img/dp03.png" /></div>
-                      <i>Feless费勒斯VR</i>
-                      <label data-toggle="checkbox" class="checkbox-pretty">
-                        <input type="checkbox"><span>59</span>
-                      </label>
-                    </li>
-                    <li class="">
-                      <div id=""><img src="static/img/dp04.png" /></div>
-                      <i>Feless费勒斯VR</i>
-                      <label data-toggle="checkbox" class="checkbox-pretty">
-                        <input type="checkbox"><span>99</span>
-                      </label>
-                    </li>
-                  </ul>
-                </div>
-                <div class="fr result">
-                  <div class="num">已选购0件商品</div>
-                  <div class="price-tit"><strong>套餐价</strong></div>
-                  <div class="price">￥5299</div>
-                  <button class="sui-btn  btn-danger addshopcar">加入购物车</button>
+            <div class="tab-main intro">
+              <div class="tab-nav">
+                <ul>
+                  <li class="tab-nav-li"><a :class="{choosetab:'商品介绍'===tabNav}"  @click="tab('商品介绍', 'desciption')">商品介绍</a></li>
+                  <li class="tab-nav-li" v-if="show3dStatus"><a :class="{choosetab:'3D展示'===tabNav}"  @click="tab('3D展示', '3D')">3D展示</a></li>
+                  <li class="tab-nav-li"><a :class="{choosetab:'商品评价'===tabNav}"  @click="tab('商品评价', 'review')">商品评价</a></li>
+                  <li class="tab-nav-li"><a :class="{choosetab:'售后保障'===tabNav}"  @click="tab('售后保障', 'afterSale')">售后保障</a></li>
+                </ul>
+                <div class="buy-word">
+                  <a class="sui-btn  btn-danger addshopcar" @click="submit()">加入购物车</a>
                 </div>
               </div>
-            </div> -->
-            <div class="tab-main intro">
-              <el-tabs  v-model="activeName" type="border-card" class="sui-nav nav-tabs tab-wraped" style="display: block !important;">
-                <el-tab-pane label="商品介绍" name="one">
-                  <div class="tab-pane">
-                    <div class="intro-detail" v-html="goodsIntroduc">
-                      {{this.goodsIntroduc}}
-                      <!-- <img v-for="item in goodsDesc.itemImages" :src="item.url" :key="item.url"> -->
-                    </div>
-                    <img src="static/img/intro01.png" />
-                    <img src="static/img/intro02.png" />
-                    <img src="static/img/intro03.png" />
-                  </div>
-                </el-tab-pane>
+              <transition>
+                <router-view :attrItem="attrItem" :goodsIntroduc="goodsIntroduc"></router-view>
+              </transition>
+              <!-- <div class="tab-pane">
+                <ul class="goods-intro unstyled">
+                  <li v-for="item in attrItem" :key="item.text">{{item.text}}：{{item.value}}</li>
+                </ul>
+                <div class="intro-detail" v-html="goodsIntroduc">
+                  {{goodsIntroduc}}
+                </div>
+              </div> -->
+              <!-- <el-tabs  v-model="activeName" type="border-card" class="sui-nav nav-tabs tab-wraped" style="display: block !important;">
                 <el-tab-pane label="规格与包装" name="two">
                   <div class="tab-pane">
                     <ul class="goods-intro unstyled">
                       <li v-for="(item, index) in goodsDesc.packageList" :key="index">{{item}}</li>
-                      <!-- <li v-for="item in JSON.parse(goodsDesc.customAttributeItems)" :key="item.text">{{item.text}}：{{item.value}}</li> -->
+                      <li v-for="item in JSON.parse(goodsDesc.customAttributeItems)" :key="item.text">{{item.text}}：{{item.value}}</li>
                     </ul>
                   </div>
                 </el-tab-pane>
@@ -337,132 +222,9 @@
                     <p @click="threeDUrl('http://120.79.93.197/we1/')"><img src="static/img/intro02.png" /></p>
                   </div>
                 </el-tab-pane>
-              </el-tabs>
-              <div class=""></div>
+              </el-tabs> -->
             </div>
           </div>
-          <!--like-->
-          <!-- <div class="like">
-            <h4 class="kt">猜你喜欢</h4>
-            <div class="like-list">
-              <ul class="yui3-g">
-                <li class="yui3-u-1-6">
-                  <div class="list-wrap">
-                    <div class="p-img">
-                      <img src="static/img/itemlike01.png" />
-                    </div>
-                      <div class="attr">
-                        <em>DELL戴尔Ins 15MR-7528SS 15英寸 银色 笔记本</em>
-                      </div>
-                      <div class="price">
-                        <strong>
-                    <em>¥</em>
-                    <i>3699.00</i>
-                  </strong>
-                      </div>
-                      <div class="commit">
-                        <i class="command">已有6人评价</i>
-                      </div>
-                    </div>
-                </li>
-                <li class="yui3-u-1-6">
-                  <div class="list-wrap">
-                    <div class="p-img">
-                      <img src="static/img/itemlike02.png" />
-                    </div>
-                      <div class="attr">
-                        <em>Apple苹果iPhone 6s/6s Plus 16G 64G 128G</em>
-                      </div>
-                      <div class="price">
-                        <strong>
-                    <em>¥</em>
-                    <i>4388.00</i>
-                  </strong>
-                      </div>
-                      <div class="commit">
-                        <i class="command">已有700人评价</i>
-                      </div>
-                    </div>
-                </li>
-                <li class="yui3-u-1-6">
-                  <div class="list-wrap">
-                    <div class="p-img">
-                      <img src="static/img/itemlike03.png" />
-                    </div>
-                      <div class="attr">
-                        <em>DELL戴尔Ins 15MR-7528SS 15英寸 银色 笔记本</em>
-                      </div>
-                      <div class="price">
-                        <strong>
-                    <em>¥</em>
-                    <i>4088.00</i>
-                  </strong>
-                      </div>
-                      <div class="commit">
-                        <i class="command">已有700人评价</i>
-                      </div>
-                    </div>
-                </li>
-                <li class="yui3-u-1-6">
-                  <div class="list-wrap">
-                    <div class="p-img">
-                      <img src="static/img/itemlike04.png" />
-                    </div>
-                      <div class="attr">
-                        <em>DELL戴尔Ins 15MR-7528SS 15英寸 银色 笔记本</em>
-                      </div>
-                      <div class="price">
-                        <strong>
-                    <em>¥</em>
-                    <i>4088.00</i>
-                  </strong>
-                      </div>
-                      <div class="commit">
-                        <i class="command">已有700人评价</i>
-                      </div>
-                    </div>
-                </li>
-                <li class="yui3-u-1-6">
-                  <div class="list-wrap">
-                    <div class="p-img">
-                      <img src="static/img/itemlike05.png" />
-                    </div>
-                      <div class="attr">
-                        <em>DELL戴尔Ins 15MR-7528SS 15英寸 银色 笔记本</em>
-                      </div>
-                      <div class="price">
-                        <strong>
-                    <em>¥</em>
-                    <i>4088.00</i>
-                  </strong>
-                      </div>
-                      <div class="commit">
-                        <i class="command">已有700人评价</i>
-                      </div>
-                    </div>
-                </li>
-                <li class="yui3-u-1-6">
-                  <div class="list-wrap">
-                    <div class="p-img">
-                      <img src="static/img/itemlike06.png" />
-                    </div>
-                      <div class="attr">
-                        <em>DELL戴尔Ins 15MR-7528SS 15英寸 银色 笔记本</em>
-                      </div>
-                      <div class="price">
-                        <strong>
-                    <em>¥</em>
-                    <i>4088.00</i>
-                  </strong>
-                      </div>
-                      <div class="commit">
-                        <i class="command">已有700人评价</i>
-                      </div>
-                    </div>
-                </li>
-              </ul>
-            </div>
-          </div> -->
         </div>
         <div class="mask" v-show="is3Ding">
           <iframe class="mask_iframe" ref="threeDSrc"  frameborder="0" scrolling="no">
@@ -534,7 +296,11 @@ export default {
       isMaskLogin: false,
       username: '',
       password: '',
-      viewList: [] // 看了又看
+      viewList: [], // 看了又看
+      recomList: [], // 店长推荐
+      show3dStatus: 0, // 商品详情3D介绍状态
+      attrItem: [], // 商品介绍属性列表
+      tabNav: '商品介绍'
     }
   },
   components: { shortcut, headerNav, pageFooter, PicZoom },
@@ -560,7 +326,9 @@ export default {
       let data = rtn.data
       if (data.success) {
         this.goods = data.data.goodsAll.goods
+        this.show3dStatus = data.data.show3dStatus
         this.goodsDesc = data.data.goodsAll.goodsDesc
+        this.attrItem = JSON.parse(this.goodsDesc.customAttributeItems)
         this.scroolListImg = JSON.parse(this.goodsDesc.itemImages)
         if (this.scroolListImg.length) {
           this.currentImg = this.scroolListImg[0].url
@@ -598,7 +366,17 @@ export default {
     }, res => {
       let data = res.data
       if (data.success) {
-        this.viewList = data.contentList
+        this.viewList = data.data.contentList
+      }
+    })
+    // 店长推荐
+    apiAxios.AxiosG({
+      url: api.detailLook,
+      params: { categoryId: 18 }
+    }, res => {
+      let data = res.data
+      if (data.success) {
+        this.recomList = data.data.contentList
       }
     })
   },
@@ -733,6 +511,11 @@ export default {
         }
       }
       return true
+    },
+    tab (name, path) {
+      let queryList = this.$route.query
+      this.$router.push({path: '/detail/' + path, query: queryList})
+      this.tabNav = name
     }
   },
   watch: {}

@@ -1,4 +1,4 @@
-.py-container{width:1230px;margin:0 auto; overflow: hidden;}
+.py-container{width:1226px;margin:0 auto; overflow: hidden;}
 .wrap {
   width: 100%;
   overflow: hidden;
@@ -30,6 +30,20 @@
   }
   
 /* detail */
+.collect {
+  display: flex;
+  font-size: 14px;
+  color: #353535;
+  margin-top: 8px;
+  height: 20px;
+  align-items: center;
+}
+div.collect :nth-child(2n+1) {
+  margin-left: 10px;
+}
+div.collect :nth-child(2n) {
+  margin-left: 3px;
+}
   .btn-danger {
     border-radius: 0
   }
@@ -79,7 +93,6 @@
   }
   
   .product-info {
-    overflow: hidden;
     margin: 5px 0 15px;
     display: flex;
   }
@@ -120,14 +133,16 @@
   
   .sku-name h4 {
     font-weight: 700;
-    font-size: 16px;
+    font-size: 18px;
     line-height: 24px;
     text-align: left;
+    color: #353535;
   }
   
   .news {
-    color: #e12228;
+    color: #FF4606;
     margin-top: 20px;
+    font-size: 14px;
   }
   
   .summary {
@@ -155,7 +170,7 @@
   }
   ul.summary-wrap>li:first-child {margin-top: 12px;}
   ul.summary-wrap>li.spec-list+li{ margin-top: -14px; }
-  ul.summary-wrap>li.spec-list .title i { text-align: justify; width: 50px;height: 28px;}
+  ul.summary-wrap>li.spec-list .title i { text-align: justify; width: 60px;height: 28px;color: #000}
   ul.summary-wrap>li.spec-list .title i:after {content: " "; display: inline-block;width: 100%;}
   ul.summary-wrap>li.spec-list>ul {
     display: flex;
@@ -222,7 +237,7 @@
   #all-add-buy .buy-word, .submit-form .buy-word{
     display: flex;
     align-items: center;
-    width: 130px;
+    width: 125px;
   }
   #all-add-buy .buy-word a, .submit-form .buy-word a{
     height: 100%;
@@ -230,11 +245,18 @@
     color: #fff;
     background: #c81623;
     width: 100%;
-    font-size: 16px;
+    font-size: 14px;
   }
-  
+  div.buy-word+div{
+    margin-left: 10px;
+  }
   .title {
-    margin-right: 15px
+    margin-right: 15px;
+    font-size: 14px;
+    color: #878787;
+  }
+  .title >i{
+    width: 60px;
   }
   
   .controls {
@@ -321,11 +343,85 @@
   }
   .buyshops {
     padding: 10px 25px;
-    background: #E5511D !important;
+    background: #FEE9EB !important;
     font-size: 16px;
-    font-family: 微软雅黑
+    font-family: 微软雅黑;
+    color: #C81623;
   }
-  
+  .submit-form .buy-word a.buyshops{
+    color: #C81623;
+  }
+  .submit-form .buy-word a.buyma span {
+    font-size: 14px;
+    background-color: #fff;
+    color: #000000;
+    width: 100px;
+    height: 20px;
+    line-height: 20px;
+    position: initial;
+    overflow: initial;
+    background: initial;
+    display: initial;
+  }
+  .submit-form .buy-word a.buyma{
+    background-color: #fff;
+    color: #000000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .buyma img{
+    width:21px;
+    height:20px;
+  }
+  .box-tip {
+    margin-top: 30px;
+    font-size:14px;
+    color: #B2B2B2;
+  }
+  .box-tip p {
+    font-size: 14px;
+  }
+  /* 店长推荐 */
+  .recom-box {
+  }
+  .recom-title {
+    height:35px;
+    background:rgba(244,244,244,1);
+    border-bottom: 1px solid #FFCA45;
+  }
+  .recom-title h3 {
+    font-size:16px;
+    width: 94px;
+    background-color: #FFCA45;
+    color: #fff;
+    height: 35px;
+    line-height: 35px;
+  }
+  .recom-ul{
+    display: flex;
+  }
+  li.recom-li+li{
+    margin-left: 35px;
+  }
+  .recom-de{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .recom-de-a{
+    width: 160px;
+    height: 160px;
+    overflow: hidden;
+        display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .recom-de-price {
+    color: #FF4606;
+    font-size:16px;
+    margin-top: 9px;
+  }
   ul.btn-choose li .btn-xlarge {
     font-size: 12px;
     border-radius: 0
@@ -402,6 +498,11 @@
   }
   .tab-content>.active{
   	display: block;
+  }
+  .intro-detail {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
   .intro-detail>img{
     max-width: 100%;
@@ -586,12 +687,13 @@
     color: #fff;
   }
 
-  /* 看了又看*/
+/* 看了又看*/
   .se-look {
     margin-left: 33px;
     flex-direction: column;
     align-items: center;
     width: 165px;
+    margin-top: -2px;
   }
   .look-title {
     height: 20px;
@@ -634,6 +736,43 @@
   }
   .lo-box-con span{
     color: #FF4606;
+  }
+
+/* 商品介绍 */
+  .tab-nav{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 40px;
+    background:rgba(245,247,250,1);
+    border:1px solid rgba(227,227,227,1);
+    border-bottom: 1px solid #E4393C;
+  }
+  .tab-nav ul {
+    display: flex;
+  }
+  .tab-nav-li {
+    width:110px;
+    height:39px;
+    line-height: 39px;
+  }
+  .tab-nav-li a{
+    width: 100%;
+    color: #878787;
+    font-size: 14px;
+  }
+  .tab-nav-li a.choosetab {
+    background-color: rgba(228,57,60,1);
+    color: #fff;
+  }
+  .tab-nav .buy-word a{
+    margin-right: 24px;
+    height: 100%;
+    line-height: 24px;
+    color: #fff;
+    background: #c81623;
+    width: 88px;
+    font-size: 14px;
   }
 /* zoom */
   .tab {
@@ -767,52 +906,56 @@
   
   .spec-scroll .prev,.spec-scroll .next {
     background: #eee;
-    height: 56px;
+    height: 60px;
     width: 27px;
     text-align: center;
   }
   .spec-scroll .prev >i,
   .spec-scroll .next >i {
       font-size: 30px;
-      line-height: 56px;
+      line-height: 60px;
   }
   
   .spec-scroll .items {
       float: left;
       position: relative;
       width: 380px;
-      height: 56px;
+      height: 70px;
       overflow: hidden
   }
   
   .spec-scroll .items ul {
       position: absolute;
       width: 9999px;
-      height: 56px;
       margin: 0;
-      padding: 0
+      padding: 0;
+      display: flex;
   }
   
   .spec-scroll .items ul li {
-      float: left;
-      width: 75px;
+      width: 62px;
+      height: 62px;
       text-align: center;
       margin: 0;
       padding: 0;
-      list-style-type: none
+      list-style-type: none;
+      display: flex;
+    align-items: center;
+    justify-content: center;
   }
   
   .spec-scroll .items ul li img {
-      border: 1px solid #CCC;
-      padding: 2px;
-      width: 50px;
-      height: 50px;
-      display: block
+      border: 2px solid transparent;
+      width: 58px;
+      height: 58px;
+      display: block;
+  }
+  .spec-scroll .items ul li +li {
+    margin-left: 6px;
   }
   
   .spec-scroll .items ul li img:hover {
-      border: 2px solid #F60;
-      padding: 1px
+      border-color: #F60;
   }
 
 /* login 登陆 */
@@ -896,7 +1039,7 @@
   }
   .btn-danger {
     background-color: #c81623;
-    padding: 6px;
+    padding: 1px;
     border-radius: 0;
     font-size: 16px;
     font-family: 微软雅黑;
@@ -911,6 +1054,9 @@
     margin: 45px auto 0;
     position: relative;
     padding: 20px
+  }
+  .tab-pane {
+    background-color: #fff;
   }
   .tab-pane >img{
     margin: 0 auto;

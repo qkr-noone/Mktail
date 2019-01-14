@@ -48,7 +48,20 @@ router = new Router({
     },
     {
       path: '/detail',
-      component: resolve => require(['@/views/detail/index'], resolve)
+      component: resolve => require(['@/views/detail/index'], resolve),
+      children: [{
+        path: 'desciption',
+        component: resolve => require(['@/views/detail/children/desciption'], resolve)
+      }, {
+        path: '3D',
+        component: resolve => require(['@/views/detail/children/3D'], resolve)
+      }, {
+        path: 'review',
+        component: resolve => require(['@/views/detail/children/review'], resolve)
+      }, {
+        path: 'afterSale',
+        component: resolve => require(['@/views/detail/children/afterSale'], resolve)
+      }]
     },
     {
       path: '/addToCart',
