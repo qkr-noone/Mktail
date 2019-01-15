@@ -17,7 +17,7 @@ export default {
     },
     interval: {
       type: [Number, String],
-      default: 3000
+      default: 4000
     },
     indicator: {
       type: [String],

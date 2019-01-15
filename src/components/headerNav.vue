@@ -28,7 +28,7 @@
           <img src="static/img/mk_app_download.png">
           <p>扫码安装APP端</p>
         </div>
-        <div class="addCart" v-else>
+        <div class="addCart" v-else @click="toCart">
           <img src="static/img/mk_search_cart.png">
           <p>我的购物车</p>
           <span v-if="isOver">99</span>
@@ -92,6 +92,9 @@ export default {
           this.$router.push({path: '/search', query: {keywords: SEARCH_VALUE}})
         }
       }
+    },
+    toCart () {
+      this.$router.push({path: '/cart'})
     }
     // watchEnter (event) {
     //   console.log('eenter')
@@ -219,6 +222,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
   }
   .addCart p{
     margin: 0 4px;

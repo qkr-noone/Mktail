@@ -17,7 +17,8 @@
               <!--默认第一个预览-->
               <div id="preview" class="spec-preview">
                 <span>
-                  <pic-zoom :url="currentImg" :scale="2" :scroll="false"></pic-zoom>
+                  <img-zoom :src="currentImg" width="330" height="330" :bigsrc="currentImg" :configs="configs"></img-zoom>
+                  <!-- <pic-zoom :url="currentImg" :scale="2" :scroll="false"></pic-zoom> -->
                 </span>
               </div>
               <!--下方的缩略图-->
@@ -115,7 +116,7 @@
                   <a class="sui-btn  btn-danger buyshops" @click="buyShops()">立即购买</a>
                 </div>
                 <div class="buy-word">
-                  <a class="sui-btn  btn-danger buyma"><img src="/static/img/二维码.svg"><span>扫一扫购买</span><i class="el-icon-arrow-down"></i></a>
+                  <a class="sui-btn  btn-danger buyma"><img src="static/img/二维码.svg"><span>扫一扫购买</span><i class="el-icon-arrow-down"></i></a>
                 </div>
               </div>
             </div>
@@ -163,16 +164,46 @@
         </div>
         <!--product-detail-->
         <div class=" product-detail">
-          <div class=" aside">
-            <el-tabs type="border-card" class="sui-nav nav-tabs tab-wraped">
-              <el-tab-pane label="相关分类">
-              </el-tab-pane>
-              <el-tab-pane label="推荐品牌">
-                <div id="profile" class="tab-pane">
-                  <p>推荐品牌</p>
-                </div>
-              </el-tab-pane>
-            </el-tabs>
+          <div class="aside">
+            <div class="shop-box">
+              <h4>博士旗舰店</h4><img src="static/img/mk_search_link.png">
+            </div>
+            <div class="shop-list">
+              <div class="buy-word shops">
+                <a class="sui-btn  btn-danger"><img src="static/img/mk_search_comshop.png"><span>进店逛逛</span></a>
+              </div>
+              <div class="buy-word shops">
+                 <a class="sui-btn  btn-danger"><img src="static/img/mk_search_addshop.png"><span>关注店铺</span></a>
+              </div>
+            </div>
+            <section class="sui-nav nav-tabs tab-wraped">
+              <div class="nav-li">
+                <div class="nav-hot nav-shop" :class='{activity_show: changeShowType ==="navShop"}' @click="changeShowType='navShop'">店铺热销</div>
+                <div class="nav-hot nav-brand" :class='{activity_show: changeShowType ==="navBrand"}' @click="changeShowType='navBrand'">推荐品牌</div>
+              </div>
+            </section>
+            <transition>
+              <section v-show="changeShowType ==='navShop'" class="navShop">
+                <ul class="se-recom">
+                  <li v-for="(list, index) in shopHotList" :key="list.id">
+                    <div class="se-recom-box">
+                      <router-link class="se-recom-a" :to="{path: '/detail', query: {goodsId: list.goodsId}}">
+                        <img :src="list.pic">
+                      </router-link>
+                      <div class="se-recom-item">
+                        <p><span>{{index+1}}</span>热销144255件</p>
+                        <p>¥{{list.price}}</p>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </section>
+            </transition>
+             <transition>
+              <section v-show="changeShowType ==='navBrand'" class="navBrand">
+                ...
+              </section>
+            </transition>
           </div>
           <div class="fr detail">
             <div class="tab-main intro">
@@ -188,7 +219,7 @@
                 </div>
               </div>
               <transition>
-                <router-view :attrItem="attrItem" :goodsIntroduc="goodsIntroduc"></router-view>
+                <router-view :attrItem="attrItem" :goodsIntroduc="goodsIntroduc" :show3d="goodsDesc.show3d" :saleService="goodsDesc.saleService"></router-view>
               </transition>
               <!-- <div class="tab-pane">
                 <ul class="goods-intro unstyled">
@@ -226,15 +257,18 @@
             </div>
           </div>
         </div>
-        <div class="mask" v-show="is3Ding">
+        <!-- <div class="mask" v-show="is3Ding">
           <iframe class="mask_iframe" ref="threeDSrc"  frameborder="0" scrolling="no">
           </iframe>
           <div class="mask_close close_wrap">
             <i class="el-icon-close" @click="threeDclose"></i>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
+    <div class="bottom-abs">
+        <absBox :data="absBottomList" :indicator="'none'" :arrow="'never'" :interval="5000"></absBox>
+      </div>
     <pageFooter></pageFooter>
     <div class="mask mask-login" v-show="isMaskLogin">
       <div class="is-login">
@@ -270,13 +304,23 @@
 import { mapState, mapMutations } from 'vuex'
 import shortcut from '../../components/shortcutHeader'
 import headerNav from '../../components/headerNav'
+import absBox from '../../components/absBox'
 import pageFooter from '../../components/pageFooter'
-import PicZoom from 'vue-piczoom'
+// import PicZoom from 'vue-piczoom'
+import imgZoom from 'vue2.0-zoom'
 import { apiAxios, setStore } from '../../common/utils'
 import { api } from '../../common/api'
 export default {
   data () {
     return {
+      configs: {
+        width: 450,
+        height: 450,
+        maskWidth: 200,
+        maskHeight: 200,
+        maskColor: 'red',
+        maskOpacity: 0.2
+      },
       currentImg: '',
       scroolListImg: '',
       is3Ding: false,
@@ -298,12 +342,15 @@ export default {
       password: '',
       viewList: [], // 看了又看
       recomList: [], // 店长推荐
+      absBottomList: [], // 底部广告
+      shopHotList: [], // 店铺热销
       show3dStatus: 0, // 商品详情3D介绍状态
       attrItem: [], // 商品介绍属性列表
-      tabNav: '商品介绍'
+      tabNav: '商品介绍',
+      changeShowType: 'navShop'
     }
   },
-  components: { shortcut, headerNav, pageFooter, PicZoom },
+  components: { shortcut, headerNav, pageFooter, absBox, imgZoom },
   computed: {
     ...mapState(['cartList'])
   },
@@ -377,6 +424,26 @@ export default {
       let data = res.data
       if (data.success) {
         this.recomList = data.data.contentList
+      }
+    })
+    // 店铺热销
+    apiAxios.AxiosG({
+      url: api.detailLook,
+      params: { categoryId: 19 }
+    }, res => {
+      let data = res.data
+      if (data.success) {
+        this.shopHotList = data.data.contentList
+      }
+    })
+    // 底部广告
+    apiAxios.AxiosG({
+      url: api.detailLook,
+      params: { categoryId: 20 }
+    }, res => {
+      let data = res.data
+      if (data.success) {
+        this.absBottomList = data.data.contentList
       }
     })
   },

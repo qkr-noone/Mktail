@@ -48,6 +48,7 @@ router = new Router({
     },
     {
       path: '/detail',
+      redirect: '/detail/desciption',
       component: resolve => require(['@/views/detail/index'], resolve),
       children: [{
         path: 'desciption',

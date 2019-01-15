@@ -7,24 +7,36 @@
           <div class="add-succ-info">
             <div class="succ-top">
               <i class="el-icon-circle-check-outline"></i>
-              <h3 class="succ-tip">商品已成功加入购物车！</h3>
+              <h2 class="succ-tip">商品已成功加入购物车！</h2>
             </div>
             <div class="succ-item">
               <div class="p-item"><router-link :to="{ path: '/detail', query: {goodsId: goodSkuList.goodsId, skuId: goodSkuList.id}}"><img :src="goodSkuList.image"></router-link></div>
               <div class="p-info">
                 <div class="p-name"><a>{{goodsName}}{{goodSkuList.title}}</a></div>
-                <div class="p-extra"><span>{{spec}}</span><span>/&nbsp; 数量：{{num}}</span></div>
+                <div class="p-extra"><span>{{spec}}</span><span>数量：{{num}}</span></div>
               </div>
             </div>
           </div>
           <div class="add-succ-btn">
             <router-link :to="{ path: '/detail', query: {goodsId: goodSkuList.goodsId, skuId: goodSkuList.id}}" class="add-succ-detail">查看商品详情</router-link>
-            <!-- <a class="add-succ-detail">查看商品详情</a> -->
             <router-link :to="{ path: '/cart'}" class="add-summ">去购物车结算 <i class="el-icon-arrow-right"></i></router-link>
           </div>
         </div>
       </div>
-      <div class="like">
+      <div class="youlike">
+        <h2>{{likeCate.name}}</h2>
+        <ul class="youlike-ul">
+          <li class="youlike-li" v-for="list in likeList" :key="list.id">
+            <router-link :to="{path: '/detail', query: {goodsId: list.url}}" class="youlike-li-a"><img :src="list.pic"></router-link>
+            <div class="youlike-li-des">
+              <a>{{list.title}}</a>
+            </div>
+            <p class="youlike-li-pri">¥{{list.price}}</p>
+            <span class="youlike-li-com">已有<em>233</em>人评价</span>
+          </li>
+        </ul>
+      </div>
+      <!-- <div class="like">
         <h4 class="kt">猜你喜欢</h4>
         <div class="like-list">
           <ul class="yui3-g">
@@ -144,7 +156,7 @@
             </li>
           </ul>
         </div>
-      </div>
+      </div> -->
     </div>
     <pageFooter></pageFooter>
   </div>
@@ -160,7 +172,9 @@ export default {
       goodSkuList: '',
       num: 1,
       goodsName: '',
-      spec: ''
+      spec: '',
+      likeList: [],
+      likeCate: ''
     }
   },
   components: { shortcutHeader, pageFooter },
@@ -176,17 +190,31 @@ export default {
       if (rtn.data.success) {
         this.goodSkuList = rtn.data.data.skuInformation
         this.spec = JSON.parse(this.goodSkuList.spec)
+        console.log(this.spec)
         let ts = ''
+        // for (let item of this.spec) {
+        //   ts += item
+        // }
+        // console.log(ts)
         for (let val in this.spec) {
-          ts += val + '：' + this.spec[val]
-          ts += ''
+          ts += val + '：' + this.spec[val] + '/'
+          console.log(val, this.spec, ts, 2)
         }
         this.spec = ts
-        console.log(this.spec)
+        console.log(this.spec, 3)
         this.num = rtn.data.data.num
         this.goodsName = rtn.data.data.goodsName
       } else {
         this.$message.warning('显示有误')
+      }
+    })
+    apiAxios.AxiosG({
+      url: api.detailCon,
+      params: {categoryId: 9}
+    }, res => {
+      if (res.data.success) {
+        this.likeList = res.data.data.contentList
+        this.likeCate = res.data.data.contentCategory
       }
     })
   }
@@ -195,5 +223,5 @@ export default {
 </script>
 <style scoped>
 @import "../../assets/css/cart/add-success.css";
-@import "../../assets/css/detail/pages-item.css"
+/*@import "../../assets/css/detail/pages-item.css"*/
 </style>
