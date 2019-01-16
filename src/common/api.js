@@ -13,6 +13,7 @@ let api = {
   addToCart: '/cart/cart/addGoodsToCartList', // 加入购物车
   singleCart: '/cart/cart/getSkuInformation', // 添加到购物车数据
   cartList: '/cart/cart/findCartList', // 购物车列表
+  cartLike: '/cart/cart/findByCategoryIdInCart', // 购物车底部猜你喜欢
   cartEdit: '/cart/cart/updateCartNum', // 修改购物车某商品的数量
   cartDelete: '/cart/cart/deleteCartGood', // 删除购物车某条商品
   addressListByUser: '/cart/address/findListByLoginUser', // 根据用户获取返回收货地址集合

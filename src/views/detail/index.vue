@@ -368,7 +368,7 @@ export default {
   mounted () {
     apiAxios.AxiosG({
       url: api.detailTest,
-      params: { goodsId: this.$route.query.goodsId, skuId: this.$route.query.goodsId || '' }
+      params: { goodsId: this.$route.query.goodsId, skuId: this.$route.query.skuId || '' }
     }, rtn => {
       let data = rtn.data
       if (data.success) {

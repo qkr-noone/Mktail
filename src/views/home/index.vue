@@ -163,7 +163,6 @@
             <ul class="source-box-ul">
               <li class="source-box-li" v-for="data in lightList" :key="data.id" :data-id="data.id" v-if="list.id === data.contentId">
                 <router-link :to="{path: '/detail', query:{goodsId: data.goodsId}}"><img class="wrap" :src="data.pic"></router-link>
-                <a :href="data.url"><img class="wrap" :src="data.pic"></a>
               <h4>{{data.title}}</h4>
               </li>
               <li class="source-box-li" v-for="data in lightList1" :key="data.id" :data-id="data.id" v-if="list.id === data.contentId">
