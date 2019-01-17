@@ -1,169 +1,244 @@
 <template>
   <div id="getOrderInfo">
-    <keep-alive>
-      <router-view></router-view>
-    </keep-alive>
     <shortcutHeader></shortcutHeader>
-    <div class="py-container">
-      <div class="checkout py-container">
-        <div class="checkout-tit">
-          <h4 class="tit-txt">填写并核对订单信息</h4>
+    <div class="sum-nav">
+      <div class="sum-nav-con">
+        <div class="sum-nav-logo">
+          <a href=""><img src="static/img/mk_logo_addorder.png"></a>
+          <h1>结算页</h1>
         </div>
-        <div class="checkout-steps">
-          <!--收件人信息-->
-          <div class="step-tit">
-            <h5>收件人信息<span><a data-toggle="modal" data-target=".edit" data-keyboard="false" class="newadd">新增收货地址</a></span>
-            </h5>
+        <div class="progress">
+          <div class="progress-box">
+            <div class="progress-num">
+              <span class="pro-0"></span>
+              <a class="pro-tip">1</a>
+              <span class="pro-1"></span>
+            </div>
+            <h3 class="progress-title">1.我的购物车</h3>
           </div>
-          <div class="step-cont">
-            <div class="addressInfo">
-              <ul class="addr-detail">
-                <li class="addr-item">
-                  <div v-for="(list, index) in addressList" :key="list.id" v-if="index<3">
-                    <div class="con name selected"><a>{{list.contact}}<span title="点击取消选择"><i class="el-icon-check"></i></span></a></div>
-                    <div class="con address">{{list.contact}}&nbsp;&nbsp;{{list.address}}<span>{{list.mobile}}</span>
-                      <span class="base" v-if="list.isDefault === '1'" :data-isDefault="list.isDefault">默认地址</span>
-                      <span class="edittext"><a>编辑</a>&nbsp;&nbsp;<a>删除</a></span>
+          <div class="progress-box">
+            <div class="progress-num">
+              <span class="pro-1"></span>
+              <a class="pro-tip">2</a>
+              <span class="pro-2"></span>
+            </div>
+            <h3 class="progress-title">2.填写核对订单信息</h3>
+          </div>
+          <div class="progress-box noactive">
+            <div class="progress-num">
+              <span class="pro-2"></span>
+              <a class="pro-tip">3</a>
+              <span class="pro-2"></span>
+            </div>
+            <h3 class="progress-title">3.付款</h3>
+          </div>
+          <div class="progress-box noactive">
+            <div class="progress-num">
+              <span class="pro-2"></span>
+              <a class="pro-tip">4</a>
+              <span class="pro-0"></span>
+            </div>
+            <h3 class="progress-title">4.支付成功</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="py-container">
+      <div class="add">
+        <div class="add-title">
+          <h2>收货信息</h2>
+          <a href="javascript:;" class="add-address-btn">添加新地址</a>
+        </div>
+        <div class="add-con">
+          <div>
+            <ul class="add-con-ul">
+              <li>
+                <div class="add-box">
+                  <div class="add-box-1">
+                    <h5><span>张三</span><span>（广东省 广州市）</span></h5>
+                    <div class="add-tip">
+                      <span>默认</span><span>公司</span>
                     </div>
                   </div>
-                </li>
-              </ul>
-              <!--添加地址-->
-              <div tabindex="-1" role="dialog" data-hasfoot="false" class="sui-modal hide fade edit">
-                <div class="modal-dialog">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <button type="button" data-dismiss="modal" aria-hidden="true" class="sui-close">×</button>
-                      <h4 id="myModalLabel" class="modal-title">添加收货地址</h4>
-                    </div>
-                    <div class="modal-body">
-                      <form action="" class="sui-form form-horizontal">
-                        <div class="control-group">
-                          <label class="control-label">收货人：</label>
-                          <div class="controls">
-                            <input type="text" class="input-medium">
-                          </div>
-                        </div>
-                        <div class="control-group">
-                          <label class="control-label">详细地址：</label>
-                          <div class="controls">
-                            <input type="text" class="input-large">
-                          </div>
-                        </div>
-                        <div class="control-group">
-                          <label class="control-label">联系电话：</label>
-                          <div class="controls">
-                            <input type="text" class="input-medium">
-                          </div>
-                        </div>
-                        <div class="control-group">
-                          <label class="control-label">邮箱：</label>
-                          <div class="controls">
-                            <input type="text" class="input-medium">
-                          </div>
-                        </div>
-                        <div class="control-group">
-                          <label class="control-label">地址别名：</label>
-                          <div class="controls">
-                            <input type="text" class="input-medium">
-                          </div>
-                          <div class="othername">建议填写常用地址：<a href="#" class="sui-btn btn-default">家里</a><a href="#" class="sui-btn btn-default">父母家</a><a href="#" class="sui-btn btn-default">公司</a>
-                          </div>
-                        </div>
-                      </form>
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" data-ok="modal" class="sui-btn btn-primary btn-large">确定</button>
-                      <button type="button" data-dismiss="modal" class="sui-btn btn-default btn-large">取消</button>
+                  <div class="add-box-2">
+                    <span>从化区从化区从化区从化区从化区从化区从化区从化区从化区从化区从化区从化区</span><span>城郊街道</span>
+                    <span>明珠大道丽峰路</span><span>137******0</span>
+                  </div>
+                  <div class="add-box-3"><span>修改</span></div>
+                </div>
+              </li>
+              <li>
+                <div class="add-box">
+                  <div class="add-box-4">
+                    <i class="el-icon-plus"></i>
+                    <p>添加地址</p>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="add">
+        <div class="add-title">
+          <h2>支付方式</h2>
+        </div>
+        <div class="pay-con">
+          <ul class="pay-con-ul">
+            <li class="pay-con-li">
+              <div class="pay-con-box">银行卡支付</div>
+            </li>
+            <li class="pay-con-li">
+              <div class="pay-con-box">支付宝</div>
+            </li>
+            <li class="pay-con-li">
+              <div class="pay-con-box">微信支付</div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="add">
+        <div class="add-title">
+          <h2>商品及服务信息</h2>
+            <a href="javascript:;" class="add-address-btn">返回我的购物车修改</a>
+        </div>
+        <div class="goods">
+          <ul>
+            <li>
+              <div class="goods-box">
+                <div class="goods-head">
+                  <div class="goods-h1"><h4>希箭官方旗舰店</h4><img src="static/img/mk_addorder-service.png"></div>
+                  <div class="goods-h2">服务信息</div>
+                  <div class="goods-h3">单价</div>
+                  <div class="goods-h4">数量</div>
+                  <div class="goods-h5">小计</div>
+                </div>
+                <div class="goods-con">
+                  <ul class="goods-h1">
+                    <li class="go-detail">
+                      <a href=""><img src="static/img/mk_logo_login.png"></a>
+                      <div class="go-de-title">
+                        <h5>希箭HOROW太空铝原色卫浴五金套件套装毛巾架浴...</h5>
+                        <div class="donate"><span>退</span></div>
+                      </div>
+                    </li>
+                    <li class="go-detail">
+                      <a href=""><img src="static/img/mk_logo_login.png"></a>
+                      <div class="go-de-title">
+                        <h5>希箭HOROW太空铝原色卫浴五金套件套装毛巾架浴...</h5>
+                        <div class="donate"><span>退</span></div>
+                      </div>
+                    </li>
+                    <li class="go-detail">
+                      <a href=""><img src="static/img/mk_logo_login.png"></a>
+                      <div class="go-de-title">
+                        <h5>希箭HOROW太空铝原色卫浴五金套件套装毛巾架浴...</h5>
+                        <div class="donate"><span>退</span></div>
+                      </div>
+                    </li>
+                  </ul>
+                  <div class="goods-h2 Center">
+                    <div>支付完成后尽快为您发货</div>
+                  </div>
+                  <div class="goods-h3 Top">
+                    <li class="go-price Center">¥ 138.00</li>
+                    <li class="go-price Center">¥ 138.00</li>
+                    <li class="go-price Center">¥ 138.00</li>
+                  </div>
+                  <div class="goods-h4 Top">
+                    <li class="go-price Center">0</li>
+                    <li class="go-price Center">138</li>
+                    <li class="go-price Center">3800</li>
+                  </div>
+                  <div class="goods-h5 Top last">
+                    <li class="go-price Center">¥ 138.00</li>
+                    <li class="go-price Center">¥ 138.00</li>
+                    <li class="go-price Center">¥ 138.00</li>
+                  </div>
+                </div>
+                <div class="goods-tip">
+                  <div class="goods-h6">
+                    <label>给卖家留言：</label>
+                    <textarea  class="form-info" type="textarea" maxlength="85" name="" v-model="formDesc" placeholder="选填：对本次交易的补充说明(所填内容建议已经和卖家达成一致意见)"></textarea>
+                    <span class="form-font">{{formDesc.length}}/85</span>
+                  </div>
+                  <div class="goods-h7">
+                    <h4>免运费</h4>
+                    <div class="flow">
+                      <input type="checkbox" name=""><span class="flow-tip">免运费</span><span>以下商品  参加小件运费险,退货可赔6元</span>
+                      <h4 class="flow-price">¥ 0.85</h4>
                     </div>
                   </div>
                 </div>
               </div>
-              <!--确认地址-->
-            </div>
-            <div class="hr"></div>
-          </div>
-          <div class="hr"></div>
-          <!--支付和送货-->
-          <div class="payshipInfo">
-            <div class="step-tit">
-              <h5>支付方式</h5>
-            </div>
-            <div class="step-cont">
-              <ul class="payType">
-                <li class="selected">微信付款<span title="点击取消选择"></span></li>
-                <li>货到付款<span title="点击取消选择"></span></li>
-              </ul>
-            </div>
-            <div class="hr"></div>
-            <div class="step-tit">
-              <h5>送货清单</h5>
-            </div>
-            <div class="step-cont">
-              <ul class="send-detail">
-                <li v-for="list in goodSkuList" :key="list.itemId">
-                  <div class="sendGoods">
-                    <ul class="yui3-g">
-                      <li class="yui3-u-1-6">
-                        <span><img :src="list.picPath"/></span>
-                      </li>
-                      <li class="yui3-u-7-12 send-goods-desc" >
-                        <div class="desc">{{list.title}}</div>
-                        <div class="p-extra"><span>{{list.spec}}</span></div>
-                        <div class="seven">7天无理由退货</div>
-                      </li>
-                      <li class="yui3-u-1-12">
-                        <div class="price">￥{{list.price}}</div>
-                      </li>
-                      <li class="yui3-u-1-12">
-                        <div class="num">X{{list.num}}</div>
-                      </li>
-                    </ul>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="hr"></div>
-          </div>
-          <div class="linkInfo">
-            <div class="step-tit">
-              <h5>发票信息</h5>
-            </div>
-            <div class="step-cont">
-              <span>普通发票（电子）</span>
-              <span>个人</span>
-              <span>明细</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="add">
+        <div class="add-title invoice-box">
+          <h2>发票信息</h2>
+          <a href="javascript:;" class="add-address-btn">修改</a>
+        </div>
+        <div class="invoice">
+          <div class="invoice-info-1">
+            <span>发票类型：</span>
+            <div class="invoice-type">
+              <span>纸质普通发票</span>
+              <i class="el-icon-caret-bottom"></i>
             </div>
           </div>
-          <div class="cardInfo">
-            <div class="step-tit">
-              <h5>使用优惠/抵用</h5>
+          <div class="invoice-info-1">
+            <span>发票抬头：</span>
+            <div class="invoice-type">
+              <span>张三</span>
             </div>
           </div>
         </div>
       </div>
-      <div class="order-summary">
-        <div class="static fr">
-          <div class="list">
-            <span><i class="number">{{totalNum}}</i>件商品，总商品金额</span>
-            <em class="allprice">¥{{totalPrice}}</em>
+      <div class="add">
+        <div class="add-title">
+          <h2>结算信息</h2>
+        </div>
+        <div class="count-con">
+          <div class="count-ticket">
+            <div class="count-tick-tit">
+              <span class="tick-tip"><i class="el-icon-plus"></i></span>
+              <span>使用优惠券</span>
+            </div>
           </div>
-          <div class="list">
-            <span>返现：</span>
-            <em class="money">0.00</em>
+          <div class="count-ticket">
+            <div class="count-tick-tit">
+              <span class="tick-tip"><i class="el-icon-plus"></i></span>
+              <span>使用红包</span>
+            </div>
           </div>
-          <div class="list">
-            <span>运费：</span>
-            <em class="transport">0.00</em>
+          <div class="count-price">
+            <div class="count-price-li">
+              <span><strong>22</strong>件商品 总计：</span>
+              <span class="count-price-item">¥486.00</span>
+            </div>
+            <div class="count-price-li">
+              <span>运费：</span>
+              <span class="count-price-item">¥0.00</span>
+            </div>
+            <div class="count-price-li">
+              <span>优惠：</span>
+              <span class="count-price-item">¥0.00</span>
+            </div>
+            <div class="count-price-li">
+              <span>优惠券/卡：</span>
+              <span class="count-price-item">¥0.00</span>
+            </div>
           </div>
         </div>
       </div>
-      <div class="clearfix trade">
-        <div class="fc-price">应付金额:<span class="price">¥{{submitPrice}}</span></div>
-        <div class="fc-receiverInfo">寄送至:{{defaultAddress.address}} 收货人：{{defaultAddress.contact}}&nbsp;&nbsp;{{defaultAddress.mobile}}</div>
-      </div>
-      <div class="submit">
-        <a class="sui-btn btn-danger btn-xlarge" @click="submitOrder">提交订单</a>
+      <div class="all-sum">
+        <div class="sum-box">
+          <span class="sum-tip">应付金额：</span>
+          <span class="sum-price">¥396.00</span>
+        </div>
+        <div class="sum-order">提交订单</div>
       </div>
     </div>
     <pageFooter></pageFooter>
@@ -184,7 +259,8 @@ export default {
       totalPrice: 0,
       submitPrice: '',
       defaultAddress: '',
-      sellerId: 0
+      sellerId: 0,
+      formDesc: ''
     }
   },
   components: { shortcutHeader, pageFooter },
@@ -289,6 +365,6 @@ export default {
 }
 </script>
 <style scoped>
-@import "../../assets/css/cart/webbase.css";
+/*@import "../../assets/css/cart/webbase.css";*/
 @import "../../assets/css/cart/getOrderInfo.css"
 </style>

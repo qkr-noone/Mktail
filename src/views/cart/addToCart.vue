@@ -12,8 +12,8 @@
             <div class="succ-item">
               <div class="p-item"><router-link :to="{ path: '/detail', query: {goodsId: goodSkuList.goodsId, skuId: goodSkuList.id}}"><img :src="goodSkuList.image"></router-link></div>
               <div class="p-info">
-                <div class="p-name"><a>{{goodsName}}{{goodSkuList.title}}</a></div>
-                <div class="p-extra"><span>{{spec}}</span><span>数量：{{num}}</span></div>
+                <div class="p-name"><a>{{goodSkuList.title}}</a></div>
+                <div class="p-extra"><span><strong v-for="(tip, key, value) in spec" :key="value">{{key}}:{{value}}</strong></span><span>数量：{{num}}</span></div>
               </div>
             </div>
           </div>
@@ -190,18 +190,6 @@ export default {
       if (rtn.data.success) {
         this.goodSkuList = rtn.data.data.skuInformation
         this.spec = JSON.parse(this.goodSkuList.spec)
-        console.log(this.spec)
-        let ts = ''
-        // for (let item of this.spec) {
-        //   ts += item
-        // }
-        // console.log(ts)
-        for (let val in this.spec) {
-          ts += val + '：' + this.spec[val] + '/'
-          console.log(val, this.spec, ts, 2)
-        }
-        this.spec = ts
-        console.log(this.spec, 3)
         this.num = rtn.data.data.num
         this.goodsName = rtn.data.data.goodsName
       } else {

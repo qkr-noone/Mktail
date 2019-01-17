@@ -8,7 +8,7 @@
           <div class="title-address">
             <h5>送货至：</h5>
             <div class="address">
-              <a class="address-box" href="javascript:;">广东广州广东广州广东广州广东广州</a>
+              <a class="address-box" href="javascript:;">广东广广州</a>
               <i class="el-icon-caret-bottom"></i>
             </div>
           </div>
@@ -55,7 +55,7 @@
                       <div class="item-msg" @click="toDetail(item.goodsId, item.itemId)">{{item.title}}</div>
                     </div>
                   </li>
-                  <li class="cart-3"><span class="attr">{{item.price}}</span></li>
+                  <li class="cart-3"><span class="attr"><strong v-for="(tip, key, value) in JSON.parse(item.spec)" :key="value">{{key}}:{{value}}</strong></span></li>
                   <li class="cart-4"><span class="price">￥{{item.price}}</span></li>
                   <buyNum class="cart-4"
                           :num="item.num"
@@ -221,6 +221,8 @@ export default {
       if (this.selectList.length) {
         setStore('selectList', this.selectList)
         this.$router.push({path: '/getOrderInfo', query: {list: this.selectList}})
+      } else {
+        this.$message.warning('请核对信息哦')
       }
       return false
     },
@@ -286,10 +288,17 @@ export default {
           })
         })
         list = tem
+      } else {
+        if (!list.length) {
+          this.$message.info('未选中商品')
+          return false
+        }
       }
-      list.forEach(item => {
-        this._cartDel(item.itemId, item.sellerId)
+      let series = []
+      list.forEach(data => {
+        series.push({skuId: data.itemId, sellerId: data.sellerId})
       })
+      this._cartAllDel(series)
     },
     _cartEditNum (productSkuId, productNum, sellerId, checked) { // 修改数量
       apiAxios.AxiosG({
@@ -322,6 +331,24 @@ export default {
         }
       })
     },
+    _cartAllDel (skIdList) { // 删除购物车
+      console.log(skIdList)
+      apiAxios.AxiosP({
+        url: api.cartAllDelete,
+        params: {userName: this.$cookies.get('user-key')},
+        data: skIdList
+      }, res => {
+        if (res.data.success === true) {
+          skIdList.forEach(elem => {
+            console.log(elem)
+            let productSkuId = elem.skuId
+            console.log(productSkuId)
+            this.EDIT_CART({productSkuId})
+          })
+          this.$message.success('删除成功！')
+        }
+      })
+    },
     EDIT_CART ({productSkuId, productNum, checked}) {
       let cart = this.cartList
       if (productNum) { // 修改数量
@@ -351,7 +378,7 @@ export default {
         // this.setCartList(this.cartList)
       } else { // 根据sku数据删除购物车
         for (let item of cart) {
-          console.log(cart)
+          console.log(cart, productSkuId)
           for (let index in item.orderItemList) {
             if (item.orderItemList[index].itemId === productSkuId) {
               // 同时删除勾选的列表，如果有的话

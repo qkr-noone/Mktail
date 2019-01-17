@@ -111,7 +111,7 @@
             </div>
             <ul class="sty-con-ul">
               <li class="sty-con-li" v-for="(data, index) in hardwareList" :key="data.id" v-if="index < 4 && list.id === data.contentId">
-                <h2>{{data.title}}</h2>router
+                <h2>{{data.title}}</h2>
                 <router-link :to="{path: '/detail', query:{goodsId: data.goodsId}}"><img class="wrap" :src="data.pic"></router-link>
                 <div><span>{{data.price}}元</span><div class="before-pri"><span>288元</span></div></div>
               </li>

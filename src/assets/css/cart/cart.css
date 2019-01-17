@@ -279,22 +279,28 @@
     align-items: center;
   }
   .item-img img{
-      max-width: 100%;
-      height: auto;
-      vertical-align: middle;
-      border: 0;
+    max-width: 100%;
+    height: auto;
+    vertical-align: middle;
+    border: 0;
   }
   .good-item .item-msg {
     flex-grow: 1;
     padding-right: 30px;
     margin-left: 27px;
     cursor: pointer;
-  }
-  .good-item .item-msg {
     line-height: 20px;
+    font-size: 15px;
+    color: #353535;
   }
   .attr {
     line-height: 16px;
+    display: flex;
+    flex-direction: column;
+  }
+  .attr strong{
+    font-weight: 400;
+    font-style: normal;
   }
   .sum {
     color: #F91800;

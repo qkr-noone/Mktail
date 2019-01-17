@@ -665,7 +665,7 @@
     border-radius: 7px;
   }
   .point-ul{}
-  .point-li{width: 50px; height: 50px; font-size: 12px; color: #878787}
+  .point-li{width: 50px; height: 50px; font-size: 12px; color: #878787; cursor:pointer;}
   .point-li{display: flex; justify-content: center; align-items: center;}
   .point-li .top{
     display: flex;

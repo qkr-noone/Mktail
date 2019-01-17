@@ -16,6 +16,7 @@ let api = {
   cartLike: '/cart/cart/findByCategoryIdInCart', // 购物车底部猜你喜欢
   cartEdit: '/cart/cart/updateCartNum', // 修改购物车某商品的数量
   cartDelete: '/cart/cart/deleteCartGood', // 删除购物车某条商品
+  cartAllDelete: '/cart/cart/deleteCartGoodAll', // 删除全部、选中购物车数据
   addressListByUser: '/cart/address/findListByLoginUser', // 根据用户获取返回收货地址集合
   getOrderInfo: '/cart/order/add', // 从购物车进入 提交订单
   directOrderInfo: '/cart/order/directAdd', // 从立即购买进入 提交订单

@@ -62,6 +62,10 @@
 		color: #666;
     font-size: 14px;
 	}
+  .p-extra span strong{ font-weight: 400; }
+  .p-extra span strong {
+    margin-right: 15px;
+  }
 	.add-succ-btn {
 		display: flex;
     margin-bottom: 20px;

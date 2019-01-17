@@ -17,7 +17,7 @@
               <!--默认第一个预览-->
               <div id="preview" class="spec-preview">
                 <span>
-                  <img-zoom :src="currentImg" width="330" height="330" :bigsrc="currentImg" :configs="configs"></img-zoom>
+                  <transition><img-zoom :src="currentImg" width="330" height="330" :bigsrc="currentImg" :configs="configs"></img-zoom></transition>
                   <!-- <pic-zoom :url="currentImg" :scale="2" :scroll="false"></pic-zoom> -->
                 </span>
               </div>
@@ -42,7 +42,7 @@
           </div>
           <div class="fr itemInfo-wrap">
             <div class="sku-name">
-              <h4>{{goods.goodsName}}{{selectSku.title}}</h4>
+              <h4>{{selectSku.title}}</h4>
             </div>
             <div class="news" v-if="goods.caption"><span>{{goods.caption}}</span></div>
             <div class="summary">
@@ -314,7 +314,7 @@ export default {
   data () {
     return {
       configs: {
-        width: 450,
+        width: 660,
         height: 450,
         maskWidth: 200,
         maskHeight: 200,
