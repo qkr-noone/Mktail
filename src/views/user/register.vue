@@ -3,230 +3,230 @@
     <keep-alive>
       <router-view></router-view>
     </keep-alive>
-        <div class="reg-top">
-          <div class="py-container">
-          <div class="top">
-          <div class="top_left">
-            <div class="h-logo" ref='logoIsCursor'>
-              <router-link :to="{path: isHome}" ><img src="static/img/logo-118-69.png"></router-link>
+    <div class="reg-top">
+      <div class="py-container">
+      <div class="top">
+      <div class="top_left">
+        <div class="h-logo" ref='logoIsCursor'>
+          <router-link :to="{path: isHome}" ><img src="static/img/logo-118-69.png"></router-link>
+        </div>
+        <p class="title">账户注册</p>
+      </div>
+      <span class="go">我已注册，<router-link :to="{path: '/login'}">马上登录</router-link>></span>
+    </div>
+    </div>
+    </div>
+    <div class="reg-middle">
+      <div class="py-container">
+        <div class="middle">
+          <section class="middle-title">
+            <div class="title " :class="{active: show === 0}" @click="companyShow()">
+              <a class="fixed-height" @click="changeShowType='company'">
+              <img :src="show ===0? 'static/img/reg/reg_rectangle_active1.png' :'./../../static/img/reg/reg_rectangle1.png'">
+              <p class="title-text ">企业账户注册</p>
+              </a>
             </div>
-            <p class="title">账户注册</p>
-          </div>
-          <span class="go">我已注册，<router-link :to="{path: '/login'}">马上登录</router-link>></span>
-        </div>
-          </div>
-        </div>
-        <div class="reg-middle">
-          <div class="py-container">
-            <div class="middle">
-              <section class="middle-title">
-                <div class="title " :class="{active: show === 0}" @click="companyShow()">
-                  <a class="fixed-height" @click="changeShowType='company'">
-                  <img :src="show ===0? 'static/img/reg/reg_rectangle_active1.png' :'./../../static/img/reg/reg_rectangle1.png'">
-                  <p class="title-text ">企业账户注册</p>
-                  </a>
+            <div class="title" :class="{active: show === 1}" @click="personShow()">
+              <a class="fixed-height" @click="changeShowType='person'">
+              <img :src=" show===1? 'static/img/reg/reg_slice_active1.png' :'static/img/reg/reg_slice1.png'" class="reduce-height">
+              <p class="title-text">个人账户注册</p>
+              </a>
+            </div>
+          </section>
+          <transition>
+            <section class="middle-contaiber " v-show="changeShowType ==='company'" :class="{ back: isAgree===false}">
+              <span class="explain">有企业营业执照（含个体工商户）的用户请注册。权益如下：做企业实名认证；作为卖家身份开店；作为买家身份采购。</span>
+              <div class="agreement" v-show="isAgree === false">
+                <div class="regagreement">注册协议</div>
+                <hr>
+                <div class="agreement-detail">
+                  <p>
+                    <strong>【审慎阅读】</strong>您在申请注册流程中点击同意前，应当认真阅读以下协议。请您务必 <strong>审慎阅读、充分理解协议中相关条款内容，
+                    其中包括：</strong>
+                  </p>
+                  <p> <strong>1、与您约定免除或限制责任的条款；</strong></p>
+                  <p><strong>2、与您约定法律适用和管辖的条款；</strong></p>
+                  <p><strong>3、其他以粗体下划线标识的重要条款</strong></p>
+                  <p><strong>如您对协议有任何疑问，可向服务中心（请点击）咨询</strong></p>
+                  <p>
+                    <strong>
+                      【特别提示】
+                      您已充分理解，猴尾巴中国站是一个商业贸易采购平台内容 ，而并非面向消费者的消费购买市场，当您按照注册页面提示填写信息、阅读并同意协议且完成全部注册程序后，
+                      即表示您已充分阅读、理解并接受协议的全部内容，并将基于您的真实贸易需求而使用平台服务。</strong>如您因平台服务与猴尾巴发生争议应适用《平台服务条款》处理;
+                    如您在使用平台服务中与其他用户发生争议，依您与其他用户达成的协议处理。
+                  </p>
+                  <p><strong>阅读协议的过程中，如果您不同意相关协议或其中任何条款约定，您应立即停止注册程序。</strong></p>
+                  <p><router-link :to="{name:'paas'}">《平台服务条款》</router-link></p>
+                  <p><router-link :to="{name: 'privacy'}">《隐私权政策》</router-link></p>
+                  <p><router-link :to="{name:'legal'}">《法律声明》</router-link></p>
+                  <p><router-link :to="{name: 'pay'}">《支付交易协议》</router-link></p>
                 </div>
-                <div class="title" :class="{active: show === 1}" @click="personShow()">
-                  <a class="fixed-height" @click="changeShowType='person'">
-                  <img :src=" show===1? 'static/img/reg/reg_slice_active1.png' :'static/img/reg/reg_slice1.png'" class="reduce-height">
-                  <p class="title-text">个人账户注册</p>
-                  </a>
-                </div>
-              </section>
-              <transition>
-                <section class="middle-contaiber " v-show="changeShowType ==='company'" :class="{ back: isAgree===false}">
-                  <span class="explain">有企业营业执照（含个体工商户）的用户请注册。权益如下：做企业实名认证；作为卖家身份开店；作为买家身份采购。</span>
-                  <div class="agreement" v-show="isAgree === false">
-                    <div class="regagreement">注册协议</div>
-                    <hr>
-                    <div class="agreement-detail">
-                      <p>
-                        <strong>【审慎阅读】</strong>您在申请注册流程中点击同意前，应当认真阅读以下协议。请您务必 <strong>审慎阅读、充分理解协议中相关条款内容，
-                        其中包括：</strong>
-                      </p>
-                      <p> <strong>1、与您约定免除或限制责任的条款；</strong></p>
-                      <p><strong>2、与您约定法律适用和管辖的条款；</strong></p>
-                      <p><strong>3、其他以粗体下划线标识的重要条款</strong></p>
-                      <p><strong>如您对协议有任何疑问，可向服务中心（请点击）咨询</strong></p>
-                      <p>
-                        <strong>
-                          【特别提示】
-                          您已充分理解，猴尾巴中国站是一个商业贸易采购平台内容 ，而并非面向消费者的消费购买市场，当您按照注册页面提示填写信息、阅读并同意协议且完成全部注册程序后，
-                          即表示您已充分阅读、理解并接受协议的全部内容，并将基于您的真实贸易需求而使用平台服务。</strong>如您因平台服务与猴尾巴发生争议应适用《平台服务条款》处理;
-                        如您在使用平台服务中与其他用户发生争议，依您与其他用户达成的协议处理。
-                      </p>
-                      <p><strong>阅读协议的过程中，如果您不同意相关协议或其中任何条款约定，您应立即停止注册程序。</strong></p>
-                      <p><router-link :to="{name:'paas'}">《平台服务条款》</router-link></p>
-                      <p><router-link :to="{name: 'privacy'}">《隐私权政策》</router-link></p>
-                      <p><router-link :to="{name:'legal'}">《法律声明》</router-link></p>
-                      <p><router-link :to="{name: 'pay'}">《支付交易协议》</router-link></p>
-                    </div>
-                    <button class="btn_agree" @click="agree()">同意并继续</button>
-                  </div>
-                  <div class="info"  v-show="isAgree === true">
-                    <form class="sui-form form-horizontal">
-                      <div class="control-group">
-                        <label class="control-label">会员名：</label>
-                        <div class="controls">
-                          <input type="text"  placeholder="设置会员名" class="input-xfat input-xlarge" v-model="userName">
-                        </div>
-                      </div>
-                      <div class="control-group">
-                        <label for="inputPassword" class="control-label">登录密码：</label>
-                        <div class="controls">
-                          <input type="password" placeholder="设置你的登录密码" class="input-xfat input-xlarge" v-model="password">
-                        </div>
-                      </div>
-                      <div class="control-group">
-                        <label for="inputPassword" class="control-label">确认密码：</label>
-                        <div class="controls">
-                          <input type="password" placeholder="请再次输入你的登录密码" class="input-xfat input-xlarge" v-model="REpassword">
-                        </div>
-                      </div>
-                      <div class="control-group">
-                        <label  class="control-label">联系人姓名：</label>
-                        <div class="controls">
-                          <input type="text"  placeholder="请输入真实名字" class="input-xfat input-xlarge" >
-                        </div>
-                      </div>
-                      <div class="control-group">
-                        <label class="control-label">企业名称：</label>
-                        <div class="controls">
-                          <input type="text" placeholder="请输入营业执照上的企业名称" class="input-xfat input-xlarge">
-                        </div>
-                      </div>
-                      <div class="control-group">
-                        <label class="control-label">手机号码：</label>
-                        <div class="controls">
-                          <select>
-                            <option>中国大陆&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+86</option>
-                            <option>中国香港</option>
-                          </select>
-                          <input type="text" class="input-xfat input-xlarge mobile" maxlength="16" v-model="phoneValue">
-                        </div>
-                      </div>
-                      <div class="control-group">
-                        <label class="control-label">验证码：</label>
-                        <div class="controls">
-                          <input type="text" placeholder="请输入验证码" class="input-xfat input-xlarge" >
-                        </div>
-                      </div>
-                      <div class="control-group">
-                        <div class="controls">
-                          <el-checkbox v-model="checked" >创建网站账号的同时，我同意遵守：<br><a ref="https://www.baidu.com">《平台服务条款》</a>及 <a ref="https://www.baidu.com">《隐私声明》</a></el-checkbox>
-                        </div>
-                      </div>
-                      <div class="control-group">
-                        <div class="controls btn-reg">
-                          <a class="sui-btn btn-block btn-xlarge btn-danger" @click="register">同意并注册</a>
-                        </div>
-                      </div>
-                    </form>
-                  </div>
-                </section>
-              </transition>
-              <transition>
-                <section  v-show="changeShowType ==='person'">
-                  <span class="explain">无企业营业执照的个人用户请注册个人账户。权益如下：做个人实名认证；作为买家身份采购；</span>
-                  <div class="info">
-                    <form class="sui-form form-horizontal">
-                      <div class="control-group">
-                        <label class="control-label">会员名：</label>
-                        <div class="controls">
-                          <input type="text"  placeholder="设置会员名" class="input-xfat input-xlarge" v-model="userName">
-                        </div>
-                      </div>
-                      <div class="control-group">
-                        <label for="inputPassword" class="control-label">登录密码：</label>
-                        <div class="controls">
-                          <input type="password" placeholder="设置你的登录密码" class="input-xfat input-xlarge" v-model="password">
-                        </div>
-                      </div>
-                      <div class="control-group">
-                        <label for="inputPassword" class="control-label">确认密码：</label>
-                        <div class="controls">
-                          <input type="password" placeholder="请再次输入你的登录密码" class="input-xfat input-xlarge" v-model="REpassword">
-                        </div>
-                      </div>
-                      <div class="control-group">
-                        <label class="control-label">手机号码：</label>
-                        <div class="controls">
-                          <select>
-                            <option>中国大陆&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+86</option>
-                            <option>中国香港</option>
-                          </select>
-                          <input type="text" class="input-xfat input-xlarge mobile" maxlength="16" v-model="phoneValue">
-                        </div>
-                      </div>
-                      <div class="control-group">
-                        <label class="control-label">验证码：</label>
-                        <div class="controls">
-                          <input type="text" placeholder="请填写手机号" class="input-xfat input-xlarge" maxlength="16" >
-                        </div>
-                      </div>
-                      <div class="control-group">
-                        <div class="controls">
-                          <el-checkbox v-model="checked" >创建网站账号的同时，我同意遵守：<br><a ref="https://www.baidu.com">《平台服务条款》</a>及<a ref="https://www.baidu.com">《隐私声明》</a></el-checkbox>
-                        </div>
-                      </div>
-                      <div class="control-group">
-                        <div class="controls btn-reg">
-                          <a class="sui-btn btn-block btn-xlarge btn-danger " @click="register">同意并注册</a>
-                        </div>
-                      </div>
-                    </form>
-                  </div>
-                </section>
-              </transition>
-              <div class="question">
-            <img src="static/img/reg/reg_monkey1.png">
-            <div class="know-more">
-              <p>了解更多</p>
-              <ul>
-                <li><a>手机收不到验证码?</a></li>
-                <li><a>会员账户注册不成功?</a></li>
-                <li><a>个人账户可以开店吗?</a></li>
-                <li><a>账户如何换名字?</a></li>
-                <li><a>个人账户需要营业执照吗?</a></li>
-                <li><a>其他问题</a></li>
-              </ul>
-              <div class="clikeme">
-                <img src="static/img/reg/reg_oval1.png"/>
-                <span class="text">?</span>
-                <a class="a">点我提问</a>
+                <button class="btn_agree" @click="agree()">同意并继续</button>
               </div>
-            </div>
-          </div>
-          </div>
+              <div class="info"  v-show="isAgree === true">
+                <form class="sui-form form-horizontal">
+                  <div class="control-group">
+                    <label class="control-label">会员名：</label>
+                    <div class="controls">
+                      <input type="text"  placeholder="设置会员名" class="input-xfat input-xlarge" v-model="userName">
+                    </div>
+                  </div>
+                  <div class="control-group">
+                    <label for="inputPassword" class="control-label">登录密码：</label>
+                    <div class="controls">
+                      <input type="password" placeholder="设置你的登录密码" class="input-xfat input-xlarge" v-model="password">
+                    </div>
+                  </div>
+                  <div class="control-group">
+                    <label for="inputPassword" class="control-label">确认密码：</label>
+                    <div class="controls">
+                      <input type="password" placeholder="请再次输入你的登录密码" class="input-xfat input-xlarge" v-model="REpassword">
+                    </div>
+                  </div>
+                  <div class="control-group">
+                    <label  class="control-label">联系人姓名：</label>
+                    <div class="controls">
+                      <input type="text"  placeholder="请输入真实名字" class="input-xfat input-xlarge" >
+                    </div>
+                  </div>
+                  <div class="control-group">
+                    <label class="control-label">企业名称：</label>
+                    <div class="controls">
+                      <input type="text" placeholder="请输入营业执照上的企业名称" class="input-xfat input-xlarge">
+                    </div>
+                  </div>
+                  <div class="control-group">
+                    <label class="control-label">手机号码：</label>
+                    <div class="controls">
+                      <select>
+                        <option>中国大陆&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+86</option>
+                        <option>中国香港</option>
+                      </select>
+                      <input type="text" class="input-xfat input-xlarge mobile" maxlength="16" v-model="phoneValue">
+                    </div>
+                  </div>
+                  <div class="control-group">
+                    <label class="control-label">验证码：</label>
+                    <div class="controls">
+                      <input type="text" placeholder="请输入验证码" class="input-xfat input-xlarge" >
+                    </div>
+                  </div>
+                  <div class="control-group">
+                    <div class="controls">
+                      <el-checkbox v-model="checked" >创建网站账号的同时，我同意遵守：<br><a ref="https://www.baidu.com">《平台服务条款》</a>及 <a ref="https://www.baidu.com">《隐私声明》</a></el-checkbox>
+                    </div>
+                  </div>
+                  <div class="control-group">
+                    <div class="controls btn-reg">
+                      <a class="sui-btn btn-block btn-xlarge btn-danger" @click="register">同意并注册</a>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </section>
+          </transition>
+          <transition>
+            <section  v-show="changeShowType ==='person'">
+              <span class="explain">无企业营业执照的个人用户请注册个人账户。权益如下：做个人实名认证；作为买家身份采购；</span>
+              <div class="info">
+                <form class="sui-form form-horizontal">
+                  <div class="control-group">
+                    <label class="control-label">会员名：</label>
+                    <div class="controls">
+                      <input type="text"  placeholder="设置会员名" class="input-xfat input-xlarge" v-model="userName">
+                    </div>
+                  </div>
+                  <div class="control-group">
+                    <label for="inputPassword" class="control-label">登录密码：</label>
+                    <div class="controls">
+                      <input type="password" placeholder="设置你的登录密码" class="input-xfat input-xlarge" v-model="password">
+                    </div>
+                  </div>
+                  <div class="control-group">
+                    <label for="inputPassword" class="control-label">确认密码：</label>
+                    <div class="controls">
+                      <input type="password" placeholder="请再次输入你的登录密码" class="input-xfat input-xlarge" v-model="REpassword">
+                    </div>
+                  </div>
+                  <div class="control-group">
+                    <label class="control-label">手机号码：</label>
+                    <div class="controls">
+                      <select>
+                        <option>中国大陆&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+86</option>
+                        <option>中国香港</option>
+                      </select>
+                      <input type="text" class="input-xfat input-xlarge mobile" maxlength="16" v-model="phoneValue">
+                    </div>
+                  </div>
+                  <div class="control-group">
+                    <label class="control-label">验证码：</label>
+                    <div class="controls">
+                      <input type="text" placeholder="请填写手机号" class="input-xfat input-xlarge" maxlength="16" >
+                    </div>
+                  </div>
+                  <div class="control-group">
+                    <div class="controls">
+                      <el-checkbox v-model="checked" >创建网站账号的同时，我同意遵守：<br><a ref="https://www.baidu.com">《平台服务条款》</a>及<a ref="https://www.baidu.com">《隐私声明》</a></el-checkbox>
+                    </div>
+                  </div>
+                  <div class="control-group">
+                    <div class="controls btn-reg">
+                      <a class="sui-btn btn-block btn-xlarge btn-danger " @click="register">同意并注册</a>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </section>
+          </transition>
+          <div class="question">
+        <img src="static/img/reg/reg_monkey1.png">
+        <div class="know-more">
+          <p>了解更多</p>
+          <ul>
+            <li><a>手机收不到验证码?</a></li>
+            <li><a>会员账户注册不成功?</a></li>
+            <li><a>个人账户可以开店吗?</a></li>
+            <li><a>账户如何换名字?</a></li>
+            <li><a>个人账户需要营业执照吗?</a></li>
+            <li><a>其他问题</a></li>
+          </ul>
+          <div class="clikeme">
+            <img src="static/img/reg/reg_oval1.png"/>
+            <span class="text">?</span>
+            <a class="a">点我提问</a>
           </div>
         </div>
-        <div class="reg-bottom">
-          <div class="py-container">
-            <footer>
-              <ul class="footer-list">
-                  <li class="footer-list-item">
-                    <a ref="http://www.baidu.com" >关于MKtail</a>&nbsp;&nbsp;||
-                  </li>
-                  <li class="footer-list-item">
-                    <a ref="http://www.baidu.com" >联系我们</a>&nbsp;&nbsp;||
-                  </li>
-                  <li class="footer-list-item">
-                    <a ref="http://www.baidu.com" >友情链接</a>&nbsp;&nbsp;||
-                  </li>
-                  <li class="footer-list-item">
-                    <a ref="http://www.baidu.com" >法律声明</a>&nbsp;&nbsp;||
-                  </li>
-                  <li class="footer-list-item">
-                    <a ref="http://www.baidu.com" >用户体验提升计划</a>&nbsp;&nbsp;||
-                  </li>
-                  <li class="footer-list-item">
-                    <a ref="http://www.baidu.com" >会员认证</a>&nbsp;&nbsp;||
-                  </li>
-                </ul>
-              <p>MKtail公司版权所有-粤ICP备京公网安备 <img src="static/img/reg/reg_ghs1.png">11010820220134号-京ICP证110507</p>
-            </footer>
-          </div>
-        </div>
+      </div>
+      </div>
+      </div>
+    </div>
+    <div class="reg-bottom">
+      <div class="py-container">
+        <footer>
+          <ul class="footer-list">
+              <li class="footer-list-item">
+                <a ref="http://www.baidu.com" >关于MKtail</a>&nbsp;&nbsp;||
+              </li>
+              <li class="footer-list-item">
+                <a ref="http://www.baidu.com" >联系我们</a>&nbsp;&nbsp;||
+              </li>
+              <li class="footer-list-item">
+                <a ref="http://www.baidu.com" >友情链接</a>&nbsp;&nbsp;||
+              </li>
+              <li class="footer-list-item">
+                <a ref="http://www.baidu.com" >法律声明</a>&nbsp;&nbsp;||
+              </li>
+              <li class="footer-list-item">
+                <a ref="http://www.baidu.com" >用户体验提升计划</a>&nbsp;&nbsp;||
+              </li>
+              <li class="footer-list-item">
+                <a ref="http://www.baidu.com" >会员认证</a>&nbsp;&nbsp;||
+              </li>
+            </ul>
+          <p>MKtail公司版权所有-粤ICP备京公网安备 <img src="static/img/reg/reg_ghs1.png">11010820220134号-京ICP证110507</p>
+        </footer>
+      </div>
+    </div>
     <transition>
       <router-view></router-view>
     </transition>

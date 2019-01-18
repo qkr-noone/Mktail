@@ -24,7 +24,7 @@
         </div>
       </div>
     </div>
-    <pageFooter></pageFooter>
+    <regFooter></regFooter>
   </div>
 </template>
 <script>
@@ -32,7 +32,7 @@
 // import { api } from '../../common/api'
 import shortcut from '../../components/shortcutHeader'
 import userNav from '../../components/userNav'
-import pageFooter from '../../components/pageFooter'
+import regFooter from '../../components/regFooter'
 export default {
   data () {
     return {
@@ -54,7 +54,7 @@ export default {
       ]
     }
   },
-  components: { shortcut, userNav, pageFooter },
+  components: { shortcut, userNav, regFooter },
   created () {
     this.$cookies.get('userInfo')
     let path = this.$route.path.split('/')[2]

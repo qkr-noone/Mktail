@@ -99,7 +99,7 @@ export default {
   .mk-header {
     min-width: 990px;
     margin: 0 auto;
-    background-color: #FFFFFF;
+    background-color: #FFD704;
   }
   .h-logo {
     padding:29px 11px 29px 23px;
@@ -110,7 +110,7 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #fff;
+    background-color: #FFD704;;
     position: relative;
   }
 
