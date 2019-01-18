@@ -71,7 +71,7 @@
             <div class="abs-con">
               <ul class="abs-ul">
                 <li class="abs-li" v-for="list in absList" :key="list.id">
-                  <router-link :to="{path: '/detail', query: {goodsId: list.url}}" class="abs-li-a"><img :src="list.pic"></router-link>
+                  <router-link :to="{path: '/detail', query: {goodsId: list.goodsId}}" class="abs-li-a"><img :src="list.pic"></router-link>
                   <p class="abs-li-pri">¥{{list.price}}</p>
                   <div class="abs-li-des">
                     <a>{{list.title}}</a>
@@ -119,7 +119,7 @@
                 <li  v-for="item in searchList.rows" :key="item.id">
                   <div class="p-list">
                     <div class="p-img">
-                      <router-link :to="{ path:'/detail',query:{goodsId: 740031180800, skuId: item.id}}"><img :src="item.image" /></router-link>
+                      <router-link :to="{ path:'/detail',query:{goodsId: item.goodsId, skuId: item.id}}"><img :src="item.image" /></router-link>
                     </div>
                     <!-- <div class="p-scroll">
                       <span class="ps-prev"><i class="el-icon-arrow-left"></i></span>
@@ -190,7 +190,7 @@
           <h2>{{bestGoCate.name}}</h2>
           <ul class="best-go-ul">
             <li class="best-go-li" v-for="list in bestGoList" :key="list.id">
-              <router-link :to="{path: '/detail', query: {goodsId: list.url}}" class="best-go-li-a"><img :src="list.pic"></router-link>
+              <router-link :to="{path: '/detail', query: {goodsId: list.goodsId}}" class="best-go-li-a"><img :src="list.pic"></router-link>
               <div class="best-go-li-des">
                 <a>{{list.title}}</a>
               </div>
@@ -204,7 +204,7 @@
           <h2>{{likeCate.name}}</h2>
           <ul class="youlike-ul">
             <li class="youlike-li" v-for="list in likeList" :key="list.id">
-              <router-link :to="{path: '/detail', query: {goodsId: list.url}}" class="youlike-li-a"><img :src="list.pic"></router-link>
+              <router-link :to="{path: '/detail', query: {goodsId: list.goodsId}}" class="youlike-li-a"><img :src="list.pic"></router-link>
               <div class="youlike-li-des">
                 <a>{{list.title}}</a>
               </div>
@@ -350,6 +350,7 @@ export default {
       this.keywords = keywords[0]
       if (keywords[1]) {
         this.selectBrand = []
+        this.selectSpec = []
       }
       this.isSelectBrand = true
       let priceRange = ''

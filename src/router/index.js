@@ -253,6 +253,10 @@ router = new Router({
         keepAlive: true
       },
       component: resolve => require(['@/views/shops/index'], resolve)
+    },
+    {
+      path: '/3DShow',
+      component: resolve => require(['@/views/3D/3DShow'], resolve)
     }
   ]
 })

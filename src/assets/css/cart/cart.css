@@ -294,9 +294,10 @@
     color: #353535;
   }
   .attr {
-    line-height: 16px;
     display: flex;
     flex-direction: column;
+    text-align: left;
+    line-height: 18px;
   }
   .attr strong{
     font-weight: 400;

@@ -55,7 +55,7 @@
                       <div class="item-msg" @click="toDetail(item.goodsId, item.itemId)">{{item.title}}</div>
                     </div>
                   </li>
-                  <li class="cart-3"><span class="attr"><strong v-for="(tip, key, value) in JSON.parse(item.spec)" :key="value">{{key}}:{{value}}</strong></span></li>
+                  <li class="cart-3"><span class="attr"><strong v-for="(tip, key, value) in JSON.parse(item.spec)" :key="value">{{key}}:{{tip}}</strong></span></li>
                   <li class="cart-4"><span class="price">￥{{item.price}}</span></li>
                   <buyNum class="cart-4"
                           :num="item.num"
@@ -220,6 +220,7 @@ export default {
     count () {
       if (this.selectList.length) {
         setStore('selectList', this.selectList)
+        console.log(this.selectList, 1)
         this.$router.push({path: '/getOrderInfo', query: {list: this.selectList}})
       } else {
         this.$message.warning('请核对信息哦')
@@ -351,12 +352,14 @@ export default {
     },
     EDIT_CART ({productSkuId, productNum, checked}) {
       let cart = this.cartList
+      console.log(cart, 11)
       if (productNum) { // 修改数量
         let isFind = false
         for (let item of cart) { // 多级联动
           for (let list of item.orderItemList) {
             if (list.itemId === productSkuId) {
               this.$set(list, 'num', productNum)
+              this.$set(list, 'totalFee', (productNum * list.price))
               isFind = true
               break
             }
@@ -395,6 +398,7 @@ export default {
         }
       }
       this.setCartList(cart)
+      console.log(this.cartList, 22)
       // 存入localStorage
       // setStore('buyCart', state.cartList)
     },

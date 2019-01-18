@@ -115,24 +115,10 @@
                 </div>
                 <div class="goods-con">
                   <ul class="goods-h1">
-                    <li class="go-detail">
-                      <a href=""><img src="static/img/mk_logo_login.png"></a>
+                    <li class="go-detail" v-for="list in goodSkuList" :key="list.itemId">
+                      <a href=""><img :src="list.picPath"></a>
                       <div class="go-de-title">
-                        <h5>希箭HOROW太空铝原色卫浴五金套件套装毛巾架浴...</h5>
-                        <div class="donate"><span>退</span></div>
-                      </div>
-                    </li>
-                    <li class="go-detail">
-                      <a href=""><img src="static/img/mk_logo_login.png"></a>
-                      <div class="go-de-title">
-                        <h5>希箭HOROW太空铝原色卫浴五金套件套装毛巾架浴...</h5>
-                        <div class="donate"><span>退</span></div>
-                      </div>
-                    </li>
-                    <li class="go-detail">
-                      <a href=""><img src="static/img/mk_logo_login.png"></a>
-                      <div class="go-de-title">
-                        <h5>希箭HOROW太空铝原色卫浴五金套件套装毛巾架浴...</h5>
+                        <h5>{{list.title}}</h5>
                         <div class="donate"><span>退</span></div>
                       </div>
                     </li>
@@ -141,19 +127,13 @@
                     <div>支付完成后尽快为您发货</div>
                   </div>
                   <div class="goods-h3 Top">
-                    <li class="go-price Center">¥ 138.00</li>
-                    <li class="go-price Center">¥ 138.00</li>
-                    <li class="go-price Center">¥ 138.00</li>
+                    <li class="go-price Center" v-for="list in goodSkuList" :key="list.itemId">¥ {{list.price}}</li>
                   </div>
                   <div class="goods-h4 Top">
-                    <li class="go-price Center">0</li>
-                    <li class="go-price Center">138</li>
-                    <li class="go-price Center">3800</li>
+                    <li class="go-price Center" v-for="list in goodSkuList" :key="list.itemId">{{list.num}}</li>
                   </div>
                   <div class="goods-h5 Top last">
-                    <li class="go-price Center">¥ 138.00</li>
-                    <li class="go-price Center">¥ 138.00</li>
-                    <li class="go-price Center">¥ 138.00</li>
+                    <li class="go-price Center" v-for="list in goodSkuList" :key="list.itemId">¥{{(list.totalFee).toFixed(2)}}</li>
                   </div>
                 </div>
                 <div class="goods-tip">
@@ -215,8 +195,8 @@
           </div>
           <div class="count-price">
             <div class="count-price-li">
-              <span><strong>22</strong>件商品 总计：</span>
-              <span class="count-price-item">¥486.00</span>
+              <span><strong>{{totalNum}}</strong>件商品 总计：</span>
+              <span class="count-price-item">¥{{totalPrice}}</span>
             </div>
             <div class="count-price-li">
               <span>运费：</span>
@@ -236,7 +216,18 @@
       <div class="all-sum">
         <div class="sum-box">
           <span class="sum-tip">应付金额：</span>
-          <span class="sum-price">¥396.00</span>
+          <span class="sum-price">¥{{submitPrice}}</span>
+        </div>
+        <div class="receiverInfo">
+          <div>
+            <span class="sum-add-tip">寄送至:</span>
+            <span>{{defaultAddress.address}}</span>
+          </div>
+          <div>
+            <span class="sum-add-tip">收货人：</span>
+            <span>{{defaultAddress.contact}}</span>
+            <span>{{defaultAddress.mobile}}</span>
+          </div>
         </div>
         <div class="sum-order">提交订单</div>
       </div>
@@ -296,12 +287,14 @@ export default {
     //   ts += val + '：' + this.spec[val]
     //   ts += ''
     // }
+    console.log(this.goodSkuList, 2)
     this.goodSkuList.forEach(item => {
       this.totalNum += Number(item.num)
     })
     this.goodSkuList.forEach(item => {
       this.totalPrice += Number(item.totalFee)
     })
+    this.totalPrice = (this.totalPrice).toFixed(2)
     this.submitPrice = this.totalPrice
   },
   methods: {

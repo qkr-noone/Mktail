@@ -163,7 +163,7 @@ export default {
     background-color: #E71600;
   }
 
-/* 下载app*/
+/* 左侧logo 类别切换*/
   .title-se {
     flex-grow: 1;
     display: flex;

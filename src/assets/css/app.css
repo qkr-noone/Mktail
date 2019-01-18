@@ -678,6 +678,11 @@
   .point-ff9 {color: #FF9465}
   .point-bd4 {color: #858BD4}
   .point-ad5 {color: #9AD572}
+  .point-li.point-ad5>a {
+    line-height: 24px;
+    text-align: center;
+    width: 35px;
+  }
   .point-li .top p{ height: 15px;line-height: 15px; }
   .point-li a { height: 100%; line-height: 50px; }
   li.point-li+li a{border-top: 2px solid #E3E3E3}

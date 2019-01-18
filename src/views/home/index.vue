@@ -10,7 +10,7 @@
             <h2 class="nav-all">全部商品分类</h2>
             <ul class="nav-ul">
               <li><a class="active">首页</a></li>
-              <li><a>品牌站</a></li>
+              <li><router-link :to="{path: '/3DShow'}">品牌站</router-link></li>
               <li><a>原工厂</a></li>
               <li><a>商学院</a></li>
               <li><a>服务</a></li>
@@ -89,7 +89,7 @@
     </div>
     <!-- 会员3D服务 -->
     <div class="container_h" id="threeD">
-      <div class="py-container bsale" @click="threeDUrl('http://192.168.0.33:8080/qn5/')" >
+      <div class="py-container bsale" @click="threeDUrl('http://192.168.0.33:8080/qn17/index.html?spuid=1')" >
         <absBox :data="bsaleList" :indicator="'none'" :arrow="'never'"></absBox>
       </div>
     </div>
@@ -593,9 +593,9 @@ export default {
       return false
     },
     threeDUrl (threeDUrl) { // http://192.168.0.33:8080/qn5/ http://120.79.93.197/we/
-      console.log(1)
-      this.is3Ding = true
-      this.$refs.threeDSrc.src = threeDUrl
+      this.$router.push({path: '/3DShow'})
+      // this.is3Ding = true
+      // this.$refs.threeDSrc.src = threeDUrl
       return false
     },
     register () {
