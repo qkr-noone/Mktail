@@ -1,7 +1,7 @@
 <template>
   <div id="user">
     <shortcut></shortcut>
-    <userNav></userNav>
+    <userNav :color="bgcolor"></userNav>
     <div class="py-container">
       <div class="user">
         <div class="account-sidebar">
@@ -51,7 +51,8 @@ export default {
         {name: '银联卡绑定', path: 'bankCard'},
         {name: '分享绑定', path: 'share'},
         {name: '应用绑定', path: 'app'}
-      ]
+      ],
+      bgcolor: '#FFD704'
     }
   },
   components: { shortcut, userNav, regFooter },

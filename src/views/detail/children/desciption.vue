@@ -47,9 +47,13 @@ ul.goods-intro li+li{
 ul.goods-intro li {
   font-size: 14px;
   color: #464646;
-  width: 180px;
+  width: 188px;
   line-height: 30px;
   display: flex;
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
  }
  .intro-detail {
     display: flex;

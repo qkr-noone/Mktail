@@ -2,7 +2,7 @@
   <div id="search-index">
     <shortcut id="headTop"></shortcut>
     <headerNav :searchList="searchList" @showSearch="search($event, 4)"></headerNav>
-    <!-- <shortcutHeader :searchList="searchList" @showSearch="search($event, 4)"></shortcutHeader> -->
+    <homeNav></homeNav>
     <!--list-content-->
     <div class="main">
       <div class="sear-container"> <!-- v-if="searchList.total" -->
@@ -237,6 +237,7 @@ import { apiAxios } from '../../common/utils'
 import { api } from '../../common/api'
 import shortcut from '../../components/shortcutHeader'
 import headerNav from '../../components/headerNav'
+import homeNav from '../../components/homeNav'
 import absBox from '../../components/absBox'
 import pageFooter from '../../components/pageFooter'
 export default {
@@ -274,7 +275,7 @@ export default {
       bottomAbs: [] // 底部广告
     }
   },
-  components: { pageFooter, shortcut, headerNav, absBox },
+  components: { pageFooter, shortcut, headerNav, absBox, homeNav },
   created () {
     this.keywords = this.$route.query.keywords
     if (this.keywords) {

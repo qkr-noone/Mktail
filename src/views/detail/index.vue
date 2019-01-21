@@ -46,46 +46,43 @@
             </div>
             <div class="news" v-if="goods.caption"><span>{{goods.caption}}</span></div>
             <div class="summary">
-              <div class="summary-wrap">
-                <div class="fl title">
+              <div class="sum-price-box">
+                <div class="title">
                   <i>价&nbsp;&nbsp;格</i>
                 </div>
                 <div class="price">
                   <i>¥</i>
                   <em>{{selectSku.price}}</em>
-                  <!-- <span v-if="goods.caption">{{goods.caption}}</span> -->
                 </div>
-                <!-- <div class="fr remark">
-                  <i>累计评价</i><em>612188</em>
-                </div> -->
               </div>
-              <!-- <div class="summary-wrap">
-                <div class="fl title">
-                  <i>促&nbsp;&nbsp;销</i>
-                </div>
-                <div class="fl fix-width">
-                  <i class="red-bg">加价购</i>
-                  <em class="t-gray">满999.00另加20.00元，或满1999.00另加30.00元，或满2999.00另加40.00元，即可在购物车换购热销商品</em>
-                </div>
-              </div> -->
             </div>
             <div class="support">
-              <!-- <div class="summary-wrap">
-                <div class="fl title">
-                  <i>支&nbsp;&nbsp;持</i>
+              <div class="summary-wrap">
+                <div class="title flow">
+                  <i>物流</i>
                 </div>
-                <div class="fl fix-width">
-                  <em class="t-gray">以旧换新，闲置手机回收  4G套餐超值抢  礼品购</em>
+                <div class="flow-box">
+                  <div class="flow-con">
+                    广东广州<b>至</b>
+                    <span class="flow-addr">
+                      <span>请选择</span>
+                      <i class="el-icon-arrow-down"></i>
+                      <!-- <el-cascader :options="addrOptions" @change="handleItemChange"></el-cascader> -->
+                    </span>
+                    <span class="flow-item">快递<span>¥6</span></span>近30天平均发货速度：<span  class="flow-send-date">次日</span>
+                  </div>
                 </div>
-              </div> -->
-              <!-- <div class="summary-wrap">
-                <div class="fl title">
-                  <i>配 送 至</i>
+              </div>
+              <div class="summary-wrap">
+                <div class="title">
+                  <i>成交\评价</i>
                 </div>
-                <div class="fl fix-width">
-                  <em class="t-gray">满999.00另加20.00元，或满1999.00另加30.00元，或满2999.00另加40.00元，即可在购物车换购热销商品</em>
+                <div class="success-order">
+                  <el-rate v-model="starValue" disabled text-color="#FF4606" :colors="['#FF4606', '#FF4606', '#FF4606']" score-template="{value}"></el-rate>
+                  <span class="time-suc">30天内<b>1212</b>个成交</span>
+                  <span class="time-reco"><b>250</b>条评价</span>
                 </div>
-              </div> -->
+              </div>
             </div>
             <div class="choose">
               <ul class="summary-wrap">
@@ -214,7 +211,7 @@
                   <li class="tab-nav-li"><a :class="{choosetab:'商品评价'===tabNav}"  @click="tab('商品评价', 'review')">商品评价</a></li>
                   <li class="tab-nav-li"><a :class="{choosetab:'售后保障'===tabNav}"  @click="tab('售后保障', 'afterSale')">售后保障</a></li>
                 </ul>
-                <div class="buy-word">
+                <div class="buy-word se-add-cart">
                   <a class="sui-btn  btn-danger addshopcar" @click="submit()">加入购物车</a>
                 </div>
               </div>
@@ -310,6 +307,7 @@ import pageFooter from '../../components/pageFooter'
 import imgZoom from 'vue2.0-zoom'
 import { apiAxios, setStore } from '../../common/utils'
 import { api } from '../../common/api'
+import { chineseDistricts } from '../../common/city-picker'
 export default {
   data () {
     return {
@@ -347,7 +345,9 @@ export default {
       show3dStatus: 0, // 商品详情3D介绍状态
       attrItem: [], // 商品介绍属性列表
       tabNav: '商品介绍',
-      changeShowType: 'navShop'
+      changeShowType: 'navShop',
+      addrOptions: [],
+      starValue: 5
     }
   },
   components: { shortcut, headerNav, pageFooter, absBox, imgZoom },
@@ -366,6 +366,14 @@ export default {
     this.$destroy()
   },
   mounted () {
+    console.log(chineseDistricts['86'])
+    let tem = Object.values(chineseDistricts['86'])
+    tem.forEach(ele => {
+      ele.forEach(item => {
+        this.addrOptions.push(item)
+      })
+    })
+    console.log(this.addrOptions)
     apiAxios.AxiosG({
       url: api.detailTest,
       params: { goodsId: this.$route.query.goodsId, skuId: this.$route.query.skuId || '' }
@@ -583,6 +591,20 @@ export default {
       let queryList = this.$route.query
       this.$router.push({path: '/detail/' + path, query: queryList})
       this.tabNav = name
+    },
+    handleItemChange (val) {
+      console.log('active item:', val)
+      // setTimeout(_ => {
+      //   if (val.indexOf('江苏') > -1 && !this.addrOptions[0].cities.length) {
+      //     this.addrOptions[0].cities = [{
+      //       label: '南京'
+      //     }]
+      //   } else if (val.indexOf('浙江') > -1 && !this.addrOptions[1].cities.length) {
+      //     this.addrOptions[1].cities = [{
+      //       label: '杭州'
+      //     }]
+      //   }
+      // }, 300)
     }
   },
   watch: {}

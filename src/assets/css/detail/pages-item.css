@@ -147,26 +147,70 @@
   
   .summary {
     background: #fee9eb;
-    padding: 7px;
-    margin: 13px 0
-  }
-  .summary > .summary-wrap >.price{
-    flex: 1;
-  }
-  
+    margin: 13px 0;
+    border: 1px solid #e3e3e3;
+  } 
   .support {
-    border-bottom: 1px solid #ededed;
     padding-bottom: 5px;
   }
-  .sku-name,.news,.summary .summary-wrap,.support .summary-wrap,.choose .summary-wrap dl, ul.summary-wrap>li.spec-list {
+  .sum-price-box {
+    height: 60px;
+    display: flex;
+    align-items: center;
+    font-size:14px;
+    font-family:SourceHanSansCN-Light;
+    font-weight:300;
+    color:rgba(135,135,135,1);
+  }
+  .sum-price-box .price{
+    font-size:20px;
+    font-family:SourceHanSansCN-Regular;
+    font-weight:400;
+    color:rgba(255,70,6,1);
+  }
+  .sum-price-box .title{
+    margin-right: 20px;
+  }
+  .flow-box {
+    font-size:14px;
+    font-family:SourceHanSansCN-Regular;
+    font-weight:400;
+    color:rgba(53,53,53,1);
+  }
+  .flow-con b, .flow-con i{
+    font-size:14px;
+    font-family:Adobe Heiti Std R;
+    font-weight:normal;
+    color:rgba(163,163,163,1);
+    margin: 0 10px;
+  }
+  .flow-addr {}
+  .flow-item {
+    border-right: 1px solid #E3E3E3;
+    border-left: 1px solid #E3E3E3;
+    padding:  0 15px;
+    line-height: 14px;
+    margin-right: 10px;
+  }
+  .flow-send-date {
+    width:50px;
+    height:20px;
+    background:rgba(254,233,235,1);
+    border:1px solid rgba(200,22,35,1);
+    line-height: 20px;
+  }
+  .sku-name,.news,.support .summary-wrap,.choose .summary-wrap dl, ul.summary-wrap>li.spec-list {
     display: flex;
   }
   ul.summary-wrap>li.spec-list {
     overflow: hidden;
   }
   ul.summary-wrap>li.spec-list .title{
-    line-height: 28px;
+    line-height: 30px;
     margin-right: 15px;
+    font-family:SourceHanSansCN-Regular;
+    color: #000;
+    font-size: 14px;
   }
   ul.summary-wrap>li:first-child {margin-top: 12px;}
   ul.summary-wrap>li.spec-list+li{ margin-top: -14px; }
@@ -187,22 +231,23 @@
   }
   
   .summary-wrap dl a, ul.summary-wrap>li.spec-list>ul li a {
-    color: #666;
+    font-family:SourceHanSansCN-Regular;
+    color: #000;
+    font-size: 14px;
     line-height: 24px;
-    padding: 2px 14px;
+    padding: 2px 17px;
     margin-right: 5px;
     display: block;
     float: left;
     position: relative;
     outline: 0;
-    border-top: 1px solid #eee;
-    border-right: 1px solid #bbb;
-    border-bottom: 1px solid #bbb;
-    border-left: 1px solid #eee;
+    border: 1px solid #e3e3e3;
     background-color: #fff;
     text-decoration: none
   }
-  
+  .summary-wrap .title.flow i {
+    text-align: left;
+  }  
   .summary-wrap .selected, ul.summary-wrap>li.spec-list>ul li a.selected{
     border: 1px solid #c81623
   }
@@ -256,7 +301,7 @@
     color: #878787;
   }
   .title >i{
-    width: 60px;
+    width: 64px;
   }
   
   .controls {
@@ -382,7 +427,7 @@
   .box-tip p {
     font-size: 14px;
   }
-  /* 店长推荐 */
+/* 店长推荐 */
   .recom-box {
   }
   .recom-title {
@@ -785,11 +830,33 @@
   .tab-nav .buy-word a{
     margin-right: 24px;
     height: 100%;
-    line-height: 24px;
+    line-height: 29px;
     color: #fff;
-    background: #c81623;
+    background: rgba(228,57,60,1);
     width: 88px;
     font-size: 14px;
+    font-family:SimSun;
+  }
+  .se-add-cart{
+    height: 30px;
+  }
+  .success-order {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    color: #353535;
+  }
+  .time-suc {
+    padding: 0 8px;
+    border-right: 1px solid #e3e3e3;
+    border-left: 1px solid #e3e3e3;
+    line-height: 15px;
+  }
+  .time-reco {
+    margin-left: 43px;
+  }
+  .time-suc b, .time-reco b {
+    color: #FF4606;
   }
 
 /* 左侧店铺相关*/

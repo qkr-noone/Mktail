@@ -74,25 +74,6 @@
     /* 1260px*/
   }
 
-/* navitem */
-  .navitem {
-    display: flex;
-    background: #fff;
-  }
-  .nav-all{
-    font-size:22px;
-    width: 189px;
-    text-align: center;
-    height: 39px;
-    line-height: 39px;
-    background-color: #E71600;
-    color: #FFFFFF;
-    border-bottom: 1px solid #E71600;
-  }
-  .nav-ul{ display: flex;flex-wrap: nowrap;font-size: 22px; color: #353535;  flex-grow: 1;}
-  .nav-ul >li {margin-left: 50px;line-height: 39px; font-family: "SimHei", "Arial"}
-  .nav-ul >li a{color: #353535;}
-  .nav-ul >li a.active, .nav-ul >li a:hover{ color: #E71600; cursor: pointer;}
 
 /* 菜单类别 */
   .sort.nav-top{

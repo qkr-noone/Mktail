@@ -9,7 +9,7 @@
           <form action="#">
             <div class="search_box">
               <div class="search_ipt">
-                <input type="text" ref="search_ipt" placeholder="search product">
+                <input type="text" ref="search_ipt" placeholder="">
                 <a @click="searchPro" class="search_btn">搜索</a>
               </div>
             </div>
@@ -149,8 +149,8 @@ export default {
   .search_ipt {
     width: 650px;
     border: 2px solid #E71600;
-    border-radius: 23px 23px 23px 23px;
-    height: 46px;
+    /*border-radius: 23px 23px 23px 23px;*/
+    height: 34px;
     overflow: hidden;
     display: flex;
     justify-content: space-between;
@@ -160,7 +160,9 @@ export default {
     height: 22px;
     line-height: 22px;
     font-size: 20px;
-    padding: 12px 10px 12px 0;
+    padding: 4px 10px 4px 0;
+    margin-bottom: 2px;
+    margin-top: 2px;
     border: none;
     margin-left: 18px;
     -webkit-appearance: none;

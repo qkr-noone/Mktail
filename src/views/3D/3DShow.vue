@@ -18,9 +18,10 @@
               </div>
             </form>
             <div class="title-con">
-              <router-link :to="{path: '/user'}" class="title-li"><h2>首页</h2></router-link>
-              <router-link :to="{path: '/userSet'}" class="title-li"><h2>账号设置</h2></router-link>
-              <router-link :to="{path: '/userInfo'}" class="title-li"><h2>消息</h2></router-link>
+              <router-link :to="{path: '/home'}" class="title-li"><h2>平台首页</h2></router-link>
+              <router-link :to="{path: '/'}" class="title-li"><h2>店铺首页</h2></router-link>
+              <router-link :to="{path: '/'}" class="title-li"><h2>产品详情</h2></router-link>
+              <router-link :to="{path: '/'}" class="title-li"><h2>客服</h2></router-link>
             </div>
           </div>
           <!-- <div class="h-search">
@@ -253,11 +254,13 @@ export default {
     height: 22px;
     line-height: 22px;
     font-size: 20px;
-    padding: 6px 10px 6px 0;
+    padding: 4px 10px 4px 0;
     border: none;
     margin-left: 18px;
     -webkit-appearance: none;
     outline: none;
+    margin-bottom: 2px;
+    margin-top: 2px;
   }
   .search_btn {
     width: 60px;

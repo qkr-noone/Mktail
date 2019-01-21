@@ -3,24 +3,7 @@
     <shortcut id="headTop"></shortcut>
     <headerNav></headerNav>
     <!-- 头部 -->
-    <div class="container_h">
-      <div class="sort nav-top">
-        <div class="py-container">
-          <div class="navitem">
-            <h2 class="nav-all">全部商品分类</h2>
-            <ul class="nav-ul">
-              <li><a class="active">首页</a></li>
-              <li><router-link :to="{path: '/3DShow'}">品牌站</router-link></li>
-              <li><a>原工厂</a></li>
-              <li><a>商学院</a></li>
-              <li><a>服务</a></li>
-              <li><a>直播</a></li>
-              <li><a>社区</a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
+    <homeNav></homeNav>
     <div class="container_h">
       <div class="sort" :style="'background-color:'+ bgImg + ''">
         <div class="py-container">
@@ -61,7 +44,7 @@
               <div class="user-info">
                 <a><img src="static/img/mk_logo_login.png"></a>
                 <p class="user-tip">Hi，你好</p>
-                <div class="user-coming">
+                <div class="user-coming" v-if="!username">
                   <router-link :to="{path: '/login'}">登陆</router-link>
                   <router-link :to="{path: '/register'}">注册</router-link>
                 </div>
@@ -269,6 +252,7 @@ import { apiAxios } from '../../common/utils'
 import { api } from '../../common/api'
 import shortcut from '../../components/shortcutHeader'
 import headerNav from '../../components/headerNav'
+import homeNav from '../../components/homeNav'
 import absBox from '../../components/absBox'
 import youLike from '../../components/youLike'
 import pageFooter from '../../components/pageFooter'
@@ -303,10 +287,11 @@ export default {
       lightList7: [],
       lightList8: [],
       school: [], // 商学院
-      likeList: [] // 猜你喜欢
+      likeList: [], // 猜你喜欢
+      username: ''
     }
   },
-  components: { shortcut, headerNav, pageFooter, absBox, youLike },
+  components: { shortcut, headerNav, pageFooter, absBox, youLike, homeNav },
   computed: {},
   created () {
     // 获取条目菜单
@@ -518,9 +503,15 @@ export default {
     })
     // this.$router.push({ path:'/artist/dynamic',query:{id: this.$route.query.id} })
   },
-  activated () {},
-  deactivated () {},
+  activated () {
+    console.log(1)
+    this.username = this.$cookies.get('username')
+  },
+  deactivated () {
+    console.log(3)
+  },
   mounted () {
+    console.log(2)
     // 为iframe点击可触发点击事件
     let IframeOnClick = {
       resolution: 200,

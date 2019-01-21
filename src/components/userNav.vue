@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div ref='bgcolor'>
     <header class="mk-header">
       <div class="mk-head">
         <div class="h-logo" ref='logoIsCursor'>
@@ -47,7 +47,12 @@ export default {
       isUser: false // 用户中心首页
     }
   },
-  props: [],
+  props: {
+    color: {
+      type: String,
+      default: '#fff'
+    }
+  },
   computed: {
     cartNum () {
       let num = 0
@@ -61,6 +66,7 @@ export default {
     }
   },
   mounted () {
+    this.$refs.bgcolor.style.backgroundColor = this.color
   },
   methods: {
     searchPro () {
@@ -97,20 +103,17 @@ export default {
 <style scoped>
 /* mk-header */
   .mk-header {
-    min-width: 990px;
     margin: 0 auto;
-    background-color: #FFD704;
   }
   .h-logo {
     padding:29px 11px 29px 23px;
   }
   .mk-head{
-    max-width: 1226px;
+    width: 1226px;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #FFD704;;
     position: relative;
   }
 
@@ -127,27 +130,31 @@ export default {
     align-items: center;
     overflow: hidden;
     height: 50px;
-    width: 335px;;
+    width: 342px;;
     margin: auto;
   }
   .search_ipt {
-    width: 335px;
+    width: 338px;
     border: 2px solid #E71600;
-    height: 33px;
+    height: 34px;
     overflow: hidden;
     display: flex;
     justify-content: space-between;
+    background-color: #fff;
   }
   .search_ipt>input {
     flex-grow: 1;
     height: 22px;
     line-height: 22px;
     font-size: 20px;
-    padding: 6px 10px 6px 0;
+    padding: 4px 10px 4px 0;
     border: none;
     margin-left: 18px;
     -webkit-appearance: none;
     outline: none;
+    /*input 边框 无法设置其为0*/
+    margin-top: 2px;
+    margin-bottom: 2px;
   }
   .search_btn {
     width: 60px;
