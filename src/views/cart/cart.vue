@@ -161,8 +161,8 @@ export default {
     totalPrice () { // 选中商品总价格
       let price = 0
       this.selectList && this.selectList.forEach(item => {
-        // 强制类型转换，减法时
-        price = (price - 0) + ((item.price * item.num) - 0)
+        // 强制类型转换，减法时 (price - 0) + ((item.price * item.num) - 0)
+        price = price + (item.price * item.num)
       })
       return price.toFixed(2)
     },
@@ -352,14 +352,13 @@ export default {
     },
     EDIT_CART ({productSkuId, productNum, checked}) {
       let cart = this.cartList
-      console.log(cart, 11)
       if (productNum) { // 修改数量
         let isFind = false
         for (let item of cart) { // 多级联动
           for (let list of item.orderItemList) {
             if (list.itemId === productSkuId) {
               this.$set(list, 'num', productNum)
-              this.$set(list, 'totalFee', (productNum * list.price))
+              this.$set(list, 'totalFee', (productNum * list.price).toFixed(2))
               isFind = true
               break
             }
@@ -398,7 +397,6 @@ export default {
         }
       }
       this.setCartList(cart)
-      console.log(this.cartList, 22)
       // 存入localStorage
       // setStore('buyCart', state.cartList)
     },

@@ -13,7 +13,7 @@
               <div class="p-item"><router-link :to="{ path: '/detail', query: {goodsId: goodSkuList.goodsId, skuId: goodSkuList.id}}"><img :src="goodSkuList.image"></router-link></div>
               <div class="p-info">
                 <div class="p-name"><a>{{goodSkuList.title}}</a></div>
-                <div class="p-extra"><span><strong v-for="(tip, key, value) in spec" :key="value">{{key}}:{{value}}</strong></span><span>数量：{{num}}</span></div>
+                <div class="p-extra"><span><strong v-for="(tip, key, index) in spec" :key="index">{{key}}:{{tip}}</strong></span><span>数量：{{num}}</span></div>
               </div>
             </div>
           </div>
