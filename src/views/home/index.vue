@@ -42,11 +42,14 @@
             </div>
             <div class="Right">
               <div class="user-info">
-                <a><img src="static/img/mk_logo_login.png"></a>
+                <router-link :to="{path: '/user'}"><img src="static/img/mk_logo_login.png"></router-link>
                 <p class="user-tip">Hi，你好</p>
                 <div class="user-coming" v-if="!username">
                   <router-link :to="{path: '/login'}">登陆</router-link>
                   <router-link :to="{path: '/register'}">注册</router-link>
+                </div>
+                <div class="user-coming" v-else>
+                  <router-link :to="{path: '/user'}">{{username}}</router-link>
                 </div>
                 <div class="user-out">
                   <a>新人有礼</a>
@@ -504,14 +507,11 @@ export default {
     // this.$router.push({ path:'/artist/dynamic',query:{id: this.$route.query.id} })
   },
   activated () {
-    console.log(1)
-    this.username = this.$cookies.get('username')
+    this.username = this.$cookies.isKey('userInfo') ? this.$cookies.get('userInfo').username : ''
   },
-  deactivated () {
-    console.log(3)
-  },
+  deactivated () {},
   mounted () {
-    console.log(2)
+    this.username = this.$cookies.isKey('userInfo') ? this.$cookies.get('userInfo').username : ''
     // 为iframe点击可触发点击事件
     let IframeOnClick = {
       resolution: 200,

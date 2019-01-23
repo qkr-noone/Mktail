@@ -1,31 +1,44 @@
 <template>
   <div id="test-index">
-    <keep-alive>
-      <router-view></router-view>
-    </keep-alive>
-    <shortcutHeader></shortcutHeader>
+    <div class="pay-title">
+      <div class="pay-logo">
+        <a href="javascript:;"><img src="static/img/mk_logo_addorder.png"></a>
+        <h5>收银台</h5>
+      </div>
+      <div class="pay-help">
+        <a href="javascript:;">
+          <span>90835991</span>
+        </a>
+        <a href="javascript:;">
+          <span>我的订单</span>
+        </a>
+        <a href="javascript:;">
+          <span>支付帮助</span>
+        </a>
+      </div>
+    </div>
     <div class="py-container">
       <!--主内容-->
       <div class="checkout py-container  pay">
         <div class="checkout-tit">
-          <h4 class="tit-txt"><span class="success-icon"></span><span  class="success-info">订单提交成功，请您及时付款！</span></h4>
-          <span class=""><em class="sui-lead">应付金额：</em><em  class="orange money">￥{{totalFee}}</em>元</span>
+          <h4 class="tit-txt"><span  class="success-info">订单提交成功，请尽快付款！订单号：82786356759</span></h4>
+          <span class="pay-price"><em>应付金额：</em><em  class="money">￥{{totalFee}}</em>元</span>
         </div>
         <div class="checkout-steps">
           <div class="weixin" @click="payOrder">微信支付</div>
           <div class="sao">
             <div class="code">
               <p class="red">二维码已过期，刷新页面重新获取二维码。</p>
-              <img src="static/img/erweima.png" alt="">
+              <img src="static/img/mk_pay_erweima.png">
               <div class="saosao">
                 <p>请使用微信扫一扫</p>
                 <p>扫描二维码支付</p>
               </div>
             </div>
             <div class="phone">
+              <img src="static/img/mk_pay_wechatpay.png">
             </div>
           </div>
-          <div class="clearfix"></div>
           <p class="other-pay">
             <router-link :to="{ path:'/paysuccess' }" target="_blank">支付成功时</router-link>
             <router-link :to="{ path:'/payfail' }" target="_blank">支付失败时</router-link>
@@ -37,7 +50,6 @@
   </div>
 </template>
 <script>
-import shortcutHeader from '../../components/shortcutHeader'
 import pageFooter from '../../components/pageFooter'
 import { apiAxios } from '../../common/utils'
 import { api } from '../../common/api'
@@ -48,7 +60,7 @@ export default {
       totalFee: ''
     }
   },
-  components: { shortcutHeader, pageFooter },
+  components: { pageFooter },
   activated () {},
   deactivated () {
     this.$destroy()

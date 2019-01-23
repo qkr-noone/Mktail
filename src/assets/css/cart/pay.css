@@ -1,176 +1,130 @@
-.py-container {
-	width: 1260px;
-	margin: 0 auto;
-}
-.checkout h5 {
-  font-weight: 700;
-  margin: 0
-}
-
-
-.checkout {
-  margin: 20px 0
-}
-
-.checkout-steps {
-  border: 1px solid #ddd;
-  padding: 25px
-}
-
-.num,
-.exit {
-  text-align: center
-}
-
-.order-summary {
-  overflow: hidden;
-  padding-right: 20px
-}
-
-.list,
-.trade {
-  line-height: 26px
-}
-
-.list span {
-  float: left;
-  width: 160px
-}
-
-.trade {
-  padding: 10px;
-  margin: 10px 0;
-  text-align: right;
-  background-color: #f4f4f4;
-  border: 1px solid #ddd
-}
-
-.trade .fc-receiverInfo {
-  color: #999
-}
-
-.pay {
-  font-family: "微软雅黑"
-}
-
-.pay .orange {
-  color: #ea4d08
-}
-
-.pay .money {
-  font-size: 18px
-}
-
-.pay .checkout-tit {
-  padding: 10px 60px;
-  display: flex;
-  justify-content: space-between;
-}
-
-.pay .paymark {
-  overflow: hidden;
-  line-height: 26px;
-  text-indent: 38px
-}
-
-.pay .success-icon {
-  width: 30px;
-  height: 30px;
-  display: inline-block;
-  background: url(/static/img/success-icon.png);
-  background-position: 0 0
-}
-
-.pay .success-info {
-  padding: 0 8px;
-  line-height: 30px;
-  vertical-align: top
-}
-
-.submit .btn-xlarge {
-  padding: 15px 45px;
-  margin: 15px 0 10px;
-  font: 18px "微软雅黑";
-  font-weight: 700;
-  border-radius: 0
-}
-
-.check-info {
-  padding-left: 25px;
-  padding-bottom: 15px;
-  margin-bottom: 10px;
-  border: 2px solid #c81523
-}
-
-.check-info h4 {
-  color: #c81523
-}
-
-.check-info .save {
-  font-size: 18px;
-  font-weight: 700;
-  color: #c81523
-}
-
-.check-info ol,
-.check-info ul {
-  padding-left: 25px
-}
-
-.zfb {
-  color: #c81523;
-  font-weight: 700
-}
-
-.check-info li {
-  line-height: 24px;
-  font-size: 14px
-}
-
-.weixin {
-  line-height: 27px;
-  margin-right: 40px;
-  font-size: 16px
-}
-
-.checkout-steps {
-  border: 1px solid #ddd;
-  padding: 25px;
-  width: 990px;
-  margin: 0 auto
-}
-
-.checkout-steps .phone {
-  background: url(/static/img/phone-bg.png) no-repeat;
-  width: 350px;
-  height: 400px;
-  margin-left: 40px
-}
-
-.checkout-steps .red {
-  color: red
-}
-
-.checkout-steps .saosao {
-  background: url(/static/img/icon-red.png) 50px 8px no-repeat #ff7674;
-  margin-top: 15px;
-  padding: 8px 0 8px 125px
-}
-
-.checkout-steps .saosao p {
-  margin-bottom: 5px;
-  color: #fff;
-  line-height: 20px;
-  margin-top: 0;
-  font-size: 15px
-}
-
-/* 自定义 */
-.checkout-tit>span>em { font-style: normal; }
-.weixin{ text-align: left; }
-.sao{ display: flex;justify-content: space-around; }
-.other-pay {
-	margin-top: 50px;
-
-}
-.other-pay >a{ color: #28a3ef; }
+  .py-container {
+  	width: 1226px;
+  	margin: 0 auto;
+  }
+/* 支付页面头部*/
+  .pay-title{
+    width: 1226px;
+    margin: 0 auto;
+    padding: 10px 0;
+    display: flex;
+    justify-content: space-between;
+  }
+  .pay-logo{
+    display: flex;
+    align-items: flex-end;
+    color: #4A4A4A;
+  }
+  .pay-logo h5 {
+    font-size: 33px;
+    margin-left: 17px;
+  }
+  .pay-help {
+    display: flex;
+    align-items: flex-end;
+    font-size: 14px;
+  }
+  .pay-help a {
+    color: #4A4A4A;
+    padding: 0 10px;
+    line-height: 11px;
+  }
+  .pay-help a +a{
+    border-left: 1px solid #BEBEBE;
+  }
+/* 支付内容 */
+  .tit-txt, .pay-price{
+    font-size: 14px;
+    color: #4A4A4A;
+    display: flex;
+    align-items: center;
+  }
+  .pay .money {
+    font-size: 16px;
+    color: #E50B0B;
+  }
+  .pay-price {
+    padding: 0 10px;
+  }
+  
+  .pay .checkout-tit {
+    padding: 10px 0;
+    display: flex;
+    justify-content: space-between;
+  }
+  .checkout h5 {
+    font-weight: 700;
+    margin: 0
+  }  
+  .checkout {
+    margin: 20px 0
+  }
+  
+  .checkout-steps {
+    border: 1px solid #ddd;
+    padding: 25px
+  }  
+  .pay .paymark {
+    overflow: hidden;
+    line-height: 26px;
+    text-indent: 38px
+  }
+  
+  .pay .success-icon {
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+    background: url(/static/img/success-icon.png);
+    background-position: 0 0
+  }
+  
+  .pay .success-info {
+    line-height: 30px;
+    vertical-align: top
+  }
+  
+  
+  .weixin {
+    line-height: 27px;
+    margin-right: 40px;
+    font-size: 16px
+  }
+  
+  .checkout-steps {
+    border: 1px solid #ddd;
+    padding: 25px;
+    width: 990px;
+    margin: 0 auto
+  }
+  
+  .checkout-steps .phone {
+    margin-left: 40px
+  }
+  
+  .checkout-steps .red {
+    color: red
+  }
+  
+  .checkout-steps .saosao {
+    background: url(/static/img/icon-red.png) 50px 8px no-repeat #ff7674;
+    margin-top: 15px;
+    padding: 8px 0 8px 125px
+  }
+  
+  .checkout-steps .saosao p {
+    margin-bottom: 5px;
+    color: #fff;
+    line-height: 20px;
+    margin-top: 0;
+    font-size: 15px
+  }
+  
+  /* 自定义 */
+  .checkout-tit>span>em { font-style: normal; }
+  .weixin{ text-align: left; }
+  .sao{ display: flex;justify-content: space-around; }
+  .other-pay {
+  	margin-top: 50px;
+  
+  }
+  .other-pay >a{ color: #28a3ef; }

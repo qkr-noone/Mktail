@@ -1,40 +1,7 @@
 <template>
   <div>
     <shortcut></shortcut>
-    <div>
-      <header class="mk-header">
-        <div class="mk-head">
-          <div class="h-logo" ref='logoIsCursor'>
-            <router-link :to="{path: '/home'}" ><img src="static/img/mk_user_logo.png"></router-link>
-            <h1>MKTail</h1>
-          </div>
-          <div class="title-se">
-            <form action="#">
-              <div class="search_box">
-                <div class="search_ipt">
-                  <input type="text" ref="search_ipt" placeholder="search product">
-                  <a @click="searchPro" class="search_btn">搜索</a>
-                </div>
-              </div>
-            </form>
-            <div class="title-con">
-              <router-link :to="{path: '/home'}" class="title-li"><h2>平台首页</h2></router-link>
-              <router-link :to="{path: '/'}" class="title-li"><h2>店铺首页</h2></router-link>
-              <router-link :to="{path: '/'}" class="title-li"><h2>产品详情</h2></router-link>
-              <router-link :to="{path: '/'}" class="title-li"><h2>客服</h2></router-link>
-            </div>
-          </div>
-          <!-- <div class="h-search">
-          </div> -->
-          <div class="addCart">
-            <img src="static/img/mk_search_cart.png">
-            <p>我的购物车</p>
-            <span v-if="isOver">99</span>
-            <span v-else>{{cartNum}}</span>
-          </div>
-        </div>
-      </header>
-    </div>
+    <live3Dheader></live3Dheader>
     <div>
       <div>
         <div class="threeD-box">
@@ -116,11 +83,10 @@
 </template>
 <script>
 import shortcut from '../../components/shortcutHeader'
-import userNav from '../../components/userNav'
+import live3Dheader from '../../components/live3Dheader'
 export default {
   data () {
     return {
-      isOver: 0, // 是否超过99
       is3Ding: false,
       isForm: false,
       ruleForm: {
@@ -154,13 +120,7 @@ export default {
       }
     }
   },
-  components: { shortcut, userNav },
-  computed: {
-    cartNum () {
-      let num = 0
-      return num
-    }
-  },
+  components: { shortcut, live3Dheader },
   mounted () {
     let threeDUrl = 'http://192.168.0.33:8080/qn18/index.html?spuid=1'
     // http://192.168.0.33:8080/qn5/ http://192.168.0.33:8080/qn17/index.html?spuid=10112269 http://120.79.93.197/we5/
@@ -211,119 +171,6 @@ export default {
 
 </script>
 <style scoped>
-/* mk-header */
-  .mk-header {
-    min-width: 990px;
-    margin: 0 auto;
-    background-color: #FFFFFF;
-  }
-  .h-logo {
-    padding:29px 11px 29px 23px;
-  }
-  .mk-head{
-    max-width: 1226px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #fff;
-    position: relative;
-  }
-
-/* 搜索 */
-  .search_box{
-    box-sizing: content-box;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    height: 50px;
-    width: 335px;;
-    margin: auto;
-  }
-  .search_ipt {
-    width: 335px;
-    border: 2px solid #E71600;
-    height: 34px;
-    overflow: hidden;
-    display: flex;
-    justify-content: space-between;
-  }
-  .search_ipt>input {
-    flex-grow: 1;
-    height: 22px;
-    line-height: 22px;
-    font-size: 20px;
-    padding: 4px 10px 4px 0;
-    border: none;
-    margin-left: 18px;
-    -webkit-appearance: none;
-    outline: none;
-    margin-bottom: 2px;
-    margin-top: 2px;
-  }
-  .search_btn {
-    width: 60px;
-    justify-content: center;
-    font-size: 26px;
-    text-align: center;
-    line-height: 30px;
-    display: flex;
-    align-items: center;
-    font-size: 18px;
-    color: #fff;
-    cursor: pointer;
-    background-color: #E71600;
-  }
-
-/*logo*/
-  .h-logo{
-    display: flex;
-    align-items: center;
-  }
-  .h-logo h1{
-    margin-left: 12px;
-    font-size: 25px;
-    color:rgba(104,85,65,1);
-  }
-
-/* 左侧 类别切换*/
-  .title-se {
-    display: flex;
-    justify-content: flex-end;
-    flex-grow: 1;
-    display: flex;
-    align-items: center;
-    margin-right: 10px;
-  }
-  .title-con {
-    margin:0 43px;
-  }
-  .title-se h2{
-    font-size: 18px;
-    color: #363636;
-  }
-  .title-con a + a {
-    margin-left: 20px;
-  }
-
-/* 加入购物车 */
-  .addCart {
-    width:150px;
-    height:35px;
-    background:rgba(246,246,246,1);
-    border:1px solid rgba(198,198,198,1);
-    margin-right: 68px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  .addCart p{
-    margin: 0 4px;
-  }
-  .addCart img{margin-left: 5px;}
-  .addCart span{margin-right: 5px; width: 21px; height: 21px; border-radius: 50%;background-color: red; color: #fff;line-height: 21px; text-align: center;}
-
 /*3D展示*/
   .threeD-box{
     width:100vw;

@@ -257,17 +257,31 @@ router = new Router({
     {
       path: '/3DShow',
       component: resolve => require(['@/views/3D/3DShow'], resolve)
+    },
+    {
+      path: '/live/factory',
+      component: resolve => require(['@/views/live/factory'], resolve)
     }
   ]
 })
 
 router.beforeEach((to, from, next) => {
+  // 占坑 this.$cookies 获取不到 => router.app.$cookies
+  // console.log(this, router.app.$cookies)
+  // to.matched
+  let login = router.app.$cookies.get('user-key')
   if (to.meta.isLogin) {
-    // 占坑 this.$cookies 获取不到 => router.app.$cookies
-    // console.log(this, router.app.$cookies)
-    router.app.$cookies.get('user-key') ? next() : next({ path: '/login', query: { back: to.fullPath } })
+    login ? next() : next({ path: '/login', query: { back: to.fullPath } })
   } else {
-    next()
+    if (to.path === '/login') {
+      if (to.query.back) {
+        next()
+      } else {
+        next({ path: '/login', query: { back: from.fullPath } })
+      }
+    } else {
+      next()
+    }
   }
 })
 

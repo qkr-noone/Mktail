@@ -3,31 +3,25 @@
     <header class="mk-header">
       <div class="mk-head">
         <div class="h-logo" ref='logoIsCursor'>
-          <router-link :to="{path: isHome}" ><img src="static/img/mk_logo_main.png"></router-link>
+          <router-link :to="{path: '/home'}" ><img src="static/img/mk_user_logo.png"></router-link>
+          <h1>MKTail</h1>
         </div>
-        <div class="h-search">
+        <div class="title-se">
           <form action="#">
             <div class="search_box">
               <div class="search_ipt">
-                <input type="text" ref="search_ipt" placeholder="">
+                <input type="text" ref="search_ipt" placeholder="search product">
                 <a @click="searchPro" class="search_btn">搜索</a>
               </div>
             </div>
           </form>
-          <div class="search-tip">
-            <ul>
-              <li><a>脚轮</a></li>
-              <li><a>手机</a></li>
-              <li><a>加湿器</a></li>
-              <li><a>电视</a></li>
-              <li><a>工具柜</a></li>
-            </ul>
+          <div class="title-con">
+            <router-link :to="{path: '/home'}" class="title-li"><h2>平台首页</h2></router-link>
+            <router-link :to="{path: '/'}" class="title-li"><h2>店铺首页</h2></router-link>
+            <router-link :to="{path: '/'}" class="title-li"><h2>产品详情</h2></router-link>
+            <router-link :to="{path: '/'}" class="title-li"><h2>客服</h2></router-link>
           </div>
         </div>
-        <!-- <div class="download-app" v-if="isHome">
-          <img src="static/img/mk_app_download.png">
-          <p>扫码安装APP端</p>
-        </div> -->
         <div class="addCart" @click="toCart">
           <img src="static/img/mk_search_cart.png">
           <p>我的购物车</p>
@@ -38,16 +32,11 @@
     </header>
   </div>
 </template>
-
 <script>
 import { mapState } from 'vuex'
 export default {
-  name: 'headerNav',
   data () {
-    return {
-      isHome: '' // 判断logo 是否可触发home点击
-      // isShops: false
-    }
+    return {}
   },
   props: [],
   computed: {
@@ -59,17 +48,8 @@ export default {
           num += Number(list.num)
         })
       })
+      console.log(this.cartList, 0)
       return num
-    }
-  },
-  created () {
-    let curRoute = this.$route.path
-    this.isHome = (curRoute === '/home' ? '' : '/home')
-    // curRoute === '/shops' ? this.isShops = true : this.isShops = false
-  },
-  mounted () {
-    if (!this.isHome) {
-      this.$refs.logoIsCursor.children[0].style.cursor = 'default'
     }
   },
   methods: {
@@ -102,20 +82,9 @@ export default {
     toCart () {
       this.$router.push({path: '/cart'})
     }
-    // watchEnter (event) {
-    //   console.log('eenter')
-    //   if (event.keyCode === 13) return false
-    //   let SEARCH_VALUE = this.$refs.search_ipt.value
-    //   var keyCode = window.event ? event.keyCode : event.which
-    //   if (keyCode === 13 && SEARCH_VALUE) {
-    //     this.searchPro()
-    //   }
-    // }
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 /* mk-header */
   .mk-header {
@@ -124,8 +93,7 @@ export default {
     background-color: #FFFFFF;
   }
   .h-logo {
-    padding:29px 23px 36px 23px;
-    box-shadow:0px 0px 11px 2px rgba(83,83,83,0.22);
+    padding:29px 11px 29px 23px;
   }
   .mk-head{
     max-width: 1226px;
@@ -134,14 +102,10 @@ export default {
     justify-content: space-between;
     align-items: center;
     background-color: #fff;
+    position: relative;
   }
 
 /* 搜索 */
-  .h-search {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-  }
   .search_box{
     box-sizing: content-box;
     display: flex;
@@ -149,13 +113,12 @@ export default {
     align-items: center;
     overflow: hidden;
     height: 50px;
-    width: 650px;
+    width: 335px;;
     margin: auto;
   }
   .search_ipt {
-    width: 650px;
+    width: 335px;
     border: 2px solid #E71600;
-    /*border-radius: 23px 23px 23px 23px;*/
     height: 34px;
     overflow: hidden;
     display: flex;
@@ -167,56 +130,56 @@ export default {
     line-height: 22px;
     font-size: 20px;
     padding: 4px 10px 4px 0;
-    margin-bottom: 2px;
-    margin-top: 2px;
     border: none;
     margin-left: 18px;
     -webkit-appearance: none;
     outline: none;
+    margin-bottom: 2px;
+    margin-top: 2px;
   }
   .search_btn {
-    width: 86px;
+    width: 60px;
     justify-content: center;
     font-size: 26px;
     text-align: center;
     line-height: 30px;
     display: flex;
     align-items: center;
-    font-size: 26px;
+    font-size: 18px;
     color: #fff;
     cursor: pointer;
     background-color: #E71600;
   }
-  .search-tip {
+
+/*logo*/
+  .h-logo{
     display: flex;
     align-items: center;
-    width: 650px;
-    margin: auto;
   }
-  .search-tip ul {
-    margin-left: 14px;
-    margin-top: 5px;
-    font-size: 16px;
-    color: #878787;
-    display: flex;
-  }
-  .search-tip ul li {
-    padding: 0 11px;
-  }
-  .search-tip ul li + li{
-    border-left: 1px solid #878787;
+  .h-logo h1{
+    margin-left: 12px;
+    font-size: 25px;
+    color:rgba(104,85,65,1);
   }
 
-/* 下载app*/
-  .download-app {
+/* 左侧 类别切换*/
+  .title-se {
+    display: flex;
+    justify-content: flex-end;
+    flex-grow: 1;
     display: flex;
     align-items: center;
-    margin-right: 68px;
-    font-size: 14px;
-    margin-bottom: 23px;
+    margin-right: 10px;
   }
-  .download-app p{
-    margin-left: 12px;
+  .title-con {
+    margin:0 43px;
+  }
+  .title-se h2{
+    font-size: 18px;
+    color: #363636;
+  }
+  .title-con a + a {
+    margin-left: 20px;
   }
 
 /* 加入购物车 */
@@ -225,7 +188,6 @@ export default {
     height:35px;
     background:rgba(246,246,246,1);
     border:1px solid rgba(198,198,198,1);
-    margin-bottom: 23px;
     margin-right: 68px;
     display: flex;
     justify-content: center;

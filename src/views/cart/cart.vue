@@ -220,7 +220,6 @@ export default {
     count () {
       if (this.selectList.length) {
         setStore('selectList', this.selectList)
-        console.log(this.selectList, 1)
         this.$router.push({path: '/getOrderInfo', query: {list: this.selectList}})
       } else {
         this.$message.warning('请核对信息哦')
@@ -333,7 +332,6 @@ export default {
       })
     },
     _cartAllDel (skIdList) { // 删除购物车
-      console.log(skIdList)
       apiAxios.AxiosP({
         url: api.cartAllDelete,
         params: {userName: this.$cookies.get('user-key')},
@@ -341,9 +339,7 @@ export default {
       }, res => {
         if (res.data.success === true) {
           skIdList.forEach(elem => {
-            console.log(elem)
             let productSkuId = elem.skuId
-            console.log(productSkuId)
             this.EDIT_CART({productSkuId})
           })
           this.$message.success('删除成功！')
@@ -380,7 +376,6 @@ export default {
         // this.setCartList(this.cartList)
       } else { // 根据sku数据删除购物车
         for (let item of cart) {
-          console.log(cart, productSkuId)
           for (let index in item.orderItemList) {
             if (item.orderItemList[index].itemId === productSkuId) {
               // 同时删除勾选的列表，如果有的话

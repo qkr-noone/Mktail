@@ -11,14 +11,17 @@
         </div>
         <div class="sc-right">
           <ul>
-            <li>
+            <li v-if="!username">
               <div><router-link :to="{path:'/login'}">登陆</router-link></div>
             </li>
-            <li>
+            <li v-if="!username">
               <div><router-link :to="{path:'/register'}">注册</router-link></div>
             </li>
+            <li  v-if="username">
+              <div><router-link :to="{path:'/user'}">{{username}}</router-link></div>
+            </li>
             <li>
-              <div><router-link :to="{path:''}">我的订单</router-link></div>
+              <div><router-link :to="{path:'user'}">我的订单</router-link></div>
             </li>
             <li>
               <div><router-link :to="{path:'/user'}">消息中心</router-link></div>
@@ -35,7 +38,8 @@ export default {
   name: 'shortcutHeader',
   data () {
     return {
-      isHome: ''
+      isHome: '',
+      username: ''
     }
   },
   props: [],
@@ -43,7 +47,13 @@ export default {
     let curRoute = this.$route.path
     this.isHome = (curRoute === '/home' ? '' : '/home')
   },
-  mounted () {},
+  mounted () {
+    this.username = this.$cookies.isKey('userInfo') ? this.$cookies.get('userInfo').username : ''
+  },
+  activated () {
+    this.username = this.$cookies.isKey('userInfo') ? this.$cookies.get('userInfo').username : ''
+  },
+  deactivated () {},
   methods: {
     home () {
       this.$router.push({path: '/home'})
@@ -57,6 +67,7 @@ export default {
 /* shortcut*/
   .backHome {
     margin-right: 24px;
+    cursor: pointer;
   }
   .mk-shortcut {
     min-width: 990px;

@@ -72,6 +72,7 @@
   </div>
 </template>
 <script>
+import { mapMutations } from 'vuex'
 import regFooter from '../../components/regFooter'
 import { apiAxios } from '../../common/utils'
 import { api } from '../../common/api'
@@ -95,6 +96,7 @@ export default {
     }
   },
   methods: {
+    ...mapMutations(['setCartList']),
     accountNumber () {
       this.account = true
     },
@@ -119,15 +121,24 @@ export default {
           this.$cookies.set('user-key', this.username)
           this.$cookies.set('userInfo', (rtn.data.data))
           this.password = ''
-          this.$router.push({path: '/home'})
+          this.cart()
         } else {
           this.$message.error(rtn.data.message)
           this.password = ''
         }
       })
-      // if (getCookie('userId')) {
-      //   this.$router.replace({path: this.$route.query.back})
-      // }
+    },
+    cart () {
+      apiAxios.AxiosG({
+        url: api.cartList,
+        params: {username: this.$cookies.get('user-key')}
+      }, rtn => {
+        if (rtn.data.success) {
+          this.setCartList(rtn.data.data)
+        } else { // 购物车为空
+        }
+      })
+      this.$router.push(this.$route.query.back)
     }
   }
 }
