@@ -15,6 +15,13 @@
   p {
     margin: 0
   }
+  iframe {
+    width: initial;
+  }
+  .live_iframe {
+    width: 500px;
+    height: 300px;
+  }
   input { border: none; }
   .wrap {
     width: 100%;
@@ -453,15 +460,16 @@
   }
   .sty-con {
     display: flex;
-    width: 600px;
-    height: 500px;
+    width: 610px;
+    height: 451px;
     margin-top: 20px;
   }
   .sty-con-left {
     display: flex;
     flex-direction: column;
     color: #ffffff;
-    width: 200px;
+    width: 215px;
+    flex-shrink: 0;
   }
   .sty-con-left h1{
     background-color: #33AE75;
@@ -469,6 +477,10 @@
     padding: 13px 20px;
     text-align: left;
     line-height: 24px;
+  }
+  .sty-con-left >img{
+    width: 100%;
+    height: auto;
   }
   .sty-con-left a {
     height: 380px;
@@ -499,7 +511,7 @@
   .style-con-class {
     display: flex;
     align-items: center;
-    height: 48px;
+    height: 43px;
     background-color: #ffffff;
     padding-left: 17px;
   }
@@ -519,8 +531,8 @@
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
-    width: 199px;
-    height: 224px;
+    width: 196px;
+    height: 203px;
     background-color: #ffffff;
     font-size: 16px;
   }
@@ -546,6 +558,9 @@
     color: #353535;
     line-height:21px;
     font-size: 16px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
   }
   .sty-con-li a {
     width: 120px;

@@ -104,9 +104,6 @@ export default {
   .sc-right >ul li+li {
     margin-left: 24px;
   }
-  .sc-right >ul li:last-child{
-    margin-right: 72px;
-  }
   .sc-right >ul li a{
     line-height: 12px;
     text-align: center;

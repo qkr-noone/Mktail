@@ -84,10 +84,7 @@
       <div class="py-container classify">
         <div class="sty-con" v-for="list in classList" :key="list.id">
           <div class="sty-con-left">
-            <h1>{{list.title}}</h1>
-            <a><img :src="list.pic"></a>
-            <h2>五金工具频道</h2>
-            <h3>{{list.subTitle}}</h3>
+            <img :src="list.pic">
           </div>
           <div class="sty-con-right">
             <div class="style-con-class">
@@ -138,7 +135,7 @@
       </div>
     </div>
     <!-- 主题货源 -->
-    <div class="container_h" >
+    <div class="container_h" @click="liveShow">
       <div class="py-container source">
         <div class="source-title">
           <span></span><p>主题货源</p>
@@ -239,7 +236,9 @@
         </ul>
       </div>
     </div>
-    <!-- </a><iframe class="live_iframe" ref="live_iframe" id="live_iframe" v-bind:src="liveSource" width="360" height="300" frameborder="0" scrolling="no"></iframe></a> -->
+    <a>
+      <iframe class="live_iframe" ref="live_iframe" id="live_iframe" v-bind:src="liveSource" width="360" height="300" frameborder="0" scrolling="no"></iframe>
+    </a>
     <div class="mask" v-show="is3Ding">
       <iframe class="mask_iframe" ref="threeDSrc"  frameborder="0" scrolling="" g="no">
       </iframe>
@@ -513,52 +512,52 @@ export default {
   mounted () {
     this.username = this.$cookies.isKey('userInfo') ? this.$cookies.get('userInfo').username : ''
     // 为iframe点击可触发点击事件
-    let IframeOnClick = {
-      resolution: 200,
-      iframes: [],
-      interval: null,
-      Iframe: function () {
-        this.element = arguments[0]
-        this.cb = arguments[1]
-        this.hasTracked = false
-      },
-      track: function (element, cb) {
-        this.iframes.push(new this.Iframe(element, cb))
-        if (!this.interval) {
-          let _this = this
-          this.interval = setInterval(function () { _this.checkClick() }, this.resolution)
-        }
-      },
-      checkClick: function () {
-        if (document.activeElement) {
-          let activeElement = document.activeElement
-          for (let i in this.iframes) {
-            if (activeElement === this.iframes[i].element) { // user is in this Iframe
-              if (this.iframes[i].hasTracked === false) {
-                this.iframes[i].cb.apply(window, [])
-                this.iframes[i].hasTracked = true
-              }
-            } else {
-              this.iframes[i].hasTracked = false
-            }
-          }
-        }
-      }
-    }
-    // 获取iframe 框架下的body节点并且监听
-    let iframeDom = this.$el.getElementsByTagName('iframe')[0].contentWindow.document.body
-    this.iframeDom = iframeDom
-    if (this.iframeDom.offsetHeight) {
-      this.iframeDom.addEventListener('click', (e) => {
-        this.liveSource = '../static/live.html'
-        return false
-      })
-    } else { // 火狐 body高度为0 无法触发body点击事件
-      IframeOnClick.track(this.$refs.live_iframe, () => {
-        this.liveSource = '../static/live.html'
-        return false
-      })
-    }
+    // let IframeOnClick = {
+    //   resolution: 200,
+    //   iframes: [],
+    //   interval: null,
+    //   Iframe: function () {
+    //     this.element = arguments[0]
+    //     this.cb = arguments[1]
+    //     this.hasTracked = false
+    //   },
+    //   track: function (element, cb) {
+    //     this.iframes.push(new this.Iframe(element, cb))
+    //     if (!this.interval) {
+    //       let _this = this
+    //       this.interval = setInterval(function () { _this.checkClick() }, this.resolution)
+    //     }
+    //   },
+    //   checkClick: function () {
+    //     if (document.activeElement) {
+    //       let activeElement = document.activeElement
+    //       for (let i in this.iframes) {
+    //         if (activeElement === this.iframes[i].element) { // user is in this Iframe
+    //           if (this.iframes[i].hasTracked === false) {
+    //             this.iframes[i].cb.apply(window, [])
+    //             this.iframes[i].hasTracked = true
+    //           }
+    //         } else {
+    //           this.iframes[i].hasTracked = false
+    //         }
+    //       }
+    //     }
+    //   }
+    // }
+    // // 获取iframe 框架下的body节点并且监听
+    // let iframeDom = this.$el.getElementsByTagName('iframe')[0].contentWindow.document.body
+    // this.iframeDom = iframeDom
+    // if (this.iframeDom.offsetHeight) {
+    //   this.iframeDom.addEventListener('click', (e) => {
+    //     this.liveSource = 'static/live.html'
+    //     return false
+    //   })
+    // } else { // 火狐 body高度为0 无法触发body点击事件
+    //   IframeOnClick.track(this.$refs.live_iframe, () => {
+    //     this.liveSource = 'static/live.html'
+    //     return false
+    //   })
+    // }
   },
   methods: {
     carouselChange (index, key) {
@@ -577,7 +576,8 @@ export default {
       return false
     },
     liveShow () {
-      this.liveSource = '../static/live.html'
+      console.log(12121)
+      this.liveSource = 'static/live.html?id=10&sd=10&ii=10'
     },
     threeDclose () {
       this.is3Ding = false

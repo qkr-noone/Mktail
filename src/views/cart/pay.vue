@@ -6,6 +6,9 @@
         <h5>收银台</h5>
       </div>
       <div class="pay-help">
+        <router-link :to="{path: '/home'}" href="javascript:;">
+          <span>返回首页</span>
+        </router-link>
         <a href="javascript:;">
           <span>90835991</span>
         </a>

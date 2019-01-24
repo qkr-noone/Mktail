@@ -4,7 +4,7 @@
       <div class="mk-head">
         <div class="h-logo" ref='logoIsCursor'>
           <router-link :to="{path: '/home'}" ><img src="static/img/mk_user_logo.png"></router-link>
-          <h1>MKTail</h1>
+          <h1>{{title}}</h1>
         </div>
         <div class="title-se">
           <form action="#">
@@ -38,7 +38,12 @@ export default {
   data () {
     return {}
   },
-  props: [],
+  props: {
+    title: {
+      type: String,
+      default: 'MKTail'
+    }
+  },
   computed: {
     ...mapState(['cartList']),
     cartNum () {
@@ -48,7 +53,6 @@ export default {
           num += Number(list.num)
         })
       })
-      console.log(this.cartList, 0)
       return num
     }
   },
@@ -93,10 +97,10 @@ export default {
     background-color: #FFFFFF;
   }
   .h-logo {
-    padding:29px 11px 29px 23px;
+    padding:29px 11px 29px 0px;
   }
   .mk-head{
-    max-width: 1226px;
+    width: 1226px;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
@@ -188,7 +192,6 @@ export default {
     height:35px;
     background:rgba(246,246,246,1);
     border:1px solid rgba(198,198,198,1);
-    margin-right: 68px;
     display: flex;
     justify-content: center;
     align-items: center;

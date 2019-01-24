@@ -1,7 +1,7 @@
 <template>
   <div>
     <shortcut></shortcut>
-    <live3Dheader></live3Dheader>
+    <live3Dheader :title="MKTail"></live3Dheader>
     <div>
       <div>
         <div class="threeD-box">
