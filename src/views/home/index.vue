@@ -130,7 +130,7 @@
     </div>
     <!-- 企业直播 -->
     <div class="container_h" id="live">
-      <div class="py-container bsale" @click="livePage('http://192.168.1.11/')">
+      <div class="py-container bsale" @click="livePage()">
         <absBox :data="companyLive" :indicator="'none'" :arrow="'never'"></absBox>
       </div>
     </div>
@@ -572,7 +572,7 @@ export default {
       })
     },
     livePage (url) { // http://192.168.1.11/
-      window.open(url)
+      this.$router.push({path: '/live/factory'})
       return false
     },
     liveShow () {
