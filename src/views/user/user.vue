@@ -1399,6 +1399,7 @@ export default {
         {name: '购物车', path: 'userCart'},
         {name: '我的订单', path: 'userOrder'},
         {name: '我的收藏', path: 'userCollect'}, // 收藏店铺userCollectShop收藏宝贝userCollectGoods
+        {name: '收藏宝贝', path: 'userCollectGoods'}, // 收藏宝贝
         {name: '我的评价', path: 'userAssess'},
         {name: '我的足迹', path: 'userHistory'},
         {name: '我的优惠', path: 'userFee'},

@@ -150,6 +150,10 @@ router = new Router({
           component: resolve => require(['@/views/user/children/userOrder'], resolve)
         },
         {
+          path: 'userCollectGoods',
+          component: resolve => require(['@/views/user/children/userCollectGoods'], resolve)
+        },
+        {
           path: 'userCollect',
           component: resolve => require(['@/views/user/children/userCollect'], resolve)
         },
