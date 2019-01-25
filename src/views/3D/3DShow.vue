@@ -1,7 +1,7 @@
 <template>
   <div>
     <shortcut></shortcut>
-    <live3Dheader :title="MKTail"></live3Dheader>
+    <live3Dheader :title="tDTitll" :goodsId="goodsId"></live3Dheader>
     <div>
       <div>
         <div class="threeD-box">
@@ -79,16 +79,20 @@
         </div>
       </div>
     </div>
+    <pageFooter></pageFooter>
   </div>
 </template>
 <script>
 import shortcut from '../../components/shortcutHeader'
 import live3Dheader from '../../components/live3Dheader'
+import pageFooter from '../../components/pageFooter'
 export default {
   data () {
     return {
       is3Ding: false,
       isForm: false,
+      tDTitll: 'MKTail',
+      goodsId: '149187842867965',
       ruleForm: {
         name: ''
       },
@@ -120,9 +124,11 @@ export default {
       }
     }
   },
-  components: { shortcut, live3Dheader },
+  components: { shortcut, live3Dheader, pageFooter },
   mounted () {
-    let threeDUrl = 'http://192.168.0.33:8080/qn18/index.html?spuid=1'
+    document.documentElement.scrollTop = 133
+    document.body.scrollTop = 133
+    let threeDUrl = 'http://192.168.0.33:8080/qn30/index.html?spuid=10112269'
     // http://192.168.0.33:8080/qn5/ http://192.168.0.33:8080/qn17/index.html?spuid=10112269 http://120.79.93.197/we5/
     this.$refs.threeDSrc.src = threeDUrl
     this.is3Ding = true

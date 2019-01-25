@@ -1,7 +1,7 @@
 <template>
   <div>
     <shortcut></shortcut>
-    <live3Dheader :title="liveTitel"></live3Dheader>
+    <live3Dheader :title="liveTitel" :goodsId="goodsId"></live3Dheader>
     <div class="live-con">
       <div>
         <div class="live-box">
@@ -24,65 +24,91 @@
           <div class="live">
             <div class="live-ul" data-attr='page1' v-if="choosePage === 'page1' ">
               <div class="live-list live-page1">
-                <a><iframe id="frame1" name="1" class="live_iframe" ref="iframe0" v-bind:src="liveSource1" frameborder="0" scrolling="no"></iframe>
+                <a><iframe class="live_iframe" ref="iframe0" v-bind:src="liveSource1" frameborder="0" scrolling="no"></iframe>
+                  <div class="iframeMask" @click="activePage($event, 'liveSource1')">
+                  </div>
                 </a>
               </div>
             </div>
             <div class="live-ul"  data-attr='page4' v-if="choosePage === 'page4' ">
               <div class="live-list">
-                <a><iframe id="frame1" name="1" class="live_iframe" ref="iframe0" v-bind:src="liveSource1" frameborder="0" scrolling="no"></iframe>
-                <!-- <div class="iframeMask" @click="activePage('liveSource1')">
-                </div> -->
+                <a><iframe class="live_iframe" data-dd='1' ref="iframe0" v-bind:src="liveSource1" frameborder="0" scrolling="no"></iframe>
+                  <div class="iframeMask" @click="activePage($event, 'liveSource1')">
+                  </div>
                 </a>
               </div>
               <div class="live-list">
                 <a><iframe class="live_iframe" ref="iframe1" v-bind:src="liveSource2" frameborder="0" scrolling="no"></iframe>
+                  <div class="iframeMask" @click="activePage($event, 'liveSource2')">
+                  </div>
                 </a>
               </div>
               <div class="live-list">
                 <a><iframe class="live_iframe" ref="iframe2" v-bind:src="liveSource3" frameborder="0" scrolling="no"></iframe>
+                  <div class="iframeMask" @click="activePage($event, 'liveSource3')">
+                  </div>
                 </a>
               </div>
               <div class="live-list">
-                <a><iframe class="live_iframe" ref="iframe3" v-bind:src="liveSource3" frameborder="0" scrolling="no"></iframe>
+                <a><iframe class="live_iframe" ref="iframe3" v-bind:src="liveSource4" frameborder="0" scrolling="no"></iframe>
+                  <div class="iframeMask" @click="activePage($event, 'liveSource4')">
+                  </div>
                 </a>
               </div>
             </div>
             <div class="live-ul"  data-attr='page9' v-if="choosePage === 'page9' ">
               <div class="live-list live-page9">
                 <a><iframe id="frame1" name="1" class="live_iframe" ref="iframe0" v-bind:src="liveSource1" frameborder="0" scrolling="no"></iframe>
+                  <div class="iframeMask" @click="activePage($event, 'liveSource1')">
+                  </div>
                 </a>
               </div>
               <div class="live-list live-page9 ">
                 <a><iframe class="live_iframe" ref="iframe1" v-bind:src="liveSource2" frameborder="0" scrolling="no"></iframe>
+                  <div class="iframeMask" @click="activePage($event, 'liveSource2')">
+                  </div>
                 </a>
               </div>
               <div class="live-list live-page9 ">
                 <a><iframe class="live_iframe" ref="iframe2" v-bind:src="liveSource3" frameborder="0" scrolling="no"></iframe>
+                  <div class="iframeMask" @click="activePage($event, 'liveSource3')">
+                  </div>
                 </a>
               </div>
               <div class="live-list live-page9">
                 <a><iframe class="live_iframe" ref="iframe4" v-bind:src="liveSource4" frameborder="0" scrolling="no"></iframe>
+                  <div class="iframeMask" @click="activePage($event, 'liveSource4')">
+                  </div>
                 </a>
               </div>
               <div class="live-list live-page9">
                 <a><iframe class="live_iframe" ref="iframe5" v-bind:src="liveSource5" frameborder="0" scrolling="no"></iframe>
+                  <div class="iframeMask" @click="activePage($event, 'liveSource5')">
+                  </div>
                 </a>
               </div>
               <div class="live-list live-page9">
                 <a><iframe class="live_iframe" ref="iframe6" v-bind:src="liveSource6" frameborder="0" scrolling="no"></iframe>
+                  <div class="iframeMask" @click="activePage($event, 'liveSource6')">
+                  </div>
                 </a>
               </div>
               <div class="live-list live-page9">
                 <a><iframe class="live_iframe" ref="iframe7" v-bind:src="liveSource7" frameborder="0" scrolling="no"></iframe>
+                  <div class="iframeMask" @click="activePage($event, 'liveSource7')">
+                  </div>
                 </a>
               </div>
               <div class="live-list live-page9">
                 <a><iframe class="live_iframe" ref="iframe8" v-bind:src="liveSource8" frameborder="0" scrolling="no"></iframe>
+                  <div class="iframeMask" @click="activePage($event, 'liveSource8')">
+                  </div>
                 </a>
               </div>
               <div class="live-list live-page9">
                 <a><iframe class="live_iframe" ref="iframe9" v-bind:src="liveSource9" frameborder="0" scrolling="no"></iframe>
+                  <div class="iframeMask" @click="activePage($event, 'liveSource9')">
+                  </div>
                 </a>
               </div>
             </div>
@@ -92,7 +118,7 @@
                 <div class="source-box">
                   <div class="source-scroll">
                     <ul class="source-ul">
-                      <a v-for="(list, index) in sourceList" :key="index" class="source-a" href="javascript:;" @click="sourcePlay($event, list)">{{index+1}}</a>
+                      <a v-for="(list, index) in sourceList" :key="index" class="source-a" href="javascript:;" @click="sourcePlay(list)">{{index+1}}</a>
                     </ul>
                   </div>
                 </div>
@@ -111,18 +137,18 @@
                 </a>
                 <h5 class="threeD-li-h">4寸PU电泳旱冰轮</h5>
               </li>
-              <li class="threeD-li">
-                <a class="threeD-li-a Center" href="javascript:;" @click="threeDUrl('http://192.168.0.33:8080/qn18/index.html?spuid=10112268')">
-                  <img src="/static/img/3D_show3.png">
-                </a>
-                <h5 class="threeD-li-h">2寸金钻活动轮</h5>
-              </li>
-              <li class="threeD-li">
+               <li class="threeD-li">
                 <a class="threeD-li-a Center" href="javascript:;" @click="threeDUrl('http://192.168.0.33:8080/qn18/index.html?spuid=10112269')">
                   <img src="/static/img/3D_show4.png">
                 </a>
                 <h5 class="threeD-li-h">2寸白PU大班轮</h5>
               </li>
+              <li class="threeD-li">
+                <router-link :to="{path: '/detail', query: {goodsId: 149187842867963}}" class="threeD-li-a Center" href="javascript:;" @click="threeDUrl('http://192.168.0.33:8080/qn18/index.html?spuid=10112268')">
+                  <img src="/static/img/3D_show3.png">
+                </router-link>
+                <h5 class="threeD-li-h">4寸M12丝杆PVC单轴动轮(蓝色</h5>
+              </li>             
             </ul>
             <div class="change Center"><i class="el-icon-arrow-down"></i><i class="el-icon-arrow-up"></i></div>
           </div>
@@ -132,7 +158,7 @@
     <div class="write">
       <a href="javascript:;"><img src="static/img/test/test1.jpg"></a>
       <div>
-        <h3 class="comment-title">有什么想告诉大家！</h3>
+        <h3 class="comment-title"><img src="static/img/mk_live_talkyouthink.png"></h3>
         <textarea  class="write-info" type="textarea" name="" v-model="writeDesc"></textarea>
         <div class="comment-attr">
           <div class="comment-other">
@@ -224,9 +250,10 @@ export default {
       liveSource7: '',
       liveSource8: '',
       liveSource9: '',
-      cutover: '', // 判断当前放的直播源到哪一个画面
+      goodsId: '149187842867965',
+      cutover: 'liveSource1', // 判断当前放的直播源到哪一个画面
       isLayout: false,
-      choosePage: 'page1',
+      choosePage: 'page9',
       liveTitel: 'MKTail直播',
       writeDesc: '',
       // http://192.168.1.11/hls/test"+i+".m3u8  直播源
@@ -234,48 +261,58 @@ export default {
         'http://192.168.1.11/hls/test6.m3u8', 'http://192.168.1.11/hls/test5.m3u8', 'http://192.168.1.11/hls/test0.m3u8', 'http://192.168.1.11/hls/test3.m3u8',
         'http://192.168.1.11/hls/test2.m3u8', 'http://192.168.1.11/hls/test9.m3u8',
         'http://192.168.1.11/hls/test1.m3u8'
-      ]
+      ],
+      randomObj: {
+        select: 'select' // 先定义随机ID
+      }
     }
   },
   components: { shortcut, live3Dheader, pageFooter },
+  created  () {
+  },
   mounted () {
     // let iframeDom = this.$el.getElementsByTagName('iframe')[0].contentWindow.document.body
+    document.documentElement.scrollTop = 133
+    document.body.scrollTop = 133
+    // 定义全局方法 iframe调用
+    window[this.randomObj.select] = function (page) {
+      this.activeChildPage(page)
+    }.bind(this)
   },
   methods: {
-    sourcePlay (event, list, index) {
+    sourcePlay (list) {
       let height = this.$refs.iframe0.offsetHeight
-      console.log(height)
       console.log(this.cutover)
-      this.liveSource1 = '../static/live.html?' + 'source=' + this.sourceList[0] + '&height=' + height
-      this.liveSource2 = '../static/live.html?' + 'source=' + this.sourceList[1] + '&height=' + height
-      this.liveSource3 = '../static/live.html?' + 'source=' + this.sourceList[2] + '&height=' + height
-      this.liveSource4 = '../static/live.html?' + 'source=' + this.sourceList[3] + '&height=' + height
-      this.liveSource5 = '../static/live.html?' + 'source=' + this.sourceList[4] + '&height=' + height
-      this.liveSource6 = '../static/live.html?' + 'source=' + this.sourceList[5] + '&height=' + height
-      this.liveSource7 = '../static/live.html?' + 'source=' + this.sourceList[6] + '&height=' + height
-      this.liveSource8 = '../static/live.html?' + 'source=' + this.sourceList[7] + '&height=' + height
-      this.liveSource9 = '../static/live.html?' + 'source=' + this.sourceList[8] + '&height=' + height
-      // if (this.cutover === 'liveSource1') {
-      //   this.liveSource1 = '../static/live.html?' + 'source=' + list + '&height=' + height
-      // } else if (this.cutover === 'liveSource2') {
-      //   this.liveSource2 = '../static/live.html?' + 'source=' + list + '&height=' + height
-      // } else if (this.cutover === 'liveSource3') {
-      //   this.liveSource3 = '../static/live.html?' + 'source=' + list + '&height=' + height
-      // } else if (this.cutover === 'liveSource4') {
-      //   this.liveSource4 = '../static/live.html?' + 'source=' + list + '&height=' + height
-      // } else if (this.cutover === 'liveSource5') {
-      //   this.liveSource5 = '../static/live.html?' + 'source=' + list + '&height=' + height
-      // } else if (this.cutover === 'liveSource6') {
-      //   this.liveSource6 = '../static/live.html?' + 'source=' + list + '&height=' + height
-      // } else if (this.cutover === 'liveSource7') {
-      //   this.liveSource7 = '../static/live.html?' + 'source=' + list + '&height=' + height
-      // } else if (this.cutover === 'liveSource8') {
-      //   this.liveSource8 = '../static/live.html?' + 'source=' + list + '&height=' + height
-      // } else if (this.cutover === 'liveSource9') {
-      //   this.liveSource9 = '../static/live.html?' + 'source=' + list + '&height=' + height
-      // }
+      if (this.cutover === 'liveSource1') {
+        this.liveSource1 = '../static/live.html?' + 'source=' + list + '&height=' + height + '&page=liveSource1'
+        this.$refs.iframe0.parentElement.children[1].style.display = 'none'
+      } else if (this.cutover === 'liveSource2') {
+        this.liveSource2 = '../static/live.html?' + 'source=' + list + '&height=' + height + '&page=liveSource2'
+        this.$refs.iframe1.parentElement.children[1].style.display = 'none'
+      } else if (this.cutover === 'liveSource3') {
+        this.liveSource3 = '../static/live.html?' + 'source=' + list + '&height=' + height + '&page=liveSource3'
+        this.$refs.iframe2.parentElement.children[1].style.display = 'none'
+      } else if (this.cutover === 'liveSource4') {
+        this.liveSource4 = '../static/live.html?' + 'source=' + list + '&height=' + height + '&page=liveSource4'
+        this.$refs.iframe3.parentElement.children[1].style.display = 'none'
+      } else if (this.cutover === 'liveSource5') {
+        this.liveSource5 = '../static/live.html?' + 'source=' + list + '&height=' + height + '&page=liveSource5'
+        this.$refs.iframe4.parentElement.children[1].style.display = 'none'
+      } else if (this.cutover === 'liveSource6') {
+        this.liveSource6 = '../static/live.html?' + 'source=' + list + '&height=' + height + '&page=liveSource6'
+        this.$refs.iframe5.parentElement.children[1].style.display = 'none'
+      } else if (this.cutover === 'liveSource7') {
+        this.liveSource7 = '../static/live.html?' + 'source=' + list + '&height=' + height + '&page=liveSource7'
+        this.$refs.iframe6.parentElement.children[1].style.display = 'none'
+      } else if (this.cutover === 'liveSource8') {
+        this.liveSource8 = '../static/live.html?' + 'source=' + list + '&height=' + height + '&page=liveSource8'
+        this.$refs.iframe7.parentElement.children[1].style.display = 'none'
+      } else if (this.cutover === 'liveSource9') {
+        this.liveSource9 = '../static/live.html?' + 'source=' + list + '&height=' + height + '&page=liveSource9'
+        this.$refs.iframe8.parentElement.children[1].style.display = 'none'
+      }
     },
-    activePage (page) {
+    activePage (event, page) {
       this.cutover = page
     },
     isShowLayout () {
@@ -295,6 +332,18 @@ export default {
       this.liveSource7 = ''
       this.liveSource8 = ''
       this.liveSource9 = ''
+      for (let i = 0; i < 9; i++) {
+        // console.log(this.$refs[`iframe${i}`], i)
+        this.$refs[`iframe${i}`].parentElement.children[1].style.display = 'block'
+      }
+    },
+    vueFunc () {
+      // this.$el.getElementsByTagName('iframe')[0].contentWindow.touch()
+      // this.$refs.iframe0.contentWindow.changeHeight(11)
+    },
+    activeChildPage (page) {
+      console.log(page)
+      this.cutover = page
     }
   },
   watch: {
@@ -338,8 +387,8 @@ export default {
     height: calc(100% - 50px);
   }
   .live-list {
-    width: calc(50% - 8px);
-    height: calc(50% - 8px);
+    width: calc(50% - 2px);
+    height: calc(50% - 2px);
     border:1px solid #a4a4a4;
   }
   .live-list.live-page1{
@@ -347,8 +396,8 @@ export default {
     height: calc(100% - 2px);
   }
   .live-list.live-page9{
-    width: calc(33.3% - 12px);
-    height: calc(33.3% - 12px);
+    width: calc(33.3% - 2px);
+    height: calc(33.3% - 2px);
   }
   .live-list a, .live_iframe {
     width: 100%;
@@ -450,6 +499,7 @@ export default {
     height:109px;
     border: 1px solid #15191C;
     background:rgba(255,255,255,1);
+    z-index: 20;
   }
   .source-scroll{
     overflow: hidden;
@@ -641,6 +691,7 @@ export default {
   .write >a {
     width: 70px;
     height: 70px;
+    margin-bottom: 60px;
   }
   .write >a img{
     width: 100%;

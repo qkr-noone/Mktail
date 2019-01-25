@@ -18,7 +18,7 @@
           <div class="title-con">
             <router-link :to="{path: '/home'}" class="title-li"><h2>平台首页</h2></router-link>
             <router-link :to="{path: '/'}" class="title-li"><h2>店铺首页</h2></router-link>
-            <router-link :to="{path: '/'}" class="title-li"><h2>产品详情</h2></router-link>
+            <router-link :to="{path: '/detail', query:{goodsId: goodsId}}" class="title-li"><h2>产品详情</h2></router-link>
             <router-link :to="{path: '/'}" class="title-li"><h2>客服</h2></router-link>
           </div>
         </div>
@@ -42,6 +42,10 @@ export default {
     title: {
       type: String,
       default: 'MKTail'
+    },
+    goodsId: {
+      type: String,
+      default: ''
     }
   },
   computed: {

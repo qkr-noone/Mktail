@@ -13,22 +13,19 @@
 </head>
 
 <body>
-  <video muted id=example-video width=360 height=300 class="video-js vjs-default-skin vjs-big-play-centered" controls>
+  <video muted id=example-video width=360 height=300 class="video-js vjs-default-skin vjs-big-play-centered" autoplay="true" controls onclick="touch()">
     <source type="application/x-mpegURL">
   </video>
-  <!-- rtmp://192.168.1.11:1935/hls/test  http://192.168.1.11/hls/test.m3u8 -->
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="http://vjs.zencdn.net/ie8/1.1.1/videojs-ie8.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.3.0/video.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-hls/5.14.1/videojs-contrib-hls.min.js"></script>
 <script>
-$(function() {
-  var urlObj = setURL();
-  function setURL() {
+  window.setURL = function () {
     var url = location.href;
-    var urlParmStr = url.slice(url.indexOf('?') + 1);
-    var arr = urlParmStr.split('&');
+    var urlStr = url.slice(url.indexOf('?') + 1);
+    var arr = urlStr.split('&');
     var obj = {}
     arr.forEach(function(element, index) {
       var list = element.split('=');
@@ -36,11 +33,19 @@ $(function() {
     })
     return obj || ''
   }
-  $('.video-js').css('height', urlObj.height + 'px')
-  console.log(urlObj.source, urlObj.height, 0)
-  $('#example-video').children('source').attr('src', urlObj.source);
-  var player = videojs('example-video');
-})
+  var urlObj = setURL()
+  $(function() {
+    $('.video-js').css('height', urlObj.height + 'px')
+    $('#example-video').children('source').attr('src', urlObj.source);
+    var player = videojs('example-video');
+  })
+  function changeHeight () {
+    console.log('height');
+  }
+  function touch () {
+    // 调取vue 的全局方法
+    window.parent.select(urlObj.page)
+  }
 </script>
 
 </html>
