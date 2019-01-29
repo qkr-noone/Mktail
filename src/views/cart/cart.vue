@@ -137,6 +137,7 @@ import buyNum from '../../components/buyNum'
 import { apiAxios, setStore } from '../../common/utils'
 import { api } from '../../common/api'
 export default {
+  inject: ['reload'],
   data () {
     return {
       selectList: [], // 选中商品列表
@@ -174,10 +175,6 @@ export default {
       return selectNum
     }
   },
-  activated () {},
-  deactivated () {
-    this.$destroy()
-  },
   mounted () {
     // this.INIT_BUYCART()
     apiAxios.AxiosG({
@@ -199,10 +196,11 @@ export default {
         }
         this.isShopsChecked(this.cartList)
         this.isAllShops(this.cartList)
-        // this.setCartList(this.cartList)
       } else {
+        this.setCartList(rtn.data.data)
         this.$message.info('购物车为空')
       }
+      setStore('cartList', this.cartList)
     })
     apiAxios.AxiosG({
       url: api.cartLike,
@@ -219,9 +217,9 @@ export default {
     ]),
     count () {
       if (this.selectList.length) {
-        setStore('selectList', this.selectList)
         this.$router.push({path: '/getOrderInfo', query: {list: this.selectList}})
       } else {
+        this.$router.go(0)
         this.$message.warning('请核对信息哦')
       }
       return false
@@ -393,7 +391,7 @@ export default {
       }
       this.setCartList(cart)
       // 存入localStorage
-      // setStore('buyCart', state.cartList)
+      setStore('cartList', cart)
     },
     isShopsChecked (cart) { // 遍历店铺，判断店铺选中状态
       cart.forEach(tip => {

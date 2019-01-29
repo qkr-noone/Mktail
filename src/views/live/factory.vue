@@ -148,7 +148,7 @@
                   <img src="/static/img/3D_show3.png">
                 </router-link>
                 <h5 class="threeD-li-h">4寸M12丝杆PVC单轴动轮(蓝色</h5>
-              </li>             
+              </li>
             </ul>
             <div class="change Center"><i class="el-icon-arrow-down"></i><i class="el-icon-arrow-up"></i></div>
           </div>

@@ -36,20 +36,14 @@ let apiAxios = {
           }
           return ret
         }
-        // function (data) {
-        //   let ret = ''
-        //   for (let it in data) {
-        //     ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
-        //   }
-        //   return ret
-        // }
       ],
-      headers: {
-        // 'X-Requested-With': 'XMLHttpRequest',
-        // 'Content-Type': '*/*'
-      }
+      headers: {}
     }).then(callback).catch(error)
   }
+}
+
+export {
+  apiAxios
 }
 
 /**
@@ -77,8 +71,4 @@ export const getStore = name => {
 export const removeStore = name => {
   if (!name) return
   window.localStorage.removeItem(name)
-}
-
-export {
-  apiAxios
 }

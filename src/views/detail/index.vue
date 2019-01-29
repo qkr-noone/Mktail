@@ -457,7 +457,7 @@ export default {
   },
   methods: {
     ...mapMutations([
-      'setCartList'
+      'setCartList', 'setUserInfo'
     ]),
     scrollBig (imgUrl) {
       this.currentImg = imgUrl
@@ -470,8 +470,6 @@ export default {
       this.is3Ding = true
       this.$refs.threeDSrc.src = threeDUrl
       return false
-    },
-    addCart () {
     },
     selectSpec (attr, val) {
       this.selectArr[attr] = val
@@ -503,6 +501,7 @@ export default {
           }, rtn => {
             if (rtn.data.success) {
               this.$message.success('成功加入购物车')
+              this.cart()
               this.$router.push({path: '/addToCart', query: {skuId: this.selectSku.id, num: this.num}})
             } else {
               this.$message.error('加入购物车失败')
@@ -561,8 +560,11 @@ export default {
         if (rtn.data.success) {
           this.$message.success('登陆成功')
           this.$cookies.set('user-key', this.username)
+          this.$cookies.set('userInfo', (rtn.data.data))
+          this.setUserInfo(rtn.data.data)
           this.isMaskLogin = false
           this.password = ''
+          this.cart()
         } else {
           this.$message.error(rtn.data.message)
           this.password = ''
@@ -586,6 +588,16 @@ export default {
         }
       }
       return true
+    },
+    // 登陆初始化数据
+    cart () {
+      apiAxios.AxiosG({
+        url: api.cartList,
+        params: {username: this.$cookies.get('user-key')}
+      }, rtn => {
+        this.setCartList(rtn.data.data)
+        setStore('cartList', rtn.data.data)
+      })
     },
     tab (name, path) {
       let queryList = this.$route.query
