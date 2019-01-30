@@ -1,5 +1,5 @@
 <template>
-  <div id="test-index">
+  <div>
     <div class="pay-title">
       <div class="pay-logo">
         <a href="javascript:;"><img src="static/img/mk_logo_addorder.png"></a>
@@ -29,7 +29,9 @@
         </div>
         <div class="checkout-steps">
           <div class="weixin" @click="payOrder">
-            <span>微信支付</span>
+            <span v-if="payStyle === 'weChat'">微信支付</span>
+            <span v-else-if="payStyle === 'alipay'">支付宝</span>
+            <span v-else>支付</span>
             <p class="red" v-if="true">距离二维码过期还剩<em class="second">49</em>秒，过期后请刷新页面重新获取二维码。</p>
             <p class="red over" v-else>二维码已过期，刷新页面重新获取二维码。</p>
           </div>
@@ -67,16 +69,13 @@ export default {
     return {
       orderInfo: '',
       totalFee: '',
-      payStyle: 'alipay',
+      payStyle: '',
       paySuccess: false
     }
   },
   components: { pageFooter },
-  activated () {},
-  deactivated () {
-    this.$destroy()
-  },
   mounted () {
+    this.payStyle = this.$route.query.payStyle || ''
     apiAxios.AxiosG({
       url: api.payPageInfo,
       params: {userName: this.$cookies.get('user-key')}

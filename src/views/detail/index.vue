@@ -361,10 +361,6 @@ export default {
       return false
     }
   },
-  activated () {},
-  deactivated () {
-    this.$destroy()
-  },
   mounted () {
     console.log(chineseDistricts['86'])
     let tem = Object.values(chineseDistricts['86'])

@@ -428,7 +428,7 @@ export default {
       selectList.forEach(item => {
         price += Number(item.totalFee)
       })
-      price = (price).toFixed(2)
+      price = price.toFixed(2)
       let createTime = this.formatDate(new Date())
       let order = {
         payment: price, // "实付金额",
@@ -482,7 +482,7 @@ export default {
             console.log(cartList)
           })
           setStore('cartList', cartList)
-          this.$router.push({path: '/pay'})
+          this.$router.push({path: '/payHome'})
         } else {
           this.$message.error('提交订单失败')
         }
