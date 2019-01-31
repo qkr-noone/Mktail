@@ -22,7 +22,15 @@ export default {
     },
     goodsIntroduc: {
       type: String
+    },
+    scroll: {
+      type: Object
     }
+  },
+  mounted () {
+    this.$nextTick(() => {
+      document.documentElement.scrollTop = this.scroll.scrollTop
+    })
   }
 }
 

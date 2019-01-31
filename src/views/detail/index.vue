@@ -216,41 +216,8 @@
                 </div>
               </div>
               <transition>
-                <router-view :attrItem="attrItem" :goodsIntroduc="goodsIntroduc" :show3d="goodsDesc.show3d" :saleService="goodsDesc.saleService"></router-view>
+                <router-view :attrItem="attrItem" :goodsIntroduc="goodsIntroduc" :show3d="goodsDesc.show3d" :saleService="goodsDesc.saleService" :scroll='scroll'></router-view>
               </transition>
-              <!-- <div class="tab-pane">
-                <ul class="goods-intro unstyled">
-                  <li v-for="item in attrItem" :key="item.text">{{item.text}}：{{item.value}}</li>
-                </ul>
-                <div class="intro-detail" v-html="goodsIntroduc">
-                  {{goodsIntroduc}}
-                </div>
-              </div> -->
-              <!-- <el-tabs  v-model="activeName" type="border-card" class="sui-nav nav-tabs tab-wraped" style="display: block !important;">
-                <el-tab-pane label="规格与包装" name="two">
-                  <div class="tab-pane">
-                    <ul class="goods-intro unstyled">
-                      <li v-for="(item, index) in goodsDesc.packageList" :key="index">{{item}}</li>
-                      <li v-for="item in JSON.parse(goodsDesc.customAttributeItems)" :key="item.text">{{item.text}}：{{item.value}}</li>
-                    </ul>
-                  </div>
-                </el-tab-pane>
-                <el-tab-pane label="售后保障" name="three">
-                  <div class="tab-pane">
-                    <p>{{goodsDesc.saleService}}</p>
-                  </div>
-                </el-tab-pane>
-                <el-tab-pane label="商品评价" name="four">
-                  <div id="four" class="tab-pane">
-                    <p>商品评价</p>
-                  </div>
-                </el-tab-pane>
-                <el-tab-pane label="3D展示" name="five">
-                  <div id="five" class="tab-pane">
-                    <p @click="threeDUrl('http://120.79.93.197/we1/')"><img src="static/img/intro02.png" /></p>
-                  </div>
-                </el-tab-pane>
-              </el-tabs> -->
             </div>
           </div>
         </div>
@@ -347,7 +314,8 @@ export default {
       tabNav: '商品介绍',
       changeShowType: 'navShop',
       addrOptions: [],
-      starValue: 5
+      starValue: 5,
+      scroll: {}
     }
   },
   components: { shortcut, headerNav, pageFooter, absBox, imgZoom },
@@ -370,6 +338,16 @@ export default {
       })
     })
     console.log(this.addrOptions)
+    let routerChild = this.$route.path.split('/')[2]
+    if (routerChild === 'review') {
+      this.tabNav = '商品评价'
+    } else if (routerChild === 'afterSale') {
+      this.tabNav = '售后保障'
+    } else if (routerChild === '3D') {
+      this.tabNav = '3D展示'
+    } else {
+      this.tabNav = '商品介绍'
+    }
     apiAxios.AxiosG({
       url: api.detailTest,
       params: { goodsId: this.$route.query.goodsId, skuId: this.$route.query.skuId || '' }
@@ -488,6 +466,7 @@ export default {
       }
       this.num--
     },
+    // 加入购物车
     submit () {
       if (this.selectSku.id) {
         if (this.$cookies.get('user-key')) { // 判断是否登陆
@@ -510,6 +489,7 @@ export default {
         this.$message.info('请核对信息, 重新加入')
       }
     },
+    // 立即购买
     buyShops () {
       if (this.selectSku.id) {
         if (this.$cookies.get('user-key')) { // 判断是否登陆
@@ -517,6 +497,7 @@ export default {
             if (val.id === this.selectSku.id) {
               let lend = {}
               let lendArr = []
+              let timestamp = new Date().getTime()
               lend.checked = 1
               lend.goodsId = val.goodsId
               lend.itemId = val.id
@@ -528,8 +509,8 @@ export default {
               lend.title = val.title
               lend.totalFee = (this.num * val.price).toFixed(2)
               lendArr.push(lend)
-              setStore('selectList', lendArr)
-              this.$router.push({path: '/getOrderInfo', query: {skuId: this.selectSku.id, num: this.num}})
+              setStore('selectList' + timestamp, lendArr)
+              this.$router.push({path: '/getOrderInfo', query: {skuId: this.selectSku.id, num: this.num, random: timestamp}})
               break
             }
           }
@@ -597,6 +578,9 @@ export default {
     },
     tab (name, path) {
       let queryList = this.$route.query
+      this.scroll = { scrollTop: document.documentElement.scrollTop }
+      console.log(this.scroll)
+      Object.assign(queryList, this.scroll)
       this.$router.push({path: '/detail/' + path, query: queryList})
       this.tabNav = name
     },

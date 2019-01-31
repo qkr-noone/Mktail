@@ -329,7 +329,9 @@ export default {
           { required: false, message: '请输入E-mail', trigger: 'blur' },
           { min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur' }
         ]
-      }
+      },
+      skuId: '',
+      random: ''
     }
   },
   components: { shortcutHeader, pageFooter },
@@ -338,11 +340,17 @@ export default {
     this.$destroy()
   },
   created () {
-    let cartList = JSON.parse(getStore('cartList'))
-    for (let val of cartList) {
-      for (let item of val.orderItemList) {
-        if (item.checked === 1) {
-          this.goodSkuList.push(item)
+    this.skuId = this.$route.query.skuId
+    this.random = this.$route.query.random
+    if (this.skuId) {
+      this.goodSkuList = JSON.parse(getStore('selectList' + this.random))
+    } else {
+      let cartList = JSON.parse(getStore('cartList'))
+      for (let val of cartList) {
+        for (let item of val.orderItemList) {
+          if (item.checked === 1) {
+            this.goodSkuList.push(item)
+          }
         }
       }
     }
@@ -404,31 +412,40 @@ export default {
     },
     // 提交订单
     submitOrder () {
-      // 提交的数据在购物车具体的属性参数（选中、数量）可能修改了，再次获取
-      let cartList = JSON.parse(getStore('cartList'))
-      console.table(cartList)
-      if (!cartList.length) {
-        this.$message.error('获取用户订单信息失败')
-        return false
-      }
+      let price = 0
       let selectList = []
-      for (let val of cartList) {
-        for (let item of val.orderItemList) {
-          if (item.checked === 1) {
-            selectList.push(item)
+      let cartList = []
+      if (this.skuId) {
+        // 从立即购买 过来
+        this.$message.error('获取用户订单信息失败')
+        this.goodSkuList.forEach(item => {
+          price += Number(item.totalFee)
+        })
+        price = price.toFixed(2)
+      } else {
+        // 提交的数据在购物车具体的属性参数（选中、数量）可能修改了，再次获取
+        cartList = JSON.parse(getStore('cartList'))
+        console.log(cartList, 1)
+        if (!cartList.length) {
+          this.$message.error('获取用户订单信息失败')
+          return false
+        }
+        for (let val of cartList) {
+          for (let item of val.orderItemList) {
+            if (item.checked === 1) {
+              selectList.push(item)
+            }
           }
         }
+        if (!selectList.length) {
+          this.$message.error('获取用户订单信息失败')
+          return false
+        }
+        selectList.forEach(item => {
+          price += Number(item.totalFee)
+        })
+        price = price.toFixed(2)
       }
-      console.table(selectList)
-      if (!selectList.length) {
-        this.$message.error('获取用户订单信息失败')
-        return false
-      }
-      let price = 0
-      selectList.forEach(item => {
-        price += Number(item.totalFee)
-      })
-      price = price.toFixed(2)
       let createTime = this.formatDate(new Date())
       let order = {
         payment: price, // "实付金额",
@@ -456,7 +473,7 @@ export default {
         source_type: 2, // "订单来源：1:app端，2：pc端，3：M端，4：微信端，5：手机qq端",
         seller_id: '' // "商家ID"
       }
-      let orderInfo = this.$route.query.skuId ? api.directOrderInfo : api.getOrderInfo
+      let orderInfo = this.skuId ? api.directOrderInfo : api.getOrderInfo
       apiAxios.AxiosP({
         url: orderInfo,
         params: {userName: this.$cookies.get('user-key')},
@@ -464,24 +481,25 @@ export default {
       }, rtn => {
         if (rtn.data.success) {
           this.$message.success('提交订单成功')
-          console.log(selectList, cartList)
-          selectList.forEach(val => {
-            for (let item of cartList) {
-              for (let index in item.orderItemList) {
-                if (item.orderItemList[index].itemId === val.itemId) {
-                  this.$delete(item.orderItemList, index)
-                  if (!item.orderItemList.length) {
-                    this.$delete(cartList, cartList.indexOf(item))
-                    console.log('成功删除购物车对应数据')
+          if (this.skuId) {} else {
+            console.log(cartList, 2)
+            selectList.forEach(val => {
+              for (let item of cartList) {
+                for (let index in item.orderItemList) {
+                  if (item.orderItemList[index].itemId === val.itemId) {
+                    this.$delete(item.orderItemList, index)
+                    if (!item.orderItemList.length) {
+                      this.$delete(cartList, cartList.indexOf(item))
+                      console.log('成功删除购物车对应数据')
+                    }
+                    break
                   }
-                  console.log(cartList.indexOf(item))
-                  break
                 }
               }
-            }
-            console.log(cartList)
-          })
-          setStore('cartList', cartList)
+            })
+            console.log(cartList, 3)
+            setStore('cartList', cartList)
+          }
           this.$router.push({path: '/payHome'})
         } else {
           this.$message.error('提交订单失败')
