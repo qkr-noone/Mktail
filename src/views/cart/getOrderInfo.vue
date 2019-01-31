@@ -281,16 +281,16 @@
   </div>
 </template>
 <script>
-import { mapState } from 'vuex'
+import { mapMutations } from 'vuex'
 import shortcutHeader from '../../components/shortcutHeader'
 import pageFooter from '../../components/pageFooter'
-import { apiAxios, getStore, removeStore } from '../../common/utils'
+import { apiAxios, getStore, setStore } from '../../common/utils'
 import { api } from '../../common/api'
 export default {
   data () {
     return {
       addressList: '',
-      goodSkuList: '',
+      goodSkuList: [],
       totalNum: 0,
       totalPrice: 0,
       submitPrice: '',
@@ -333,15 +333,20 @@ export default {
     }
   },
   components: { shortcutHeader, pageFooter },
-  computed: {
-    ...mapState(['cartList'])
-  },
   activated () {},
   deactivated () {
     this.$destroy()
   },
   created () {
-    if (!JSON.parse(getStore('selectList'))) {
+    let cartList = JSON.parse(getStore('cartList'))
+    for (let val of cartList) {
+      for (let item of val.orderItemList) {
+        if (item.checked === 1) {
+          this.goodSkuList.push(item)
+        }
+      }
+    }
+    if (!this.goodSkuList.length) {
       this.$message.warning('信息有误')
       this.$router.go(-1)
     }
@@ -361,11 +366,6 @@ export default {
         }
       }
     })
-    this.goodSkuList = JSON.parse(getStore('selectList'))
-    // for (let val in this.spec) {
-    //   ts += val + '：' + this.spec[val]
-    //   ts += ''
-    // }
     this.goodSkuList.forEach(item => {
       this.totalNum += Number(item.num)
     })
@@ -376,6 +376,9 @@ export default {
     this.submitPrice = this.totalPrice
   },
   methods: {
+    ...mapMutations([
+      'setCartList'
+    ]),
     // 比较指定对象属性值大小 降序
     compare (property) {
       return (a, b) => {
@@ -401,9 +404,34 @@ export default {
     },
     // 提交订单
     submitOrder () {
+      // 提交的数据在购物车具体的属性参数（选中、数量）可能修改了，再次获取
+      let cartList = JSON.parse(getStore('cartList'))
+      console.table(cartList)
+      if (!cartList.length) {
+        this.$message.error('获取用户订单信息失败')
+        return false
+      }
+      let selectList = []
+      for (let val of cartList) {
+        for (let item of val.orderItemList) {
+          if (item.checked === 1) {
+            selectList.push(item)
+          }
+        }
+      }
+      console.table(selectList)
+      if (!selectList.length) {
+        this.$message.error('获取用户订单信息失败')
+        return false
+      }
+      let price = 0
+      selectList.forEach(item => {
+        price += Number(item.totalFee)
+      })
+      price = price.toFixed(2)
       let createTime = this.formatDate(new Date())
       let order = {
-        payment: this.submitPrice, // "实付金额",
+        payment: price, // "实付金额",
         payment_type: 1, // "支付类型,1、在线支付，2、货到付款"
         post_fee: '', // "邮费",
         status: 1, // "状态：1未付款.2已付款.3未发货.4已发货.5交易成功.6交易关闭.7待评价",
@@ -436,8 +464,25 @@ export default {
       }, rtn => {
         if (rtn.data.success) {
           this.$message.success('提交订单成功')
-          removeStore('selectList')
-          this.$router.push({path: '/pay'})
+          console.log(selectList, cartList)
+          selectList.forEach(val => {
+            for (let item of cartList) {
+              for (let index in item.orderItemList) {
+                if (item.orderItemList[index].itemId === val.itemId) {
+                  this.$delete(item.orderItemList, index)
+                  if (!item.orderItemList.length) {
+                    this.$delete(cartList, cartList.indexOf(item))
+                    console.log('成功删除购物车对应数据')
+                  }
+                  console.log(cartList.indexOf(item))
+                  break
+                }
+              }
+            }
+            console.log(cartList)
+          })
+          setStore('cartList', cartList)
+          this.$router.push({path: '/payHome'})
         } else {
           this.$message.error('提交订单失败')
         }

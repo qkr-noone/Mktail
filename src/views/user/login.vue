@@ -72,9 +72,9 @@
   </div>
 </template>
 <script>
-import { mapMutations } from 'vuex'
+import { mapMutations, mapState } from 'vuex'
 import regFooter from '../../components/regFooter'
-import { apiAxios } from '../../common/utils'
+import { apiAxios, setStore } from '../../common/utils'
 import { api } from '../../common/api'
 export default {
   data () {
@@ -85,6 +85,9 @@ export default {
     }
   },
   components: {regFooter},
+  computed: {
+    ...mapState(['userInfo'])
+  },
   created () {
     let curRoute = this.$route.path
     this.isHome = (curRoute === '/home' ? '' : '/home')
@@ -96,7 +99,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['setCartList']),
+    ...mapMutations(['setCartList', 'setUserInfo']),
     accountNumber () {
       this.account = true
     },
@@ -120,6 +123,7 @@ export default {
           this.$message.success('登陆成功')
           this.$cookies.set('user-key', this.username)
           this.$cookies.set('userInfo', (rtn.data.data))
+          this.setUserInfo(rtn.data.data)
           this.password = ''
           this.cart()
         } else {
@@ -137,6 +141,7 @@ export default {
           this.setCartList(rtn.data.data)
         } else { // 购物车为空
         }
+        setStore('cartList', rtn.data.data)
       })
       this.$router.push(this.$route.query.back)
     }

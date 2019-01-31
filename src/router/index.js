@@ -86,6 +86,13 @@ router = new Router({
       component: resolve => require(['@/views/cart/getOrderInfo'], resolve)
     },
     {
+      path: '/payHome',
+      meta: {
+        isLogin: true
+      },
+      component: resolve => require(['@/views/cart/payHome'], resolve)
+    },
+    {
       path: '/pay',
       meta: {
         isLogin: true

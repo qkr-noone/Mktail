@@ -34,6 +34,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   name: 'shortcutHeader',
   data () {
@@ -43,6 +44,9 @@ export default {
     }
   },
   props: [],
+  computed: {
+    ...mapState(['userInfo'])
+  },
   created () {
     let curRoute = this.$route.path
     this.isHome = (curRoute === '/home' ? '' : '/home')
@@ -51,12 +55,18 @@ export default {
     this.username = this.$cookies.isKey('userInfo') ? this.$cookies.get('userInfo').username : ''
   },
   activated () {
-    this.username = this.$cookies.isKey('userInfo') ? this.$cookies.get('userInfo').username : ''
+    // this.username = this.$cookies.isKey('userInfo') ? this.$cookies.get('userInfo').username : ''
   },
   deactivated () {},
   methods: {
     home () {
       this.$router.push({path: '/home'})
+    }
+  },
+  watch: {
+    userInfo () {
+      console.log('userInfo')
+      this.username = this.$cookies.isKey('userInfo') ? this.$cookies.get('userInfo').username : ''
     }
   }
 }

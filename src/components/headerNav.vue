@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { getStore } from '../common/utils'
 export default {
   name: 'headerNav',
   data () {
@@ -51,10 +51,11 @@ export default {
   },
   props: [],
   computed: {
-    ...mapState(['cartList']),
     cartNum () {
       let num = 0
-      this.cartList && this.cartList.forEach(item => {
+      let cartList = JSON.parse(getStore('cartList'))
+      console.log(cartList)
+      cartList && cartList.forEach(item => {
         item.orderItemList.forEach(list => {
           num += Number(list.num)
         })

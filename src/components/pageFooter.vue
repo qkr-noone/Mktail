@@ -89,7 +89,7 @@ export default {
 /* footer */
   footer,.footer-v1,.footer-service{
     margin: 0 auto;
-    min-width: 990px;
+    min-width: 1226px;
     background-size: cover;
     background-color: #f5f5f5;
     overflow: hidden;

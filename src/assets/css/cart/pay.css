@@ -42,6 +42,7 @@
   .pay .money {
     font-size: 16px;
     color: #E50B0B;
+    font-family:SourceHanSansCN-Light;
   }
   .pay-price {
     padding: 0 10px;
@@ -62,7 +63,7 @@
   
   .checkout-steps {
     border: 1px solid #ddd;
-    padding: 25px
+    padding: 8px 10px 35px 10px;
   }  
   .pay .paymark {
     overflow: hidden;
@@ -91,22 +92,19 @@
   }
   
   .checkout-steps {
-    border: 1px solid #ddd;
-    padding: 25px;
-    width: 990px;
-    margin: 0 auto
+    width: 1226px;
+    box-shadow:0px 0px 13px 0px rgba(83,83,83,0.18);
+    margin: 0 auto;
+    margin-top: 30px;
   }
   
   .checkout-steps .phone {
-    margin-left: 40px
-  }
-  
-  .checkout-steps .red {
-    color: red
+    margin-left: 120px
   }
   
   .checkout-steps .saosao {
-    background: url(/static/img/icon-red.png) 50px 8px no-repeat #ff7674;
+    background: url(/static/img/mk_pay_focus.png) 50px 8px no-repeat #ff7674;
+    background-size: 47px 47px; 
     margin-top: 15px;
     padding: 8px 0 8px 125px
   }
@@ -121,10 +119,39 @@
   
   /* 自定义 */
   .checkout-tit>span>em { font-style: normal; }
-  .weixin{ text-align: left; }
-  .sao{ display: flex;justify-content: space-around; }
+  .weixin{ text-align: left; display: flex; align-items: flex-end;}
+  .weixin span {
+    font-size: 24px;
+    color: #4A4A4A;
+  }
+  .weixin .red{
+    font-size: 13px;
+    margin-left: 38px;
+  }
+  .second{
+    font-style: normal;
+    color: #F14141;
+  }
+  .over{
+    color: #F14141;
+  }
+  .sao{
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+  }
   .other-pay {
   	margin-top: 50px;
-  
+    padding-left: 20px;
   }
   .other-pay >a{ color: #28a3ef; }
+  .other-pay :nth-child(n){
+    cursor: pointer;
+  }
+  .code-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border:1px solid rgba(242,242,242,1);
+    padding: 20px;
+  }
