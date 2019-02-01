@@ -236,6 +236,9 @@
   }
 /* 商品及服务信息*/
   .goods{}
+  li.goods-li+li{
+    margin-top: 30px;
+  }
   .goods-box {}
   .goods-head{
     display: flex;

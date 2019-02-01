@@ -62,6 +62,7 @@
                           :id="item.itemId"
                           :limit="item.limitNum"
                           :sellerId="item.sellerId"
+                          :checked="item.checked"
                             @edit-num="EditNum">
                   </buyNum>
                   <li class="cart-4"><span class="sum">{{(item.price * item.num).toFixed(2)}}</span></li>
@@ -271,8 +272,8 @@ export default {
         })
       }
     },
-    EditNum (productNum, productSkuId, sellerId) { // 修改数量
-      this._cartEditNum(productSkuId, productNum, sellerId)
+    EditNum (productNum, productSkuId, sellerId, checked) { // 修改数量
+      this._cartEditNum(productSkuId, productNum, sellerId, checked)
     },
     cartDel (productSkuId, sellerId) { // 删除单条购物车数据
       this._cartDel(productSkuId, sellerId)

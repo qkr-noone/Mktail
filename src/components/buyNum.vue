@@ -43,7 +43,7 @@ export default {
       type: [Number, String]
     },
     checked: {
-      type: [String, Boolean]
+      type: [Number, Boolean]
     },
     limit: {
       type: Number,
@@ -74,7 +74,7 @@ export default {
     },
     blur () {
       this.Num = this.Num > this.limit ? Number(this.limit) : Number(this.Num)
-      this.$emit('edit-num', this.Num, this.id, this.sellerId)
+      this.$emit('edit-num', this.Num, this.id, this.sellerId, this.checked)
     },
     ani (opera) {
       this.flag = false
@@ -102,7 +102,7 @@ export default {
         this.domInt(ulStyle)
         this.flag = true
       })
-      this.$emit('edit-num', this.Num, this.id, this.sellerId)
+      this.$emit('edit-num', this.Num, this.id, this.sellerId, this.checked)
     },
     domInt (domStyle) {
       domStyle.zIndex = '1'

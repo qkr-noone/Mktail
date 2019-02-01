@@ -18,9 +18,11 @@ let api = {
   cartDelete: '/cart/cart/deleteCartGood', // 删除购物车某条商品
   cartAllDelete: '/cart/cart/deleteCartGoodAll', // 删除全部、选中购物车数据
   addressListByUser: '/cart/address/findListByLoginUser', // 根据用户获取返回收货地址集合
+  addressAdd: '/cart/address/add', // 新增收货地址
   getOrderInfo: '/cart/order/add', // 从购物车进入 提交订单
   directOrderInfo: '/cart/order/directAdd', // 从立即购买进入 提交订单
   payPageInfo: '/cart/order/searchPayLog', // 支付页面信息
+  payMkWallet: '/cart/pay/paymentByMKTailBag', // 使用MKTail零钱买单
   payCreate: '/cart/pay/createNative', // 创建微信支付链接
   payOrder: '/cart/pay/queryPayStatus', // 支付订单状态查询
   sendCode: '/user/user/sendCode', // 发送手机验证码

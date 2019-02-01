@@ -107,10 +107,10 @@
         </div>
         <div class="goods">
           <ul>
-            <li>
+            <li class="goods-li" v-for="data in orderList" :key="data.sellerId">
               <div class="goods-box">
                 <div class="goods-head">
-                  <div class="goods-h1"><h4>希箭官方旗舰店</h4><img src="static/img/mk_addorder-service.png"></div>
+                  <div class="goods-h1"><h4>{{data.sellerName}}</h4><img src="static/img/mk_addorder-service.png"></div>
                   <div class="goods-h2">服务信息</div>
                   <div class="goods-h3">单价</div>
                   <div class="goods-h4">数量</div>
@@ -118,7 +118,7 @@
                 </div>
                 <div class="goods-con">
                   <ul class="goods-h1">
-                    <li class="go-detail" v-for="list in goodSkuList" :key="list.itemId">
+                    <li class="go-detail" v-for="list in data.orderItemList" :key="list.itemId">
                       <router-link :to="{path: '/detail', query:{goodsId: list.goodsId,skuId: list.itemId}}"><img :src="list.picPath"></router-link>
                       <div class="go-de-title">
                         <h5>{{list.title}}</h5>
@@ -130,13 +130,13 @@
                     <div>支付完成后尽快为您发货</div>
                   </div>
                   <div class="goods-h3 Top">
-                    <li class="go-price Center" v-for="list in goodSkuList" :key="list.itemId">¥ {{list.price}}</li>
+                    <li class="go-price Center" v-for="list in data.orderItemList" :key="list.itemId">¥ {{list.price}}</li>
                   </div>
                   <div class="goods-h4 Top">
-                    <li class="go-price Center" v-for="list in goodSkuList" :key="list.itemId">{{list.num}}</li>
+                    <li class="go-price Center" v-for="list in data.orderItemList" :key="list.itemId">{{list.num}}</li>
                   </div>
                   <div class="goods-h5 Top last">
-                    <li class="go-price Center" v-for="list in goodSkuList" :key="list.itemId">¥{{list.totalFee}}</li>
+                    <li class="go-price Center" v-for="list in data.orderItemList" :key="list.itemId">¥{{list.totalFee}}</li>
                   </div>
                 </div>
                 <div class="goods-tip">
@@ -263,14 +263,14 @@
           <el-form-item label="" prop="otherTag">
             <el-input v-model="ruleForm.otherTag"  placeholder="填写其他标签" class="otherTag"></el-input>
           </el-form-item>
-          <el-form-item label="" prop="isSelect">
-            <el-checkbox-group v-model="ruleForm.isSelect">
-              <el-checkbox label="设为默认收货地址 设置后我们将在您购物时自动选中该收货地址" name="isSelect" class="isSelect"></el-checkbox>
+          <el-form-item label="" prop="isDefault">
+            <el-checkbox-group v-model="ruleForm.isDefault">
+              <el-checkbox label="设为默认收货地址 设置后我们将在您购物时自动选中该收货地址" name="isDefault" class="isDefault"></el-checkbox>
             </el-checkbox-group>
           </el-form-item>
         </el-form>
         <div class="user-inf-push">
-          <a href="javascript:;">保存并使用</a>
+          <a href="javascript:;" @click="submitForm('ruleForm')">保存并使用</a>
         </div>
         <div class="close" @click="closeForm()">
           <i class="el-icon-close"></i>
@@ -291,6 +291,7 @@ export default {
     return {
       addressList: '',
       goodSkuList: [],
+      orderList: [],
       totalNum: 0,
       totalPrice: 0,
       submitPrice: '',
@@ -301,13 +302,19 @@ export default {
       formDesc: '',
       isForm: false,
       ruleForm: {
-        name: '',
-        tag: ''
+        username: '',
+        mobile: '',
+        phone: '',
+        address: '',
+        deAddress: '',
+        tag: '',
+        otherTag: '',
+        isDefault: false
       },
       rules: {
         username: [
           { required: true, message: '请输入姓名', trigger: 'blur' },
-          { min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur' }
+          { min: 1, max: 40, message: '长度在 1 到 40 个字符', trigger: 'blur' }
         ],
         mobile: [
           { required: true, message: '请输入联系手机：', trigger: 'blur' },
@@ -319,11 +326,11 @@ export default {
         ],
         address: [
           { required: true, message: '请选择地区', trigger: 'blur' },
-          { min: 1, max: 40, message: '长度在 1 到 40 个字符', trigger: 'blur' }
+          { min: 1, max: 60, message: '长度在 1 到 60 个字符', trigger: 'blur' }
         ],
         deAddress: [
           { required: true, message: '请输入详细地址', trigger: 'blur' },
-          { min: 1, max: 40, message: '长度在 1 到 40 个字符', trigger: 'blur' }
+          { min: 1, max: 90, message: '长度在 1 到 90 个字符', trigger: 'blur' }
         ],
         otherTag: [
           { required: false, message: '请输入E-mail', trigger: 'blur' },
@@ -335,17 +342,19 @@ export default {
     }
   },
   components: { shortcutHeader, pageFooter },
-  activated () {},
-  deactivated () {
-    this.$destroy()
-  },
   created () {
     this.skuId = this.$route.query.skuId
     this.random = this.$route.query.random
     if (this.skuId) {
       this.goodSkuList = JSON.parse(getStore('selectList' + this.random))
+      // this.$set(orderItemList, 0, orderItemList)
+      this.$set(this.orderList, 0, {orderItemList: this.goodSkuList})
+      this.$set(this.orderList, 0, {sellerId: this.goodSkuList[0].sellerId})
+      this.$set(this.orderList, 0, {sellerName: this.goodSkuList[0].sellerName})
+      console.log(this.orderList, 90)
     } else {
       let cartList = JSON.parse(getStore('cartList'))
+      this.orderList = cartList
       for (let val of cartList) {
         for (let item of val.orderItemList) {
           if (item.checked === 1) {
@@ -376,12 +385,11 @@ export default {
     })
     this.goodSkuList.forEach(item => {
       this.totalNum += Number(item.num)
-    })
-    this.goodSkuList.forEach(item => {
       this.totalPrice += Number(item.totalFee)
     })
     this.totalPrice = (this.totalPrice).toFixed(2)
     this.submitPrice = this.totalPrice
+    console.log(this.goodSkuList)
   },
   methods: {
     ...mapMutations([
@@ -417,6 +425,7 @@ export default {
       let cartList = []
       if (this.skuId) {
         // 从立即购买 过来
+        console.log(0)
         this.$message.error('获取用户订单信息失败')
         this.goodSkuList.forEach(item => {
           price += Number(item.totalFee)
@@ -427,6 +436,7 @@ export default {
         cartList = JSON.parse(getStore('cartList'))
         console.log(cartList, 1)
         if (!cartList.length) {
+          console.log(1)
           this.$message.error('获取用户订单信息失败')
           return false
         }
@@ -438,6 +448,7 @@ export default {
           }
         }
         if (!selectList.length) {
+          console.log(2)
           this.$message.error('获取用户订单信息失败')
           return false
         }
@@ -513,6 +524,38 @@ export default {
       this.isForm = false
     },
     setAddress () {
+    },
+    // 新增地址
+    submitForm (formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          let address = this.ruleForm
+          console.log(this.ruleForm)
+          apiAxios.AxiosP({
+            url: api.addressAdd,
+            data: address
+          }, res => {
+            if (res.data.success) {
+              this.$notify.success({
+                title: '成功',
+                message: '新增地址成功'
+              })
+            } else {
+              this.$notify.error({
+                title: '错误',
+                message: '新增地址失败'
+              })
+            }
+          })
+          // this.isForm = false
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: '输入信息有误'
+          })
+          return false
+        }
+      })
     }
   },
   watch: {

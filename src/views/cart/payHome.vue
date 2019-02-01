@@ -107,6 +107,10 @@ export default {
         this.once = false
         if (this.isChecked) {
           if (this.password.length > 5) {
+            apiAxios.AxiosG({
+              url: api.payMkWallet,
+              params: {userName: this.$cookies.get('user-key'), paymentPassword: 123456, orderId: this.orderInfo}
+            })
             this.$router.push({path: '/paysuccess'})
             // this.$router.push({path: '/payfail'})
           } else this.isPassword = true
