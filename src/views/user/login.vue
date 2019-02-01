@@ -244,6 +244,7 @@ export default {
    font-weight:400;
    color:rgba(135,135,135,1);
    margin-top: 20px;
+   cursor:pointer;
   }
   .loginform .reg a{
     font-size:16px;

@@ -156,12 +156,13 @@
                         <option>中国香港</option>
                       </select>
                       <input type="text" class="input-xfat input-xlarge mobile" maxlength="16" v-model="phoneValue">
+                      <button class="getPhoneCode" @click="sendCode()">获取手机验证码</button>
                     </div>
                   </div>
                   <div class="control-group">
                     <label class="control-label">验证码：</label>
                     <div class="controls">
-                      <input type="text" placeholder="请填写手机号" class="input-xfat input-xlarge" maxlength="16" >
+                      <input type="text" placeholder="请填写验证码" class="input-xfat input-xlarge" maxlength="16" v-model="smsCode">
                     </div>
                   </div>
                   <div class="control-group">
@@ -238,19 +239,19 @@ import { api } from '../../common/api'
 export default {
   data () {
     return {
-      userName: '',
-      password: '',
-      REpassword: '',
+      userName: '', // 用户名
+      password: '', // 密码
+      REpassword: '', // 再次输入密码
       checked: false,
       phoneValue: '', // 13109098765
       flag: false, // 是否已发送验证码
       time: 60, // 验证码限制时间
       newsTip: '获取短信验证码',
-      smscode: '',
+      smsCode: '',
       isHome: '',
-      changeShowType: 'company',
+      changeShowType: 'company', // 企业注册
       show: 0,
-      isAgree: false
+      isAgree: false // 是否同意注册条款
     }
   },
   methods: {
@@ -274,6 +275,8 @@ export default {
         if (rtn.data.success) {
           this.$message.success(rtn.data.message)
           this.flag = true
+          this.smsCode = rtn.data.data
+          console.log(this.smsCode)
           this.newsTip = this.time + '秒后可重新获取'
           this.setTime()
         } else {
@@ -310,7 +313,7 @@ export default {
         this.$message.warning('请先获取验证码，再输入')
         return false
       }
-      if (!this.smscode) {
+      if (!this.smsCode) {
         this.$message.warning('请获取验证码')
         return false
       }
@@ -318,27 +321,28 @@ export default {
         this.$message.warning('请先同意并且勾选协议~')
         return false
       }
+      console.log(this.smsCode, this.userName, this.userName)
       // 新增
       let user = {
         username: this.userName,
         password: this.password,
         phone: this.phoneValue
       }
+      console.log(user, this.smsCode)
       apiAxios.AxiosP({
         url: api.register,
-        method: 'post',
-        params: {smscode: this.smscode},
+        params: {smscode: this.smsCode},
         data: user
       }, rtn => {
         if (rtn.data.success) {
-          this.smscode = ''
+          this.smsCode = ''
           this.time = 60
           this.password = ''
           this.REpassword = ''
           this.$message.success(rtn.data.message)
           this.$router.push({path: '/login'})
         } else {
-          this.smscode = ''
+          this.smsCode = ''
           this.time = 60
           this.$message.error(rtn.data.message)
         }
@@ -748,5 +752,8 @@ export default {
   }
   footer img{
     display: inline;
+  }
+  .getPhoneCode{
+    margin-left: 10px;
   }
 </style>
