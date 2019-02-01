@@ -3,8 +3,8 @@
     <div class="con-wrap">
       <div class="top">
         <div class="top_tab">
-          <span :class="{topTabActive:focusGoods===true}" @click="changeActive(true,1)">商品关注</span>
-          <span :class="{topTabActive:focusGoods===false}" @click="changeActive(false,2)">店铺关注</span>
+          <span :class="{topTabActive:focusGoods===true}" @click="changeActive(true)">商品关注</span>
+          <span :class="{topTabActive:focusGoods===false}" @click="changeActive(false)">店铺关注</span>
         </div>
         <div class="top_search">
           <input type="text" placeholder="请输入店铺名称">
@@ -41,77 +41,122 @@
         </div>
         <div class="goodsList" v-show="focusGoods===true">
           <ul>
-            <li class="goods-item">
-            <img src="static/img/user/user_collect1.png">
-            <p class="item-title">希箭HOROW全铜淋浴花洒套装挂墙式三出水单把双控空气注入增压花洒9寸经典圆全铜淋浴花洒套装挂墙式三出水单把双控空气注入增压花洒 </p>
-            <p class="item-price">¥215.00</p>
+            <li class="goods-item"  v-for="(goods,i) in goodsList" :key='i' >
+            <img :src="goods.image">
+            <p class="item-title">{{goods.title}} </p>
+            <p class="item-price">¥{{goods.price}}</p>
             <p class="inform-operation">
               <a>降价通知</a>
               <a>加入购物车</a>
             </p>
           </li>
-            <li class="goods-item">
-              <img src="static/img/user/user_collect1.png">
-              <p class="item-title">希箭HOROW全铜淋浴花洒套装挂墙式三出水单把双控空气注入增压花洒9寸经典圆全铜淋浴花洒套装挂墙式三出水单把双控空气注入增压花洒 </p>
-              <p class="item-price">¥215.00</p>
-              <p class="inform-operation">
-                <a>降价通知</a>
-                <a>加入购物车</a>
-              </p>
-            </li>
-            <li class="goods-item">
-              <img src="static/img/user/user_collect1.png">
-              <p class="item-title">希箭HOROW全铜淋浴花洒套装挂墙式三出水单把双控空气注入增压花洒9寸经典圆全铜淋浴花洒套装挂墙式三出水单把双控空气注入增压花洒 </p>
-              <p class="item-price">¥215.00</p>
-              <p class="inform-operation">
-                <a>降价通知</a>
-                <a>加入购物车</a>
-              </p>
-            </li>
-            <li class="goods-item">
-              <img src="static/img/user/user_collect1.png">
-              <p class="item-title">希箭HOROW全铜淋浴花洒套装挂墙式三出水单把双控空气注入增压花洒9寸经典圆全铜淋浴花洒套装挂墙式三出水单把双控空气注入增压花洒 </p>
-              <p class="item-price">¥215.00</p>
-              <p class="inform-operation">
-                <a>降价通知</a>
-                <a>加入购物车</a>
-              </p>
-            </li>
-            <li class="goods-item">
-              <img src="static/img/user/user_collect1.png">
-              <p class="item-title">希箭HOROW全铜淋浴花洒套装挂墙式三出水单把双控空气注入增压花洒9寸经典圆全铜淋浴花洒套装挂墙式三出水单把双控空气注入增压花洒 </p>
-              <p class="item-price">¥215.00</p>
-              <p class="inform-operation">
-                <a>降价通知</a>
-                <a>加入购物车</a>
-              </p>
-            </li>
           </ul>
         </div>
         <div class="storeList" v-show="focusGoods===false">
-          <p>这是店铺关注</p>
+          <ul>
+            <li class="list-item" v-for="(store,i) in temList" :key='i'>
+              <div class="store-info">
+                <img :src="store.shops.logoPic">
+                <p class="store-title">{{store.shops.name}}</p>
+                <el-rate v-model="starValue" disabled text-color="#FF9900" :colors="['#FF9900', '#FF9900', '#FF9900']"  class="store-star"></el-rate>
+                <p class="etc">粉丝：<span class="ect-num">{{store.shops.sellerFans}}</span></p>
+                <p class="contact-enter">
+                  <a class="contact">联系店铺</a>
+                  <a class="enter">进入店铺</a>
+                </p>
+              </div>
+              <div class="cell-product">
+                <a class="cellProductActive">热销</a>
+                <a >新品<span>(0)</span></a>
+              </div>
+              <ul>
+                <li class="store-item " v-if="storeGoods" v-for="(storeGoods,i) in store.child" :key='i'>
+                  <img :src="storeGoods.image">
+                  <p class="storeItem-title">{{storeGoods.title}}</p>
+                  <p class="storeItem-price">¥{{storeGoods.price}}</p>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+        <div class="block">
+          <el-pagination
+            @current-change="handleCurrentChange"
+            :current-page.sync="currentPage"
+            :page-size="2"
+            layout="prev, pager, next, jumper"
+            :total="4">
+          </el-pagination>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
+import { apiAxios } from '../../../common/utils'
+import { api } from '../../../common/api'
 export default {
   data () {
     return {
       username: '', // 用户名
       focusGoods: true, // 商品关注or店铺关注？
-      concernType: 1 // 关注类型
-    }
-  },
-  methods: {
-    changeActive (val1, val2) {
-      this.focusGoods = val1
-      this.concernType = val2
+      goodsList: [], // 收藏宝贝列表
+      storeList: [],
+      temList: [], // 临时列表
+      starValue: 5, // 评价星
+      currentPage: 0, // 当前页码
+      pageSize: 2 // 每页数
     }
   },
   mounted () {
     this.username = this.$cookies.isKey('userInfo') ? this.$cookies.get('userInfo').username : ''
+    this.requestGoods()
+    this.requestStore()
+  },
+  methods: {
+    changeActive (val) {
+      this.focusGoods = val
+    },
+    request: function (sellerId, shops) {
+      apiAxios.AxiosG({
+        url: api.goodsBySeller,
+        params: {sellerId: sellerId}
+      }, res => {
+        if (res.data.success) {
+          this.temList.push({child: res.data.data, shops: shops})
+        }
+      })
+      console.log(this.temList)
+    },
+    handleCurrentChange (val) {
+      this.currentPage = val
+      this.requestGoods()
+      this.requestStore()
+    },
+    requestGoods () {
+      apiAxios.AxiosG({
+        url: api.userCollectType,
+        params: {typeId: 1, userName: this.username, pageNum: this.currentPage, pageSize: this.pageSize}
+      }, res => {
+        if (res.data.success) {
+          this.goodsList = res.data.data
+        }
+      })
+    },
+    requestStore () {
+      this.temList = []
+      apiAxios.AxiosG({
+        url: api.userCollectType,
+        params: {typeId: 2, userName: this.username, pageNum: this.currentPage, pageSize: this.pageSize}
+      }, res => {
+        if (res.data.success) {
+          this.storeList = res.data.data
+          this.storeList.forEach(item => {
+            this.request(item.sellerId, item)
+          })
+        }
+      })
+    }
   }
 }
 
@@ -216,7 +261,7 @@ export default {
     margin: 20px 15px 20px 0px;
   }
   .goodsList .goods-item>img{
-    width:243px;
+    width:241px;
   }
   .goodsList .goods-item .item-title{
     height:30px;
@@ -231,17 +276,18 @@ export default {
     font-size:12px;
     font-weight:400;
     color: #696969;
+    margin-left: 5px;
   }
   .goodsList .goods-item .item-price{
     font-size:22px;
     font-weight:400;
     color:rgba(230,0,0,1);
-    margin: 10px 0 13px 0;
+    margin: 10px 0 13px 5px;
   }
   .goodsList .goods-item .inform-operation{
-    height:33px;
+    height:35px;
     border-top:1px solid rgba(219,219,219,1);
-    line-height: 33px;
+    line-height: 35px;
   }
   .goodsList .goods-item .inform-operation>a{
     width:49%;
@@ -249,5 +295,111 @@ export default {
   }
   .goodsList .goods-item .inform-operation>a:first-child{
     border-right:1px solid rgba(219,219,219,1);
+  }
+  .storeList .list-item{
+    height:273px;
+    margin-top: 20px;
+    border:1px solid rgba(232,232,232,1);
+    position: relative;
+  }
+  .storeList>ul{
+    display: flex;
+    flex-direction: column;
+  }
+  .storeList .list-item .store-info{
+    width:231px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .storeList .list-item{
+    display: flex;
+  }
+  .storeList .list-item .store-info{
+    border-right:1px solid rgba(232,232,232,1);
+    position: relative;
+  }
+  .storeList .list-item .store-info>img{
+    margin: 23px 0 13px 0;
+    width:112px;
+    height:112px;
+  }
+  .storeList .list-item .store-info .store-title{
+    font-size:20px;
+    font-weight:400;
+    color:rgba(36,36,36,1);
+  }
+  .storeList .list-item .store-info .store-star{
+    color:#FF9900;
+    margin: 5px 0 7px 0;
+  }
+  .storeList .list-item .store-info .contact-enter{
+    width:100%;
+    height:39px;
+    position: absolute;
+    bottom: 0;
+    border-top: 1px solid rgba(232,232,232,1);
+    line-height: 39px;
+  }
+  .storeList .list-item .store-info .contact-enter>a{
+    width:49%;
+    text-align: center;
+  }
+  .store-info .contact-enter .contact{
+    border-right: 1px solid  rgba(232,232,232,1);
+  }
+  .store-info .etc{
+    font-size:13px;
+    color: #242424;
+    margin-top: 7px;
+  }
+  .storeList .list-item .cell-product{
+    width:122px;
+    height:18px;
+    font-size:13px;
+    color:rgba(49,49,49,1);
+    position: absolute;
+    top:13px;
+    left:260px;
+    border:1px solid rgba(232,232,232,1);
+  }
+  .storeList .list-item .cell-product>a{
+    width:48%;
+    text-align: center;
+  }
+  .cellProductActive{
+    background: #FF9900;
+    color: #FFFFFF;
+  }
+  .storeList .store-item{
+    margin: 40px 0 0 15px;
+  }
+  .store-FirstItem{
+    margin-left: 14px !important;
+  }
+ .store-item .storeItem-title{
+    font-size:13px;
+    color:rgba(49,49,49,1);
+    margin-top: 5px;
+    width: 151px;
+   text-overflow: ellipsis;
+   overflow : hidden;
+   display: -webkit-box;
+   -webkit-line-clamp: 2;
+   -webkit-box-orient: vertical;
+  }
+  .store-item>img{
+    width:139px;
+    height:139px;
+  }
+  .storeList .storeItem-price{
+    font-size:22px;
+    font-weight:400;
+    color:rgba(230,0,0,1);
+    margin-top: 10px;
+  }
+  .block{
+    text-align: right;
+    margin-top: 30px;
   }
 </style>

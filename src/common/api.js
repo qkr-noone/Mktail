@@ -28,7 +28,8 @@ let api = {
   login: '/user/login/authenticateUser', // 登陆
   user: '/personCenter/personCenter/findByCategoryIdInPersonCenter', // 进入用户中心
   userOrderStates: '/personCenter/personCenter/findAllOrderStatusByUsername', // 用户订单状态数量
-  userCollectType: '/userCollect/userCollect/findUserCollectByTypeAndUserName'// 用户关注类型
+  userCollectType: '/userCollect/userCollect/findUserCollectByTypeAndUserName', // 用户关注类型
+  goodsBySeller: '/userCollect/userCollect/findGoodsBySeller' // 收藏店铺商品
 }
 export {
   api

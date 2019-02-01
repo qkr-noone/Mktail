@@ -185,6 +185,26 @@ router = new Router({
           component: resolve => require(['@/views/user/children/userProtect'], resolve)
         },
         {
+          path: 'userInvoiceInfo',
+          component: resolve => require(['@/views/user/children/userInvoiceInfo'], resolve)
+        },
+        {
+          path: 'userInvoiceManage',
+          component: resolve => require(['@/views/user/children/userInvoiceManage'], resolve)
+        },
+        {
+          path: 'userRefundManage',
+          component: resolve => require(['@/views/user/children/userRefundManage'], resolve)
+        },
+        {
+          path: 'userComplaintManage',
+          component: resolve => require(['@/views/user/children/userComplaintManage'], resolve)
+        },
+        {
+          path: 'userReportManage',
+          component: resolve => require(['@/views/user/children/userReportManage'], resolve)
+        },
+        {
           path: 'userBuyHistory',
           component: resolve => require(['@/views/user/children/userBuyHistory'], resolve)
         }

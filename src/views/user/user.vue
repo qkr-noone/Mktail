@@ -1404,7 +1404,12 @@ export default {
         {name: '我的足迹', path: 'userHistory'},
         {name: '我的优惠', path: 'userFee'},
         {name: '我的发票', path: 'userTip'},
+        {name: '开票信息', path: 'userInvoiceInfo'},
+        {name: '发票管理', path: 'userInvoiceManage'},
         {name: '退款维权', path: 'userProtect'},
+        {name: '退款管理', path: 'userRefundManage'},
+        {name: '投诉管理', path: 'userComplaintManage'},
+        {name: '举报管理', path: 'userReportManage'},
         {name: '购买过的店铺', path: 'userBuyHistory'}
       ],
       orderStatesNum: '', // 用户订单状态数量
