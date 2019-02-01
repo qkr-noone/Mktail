@@ -22,6 +22,7 @@ let api = {
   getOrderInfo: '/cart/order/add', // 从购物车进入 提交订单
   directOrderInfo: '/cart/order/directAdd', // 从立即购买进入 提交订单
   payPageInfo: '/cart/order/searchPayLog', // 支付页面信息
+  payUserCash: '/cart/pay/findAccountBalanceByUserName', // 用户的账户余额
   payMkWallet: '/cart/pay/paymentByMKTailBag', // 使用MKTail零钱买单
   payCreate: '/cart/pay/createNative', // 创建微信支付链接
   payOrder: '/cart/pay/queryPayStatus', // 支付订单状态查询

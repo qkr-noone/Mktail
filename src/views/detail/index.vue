@@ -315,7 +315,9 @@ export default {
       changeShowType: 'navShop',
       addrOptions: [],
       starValue: 5,
-      scroll: {}
+      scroll: {},
+      addToCartSwicth: true,
+      buyshopsSwicth: true
     }
   },
   components: { shortcut, headerNav, pageFooter, absBox, imgZoom },
@@ -468,7 +470,8 @@ export default {
     },
     // 加入购物车
     submit () {
-      if (this.selectSku.id) {
+      if (this.selectSku.id && this.addToCartSwicth) {
+        this.addToCartSwicth = false
         if (this.$cookies.get('user-key')) { // 判断是否登陆
           apiAxios.AxiosG({
             url: api.addToCart,
@@ -485,13 +488,16 @@ export default {
         } else {
           this.isMaskLogin = true
         }
+        this.addToCartSwicth = true
       } else {
+        if (!this.addToCartSwicth) return false
         this.$message.info('请核对信息, 重新加入')
       }
     },
     // 立即购买
     buyShops () {
-      if (this.selectSku.id) {
+      if (this.selectSku.id && this.buyshopsSwicth) {
+        this.buyshopsSwicth = false
         if (this.$cookies.get('user-key')) { // 判断是否登陆
           for (let val of this.skuList) {
             if (val.id === this.selectSku.id) {
@@ -510,14 +516,16 @@ export default {
               lend.totalFee = (this.num * val.price).toFixed(2)
               lendArr.push(lend)
               setStore('selectList' + timestamp, lendArr)
-              this.$router.push({path: '/getOrderInfo', query: {skuId: this.selectSku.id, num: this.num, random: timestamp}})
+              this.$router.push({path: '/getOrderInfo', query: {skuId: this.selectSku.id, num: this.num, random: timestamp, sellerName: 'sellerName'}})
               break
             }
           }
         } else {
           this.isMaskLogin = true
         }
+        this.buyshopsSwicth = true
       } else {
+        if (!this.buyshopsSwicth) return false
         this.$message.info('请核对信息, 重新购买')
       }
     },

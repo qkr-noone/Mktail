@@ -6,7 +6,7 @@
       <div class="checkout py-container  pay">
         <div class="checkout-tit">
           <h4 class="tit-txt">
-            <span  class="success-info">订单提交成功，请尽快付款！订单号：82786356759</span>
+            <span  class="success-info">订单提交成功，请尽快付款！订单号：{{orderInfo.outTradeNo}}</span>
             <span>请您在<em class="pay-info-tip">24小时</em>内完成支付，否则订单会被自动取消（库存紧俏订单请参见详情页时限）</span>
           </h4>
           <span class="pay-price"><em>应付金额</em><em  class="money">{{totalFee}}</em>元</span>
@@ -27,10 +27,10 @@
             <span>MKTail零钱</span>
           </div>
           <div class="pay-h-box-2">
-            <span>可消费余额88.13元</span>
+            <span>可消费余额{{cash}}元</span>
             <a href="javascript:;"><i class="el-icon-plus"></i><span>余额充值</span></a>
           </div>
-          <div class="pay-h-box-3">支付<em>89.10</em>元</div>
+          <div class="pay-h-box-3">支付<em>{{totalFee}}</em>元</div>
         </div>
         <div class="pay-h-submit">
           <h5>请输入支付密码 <a href="javascript:;">忘记支付密码？</a></h5>
@@ -78,7 +78,8 @@ export default {
       isPassword: false,
       isChecked: true,
       password: '',
-      once: true
+      once: true,
+      cash: 0
     }
   },
   components: { pageFooter, checkoutCounter },
@@ -89,30 +90,50 @@ export default {
     }, rtn => {
       if (rtn.data.success) {
         this.orderInfo = rtn.data.data
+        console.log(this.orderInfo)
         this.totalFee = (rtn.data.data.totalFee / 100).toFixed(2)
       }
     })
     apiAxios.AxiosG({
-      url: api.payCreate,
+      url: api.payUserCash,
       params: {userName: this.$cookies.get('user-key')}
     }, rtn => {
       if (rtn.data.success) {
-        console.log(rtn)
+        this.cash = rtn.data.data
       }
     })
   },
   methods: {
     pay () {
+      let time = new Date().getTime()
+      let limit = 24 * 1000 * 60 * 60
+      if (time >= this.orderInfo.createTime + limit) {
+        this.notify.warning({
+          title: '订单取消',
+          message: '未在24小时内完成支付，订单已取消'
+        })
+        return false
+      }
       if (this.once) {
         this.once = false
         if (this.isChecked) {
           if (this.password.length > 5) {
             apiAxios.AxiosG({
               url: api.payMkWallet,
-              params: {userName: this.$cookies.get('user-key'), paymentPassword: 123456, orderId: this.orderInfo}
+              params: {userName: this.$cookies.get('user-key'), paymentPassword: this.password, orderId: this.orderInfo.orderList}
+            }, res => {
+              // Q. 支付状态 密码错误
+              if (res.data.success) {
+                console.log('支付成功', res)
+                this.$router.push({path: '/paysuccess'})
+              } else {
+                this.$notify.error({
+                  title: '失败',
+                  message: '支付失败'
+                })
+                this.$router.push({path: '/payfail'})
+              }
             })
-            this.$router.push({path: '/paysuccess'})
-            // this.$router.push({path: '/payfail'})
           } else this.isPassword = true
         } else this.$message.warning('请勾选钱包')
         this.once = true

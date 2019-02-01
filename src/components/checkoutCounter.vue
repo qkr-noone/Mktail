@@ -2,7 +2,7 @@
   <div>
     <div class="pay-title">
       <div class="pay-logo">
-        <a href="javascript:;"><img src="static/img/mk_logo_addorder.png"></a>
+        <router-link :to="{path: '/home'}"><img src="static/img/mk_logo_addorder.png"></router-link>
         <h5>收银台</h5>
       </div>
       <div class="pay-help">

@@ -345,19 +345,43 @@ export default {
   created () {
     this.skuId = this.$route.query.skuId
     this.random = this.$route.query.random
+    // Q. 店铺名字 （需在detail 取到并且传入）
+    let sellerName = this.$route.query.sellerName || ''
     if (this.skuId) {
       this.goodSkuList = JSON.parse(getStore('selectList' + this.random))
-      // this.$set(orderItemList, 0, orderItemList)
-      this.$set(this.orderList, 0, {orderItemList: this.goodSkuList})
-      this.$set(this.orderList, 0, {sellerId: this.goodSkuList[0].sellerId})
-      this.$set(this.orderList, 0, {sellerName: this.goodSkuList[0].sellerName})
-      console.log(this.orderList, 90)
+      let objList = {
+        orderItemList: [],
+        sellerId: this.goodSkuList[0].sellerId,
+        sellerName: sellerName
+      }
+      objList.orderItemList.push(this.goodSkuList[0])
+      this.orderList.push(objList)
+      console.log(this.orderList, this.goodSkuList, 99)
     } else {
       let cartList = JSON.parse(getStore('cartList'))
-      this.orderList = cartList
       for (let val of cartList) {
         for (let item of val.orderItemList) {
           if (item.checked === 1) {
+            let obj = {
+              orderItemList: [],
+              sellerId: val.sellerId,
+              sellerName: val.sellerName
+            }
+            obj.orderItemList.push(item)
+            let isHas = this.orderList.some(data => {
+              return (data.sellerId === obj.sellerId)
+            })
+            if (isHas) {
+              this.orderList.every(tip => {
+                if (tip.sellerId === obj.sellerId) {
+                  tip.orderItemList.push(item)
+                  return false
+                }
+                return true
+              })
+            } else {
+              this.orderList.push(obj)
+            }
             this.goodSkuList.push(item)
           }
         }
@@ -367,6 +391,7 @@ export default {
       this.$message.warning('信息有误')
       this.$router.go(-1)
     }
+    console.log(this.orderList, 100)
   },
   mounted () {
     apiAxios.AxiosG({
@@ -389,7 +414,6 @@ export default {
     })
     this.totalPrice = (this.totalPrice).toFixed(2)
     this.submitPrice = this.totalPrice
-    console.log(this.goodSkuList)
   },
   methods: {
     ...mapMutations([
