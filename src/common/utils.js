@@ -36,51 +36,16 @@ let apiAxios = {
           }
           return ret
         }
-        // function (data) {
-        //   let ret = ''
-        //   for (let it in data) {
-        //     ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
-        //   }
-        //   return ret
-        // }
       ],
-      headers: {
-        // 'X-Requested-With': 'XMLHttpRequest',
-        // 'Content-Type': '*/*'
-      }
+      headers: {}
     }).then(callback).catch(error)
   }
 }
 
-// 获取cookie、
-let getCookie = (name) => {
-  let param
-  if (document.cookie.length > 0) {
-    let arr = document.cookie.split('; ')
-    for (let i = 0; i < arr.length; i++) {
-      let arr2 = arr[i].split('=')
-      if (arr2[0] === name) {
-        param = arr2[1]
-      }
-    }
-    return param
-  }
+export {
+  apiAxios
 }
-// 设置cookie,增加到vue实例方便全局调用
-let setCookie = (name, value, expiredays) => {
-  let exdate = new Date()
-  exdate.setDate(exdate.getDate() + expiredays)
-  document.cookie = name + '=' + escape(value) + ((expiredays == null) ? '' : ';expires=' + exdate.toGMTString())
-}
-// 删除cookie
-let delCookie = (name) => {
-  let exp = new Date()
-  exp.setTime(exp.getTime() - 1)
-  let cval = getCookie(name)
-  if (cval != null) {
-    document.cookie = name + '=' + cval + ';expires=' + exp.toGMTString()
-  }
-}
+
 /**
  * 存储localStorage
  */
@@ -106,11 +71,4 @@ export const getStore = name => {
 export const removeStore = name => {
   if (!name) return
   window.localStorage.removeItem(name)
-}
-
-export {
-  apiAxios,
-  getCookie,
-  setCookie,
-  delCookie
 }

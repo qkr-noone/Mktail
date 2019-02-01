@@ -15,5 +15,4 @@ selenium-debug.log
 *.ntvs*
 *.njsproj
 *.sln
-
-img(1)
+/config/index.js

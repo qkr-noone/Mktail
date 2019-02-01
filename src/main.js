@@ -6,6 +6,8 @@ import router from './router'
 import ElementUI from 'element-ui'
 import store from './store'
 import 'element-ui/lib/theme-chalk/index.css'
+import VueCookies from 'vue-cookies'
+let VueScrollTo = require('vue-scrollto')
 // import VueVideoPlayer from 'vue-video-player'
 // import 'video.js/dist/video-js.css'
 // import 'vue-video-player/src/custom-theme.css'
@@ -14,6 +16,8 @@ import 'element-ui/lib/theme-chalk/index.css'
 
 Vue.config.productionTip = false
 Vue.use(ElementUI)
+Vue.use(VueScrollTo)
+Vue.use(VueCookies)
 // Vue.use(VueVideoPlayer)
 /* eslint-disable no-new */
 let vueDom = new Vue({

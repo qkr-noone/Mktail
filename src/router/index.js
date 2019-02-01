@@ -1,10 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import { getCookie } from '../common/utils'
+import VueCookies from 'vue-cookies'
 
+Vue.use(VueCookies)
 Vue.use(Router)
 
-let router = new Router({
+let router
+router = new Router({
   scrollBehavior (to, from, savedPosition) {
     if (savedPosition) {
       return savedPosition
@@ -12,7 +14,7 @@ let router = new Router({
       if (from.meta.keepAlive) {
         from.meta.savedPosition = document.body.scrollTop
       }
-      return { x: 0, y: to.meta.savedPosition || 0 }
+      return {x: 0, y: to.meta.savedPosition || 0}
     }
   },
   routes: [
@@ -37,30 +39,34 @@ let router = new Router({
     },
     {
       path: '/test/detail',
-      meta: {
-        keepAlive: false
-      },
       component: resolve => require(['@/views/test/detail'], resolve)
     },
     {
       path: '/search',
       name: 'search',
-      meta: {
-        keepAlive: false
-      },
       component: resolve => require(['@/views/search/index'], resolve)
     },
     {
       path: '/detail',
-      meta: {
-        keepAlive: false
-      },
-      component: resolve => require(['@/views/detail/index'], resolve)
+      redirect: '/detail/desciption',
+      component: resolve => require(['@/views/detail/index'], resolve),
+      children: [{
+        path: 'desciption',
+        component: resolve => require(['@/views/detail/children/desciption'], resolve)
+      }, {
+        path: '3D',
+        component: resolve => require(['@/views/detail/children/3D'], resolve)
+      }, {
+        path: 'review',
+        component: resolve => require(['@/views/detail/children/review'], resolve)
+      }, {
+        path: 'afterSale',
+        component: resolve => require(['@/views/detail/children/afterSale'], resolve)
+      }]
     },
     {
       path: '/addToCart',
       meta: {
-        keepAlive: false,
         isLogin: true
       },
       component: resolve => require(['@/views/cart/addToCart'], resolve)
@@ -68,7 +74,6 @@ let router = new Router({
     {
       path: '/cart',
       meta: {
-        keepAlive: false,
         isLogin: true
       },
       component: resolve => require(['@/views/cart/cart'], resolve)
@@ -76,15 +81,20 @@ let router = new Router({
     {
       path: '/getOrderInfo',
       meta: {
-        keepAlive: false,
         isLogin: true
       },
       component: resolve => require(['@/views/cart/getOrderInfo'], resolve)
     },
     {
+      path: '/payHome',
+      meta: {
+        isLogin: true
+      },
+      component: resolve => require(['@/views/cart/payHome'], resolve)
+    },
+    {
       path: '/pay',
       meta: {
-        keepAlive: false,
         isLogin: true
       },
       component: resolve => require(['@/views/cart/pay'], resolve)
@@ -92,7 +102,6 @@ let router = new Router({
     {
       path: '/paysuccess',
       meta: {
-        keepAlive: false,
         isLogin: true
       },
       component: resolve => require(['@/views/cart/paysuccess'], resolve)
@@ -100,32 +109,174 @@ let router = new Router({
     {
       path: '/payfail',
       meta: {
-        keepAlive: false,
         isLogin: true
       },
       component: resolve => require(['@/views/cart/payfail'], resolve)
     },
     {
       path: '/register',
-      meta: {
-        keepAlive: false
-      },
       component: resolve => require(['@/views/user/register'], resolve)
     },
     {
-      path: '/login',
-      meta: {
-        keepAlive: false
-      },
-      component: resolve => require(['@/views/user/login'], resolve)
+      path: '/register/paas',
+      name: 'paas',
+      component: resolve => require(['@/views/user/children/regPaas'], resolve)
     },
     {
+      path: '/register/legal',
+      name: 'legal',
+      component: resolve => require(['@/views/user/children/regLegal'], resolve)
+    },
+    {
+      path: '/register/pay',
+      name: 'pay',
+      component: resolve => require(['@/views/user/children/regPay'], resolve)
+    },
+    {
+      path: '/register/privacy',
+      name: 'privacy',
+      component: resolve => require(['@/views/user/children/regPrivacy'], resolve)
+    },
+    {
+      path: '/login',
+      component: resolve => require(['@/views/user/login'], resolve)
+    },
+    { // 用户中心首页
       path: '/user',
       meta: {
-        keepAlive: false,
         isLogin: true
       },
-      component: resolve => require(['@/views/user/user'], resolve)
+      component: resolve => require(['@/views/user/user'], resolve),
+      children: [
+        {
+          path: 'userCart',
+          component: resolve => require(['@/views/user/children/userCart'], resolve)
+        },
+        {
+          path: 'userOrder',
+          component: resolve => require(['@/views/user/children/userOrder'], resolve)
+        },
+        {
+          path: 'userCollectGoods',
+          component: resolve => require(['@/views/user/children/userCollectGoods'], resolve)
+        },
+        {
+          path: 'userCollect',
+          component: resolve => require(['@/views/user/children/userCollect'], resolve)
+        },
+        {
+          path: 'userAssess',
+          component: resolve => require(['@/views/user/children/userAssess'], resolve)
+        },
+        {
+          path: 'userHistory',
+          component: resolve => require(['@/views/user/children/userHistory'], resolve)
+        },
+        {
+          path: 'userFee',
+          component: resolve => require(['@/views/user/children/userFee'], resolve)
+        },
+        {
+          path: 'userTip',
+          component: resolve => require(['@/views/user/children/userTip'], resolve)
+        },
+        {
+          path: 'userProtect',
+          component: resolve => require(['@/views/user/children/userProtect'], resolve)
+        },
+        {
+          path: 'userInvoiceInfo',
+          component: resolve => require(['@/views/user/children/userInvoiceInfo'], resolve)
+        },
+        {
+          path: 'userInvoiceManage',
+          component: resolve => require(['@/views/user/children/userInvoiceManage'], resolve)
+        },
+        {
+          path: 'userRefundManage',
+          component: resolve => require(['@/views/user/children/userRefundManage'], resolve)
+        },
+        {
+          path: 'userComplaintManage',
+          component: resolve => require(['@/views/user/children/userComplaintManage'], resolve)
+        },
+        {
+          path: 'userReportManage',
+          component: resolve => require(['@/views/user/children/userReportManage'], resolve)
+        },
+        {
+          path: 'userBuyHistory',
+          component: resolve => require(['@/views/user/children/userBuyHistory'], resolve)
+        }
+      ]
+    },
+    { // 用户中心账户设置
+      path: '/userSet',
+      meta: {
+        isLogin: true
+      },
+      component: resolve => require(['@/views/user/userSet'], resolve),
+      children: [
+        {
+          path: 'account',
+          component: resolve => require(['@/views/user/item/account'], resolve)
+        },
+        {
+          path: 'address',
+          component: resolve => require(['@/views/user/item/address'], resolve)
+        },
+        {
+          path: 'alipay',
+          component: resolve => require(['@/views/user/item/alipay'], resolve)
+        },
+        {
+          path: 'app',
+          component: resolve => require(['@/views/user/item/app'], resolve)
+        },
+        {
+          path: 'bankCard',
+          component: resolve => require(['@/views/user/item/bankCard'], resolve)
+        },
+        {
+          path: 'bindingPhone',
+          component: resolve => require(['@/views/user/item/bindingPhone'], resolve)
+        },
+        {
+          path: 'message',
+          component: resolve => require(['@/views/user/item/message'], resolve)
+        },
+        {
+          path: 'personalInfo',
+          component: resolve => require(['@/views/user/item/personalInfo'], resolve)
+        },
+        {
+          path: 'secretSet',
+          component: resolve => require(['@/views/user/item/secretSet'], resolve)
+        },
+        {
+          path: 'secure',
+          component: resolve => require(['@/views/user/item/secure'], resolve)
+        },
+        {
+          path: 'share',
+          component: resolve => require(['@/views/user/item/share'], resolve)
+        },
+        {
+          path: 'WeChat',
+          component: resolve => require(['@/views/user/item/WeChat'], resolve)
+        },
+        {
+          path: 'weibo',
+          component: resolve => require(['@/views/user/item/weibo'], resolve)
+        }
+      ]
+    },
+    {
+      path: '/userInfo',
+      meta: {
+        isLogin: true
+      },
+      component: resolve => require(['@/views/user/userInfo'], resolve)
     },
     {
       path: '/shops',
@@ -133,15 +284,35 @@ let router = new Router({
         keepAlive: true
       },
       component: resolve => require(['@/views/shops/index'], resolve)
+    },
+    {
+      path: '/3DShow',
+      component: resolve => require(['@/views/3D/3DShow'], resolve)
+    },
+    {
+      path: '/live/factory',
+      component: resolve => require(['@/views/live/factory'], resolve)
     }
   ]
 })
 
 router.beforeEach((to, from, next) => {
+  // 占坑 this.$cookies 获取不到 => router.app.$cookies
+  // console.log(this, router.app.$cookies)
+  // to.matched
+  let login = router.app.$cookies.get('user-key')
   if (to.meta.isLogin) {
-    getCookie('user-key') ? next() : next({ path: '/login', query: { back: to.fullPath } })
+    login ? next() : next({ path: '/login', query: { back: to.fullPath } })
   } else {
-    next()
+    if (to.path === '/login') {
+      if (to.query.back) {
+        next()
+      } else {
+        next({ path: '/login', query: { back: from.fullPath } })
+      }
+    } else {
+      next()
+    }
   }
 })
 

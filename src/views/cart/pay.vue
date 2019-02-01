@@ -1,34 +1,58 @@
 <template>
-  <div id="test-index">
-    <keep-alive>
-      <router-view></router-view>
-    </keep-alive>
-    <shortcutHeader></shortcutHeader>
+  <div>
+    <div class="pay-title">
+      <div class="pay-logo">
+        <a href="javascript:;"><img src="static/img/mk_logo_addorder.png"></a>
+        <h5>收银台</h5>
+      </div>
+      <div class="pay-help">
+        <router-link :to="{path: '/home'}" href="javascript:;">
+          <span>返回首页</span>
+        </router-link>
+        <a href="javascript:;">
+          <span>90835991</span>
+        </a>
+        <a href="javascript:;">
+          <span>我的订单</span>
+        </a>
+        <a href="javascript:;">
+          <span>支付帮助</span>
+        </a>
+      </div>
+    </div>
     <div class="py-container">
       <!--主内容-->
       <div class="checkout py-container  pay">
         <div class="checkout-tit">
-          <h4 class="tit-txt"><span class="success-icon"></span><span  class="success-info">订单提交成功，请您及时付款！</span></h4>
-          <span class=""><em class="sui-lead">应付金额：</em><em  class="orange money">￥{{totalFee}}</em>元</span>
+          <h4 class="tit-txt"><span  class="success-info">订单提交成功，请尽快付款！订单号：82786356759</span></h4>
+          <span class="pay-price"><em>应付金额</em><em  class="money">{{totalFee}}</em>元</span>
         </div>
         <div class="checkout-steps">
-          <div class="weixin" @click="payOrder">微信支付</div>
+          <div class="weixin" @click="payOrder">
+            <span v-if="payStyle === 'weChat'">微信支付</span>
+            <span v-else-if="payStyle === 'alipay'">支付宝</span>
+            <span v-else>支付</span>
+            <p class="red" v-if="true">距离二维码过期还剩<em class="second">49</em>秒，过期后请刷新页面重新获取二维码。</p>
+            <p class="red over" v-else>二维码已过期，刷新页面重新获取二维码。</p>
+          </div>
           <div class="sao">
             <div class="code">
-              <p class="red">二维码已过期，刷新页面重新获取二维码。</p>
-              <img src="../../../static/img/erweima.png" alt="">
+              <div class="code-wrap"><img src="static/img/mk_pay_erweima.png"></div>
               <div class="saosao">
-                <p>请使用微信扫一扫</p>
+                <p v-if="payStyle === 'weChat'">请使用微信扫一扫</p>
+                <p v-else-if="payStyle === 'alipay'">请使用支付宝扫一扫</p>
+                <p v-else>请使用对应支付方式</p>
                 <p>扫描二维码支付</p>
               </div>
             </div>
             <div class="phone">
+              <img v-if="payStyle === 'weChat'" src="static/img/mk_pay_wechatpay.png">
+              <img v-else-if="payStyle === 'alipay'" src="static/img/mk_pay_alipay.png">
             </div>
           </div>
-          <div class="clearfix"></div>
           <p class="other-pay">
-            <router-link :to="{ path:'/paysuccess' }" target="_blank">支付成功时</router-link>
-            <router-link :to="{ path:'/payfail' }" target="_blank">支付失败时</router-link>
+            <i class="el-icon-arrow-left"></i>
+            <a @click="changePay()">选择其他支付方式</a>
           </p>
         </div>
       </div>
@@ -37,26 +61,24 @@
   </div>
 </template>
 <script>
-import shortcutHeader from '../../components/shortcutHeader'
 import pageFooter from '../../components/pageFooter'
-import { apiAxios, getCookie } from '../../common/utils'
+import { apiAxios } from '../../common/utils'
 import { api } from '../../common/api'
 export default {
   data () {
     return {
       orderInfo: '',
-      totalFee: ''
+      totalFee: '',
+      payStyle: '',
+      paySuccess: false
     }
   },
-  components: { shortcutHeader, pageFooter },
-  activated () {},
-  deactivated () {
-    this.$destroy()
-  },
+  components: { pageFooter },
   mounted () {
+    this.payStyle = this.$route.query.payStyle || ''
     apiAxios.AxiosG({
       url: api.payPageInfo,
-      params: {userName: getCookie('user-key')}
+      params: {userName: this.$cookies.get('user-key')}
     }, rtn => {
       if (rtn.data.success) {
         this.orderInfo = rtn.data.data
@@ -65,7 +87,7 @@ export default {
     })
     apiAxios.AxiosG({
       url: api.payCreate,
-      params: {userName: getCookie('user-key')}
+      params: {userName: this.$cookies.get('user-key')}
     }, rtn => {
       if (rtn.data.success) {
         console.log(rtn)
@@ -80,6 +102,18 @@ export default {
       }, rtn => {
         console.log(rtn.data)
       })
+    },
+    changePay () {
+      this.$router.go(-1)
+    }
+  },
+  watch: {
+    paySuccess (newState) {
+      if (newState) {
+        this.$router.push('/paysuccess')
+      } else {
+        this.$router.push('/payfail')
+      }
     }
   }
 }

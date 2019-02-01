@@ -2,14 +2,17 @@
 		background:#f2f6fc;
 	}
 	.py-container{
-		width:1260px;margin:0 auto;
+		width:1226px;margin:0 auto;
+    background-color: #fff;
 	}
 	.add-succ-box {
 		overflow: hidden;
 		display: flex;
 		justify-content: space-between;
 	}
-
+  .add-succ-info {
+    margin-left: 20px;
+  }
 	.succ-item{
 		display: flex;
 	}
@@ -31,16 +34,22 @@
 	.succ-top >i {
 		font-size: 25px;
 	}
-	.succ-top h3{ margin-left: 10px; }
+	.succ-top h2{ margin-left: 10px; }
 	.p-item{
-		width: 60px;height: 60px;
+		width: 80px;height: 80px;
 		margin-right: 10px;
-		border: 1px solid #e8e8e8;
 	}
-	.p-item >a, .p-item> a >img {
+	.p-item >a {
 		width: 100%;
 		height: 100%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 	}
+  .p-item> a >img{
+    width: 100%;
+  }
 	.p-name >a {
 		width: 500px;
     overflow: hidden;
@@ -53,10 +62,15 @@
 		color: #666;
     font-size: 14px;
 	}
+  .p-extra span strong{ font-weight: 400; }
+  .p-extra span strong {
+    margin-right: 15px;
+  }
 	.add-succ-btn {
 		display: flex;
     margin-bottom: 20px;
     align-items: flex-end;
+    margin-right: 20px;
 	}
 	.add-succ-detail, .add-summ {
 		height: 34px;
@@ -85,3 +99,58 @@
 	.add-summ:hover {
 		background: #c91623;
 	}
+
+/* 猜你喜欢*/
+  .youlike {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid #E1E1E1;
+    margin-top: 32px;
+    min-height: calc(100vh - 346px);
+  }
+  .youlike h2{
+    font-size:16px;
+    color:rgba(112,112,112,1);
+    line-height:18px;
+    padding: 14px 10px;
+    text-align: left;
+  }
+  .youlike-ul {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 0 12px;
+    padding-top: 20px;
+  }
+  .youlike-li{ display: flex; flex-direction: column; }
+  .youlike-li-a { width: 182px;height: 158px; overflow: hidden;
+    margin: 0 auto; }
+  .youlike-li-a img { width: 100%; overflow: hidden; }
+  .youlike-li-pri {font-size:16px; color:rgba(201,0,0,1);
+    line-height:16px;
+    padding: 9px 12px 7px 12px;}
+  .youlike-li-des {
+    height: 32px;
+    line-height: 16px;
+    margin-top: 28px;
+    overflow: hidden;
+    font-size: 12px;
+    color:#606060;
+    padding: 0 12px;
+    text-align: left;
+  }
+  .youlike-li-des a{
+    color: #707070;
+    text-align: left;
+    width: 158px;
+  }
+  .youlike-li-com{
+    font-size: 12px;
+    padding: 0 12px;
+    text-align: left;
+    margin-bottom: 17px;
+  }
+  .youlike-li-com em {
+    font-style: normal;
+    color: #0074C5;
+  }

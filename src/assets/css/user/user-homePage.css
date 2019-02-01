@@ -1,0 +1,41 @@
+*{
+  box-sizing: border-box;
+}
+ul,ul>li,img{
+  display: inline-block;
+}
+.con-wrap{
+  font-family:SourceHanSansCN-Regular;
+  background: #FFFFFF;
+}
+.userPageTitle{
+  height:42px;
+  border-bottom: 2px solid #F4F4F4;
+  line-height: 42px;
+  font-size:18px;
+  color:rgba(74,74,74,1);
+  padding-left: 25px;
+}
+ .userPageTab{
+  height:44px;
+  border-bottom: 2px solid #F4F4F4;
+  line-height: 44px;
+  font-size:16px;
+  color:rgba(140,140,140,1);
+  padding-left: 10px;
+}
+.userPageTab>span{
+  display: inline-block;
+  height:44px;
+  padding:0 15px 0 15px;
+  cursor:pointer;
+}
+.pageTabActive{
+  color:#FF9900;
+  border-bottom:2px solid #FF9900 !important;
+}
+.invoice .tab> span{
+  padding:0 20px 0 20px;
+  height:44px;
+  text-align: center;
+}

@@ -29,7 +29,7 @@ export default {
   }
   .fur {
     margin: 0 auto;
-    background-image: url("../../static/img/bg_series.png");
+    background-image: url("static/img/bg_series.png");
     background-size: cover;
     background-position:top center;
   }

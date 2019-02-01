@@ -1,6 +1,6 @@
 <template>
   <!--数量-->
-  <div class="item-cols-num clearfix">
+  <div class="item-cols-num">
     <div class="select">
       <span class="down"
         @click.stop.prevent="down()"
@@ -43,7 +43,7 @@ export default {
       type: [Number, String]
     },
     checked: {
-      type: [String, Boolean]
+      type: [Number, Boolean]
     },
     limit: {
       type: Number,
@@ -74,7 +74,7 @@ export default {
     },
     blur () {
       this.Num = this.Num > this.limit ? Number(this.limit) : Number(this.Num)
-      this.$emit('edit-num', this.Num, this.id, this.sellerId)
+      this.$emit('edit-num', this.Num, this.id, this.sellerId, this.checked)
     },
     ani (opera) {
       this.flag = false
@@ -102,7 +102,7 @@ export default {
         this.domInt(ulStyle)
         this.flag = true
       })
-      this.$emit('edit-num', this.Num, this.id, this.sellerId)
+      this.$emit('edit-num', this.Num, this.id, this.sellerId, this.checked)
     },
     domInt (domStyle) {
       domStyle.zIndex = '1'
@@ -157,11 +157,11 @@ export default {
   }
 
   .select {
-    height: 40px;
-    padding-top: 4px;
+    height: 37px;
     display: flex;
     justify-content: space-around;
     align-items: center;
+    background-color: #fff;
     input {
       width: 100%;
       text-align: center;
@@ -185,7 +185,7 @@ export default {
       text-align: center;
       float: left;
       width: 36px;
-      height: 18px;
+      height: 20px;
       margin: 7px 0 0;
       border: none;
       border-radius: 3px;
