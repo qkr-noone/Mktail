@@ -257,10 +257,10 @@ export default {
       liveTitel: 'MKTail直播',
       writeDesc: '',
       // http://192.168.1.11/hls/test"+i+".m3u8  直播源
-      sourceList: ['http://192.168.1.11/hls/test4.m3u8', 'http://192.168.1.11/hls/test7.m3u8',
-        'http://192.168.1.11/hls/test6.m3u8', 'http://192.168.1.11/hls/test5.m3u8', 'http://192.168.1.11/hls/test0.m3u8', 'http://192.168.1.11/hls/test3.m3u8',
-        'http://192.168.1.11/hls/test2.m3u8', 'http://192.168.1.11/hls/test9.m3u8',
-        'http://192.168.1.11/hls/test1.m3u8'
+      sourceList: ['http://192.168.1.11/hls/test.m3u8', 'http://192.168.1.11/hls/test.m3u8',
+        'http://192.168.1.11/hls/test.m3u8', 'http://192.168.1.11/hls/test.m3u8', 'http://192.168.1.11/hls/test.m3u8', 'http://192.168.1.11/hls/test.m3u8',
+        'http://192.168.1.11/hls/test.m3u8', 'http://192.168.1.11/hls/test.m3u8',
+        'http://192.168.1.11/hls/test.m3u8'
       ],
       randomObj: {
         select: 'select' // 先定义随机ID
@@ -271,10 +271,10 @@ export default {
   created  () {
   },
   mounted () {
-    // let iframeDom = this.$el.getElementsByTagName('iframe')[0].contentWindow.document.body
-    document.documentElement.scrollTop = 133
-    document.body.scrollTop = 133
-    // 定义全局方法 iframe调用
+    this.$nextTick(() => {
+      document.documentElement.scrollTop = 133
+      document.body.scrollTop = 133
+    })
     window[this.randomObj.select] = function (page) {
       this.activeChildPage(page)
     }.bind(this)
@@ -291,9 +291,11 @@ export default {
         this.$refs.iframe1.parentElement.children[1].style.display = 'none'
       } else if (this.cutover === 'liveSource3') {
         this.liveSource3 = '../static/live.html?' + 'source=' + list + '&height=' + height + '&page=liveSource3'
+        console.log(this.$refs.iframe2)
         this.$refs.iframe2.parentElement.children[1].style.display = 'none'
       } else if (this.cutover === 'liveSource4') {
         this.liveSource4 = '../static/live.html?' + 'source=' + list + '&height=' + height + '&page=liveSource4'
+        console.log(this.$refs.iframe3)
         this.$refs.iframe3.parentElement.children[1].style.display = 'none'
       } else if (this.cutover === 'liveSource5') {
         this.liveSource5 = '../static/live.html?' + 'source=' + list + '&height=' + height + '&page=liveSource5'
@@ -313,7 +315,11 @@ export default {
       }
     },
     activePage (event, page) {
-      this.cutover = page
+      console.log(page, '画布')
+      if (this.cutover === page) return false
+      else {
+        this.cutover = page
+      }
     },
     isShowLayout () {
       this.isLayout = true
@@ -333,8 +339,9 @@ export default {
       this.liveSource8 = ''
       this.liveSource9 = ''
       for (let i = 0; i < 9; i++) {
-        // console.log(this.$refs[`iframe${i}`], i)
-        this.$refs[`iframe${i}`].parentElement.children[1].style.display = 'block'
+        if (this.$refs[`iframe${i}`] !== undefined) {
+          this.$refs[`iframe${i}`].parentElement.children[1].style.display = 'block'
+        }
       }
     },
     vueFunc () {

@@ -91,6 +91,7 @@
     height: auto;
     background-repeat: no-repeat;
     transition: background-color ease-in 0.4s;
+    background: url(/static/img/mk_home_banner_bg.png) center no-repeat;
   }
   .clearfix {
     clear: both

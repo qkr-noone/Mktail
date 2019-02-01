@@ -63,7 +63,15 @@ export default {
   props: {
     saleService: {
       type: String
+    },
+    scroll: {
+      type: Object
     }
+  },
+  mounted () {
+    this.$nextTick(() => {
+      document.documentElement.scrollTop = this.scroll.scrollTop
+    })
   }
 }
 

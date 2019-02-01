@@ -126,8 +126,10 @@ export default {
   },
   components: { shortcut, live3Dheader, pageFooter },
   mounted () {
-    document.documentElement.scrollTop = 133
-    document.body.scrollTop = 133
+    this.$nextTick(() => {
+      document.documentElement.scrollTop = 133
+      document.body.scrollTop = 133
+    })
     let threeDUrl = 'http://192.168.0.33:8080/qn30/index.html?spuid=10112269'
     // http://192.168.0.33:8080/qn5/ http://192.168.0.33:8080/qn17/index.html?spuid=10112269 http://120.79.93.197/we5/
     this.$refs.threeDSrc.src = threeDUrl

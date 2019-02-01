@@ -34,6 +34,7 @@
     return obj || ''
   }
   var urlObj = setURL()
+  console.log(urlObj.page)
   $(function() {
     $('.video-js').css('height', urlObj.height + 'px')
     $('#example-video').children('source').attr('src', urlObj.source);

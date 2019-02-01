@@ -32,7 +32,15 @@ export default {
   props: {
     show3d: {
       type: String
+    },
+    scroll: {
+      type: Object
     }
+  },
+  mounted () {
+    this.$nextTick(() => {
+      document.documentElement.scrollTop = this.scroll.scrollTop
+    })
   },
   methods: {
     threeDUrl (threeDUrl) {
