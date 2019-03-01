@@ -12,9 +12,9 @@
         <a href="javascript:;">
           <span>90835991</span>
         </a>
-        <a href="javascript:;">
+        <router-link :to="{path: '/user/userOrder'}">
           <span>我的订单</span>
-        </a>
+        </router-link>
         <a href="javascript:;">
           <span>支付帮助</span>
         </a>

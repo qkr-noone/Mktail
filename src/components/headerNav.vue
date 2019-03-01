@@ -6,10 +6,10 @@
           <router-link :to="{path: isHome}" ><img src="static/img/mk_logo_main.png"></router-link>
         </div>
         <div class="h-search">
-          <form action="#">
+          <form action="#" @submit.prevent>
             <div class="search_box">
               <div class="search_ipt">
-                <input type="text" ref="search_ipt" placeholder="">
+                <input type="text" ref="search_ipt" name="search" placeholder="" @keyup.enter="searchPro">
                 <a @click="searchPro" class="search_btn">搜索</a>
               </div>
             </div>
@@ -54,8 +54,7 @@ export default {
     cartNum () {
       let num = 0
       let cartList = JSON.parse(getStore('cartList'))
-      console.log(cartList)
-      cartList && cartList.forEach(item => {
+      cartList.length && cartList.forEach(item => {
         item.orderItemList.forEach(list => {
           num += Number(list.num)
         })
@@ -76,6 +75,7 @@ export default {
   methods: {
     searchPro () {
       let SEARCH_VALUE = this.$refs.search_ipt.value
+      console.log('search', SEARCH_VALUE, 2)
       let IS_LOAD = true // 重新关键词search
       let searchMap =
         {

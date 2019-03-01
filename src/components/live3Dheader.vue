@@ -7,10 +7,10 @@
           <h1>{{title}}</h1>
         </div>
         <div class="title-se">
-          <form action="#">
+          <form action="#" @submit.prevent>
             <div class="search_box">
               <div class="search_ipt">
-                <input type="text" ref="search_ipt" placeholder="search product">
+                <input type="text" ref="search_ipt" name="pro_search" placeholder="search product" @keyup.enter="searchPro">
                 <a @click="searchPro" class="search_btn">搜索</a>
               </div>
             </div>

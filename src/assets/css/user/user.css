@@ -14,7 +14,7 @@
     border-radius: 2px;
     height: 178px;
   }
-  .con-item-other{
+  .con-item-other {
     flex-grow: 1;
     text-align: left;
     align-items: center;
@@ -26,6 +26,15 @@
   }
   .con-item-other a {
     color: #5D5C5C;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .con-item-other a span.num {
+    color: #E75343;
+    font-size: 28px;
+    line-height: 28px;
+    margin-left: 5px;
   }
   .con-item-user {
     display: flex;
@@ -115,8 +124,10 @@
     padding: 0 5px;
   }
   .us-look li {
-    width: 172px;
-    height: 172px;
+    /*width: 172px;*/
+    /*height: 172px;*/
+    width: 205px;
+    height: 205px;
     border:1px solid rgba(237,237,237,1);
     overflow: hidden;
   }
@@ -130,10 +141,10 @@
   .us-order {
     border-top: 1px solid #F4F4F4;
     border-bottom: 1px solid #F4F4F4;
-    padding-bottom: 11px;
+    /*padding-bottom: 11px;*/
   }
   .us-order li {
-    height: 40px;
+    height: 60px;
     width: calc(20% - 5px);
     justify-content: center;
     align-items: center;
@@ -145,6 +156,12 @@
   .us-order-a {
     font-size: 14px;
     color: #878787;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .us-order-a img {
+    margin-right: 9px;
   }
   .us-order-str {
     color: #FF4606;
@@ -241,7 +258,7 @@
   }
   /* 猜你喜欢 */
   .con-le-like {
-    margin-top: 15px;
+    margin-top: 30px;
   }
   .hot-con-ul {
     display: flex;
@@ -311,10 +328,11 @@
     align-items: center;
   }
   .ri-his-abs a {
-    margin-top: 4px;
+    margin-top: 2px;
+    margin-bottom: 2px;
     border-radius: 4px;
     width:350px;
-    height:160px;
+    height:244px;
     overflow: hidden;
   }
   .ri-his-abs a img{

@@ -1,6 +1,6 @@
 <template>
   <div id="detail-index">
-    <shortcut></shortcut>
+    <shortcut id="top"></shortcut>
     <headerNav></headerNav>
     <div class="py-container">
       <div id="item">
@@ -14,23 +14,29 @@
           <div class="preview-wrap">
             <!--放大镜效果-->
             <div>
-              <!--默认第一个预览-->
               <div id="preview" class="spec-preview">
-                <span>
-                  <transition><img-zoom :src="currentImg" width="330" height="330" :bigsrc="currentImg" :configs="configs"></img-zoom></transition>
-                  <!-- <pic-zoom :url="currentImg" :scale="2" :scroll="false"></pic-zoom> -->
-                </span>
+                <section id="m_demo">
+                  <div id="m_small-box">
+                    <!-- 兼容IE  多一个遮罩层 -->
+                    <div id="m_mark"></div>
+                    <div id="m_float-box"></div>
+                    <img :src="currentImg">
+                  </div>
+                  <div id="m_big-box">
+                    <img :src="currentImg">
+                  </div>
+                </section>
               </div>
               <!--下方的缩略图-->
               <div class="spec-scroll">
-                <a class="prev" v-if="scroolListImg.length>5"><i class="el-icon-arrow-left"></i></a>
+                <a class="prev" v-if="scroolListImg.length>5" href="javascript:;" @click="imgPrev"><i class="el-icon-arrow-left"></i></a>
                 <!--左右按钮-->
                 <div class="items">
                   <ul ref="scroolUl">
-                    <li v-for= "(img, index) in scroolListImg" :key="index" @mouseover="scrollBig(img.url)"><img :src="img.url" onmousemove="preview(this)" /></li>
+                    <li v-for= "(img, index) in scroolListImg" :key="index" @mouseover="scrollBig(img.url)"><img :class="{'man_choose': currentImg === img.url}" :src="img.url"/></li>
                   </ul>
                 </div>
-                <a class="next" v-if="scroolListImg.length>5"><i class="el-icon-arrow-right"></i></a>
+                <a class="next" v-if="scroolListImg.length>5" href="javascript:;" @click="imgNext"><i class="el-icon-arrow-right"></i></a>
               </div>
             </div>
             <div class="collect">
@@ -65,11 +71,18 @@
                   <div class="flow-con">
                     广东广州<b>至</b>
                     <span class="flow-addr">
-                      <span>请选择</span>
+                      <span>{{destination}}</span>
                       <i class="el-icon-arrow-down"></i>
-                      <!-- <el-cascader :options="addrOptions" @change="handleItemChange"></el-cascader> -->
+                      <div class="addr-box">
+                        <ul class="pro-box">
+                          <li v-for="list in addrOptions" :key="list.id" :class="{'choose': addressOne === list.province}" @click="tabAddr(list.provinceid, list.province)">{{list.province}}</li>
+                        </ul>
+                        <ul class="city-box" v-if="addressOne">
+                          <li v-for="data in cityList" :key="data.id" :class="{'choose': addressTwoId === data.cityid}" @click="tabCity(data.city, data.cityid)">{{data.city}}</li>
+                        </ul>
+                      </div>
                     </span>
-                    <span class="flow-item">快递<span>¥6</span></span>近30天平均发货速度：<span  class="flow-send-date">次日</span>
+                    <span class="flow-item">快递<span>¥6</span></span>发货速度：<span  class="flow-send-date">次日</span>
                   </div>
                 </div>
               </div>
@@ -163,7 +176,7 @@
         <div class=" product-detail">
           <div class="aside">
             <div class="shop-box">
-              <h4>博士旗舰店</h4><img src="static/img/mk_search_link.png">
+              <h4>{{sellerInfo.nickName}}</h4><img src="static/img/mk_search_link.png">
             </div>
             <div class="shop-list">
               <div class="buy-word shops">
@@ -233,7 +246,8 @@
     <div class="bottom-abs">
         <absBox :data="absBottomList" :indicator="'none'" :arrow="'never'" :interval="5000"></absBox>
       </div>
-    <pageFooter></pageFooter>
+    <pageFooter id="bottom"></pageFooter>
+    <!-- 登陆 -->
     <div class="mask mask-login" v-show="isMaskLogin">
       <div class="is-login">
         <el-tabs type="border-card" class="sui-nav nav-tabs tab-wraped">
@@ -245,13 +259,13 @@
           </el-tab-pane>
           <el-tab-pane label="账户登录">
             <div class="tab-pane  active">
-              <form class="sui-form" method="post">
+              <form class="sui-form" @submit.prevent>
                 <div class="input-prepend">
                   <span class="add-on loginname"></span>
-                  <input type="text" placeholder="邮箱/用户名/手机号" class="span2 input-xfat" v-model="username">
+                  <input type="text" placeholder="邮箱/用户名/手机号" class="span2 input-xfat" v-model="username" @keyup.enter="userLogin">
                 </div>
                 <div class="input-prepend"><span class="add-on loginpwd"></span>
-                  <input type="password" placeholder="请输入密码" class="span2 input-xfat" v-model="password">
+                  <input type="password" placeholder="请输入密码" class="span2 input-xfat" v-model="password" @keyup.enter="userLogin">
                 </div>
                 <div class="logined">
                   <a @click='userLogin' class="sui-btn btn-block btn-xlarge btn-danger">登&nbsp;&nbsp;录</a>
@@ -260,37 +274,29 @@
             </div>
           </el-tab-pane>
         </el-tabs>
+        <div class="closeUser" @click="isMaskLogin = false">
+          <i class="el-icon-error"></i>
+        </div>
       </div>
     </div>
   </div>
 </template>
 <script>
 import { mapState, mapMutations } from 'vuex'
-import shortcut from '../../components/shortcutHeader'
-import headerNav from '../../components/headerNav'
-import absBox from '../../components/absBox'
-import pageFooter from '../../components/pageFooter'
-// import PicZoom from 'vue-piczoom'
-import imgZoom from 'vue2.0-zoom'
-import { apiAxios, setStore } from '../../common/utils'
-import { api } from '../../common/api'
-import { chineseDistricts } from '../../common/city-picker'
+import shortcut from '@/components/shortcutHeader'
+import headerNav from '@/components/headerNav'
+import absBox from '@/components/absBox'
+import pageFooter from '@/components/pageFooter'
+import { setStore } from '@/common/utils'
 export default {
   data () {
     return {
-      configs: {
-        width: 660,
-        height: 450,
-        maskWidth: 200,
-        maskHeight: 200,
-        maskColor: 'red',
-        maskOpacity: 0.2
-      },
       currentImg: '',
       scroolListImg: '',
       is3Ding: false,
       activeName: 'one', // 详情参数选项卡
       goods: '',
+      sellerInfo: {},
       goodsDesc: '',
       chooseAttr: '', // 选择属性
       cateList: '',
@@ -313,33 +319,23 @@ export default {
       attrItem: [], // 商品介绍属性列表
       tabNav: '商品介绍',
       changeShowType: 'navShop',
+      destination: '请选择',
+      addressOne: '',
+      addressTwo: '',
+      addressTwoId: '',
       addrOptions: [],
+      cityList: [],
       starValue: 5,
       scroll: {},
       addToCartSwicth: true,
       buyshopsSwicth: true
     }
   },
-  components: { shortcut, headerNav, pageFooter, absBox, imgZoom },
+  components: { shortcut, headerNav, pageFooter, absBox },
   computed: {
     ...mapState(['cartList'])
   },
-  created () {
-    if (this.$route.query.goodsId.length > 20) {
-      // 弹框  (不确定是否需要)
-      this.$router.go(-1)
-      return false
-    }
-  },
   mounted () {
-    console.log(chineseDistricts['86'])
-    let tem = Object.values(chineseDistricts['86'])
-    tem.forEach(ele => {
-      ele.forEach(item => {
-        this.addrOptions.push(item)
-      })
-    })
-    console.log(this.addrOptions)
     let routerChild = this.$route.path.split('/')[2]
     if (routerChild === 'review') {
       this.tabNav = '商品评价'
@@ -350,93 +346,86 @@ export default {
     } else {
       this.tabNav = '商品介绍'
     }
-    apiAxios.AxiosG({
-      url: api.detailTest,
-      params: { goodsId: this.$route.query.goodsId, skuId: this.$route.query.skuId || '' }
-    }, rtn => {
-      let data = rtn.data
-      if (data.success) {
-        this.goods = data.data.goodsAll.goods
-        this.show3dStatus = data.data.show3dStatus
-        this.goodsDesc = data.data.goodsAll.goodsDesc
-        this.attrItem = JSON.parse(this.goodsDesc.customAttributeItems)
-        this.scroolListImg = JSON.parse(this.goodsDesc.itemImages)
-        if (this.scroolListImg.length) {
-          this.currentImg = this.scroolListImg[0].url
-        }
-        this.cateList = data.data.itemCatList
-        this.goodsIntroduc = this.goodsDesc.introduction || ''
-        this.spec = JSON.parse(this.goodsDesc.specificationItems)
-        this.skuList = data.data.goodsAll.itemList
-        if (this.$route.query.skuId) {
-          for (let value of this.skuList) {
-            if (String(this.$route.query.skuId) === String(value.id)) {
-              this.selectArr = JSON.parse(value.spec)
-              this.selectSku = value
-              break
-            }
-          }
-        } else {
-          for (let value of this.skuList) {
-            if (data.data.goodsAll.goods.defaultItemId === value.id) {
-              this.selectArr = JSON.parse(value.spec)
-              this.selectSku = value
-              break
-            }
+    this.API.detailTest({ goodsId: this.$route.query.goodsId, skuId: this.$route.query.skuId || '' }).then(rtn => {
+      if (rtn.success === false) {
+        this.$router.go(-1)
+        return false
+      }
+      this.goods = rtn.goodsAll.goods
+      this.sellerInfo = rtn.sellerInfo
+      this.show3dStatus = rtn.show3dStatus
+      this.goodsDesc = rtn.goodsAll.goodsDesc
+      this.attrItem = JSON.parse(this.goodsDesc.customAttributeItems)
+      this.scroolListImg = JSON.parse(this.goodsDesc.itemImages)
+      if (this.scroolListImg.length) {
+        this.currentImg = this.scroolListImg[0].url
+      }
+      this.cateList = rtn.itemCatList
+      this.goodsIntroduc = this.goodsDesc.introduction || ''
+      this.spec = JSON.parse(this.goodsDesc.specificationItems)
+      this.skuList = rtn.goodsAll.itemList
+      if (this.$route.query.skuId) {
+        for (let value of this.skuList) {
+          if (String(this.$route.query.skuId) === String(value.id)) {
+            this.selectArr = JSON.parse(value.spec)
+            this.selectSku = value
+            break
           }
         }
       } else {
-        // 弹框
-        // this.$router.go(-1)
+        for (let value of this.skuList) {
+          if (rtn.goodsAll.goods.defaultItemId === value.id) {
+            this.selectArr = JSON.parse(value.spec)
+            this.selectSku = value
+            break
+          }
+        }
       }
     })
     // 看了又看
-    apiAxios.AxiosG({
-      url: api.detailLook,
-      params: { categoryId: 17 }
-    }, res => {
-      let data = res.data
-      if (data.success) {
-        this.viewList = data.data.contentList
-      }
+    this.API.detailLook({ categoryId: 17 }).then(res => {
+      this.viewList = res.contentList
     })
     // 店长推荐
-    apiAxios.AxiosG({
-      url: api.detailLook,
-      params: { categoryId: 18 }
-    }, res => {
-      let data = res.data
-      if (data.success) {
-        this.recomList = data.data.contentList
-      }
+    this.API.detailLook({ categoryId: 18 }).then(res => {
+      this.recomList = res.contentList
     })
     // 店铺热销
-    apiAxios.AxiosG({
-      url: api.detailLook,
-      params: { categoryId: 19 }
-    }, res => {
-      let data = res.data
-      if (data.success) {
-        this.shopHotList = data.data.contentList
-      }
+    this.API.detailLook({ categoryId: 19 }).then(res => {
+      this.shopHotList = res.contentList
     })
     // 底部广告
-    apiAxios.AxiosG({
-      url: api.detailLook,
-      params: { categoryId: 20 }
-    }, res => {
-      let data = res.data
-      if (data.success) {
-        this.absBottomList = data.data.contentList
-      }
+    this.API.detailLook({ categoryId: 20 }).then(res => {
+      this.absBottomList = res.contentList
     })
+    // 配送至
+    this.API.allProvince().then(res => {
+      this.addrOptions = res
+      this.addrOptions.forEach((ele, index) => {
+        if (ele.province === '黑龙江省' || ele.province === '内蒙古自治区') {
+          this.$set(this.addrOptions[index], 'province', ele.province.substring(0, 3))
+        } else this.$set(this.addrOptions[index], 'province', ele.province.substring(0, 2))
+      })
+    })
+    this.magnifier()
   },
   methods: {
     ...mapMutations([
       'setCartList', 'setUserInfo'
     ]),
+    // 切换主图
     scrollBig (imgUrl) {
       this.currentImg = imgUrl
+    },
+    imgPrev () {
+      let temDom = this.$refs.scroolUl
+      if (temDom.offsetLeft >= 0) return false
+      temDom.style.left = (temDom.offsetLeft + 68) + 'px'
+    },
+    imgNext () {
+      let temDom = this.$refs.scroolUl
+      if (temDom.offsetWidth <= 266 - temDom.offsetLeft) return false
+      temDom.style.left = (temDom.offsetLeft - 68) + 'px'
     },
     threeDclose () {
       this.is3Ding = false
@@ -454,10 +443,7 @@ export default {
     },
     addNum (limitNum) {
       if (limitNum) {
-        if (limitNum === this.num) {
-          // 弹框
-          return false
-        }
+        if (limitNum === this.num) return false
       }
       this.num++
     },
@@ -473,21 +459,16 @@ export default {
       if (this.selectSku.id && this.addToCartSwicth) {
         this.addToCartSwicth = false
         if (this.$cookies.get('user-key')) { // 判断是否登陆
-          apiAxios.AxiosG({
-            url: api.addToCart,
-            params: { itemId: this.selectSku.id, num: this.num, name: this.$cookies.get('user-key') }
-          }, rtn => {
-            if (rtn.data.success) {
-              this.$message.success('成功加入购物车')
-              this.cart()
-              this.$router.push({path: '/addToCart', query: {skuId: this.selectSku.id, num: this.num}})
-            } else {
+          this.API.addToCart({ itemId: this.selectSku.id, num: this.num, name: this.$cookies.get('user-key') }).then(rtn => {
+            if (rtn.success === false) {
               this.$message.error('加入购物车失败')
+              return false
             }
+            this.$message.success('成功加入购物车')
+            this.cart()
+            this.$router.push({path: '/addToCart', query: {skuId: this.selectSku.id, num: this.num}})
           })
-        } else {
-          this.isMaskLogin = true
-        }
+        } else this.isMaskLogin = true
         this.addToCartSwicth = true
       } else {
         if (!this.addToCartSwicth) return false
@@ -520,15 +501,14 @@ export default {
               break
             }
           }
-        } else {
-          this.isMaskLogin = true
-        }
+        } else this.isMaskLogin = true
         this.buyshopsSwicth = true
       } else {
         if (!this.buyshopsSwicth) return false
         this.$message.info('请核对信息, 重新购买')
       }
     },
+    // 用户登陆
     userLogin () {
       if (this.$cookies.get('user-key')) {
         this.$message.error('当前设备已登陆，切换用户需先退出当前用户')
@@ -538,22 +518,15 @@ export default {
         this.$message.warning('请输入用户名和密码')
         return false
       }
-      apiAxios.AxiosG({
-        url: api.login,
-        params: {name: this.username, password: this.password}
-      }, rtn => {
-        if (rtn.data.success) {
-          this.$message.success('登陆成功')
-          this.$cookies.set('user-key', this.username)
-          this.$cookies.set('userInfo', (rtn.data.data))
-          this.setUserInfo(rtn.data.data)
-          this.isMaskLogin = false
-          this.password = ''
-          this.cart()
-        } else {
-          this.$message.error(rtn.data.message)
-          this.password = ''
-        }
+      this.API.login({name: this.username, password: this.password}).then(rtn => {
+        this.password = ''
+        if (rtn.success === false) return false
+        this.$message.success('登陆成功')
+        this.$cookies.set('user-key', this.username)
+        this.$cookies.set('userInfo', rtn)
+        this.setUserInfo(rtn)
+        this.isMaskLogin = false
+        this.cart()
       })
     },
     // 根据规格查询sku
@@ -576,41 +549,99 @@ export default {
     },
     // 登陆初始化数据
     cart () {
-      apiAxios.AxiosG({
-        url: api.cartList,
-        params: {username: this.$cookies.get('user-key')}
-      }, rtn => {
-        this.setCartList(rtn.data.data)
-        setStore('cartList', rtn.data.data)
+      this.API.cartList({username: this.$cookies.get('user-key')}).then(rtn => {
+        this.setCartList(rtn)
+        setStore('cartList', rtn)
       })
     },
+    // 切换 商品规格、评价、售后保障
     tab (name, path) {
       let queryList = this.$route.query
       this.scroll = { scrollTop: document.documentElement.scrollTop }
-      console.log(this.scroll)
       Object.assign(queryList, this.scroll)
       this.$router.push({path: '/detail/' + path, query: queryList})
       this.tabNav = name
     },
-    handleItemChange (val) {
-      console.log('active item:', val)
-      // setTimeout(_ => {
-      //   if (val.indexOf('江苏') > -1 && !this.addrOptions[0].cities.length) {
-      //     this.addrOptions[0].cities = [{
-      //       label: '南京'
-      //     }]
-      //   } else if (val.indexOf('浙江') > -1 && !this.addrOptions[1].cities.length) {
-      //     this.addrOptions[1].cities = [{
-      //       label: '杭州'
-      //     }]
-      //   }
-      // }, 300)
-    }
-  },
-  watch: {}
-}
+    // 切换省，显示市列表
+    tabAddr (provinceid, province) {
+      // this.addressOne = ''
+      this.addressOne = province
+      this.API.allCity({proviceId: provinceid}).then(res => {
+        this.cityList = res
+      })
+    },
+    // 切换市
+    tabCity (city, cityid) {
+      this.addressTwo = city
+      this.addressTwoId = cityid
+      this.destination = this.addressOne + this.addressTwo
+    },
+    // 纯js 放大镜
+    magnifier () {
+      let demo = document.getElementById('m_demo')
+      let smallBox = document.getElementById('m_small-box')
+      let mark = document.getElementById('m_mark')
+      let floatBox = document.getElementById('m_float-box')
+      let bigBox = document.getElementById('m_big-box')
+      let bigBoxImage = bigBox.getElementsByTagName('img')[0]
 
+      // 2.鼠标移入时，显示
+      mark.onmouseover = function () {
+        floatBox.style.display = 'block'
+        bigBox.style.display = 'block'
+      }
+
+      // 3.鼠标移出时，隐藏
+      mark.onmouseout = function () {
+        floatBox.style.display = 'none'
+        bigBox.style.display = 'none'
+      }
+
+      // 4.鼠标在里面移动时
+      mark.onmousemove = function (ev) {
+        // 兼用 浏览器
+        let _event = ev || window.event
+
+        // 偏移量
+        let left = _event.clientX - demo.offsetLeft - smallBox.offsetLeft - floatBox.offsetWidth / 2
+        let top = _event.clientY - demo.offsetTop - smallBox.offsetTop - floatBox.offsetHeight / 2
+
+        // 判断其是否超出
+        if (left < 0) {
+          left = 0
+        } else if (left > (mark.offsetWidth - floatBox.offsetWidth)) {
+          left = mark.offsetWidth - floatBox.offsetWidth
+        }
+        if (top < 0) {
+          top = 0
+        } else if (top > (mark.offsetHeight - floatBox.offsetHeight)) {
+          top = mark.offsetHeight - floatBox.offsetHeight
+        }
+
+        floatBox.style.left = left + 'px'
+        floatBox.style.top = top + 'px'
+
+        // 公式计算 小图与大图成比例
+        let percentX = left / (mark.offsetWidth - floatBox.offsetWidth)
+        let percentY = top / (mark.offsetHeight - floatBox.offsetHeight)
+
+        // 小图方向与大图方向相反
+        bigBoxImage.style.left = -percentX * (bigBoxImage.offsetWidth - bigBox.offsetWidth) + 'px'
+        bigBoxImage.style.top = -percentY * (bigBoxImage.offsetHeight - bigBox.offsetHeight) + 'px'
+      }
+    }
+  }
+}
 </script>
 <style scoped>
-@import "../../assets/css/detail/pages-item.css"
+  @import "../../assets/css/detail/pages-item.css";
+  #detail-index > * {
+    padding-left: calc(100vw - 100%)
+  }
+  #top{
+    background-color: #ececec;
+  }
+  #bottom {
+    background-color: #f5f5f5;
+  }
 </style>

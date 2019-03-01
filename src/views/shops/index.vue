@@ -9,8 +9,8 @@
   </div>
 </template>
 <script>
-import shortcutHeader from '../../components/shortcutHeader'
-import pageFooter from '../../components/pageFooter'
+import shortcutHeader from '@/components/shortcutHeader'
+import pageFooter from '@/components/pageFooter'
 export default {
   data () {
     return {}

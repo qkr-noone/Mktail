@@ -16,9 +16,9 @@
   </div>
 </template>
 <script>
-import regFooter from '../../components/regFooter'
-import checkoutCounter from '../../components/checkoutCounter'
-import payRecom from '../../components/payRecom'
+import regFooter from '@/components/regFooter'
+import checkoutCounter from '@/components/checkoutCounter'
+import payRecom from '@/components/payRecom'
 export default {
   data () {
     return {}

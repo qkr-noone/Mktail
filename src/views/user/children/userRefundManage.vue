@@ -179,7 +179,7 @@ export default {
     width:120px;
   }
  .choose .long{
-   width:180px;
+   width:188px;
  }
   .choose>button{
     width:150px;

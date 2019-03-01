@@ -9,8 +9,14 @@
             <div class="gray-box ">
               <div class="box-inner">
                 <ul class="account-nav">
-                  <li v-for="(item,i) in nav" :key='i' :class="{current:item.name===title}"  @click="tab(item)">
-                    <a href="javascript:;"><span>{{item.name}}</span></a></li>
+                  <li v-for="(item,i) in nav" :class="{current:item.name===title}" :key='i'>
+                    <a href="javascript:;"  @click="tab(item, i)"><span>{{item.name}}</span><i v-if="item.child" class="el-icon-caret-bottom"></i></a>
+                    <div v-show="item.child" ref="child" class="nav-child">
+                      <li v-for="(data, index) in item.child" :key='index' :class="{current:data.name===title}">
+                        <a href="javascript:;" @click="tab(data)"><span>{{data.name}}</span></a>
+                      </li>
+                    </div>
+                  </li>
                 </ul>
               </div>
             </div>
@@ -31,13 +37,13 @@
                   </div>
                   <div class="con-item-other">
                     <div>
-                      <a>我的收货地址</a>
+                      <a><span>我的收货地址:</span><span class="num">0</span></a>
                     </div>
                     <div>
-                      <a>我的优惠信息</a>
+                      <a><span>我的优惠信息:</span><span class="num">0</span></a>
                     </div>
                     <div>
-                      <a>我的支付方式</a>
+                      <a><span>我的支付方式:</span><span class="num">0</span></a>
                     </div>
                   </div>
                 </div>
@@ -56,23 +62,23 @@
                   </div>
                   <div class="con-de-li">
                     <div class="con-de-title">
-                      <h2>我的订单</h2><a>所有订单</a>
+                      <h2>我的订单</h2><router-link :to="{path: '/user/userOrder'}">所有订单</router-link>
                     </div>
                     <ul class="con-de-item us-order">
                       <li>
-                        <a class="us-order-a"><span>待付款</span><strong class="us-order-str">{{orderStatesNum.pendingPaymentCount}}</strong></a>
+                        <a class="us-order-a"><img src="static/img/user/icon-待付款.png"><span>待付款</span><strong class="us-order-str">{{orderStatesNum.pendingPaymentCount}}</strong></a>
                       </li>
                       <li>
-                        <a class="us-order-a"><span>待发货</span><strong class="us-order-str">{{orderStatesNum.toBeShippedCount}}</strong></a>
+                        <a class="us-order-a"><img src="static/img/user/icon-待发货.png"><span>待发货</span><strong class="us-order-str">{{orderStatesNum.toBeShippedCount}}</strong></a>
                       </li>
                       <li>
-                        <a class="us-order-a"><span>待收货</span><strong class="us-order-str">{{orderStatesNum.toBeEvaluatedCount}}</strong></a>
+                        <a class="us-order-a"><img src="static/img/user/icon-待收货.png"><span>待收货</span><strong class="us-order-str">{{orderStatesNum.toBeEvaluatedCount}}</strong></a>
                       </li>
                       <li>
-                        <a class="us-order-a"><span>待评价</span><strong class="us-order-str">{{orderStatesNum.goodsReceivedCount}}</strong></a>
+                        <a class="us-order-a"><img src="static/img/user/icon-待评价.png"><span>待评价</span><strong class="us-order-str">{{orderStatesNum.goodsReceivedCount}}</strong></a>
                       </li>
                       <li>
-                        <a class="us-order-a"><span>退换/售后</span></a>
+                        <a class="us-order-a"><img src="static/img/user/icon-售后.png"><span>退换/售后</span></a>
                       </li>
                     </ul>
                   </div>
@@ -123,16 +129,6 @@
                       </div>
                     </ul>
                   </div>
-                  <div class="con-le-like">
-                    <div class="le-flow-title">
-                      <h2>猜你喜欢</h2>
-                    </div>
-                    <ul class="hot-con-ul">
-                      <li v-for="(list, tip) in likeList" :key="list.id" v-if="tip < 6">
-                        <youLike :like="list"></youLike>
-                      </li>
-                    </ul>
-                  </div>
                 </div>
                 <div class="con-all-right">
                   <div class="con-ri-focus">
@@ -140,15 +136,15 @@
                       <h3>我的关注</h3>
                     </div>
                     <ul class="focus-con">
-                      <li class="focus-li"><div class="focus-box"><a><span>0</span><h4>商品关注</h4></a></div></li>
-                      <li class="focus-li"><div class="focus-box"><a><span>0</span><h4>店铺关注</h4></a></div></li>
+                      <li class="focus-li"><div class="focus-box"><a><span>{{goodsSellersNum.goodsCollectCount}}</span><h4>商品关注</h4></a></div></li>
+                      <li class="focus-li"><div class="focus-box"><a><span>{{goodsSellersNum.sellersCollectCount}}</span><h4>店铺关注</h4></a></div></li>
                     </ul>
                   </div>
                   <div class="con-ri-his">
                     <div class="ri-his-abs" v-for="list in rightAbs" :key="list.id">
                       <router-link :to="{path:'/detail', query: {goodsId: list.id}}"><img :src="list.pic"></router-link>
                     </div>
-                    <div class="ri-focus-title">
+                    <!-- <div class="ri-focus-title">
                       <h3>浏览记录</h3>
                       <a><span>更多</span><i class="el-icon-arrow-right"></i></a>
                     </div>
@@ -156,1111 +152,26 @@
                       <li class="focus-li" v-for="(list, index) in hisList" :key="list.id" v-if="index < 6">
                         <router-link :to="{path:'/detail', query: {goodsId: list.id}}" class="focus-tag"><img :src="list.pic"></router-link>
                       </li>
-                    </ul>
+                    </ul> -->
                   </div>
                 </div>
+              </div>
+              <div class="con-le-like">
+                <div class="le-flow-title">
+                  <h2>猜你喜欢</h2>
+                </div>
+                <ul class="hot-con-ul">
+                  <li v-for="list in likeList" :key="list.id">
+                    <youLike :like="list"></youLike>
+                  </li>
+                </ul>
               </div>
             </div>
             <transition v-else>
-              <keep-alive>
-                <router-view></router-view>
-              </keep-alive>
+              <router-view></router-view>
             </transition>
           </div>
           <!-- <el-tabs  :tab-position="tabPosition" style="background-color: #fff">
-            <el-tab-pane label="全部功能">
-              <div class="con-wrap">
-                <div class="con-user">
-                  <div class="con-item">
-                    <div class="con-item-user">
-                      <a href="" class="user-head"><i class="el-icon-picture"></i></a>
-                      <span class="user-name">爱你呦</span>
-                      <p>主人很懒什么都想买</p>
-                    </div>
-                    <div class="con-item-other">
-                      <div>
-                        <span>积分：88</span>
-                      </div>
-                      <div>
-                        <span>优惠券：8</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="con-order">
-                  <div class="order-desc">
-                    <h2 class="title">我的订单</h2>
-                    <div class="order-list">
-                      <div><i class="el-icon-goods"></i><p>代付款<span class="num">(2)</span></p></div>
-                      <div><i class="el-icon-date"></i><p>待收货<span class="num">(12)</span></p></div>
-                      <div><i class="el-icon-edit"></i><p>待评价<span class="num">(2)</span></p></div>
-                      <div><i class="el-icon-service"></i><p>退换/售后</p></div>
-                      <div><i class="el-icon-arrow-right"></i><p>全部订单</p></div>
-                    </div>
-                    <ul class="order-list-detail">
-                      <li class="order-li">
-                        <a href=""><i class="el-icon-picture"></i></a>
-                        <div class="detail-desc">
-                          <p>我是您的专属配送员王智，您的订单已到达广州明珠站，配</p>
-                          <div><span>普通快递</span><span>2018-11-29 08:00:00</span></div>
-                        </div>
-                        <div class="detail-more">
-                          <a href="">查看详情</a>
-                          <a href="">查看发票/物流跟踪</a>
-                        </div>
-                      </li>
-                      <li class="order-li">
-                        <a href=""><i class="el-icon-picture"></i></a>
-                        <div class="detail-desc">
-                          <p>我是您的专属配送员王智，您的订单已到达广州明珠站，配</p>
-                          <div><span>普通快递</span><span>2018-11-29 08:00:00</span></div>
-                        </div>
-                        <div class="detail-more">
-                          <a href="">查看详情</a>
-                          <a href="">查看发票/物流跟踪</a>
-                        </div>
-                      </li>
-                      <li class="order-li">
-                        <a href=""><i class="el-icon-picture"></i></a>
-                        <div class="detail-desc">
-                          <p>我是您的专属配送员王智，您的订单已到达广州明珠站，配</p>
-                          <div><span>普通快递</span><span>2018-11-29 08:00:00</span></div>
-                        </div>
-                        <div class="detail-more">
-                          <a href="">查看详情</a>
-                          <a href="">查看发票/物流跟踪</a>
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </el-tab-pane>
-            <el-tab-pane label="我的订单">
-              <div class="con-wrap">
-                <div class="yui3-u-5-6 order-pay">
-                  <div class="body">
-                    <div class="table-title">
-                      <table class="sui-table order-table">
-                        <tr>
-                          <thead>
-                            <th width="45%">订单详情</th>
-                            <th width="6%">收货人</th>
-                            <th width="6%">金额</th>
-                            <th width="10%">商品操作</th>
-                            <th width="10%">交易状态</th>
-                            <th width="11%">交易操作</th>
-                          </thead>
-                        </tr>
-                      </table>
-                    </div>
-                    <div class="order-detail">
-                      <div class="orders">
-                        <div class="choose-order">
-                          <div class="sui-pagination pagination-large top-pages">
-                            <ul>
-                              <li class="prev disabled">
-                                <a href="">上一页</a>
-                              </li>
-                              <li class="next">
-                                <a href="">下一页</a>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-                        <div class="choose-title">
-                          <label data-toggle="checkbox" class="checkbox-pretty ">
-                            <input type="checkbox" checked="checked">
-                            <span>2017-02-11 11:5&nbsp;订单编号：7867473872181848&nbsp;店铺：哇哈哈<a>和我联系</a></span>
-                          </label>
-                          <a class="sui-btn btn-info share-btn">分享</a>
-                        </div>
-                        <table class="sui-table table-bordered order-datatable">
-                          <tbody>
-                            <tr>
-                              <td width="45%">
-                                <div class="typographic">
-                                  <div><img src="static/img/dp03.png"></div>
-                                  <div>
-                                    <a href="" class="block-text">包邮&nbsp;正品玛姬儿压缩面膜无纺布纸膜100粒&nbsp;送泡瓶面膜刷喷瓶&nbsp;新款</a>
-                                    <span class="guige">规格：温泉喷雾150ml</span>
-                                  </div>
-                                </div>
-                              </td>
-                              <td width="6%" class="center">遇见你了得</td>
-                              <td width="6%" class="center">
-                                <ul class="unstyled">
-                                  <li class="o-price">¥299.00</li>
-                                </ul>
-                              </td>
-                              <td width="10%" class="center">
-                                <ul class="unstyled">
-                                  <li >申请售后</li>
-                                  <li >投诉</li>
-                                </ul>
-                              </td>
-                              <td width="10%" class="center">
-                                <ul class="unstyled">
-                                  <li >交易成功</li>
-                                  <li >订单详情</li>
-                                </ul>
-                              </td>
-                              <td width="11%" class="center">
-                                <ul class="unstyled">
-                                  <li>评价</li>
-                                  <li><a class="btn">订单详情</a></li>
-                                </ul>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                        <div class="choose-title">
-                          <label data-toggle="checkbox" class="checkbox-pretty ">
-                            <input type="checkbox" checked="checked">
-                            <span>2017-02-11 11:5&nbsp;订单编号：7867473872181848&nbsp;店铺：哇哈哈<a>和我联系</a></span>
-                          </label>
-                          <a class="sui-btn btn-info share-btn">分享</a>
-                        </div>
-                        <table class="sui-table table-bordered order-datatable">
-                          <tbody>
-                            <tr>
-                              <td width="45%">
-                                <div class="typographic">
-                                  <div><img src="static/img/dp03.png"></div>
-                                  <div>
-                                    <a href="" class="block-text">包邮&nbsp;正品玛姬儿压缩面膜无纺布纸膜100粒&nbsp;送泡瓶面膜刷喷瓶&nbsp;新款</a>
-                                    <span class="guige">规格：温泉喷雾150ml</span>
-                                  </div>
-                                </div>
-                              </td>
-                              <td width="6%" class="center">遇见你了得</td>
-                              <td width="6%" class="center">
-                                <ul class="unstyled">
-                                  <li class="o-price">¥299.00</li>
-                                </ul>
-                              </td>
-                              <td width="10%" class="center">
-                                <ul class="unstyled">
-                                  <li >申请售后</li>
-                                  <li >投诉</li>
-                                </ul>
-                              </td>
-                              <td width="10%" class="center">
-                                <ul class="unstyled">
-                                  <li >交易成功</li>
-                                  <li >订单详情</li>
-                                </ul>
-                              </td>
-                              <td width="11%" class="center">
-                                <ul class="unstyled">
-                                  <li>评价</li>
-                                  <li><a class="btn">订单详情</a></li>
-                                </ul>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                        <div class="choose-title">
-                          <label data-toggle="checkbox" class="checkbox-pretty ">
-                            <input type="checkbox" checked="checked">
-                            <span>2017-02-11 11:5&nbsp;订单编号：7867473872181848&nbsp;店铺：哇哈哈<a>和我联系</a></span>
-                          </label>
-                          <a class="sui-btn btn-info share-btn">分享</a>
-                        </div>
-                        <table class="sui-table table-bordered order-datatable">
-                          <tbody>
-                            <tr>
-                              <td width="45%">
-                                <div class="typographic">
-                                  <div><img src="static/img/dp03.png"></div>
-                                  <div>
-                                    <a href="" class="block-text">包邮&nbsp;正品玛姬儿压缩面膜无纺布纸膜100粒&nbsp;送泡瓶面膜刷喷瓶&nbsp;新款</a>
-                                    <span class="guige">规格：温泉喷雾150ml</span>
-                                  </div>
-                                </div>
-                              </td>
-                              <td width="6%" class="center">遇见你了得</td>
-                              <td width="6%" class="center">
-                                <ul class="unstyled">
-                                  <li class="o-price">¥299.00</li>
-                                </ul>
-                              </td>
-                              <td width="10%" class="center">
-                                <ul class="unstyled">
-                                  <li >申请售后</li>
-                                  <li >投诉</li>
-                                </ul>
-                              </td>
-                              <td width="10%" class="center">
-                                <ul class="unstyled">
-                                  <li >交易成功</li>
-                                  <li >订单详情</li>
-                                </ul>
-                              </td>
-                              <td width="11%" class="center">
-                                <ul class="unstyled">
-                                  <li>评价</li>
-                                  <li><a class="btn">订单详情</a></li>
-                                </ul>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </el-tab-pane>
-            <el-tab-pane label="待收货">
-              <div class="con-wrap">
-                <div class="yui3-u-5-6 order-pay">
-                  <div class="body">
-                    <div class="table-title">
-                      <table class="sui-table order-table">
-                        <tr>
-                          <thead>
-                            <th width="45%">订单详情</th>
-                            <th width="6%">收货人</th>
-                            <th width="6%">金额</th>
-                            <th width="10%">商品操作</th>
-                            <th width="10%">交易状态</th>
-                            <th width="11%">交易操作</th>
-                          </thead>
-                        </tr>
-                      </table>
-                    </div>
-                    <div class="order-detail">
-                      <div class="orders">
-                        <div class="choose-order">
-                          <div class="sui-pagination pagination-large top-pages">
-                            <ul>
-                              <li class="prev disabled">
-                                <a href="">上一页</a>
-                              </li>
-                              <li class="next">
-                                <a href="">下一页</a>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-                        <div class="choose-title">
-                          <label data-toggle="checkbox" class="checkbox-pretty ">
-                            <input type="checkbox" checked="checked">
-                            <span>2017-02-11 11:5&nbsp;订单编号：7867473872181848&nbsp;店铺：哇哈哈<a>和我联系</a></span>
-                          </label>
-                          <a class="sui-btn btn-info share-btn">分享</a>
-                        </div>
-                        <table class="sui-table table-bordered order-datatable">
-                          <tbody>
-                            <tr>
-                              <td width="45%">
-                                <div class="typographic">
-                                  <div><img src="static/img/dp03.png"></div>
-                                  <div>
-                                    <a href="" class="block-text">包邮&nbsp;正品玛姬儿压缩面膜无纺布纸膜100粒&nbsp;送泡瓶面膜刷喷瓶&nbsp;新款</a>
-                                    <span class="guige">规格：温泉喷雾150ml</span>
-                                  </div>
-                                </div>
-                              </td>
-                              <td width="6%" class="center">遇见你了得</td>
-                              <td width="6%" class="center">
-                                <ul class="unstyled">
-                                  <li class="o-price">¥299.00</li>
-                                </ul>
-                              </td>
-                              <td width="10%" class="center">
-                                <ul class="unstyled">
-                                  <li >申请售后</li>
-                                  <li >投诉</li>
-                                </ul>
-                              </td>
-                              <td width="10%" class="center">
-                                <ul class="unstyled">
-                                  <li >交易成功</li>
-                                  <li >订单详情</li>
-                                </ul>
-                              </td>
-                              <td width="11%" class="center">
-                                <ul class="unstyled">
-                                  <li>评价</li>
-                                  <li><a class="btn">订单详情</a></li>
-                                </ul>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                        <div class="choose-title">
-                          <label data-toggle="checkbox" class="checkbox-pretty ">
-                            <input type="checkbox" checked="checked">
-                            <span>2017-02-11 11:5&nbsp;订单编号：7867473872181848&nbsp;店铺：哇哈哈<a>和我联系</a></span>
-                          </label>
-                          <a class="sui-btn btn-info share-btn">分享</a>
-                        </div>
-                        <table class="sui-table table-bordered order-datatable">
-                          <tbody>
-                            <tr>
-                              <td width="45%">
-                                <div class="typographic">
-                                  <div><img src="static/img/dp03.png"></div>
-                                  <div>
-                                    <a href="" class="block-text">包邮&nbsp;正品玛姬儿压缩面膜无纺布纸膜100粒&nbsp;送泡瓶面膜刷喷瓶&nbsp;新款</a>
-                                    <span class="guige">规格：温泉喷雾150ml</span>
-                                  </div>
-                                </div>
-                              </td>
-                              <td width="6%" class="center">遇见你了得</td>
-                              <td width="6%" class="center">
-                                <ul class="unstyled">
-                                  <li class="o-price">¥299.00</li>
-                                </ul>
-                              </td>
-                              <td width="10%" class="center">
-                                <ul class="unstyled">
-                                  <li >申请售后</li>
-                                  <li >投诉</li>
-                                </ul>
-                              </td>
-                              <td width="10%" class="center">
-                                <ul class="unstyled">
-                                  <li >交易成功</li>
-                                  <li >订单详情</li>
-                                </ul>
-                              </td>
-                              <td width="11%" class="center">
-                                <ul class="unstyled">
-                                  <li>评价</li>
-                                  <li><a class="btn">订单详情</a></li>
-                                </ul>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                        <div class="choose-title">
-                          <label data-toggle="checkbox" class="checkbox-pretty ">
-                            <input type="checkbox" checked="checked">
-                            <span>2017-02-11 11:5&nbsp;订单编号：7867473872181848&nbsp;店铺：哇哈哈<a>和我联系</a></span>
-                          </label>
-                          <a class="sui-btn btn-info share-btn">分享</a>
-                        </div>
-                        <table class="sui-table table-bordered order-datatable">
-                          <tbody>
-                            <tr>
-                              <td width="45%">
-                                <div class="typographic">
-                                  <div><img src="static/img/dp03.png"></div>
-                                  <div>
-                                    <a href="" class="block-text">包邮&nbsp;正品玛姬儿压缩面膜无纺布纸膜100粒&nbsp;送泡瓶面膜刷喷瓶&nbsp;新款</a>
-                                    <span class="guige">规格：温泉喷雾150ml</span>
-                                  </div>
-                                </div>
-                              </td>
-                              <td width="6%" class="center">遇见你了得</td>
-                              <td width="6%" class="center">
-                                <ul class="unstyled">
-                                  <li class="o-price">¥299.00</li>
-                                </ul>
-                              </td>
-                              <td width="10%" class="center">
-                                <ul class="unstyled">
-                                  <li >申请售后</li>
-                                  <li >投诉</li>
-                                </ul>
-                              </td>
-                              <td width="10%" class="center">
-                                <ul class="unstyled">
-                                  <li >交易成功</li>
-                                  <li >订单详情</li>
-                                </ul>
-                              </td>
-                              <td width="11%" class="center">
-                                <ul class="unstyled">
-                                  <li>评价</li>
-                                  <li><a class="btn">订单详情</a></li>
-                                </ul>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </el-tab-pane>
-            <el-tab-pane label="待发货">
-              <div class="con-wrap">
-                <div class="yui3-u-5-6 order-pay">
-                  <div class="body">
-                    <div class="table-title">
-                      <table class="sui-table order-table">
-                        <tr>
-                          <thead>
-                            <th width="45%">订单详情</th>
-                            <th width="6%">收货人</th>
-                            <th width="6%">金额</th>
-                            <th width="10%">商品操作</th>
-                            <th width="10%">交易状态</th>
-                            <th width="11%">交易操作</th>
-                          </thead>
-                        </tr>
-                      </table>
-                    </div>
-                    <div class="order-detail">
-                      <div class="orders">
-                        <div class="choose-order">
-                          <div class="sui-pagination pagination-large top-pages">
-                            <ul>
-                              <li class="prev disabled">
-                                <a href="">上一页</a>
-                              </li>
-                              <li class="next">
-                                <a href="">下一页</a>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-                        <div class="choose-title">
-                          <label data-toggle="checkbox" class="checkbox-pretty ">
-                            <input type="checkbox" checked="checked">
-                            <span>2017-02-11 11:5&nbsp;订单编号：7867473872181848&nbsp;店铺：哇哈哈<a>和我联系</a></span>
-                          </label>
-                          <a class="sui-btn btn-info share-btn">分享</a>
-                        </div>
-                        <table class="sui-table table-bordered order-datatable">
-                          <tbody>
-                            <tr>
-                              <td width="45%">
-                                <div class="typographic">
-                                  <div><img src="static/img/dp03.png"></div>
-                                  <div>
-                                    <a href="" class="block-text">包邮&nbsp;正品玛姬儿压缩面膜无纺布纸膜100粒&nbsp;送泡瓶面膜刷喷瓶&nbsp;新款</a>
-                                    <span class="guige">规格：温泉喷雾150ml</span>
-                                  </div>
-                                </div>
-                              </td>
-                              <td width="6%" class="center">遇见你了得</td>
-                              <td width="6%" class="center">
-                                <ul class="unstyled">
-                                  <li class="o-price">¥299.00</li>
-                                </ul>
-                              </td>
-                              <td width="10%" class="center">
-                                <ul class="unstyled">
-                                  <li >申请售后</li>
-                                  <li >投诉</li>
-                                </ul>
-                              </td>
-                              <td width="10%" class="center">
-                                <ul class="unstyled">
-                                  <li >交易成功</li>
-                                  <li >订单详情</li>
-                                </ul>
-                              </td>
-                              <td width="11%" class="center">
-                                <ul class="unstyled">
-                                  <li>评价</li>
-                                  <li><a class="btn">订单详情</a></li>
-                                </ul>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                        <div class="choose-title">
-                          <label data-toggle="checkbox" class="checkbox-pretty ">
-                            <input type="checkbox" checked="checked">
-                            <span>2017-02-11 11:5&nbsp;订单编号：7867473872181848&nbsp;店铺：哇哈哈<a>和我联系</a></span>
-                          </label>
-                          <a class="sui-btn btn-info share-btn">分享</a>
-                        </div>
-                        <table class="sui-table table-bordered order-datatable">
-                          <tbody>
-                            <tr>
-                              <td width="45%">
-                                <div class="typographic">
-                                  <div><img src="static/img/dp03.png"></div>
-                                  <div>
-                                    <a href="" class="block-text">包邮&nbsp;正品玛姬儿压缩面膜无纺布纸膜100粒&nbsp;送泡瓶面膜刷喷瓶&nbsp;新款</a>
-                                    <span class="guige">规格：温泉喷雾150ml</span>
-                                  </div>
-                                </div>
-                              </td>
-                              <td width="6%" class="center">遇见你了得</td>
-                              <td width="6%" class="center">
-                                <ul class="unstyled">
-                                  <li class="o-price">¥299.00</li>
-                                </ul>
-                              </td>
-                              <td width="10%" class="center">
-                                <ul class="unstyled">
-                                  <li >申请售后</li>
-                                  <li >投诉</li>
-                                </ul>
-                              </td>
-                              <td width="10%" class="center">
-                                <ul class="unstyled">
-                                  <li >交易成功</li>
-                                  <li >订单详情</li>
-                                </ul>
-                              </td>
-                              <td width="11%" class="center">
-                                <ul class="unstyled">
-                                  <li>评价</li>
-                                  <li><a class="btn">订单详情</a></li>
-                                </ul>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                        <div class="choose-title">
-                          <label data-toggle="checkbox" class="checkbox-pretty ">
-                            <input type="checkbox" checked="checked">
-                            <span>2017-02-11 11:5&nbsp;订单编号：7867473872181848&nbsp;店铺：哇哈哈<a>和我联系</a></span>
-                          </label>
-                          <a class="sui-btn btn-info share-btn">分享</a>
-                        </div>
-                        <table class="sui-table table-bordered order-datatable">
-                          <tbody>
-                            <tr>
-                              <td width="45%">
-                                <div class="typographic">
-                                  <div><img src="static/img/dp03.png"></div>
-                                  <div>
-                                    <a href="" class="block-text">包邮&nbsp;正品玛姬儿压缩面膜无纺布纸膜100粒&nbsp;送泡瓶面膜刷喷瓶&nbsp;新款</a>
-                                    <span class="guige">规格：温泉喷雾150ml</span>
-                                  </div>
-                                </div>
-                              </td>
-                              <td width="6%" class="center">遇见你了得</td>
-                              <td width="6%" class="center">
-                                <ul class="unstyled">
-                                  <li class="o-price">¥299.00</li>
-                                </ul>
-                              </td>
-                              <td width="10%" class="center">
-                                <ul class="unstyled">
-                                  <li >申请售后</li>
-                                  <li >投诉</li>
-                                </ul>
-                              </td>
-                              <td width="10%" class="center">
-                                <ul class="unstyled">
-                                  <li >交易成功</li>
-                                  <li >订单详情</li>
-                                </ul>
-                              </td>
-                              <td width="11%" class="center">
-                                <ul class="unstyled">
-                                  <li>评价</li>
-                                  <li><a class="btn">订单详情</a></li>
-                                </ul>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </el-tab-pane>
-            <el-tab-pane label="待收货">
-              <div class="con-wrap">
-                <div class="yui3-u-5-6 order-pay">
-                  <div class="body">
-                    <div class="table-title">
-                      <table class="sui-table order-table">
-                        <tr>
-                          <thead>
-                            <th width="45%">订单详情</th>
-                            <th width="6%">收货人</th>
-                            <th width="6%">金额</th>
-                            <th width="10%">商品操作</th>
-                            <th width="10%">交易状态</th>
-                            <th width="11%">交易操作</th>
-                          </thead>
-                        </tr>
-                      </table>
-                    </div>
-                    <div class="order-detail">
-                      <div class="orders">
-                        <div class="choose-order">
-                          <div class="sui-pagination pagination-large top-pages">
-                            <ul>
-                              <li class="prev disabled">
-                                <a href="">上一页</a>
-                              </li>
-                              <li class="next">
-                                <a href="">下一页</a>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-                        <div class="choose-title">
-                          <label data-toggle="checkbox" class="checkbox-pretty ">
-                            <input type="checkbox" checked="checked">
-                            <span>2017-02-11 11:5&nbsp;订单编号：7867473872181848&nbsp;店铺：哇哈哈<a>和我联系</a></span>
-                          </label>
-                          <a class="sui-btn btn-info share-btn">分享</a>
-                        </div>
-                        <table class="sui-table table-bordered order-datatable">
-                          <tbody>
-                            <tr>
-                              <td width="45%">
-                                <div class="typographic">
-                                  <div><img src="static/img/dp03.png"></div>
-                                  <div>
-                                    <a href="" class="block-text">包邮&nbsp;正品玛姬儿压缩面膜无纺布纸膜100粒&nbsp;送泡瓶面膜刷喷瓶&nbsp;新款</a>
-                                    <span class="guige">规格：温泉喷雾150ml</span>
-                                  </div>
-                                </div>
-                              </td>
-                              <td width="6%" class="center">遇见你了得</td>
-                              <td width="6%" class="center">
-                                <ul class="unstyled">
-                                  <li class="o-price">¥299.00</li>
-                                </ul>
-                              </td>
-                              <td width="10%" class="center">
-                                <ul class="unstyled">
-                                  <li >申请售后</li>
-                                  <li >投诉</li>
-                                </ul>
-                              </td>
-                              <td width="10%" class="center">
-                                <ul class="unstyled">
-                                  <li >交易成功</li>
-                                  <li >订单详情</li>
-                                </ul>
-                              </td>
-                              <td width="11%" class="center">
-                                <ul class="unstyled">
-                                  <li>评价</li>
-                                  <li><a class="btn">订单详情</a></li>
-                                </ul>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                        <div class="choose-title">
-                          <label data-toggle="checkbox" class="checkbox-pretty ">
-                            <input type="checkbox" checked="checked">
-                            <span>2017-02-11 11:5&nbsp;订单编号：7867473872181848&nbsp;店铺：哇哈哈<a>和我联系</a></span>
-                          </label>
-                          <a class="sui-btn btn-info share-btn">分享</a>
-                        </div>
-                        <table class="sui-table table-bordered order-datatable">
-                          <tbody>
-                            <tr>
-                              <td width="45%">
-                                <div class="typographic">
-                                  <div><img src="static/img/dp03.png"></div>
-                                  <div>
-                                    <a href="" class="block-text">包邮&nbsp;正品玛姬儿压缩面膜无纺布纸膜100粒&nbsp;送泡瓶面膜刷喷瓶&nbsp;新款</a>
-                                    <span class="guige">规格：温泉喷雾150ml</span>
-                                  </div>
-                                </div>
-                              </td>
-                              <td width="6%" class="center">遇见你了得</td>
-                              <td width="6%" class="center">
-                                <ul class="unstyled">
-                                  <li class="o-price">¥299.00</li>
-                                </ul>
-                              </td>
-                              <td width="10%" class="center">
-                                <ul class="unstyled">
-                                  <li >申请售后</li>
-                                  <li >投诉</li>
-                                </ul>
-                              </td>
-                              <td width="10%" class="center">
-                                <ul class="unstyled">
-                                  <li >交易成功</li>
-                                  <li >订单详情</li>
-                                </ul>
-                              </td>
-                              <td width="11%" class="center">
-                                <ul class="unstyled">
-                                  <li>评价</li>
-                                  <li><a class="btn">订单详情</a></li>
-                                </ul>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                        <div class="choose-title">
-                          <label data-toggle="checkbox" class="checkbox-pretty ">
-                            <input type="checkbox" checked="checked">
-                            <span>2017-02-11 11:5&nbsp;订单编号：7867473872181848&nbsp;店铺：哇哈哈<a>和我联系</a></span>
-                          </label>
-                          <a class="sui-btn btn-info share-btn">分享</a>
-                        </div>
-                        <table class="sui-table table-bordered order-datatable">
-                          <tbody>
-                            <tr>
-                              <td width="45%">
-                                <div class="typographic">
-                                  <div><img src="static/img/dp03.png"></div>
-                                  <div>
-                                    <a href="" class="block-text">包邮&nbsp;正品玛姬儿压缩面膜无纺布纸膜100粒&nbsp;送泡瓶面膜刷喷瓶&nbsp;新款</a>
-                                    <span class="guige">规格：温泉喷雾150ml</span>
-                                  </div>
-                                </div>
-                              </td>
-                              <td width="6%" class="center">遇见你了得</td>
-                              <td width="6%" class="center">
-                                <ul class="unstyled">
-                                  <li class="o-price">¥299.00</li>
-                                </ul>
-                              </td>
-                              <td width="10%" class="center">
-                                <ul class="unstyled">
-                                  <li >申请售后</li>
-                                  <li >投诉</li>
-                                </ul>
-                              </td>
-                              <td width="10%" class="center">
-                                <ul class="unstyled">
-                                  <li >交易成功</li>
-                                  <li >订单详情</li>
-                                </ul>
-                              </td>
-                              <td width="11%" class="center">
-                                <ul class="unstyled">
-                                  <li>评价</li>
-                                  <li><a class="btn">订单详情</a></li>
-                                </ul>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </el-tab-pane>
-            <el-tab-pane label="待评价">
-              <div class="con-wrap">
-                <div class="yui3-u-5-6 order-pay">
-                  <div class="body">
-                    <div class="table-title">
-                      <table class="sui-table order-table">
-                        <tr>
-                          <thead>
-                            <th width="45%">订单详情</th>
-                            <th width="6%">收货人</th>
-                            <th width="6%">金额</th>
-                            <th width="10%">商品操作</th>
-                            <th width="10%">交易状态</th>
-                            <th width="11%">交易操作</th>
-                          </thead>
-                        </tr>
-                      </table>
-                    </div>
-                    <div class="order-detail">
-                      <div class="orders">
-                        <div class="choose-order">
-                          <div class="sui-pagination pagination-large top-pages">
-                            <ul>
-                              <li class="prev disabled">
-                                <a href="">上一页</a>
-                              </li>
-                              <li class="next">
-                                <a href="">下一页</a>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-                        <div class="choose-title">
-                          <label data-toggle="checkbox" class="checkbox-pretty ">
-                            <input type="checkbox" checked="checked">
-                            <span>2017-02-11 11:5&nbsp;订单编号：7867473872181848&nbsp;店铺：哇哈哈<a>和我联系</a></span>
-                          </label>
-                          <a class="sui-btn btn-info share-btn">分享</a>
-                        </div>
-                        <table class="sui-table table-bordered order-datatable">
-                          <tbody>
-                            <tr>
-                              <td width="45%">
-                                <div class="typographic">
-                                  <div><img src="static/img/dp03.png"></div>
-                                  <div>
-                                    <a href="" class="block-text">包邮&nbsp;正品玛姬儿压缩面膜无纺布纸膜100粒&nbsp;送泡瓶面膜刷喷瓶&nbsp;新款</a>
-                                    <span class="guige">规格：温泉喷雾150ml</span>
-                                  </div>
-                                </div>
-                              </td>
-                              <td width="6%" class="center">遇见你了得</td>
-                              <td width="6%" class="center">
-                                <ul class="unstyled">
-                                  <li class="o-price">¥299.00</li>
-                                </ul>
-                              </td>
-                              <td width="10%" class="center">
-                                <ul class="unstyled">
-                                  <li >申请售后</li>
-                                  <li >投诉</li>
-                                </ul>
-                              </td>
-                              <td width="10%" class="center">
-                                <ul class="unstyled">
-                                  <li >交易成功</li>
-                                  <li >订单详情</li>
-                                </ul>
-                              </td>
-                              <td width="11%" class="center">
-                                <ul class="unstyled">
-                                  <li>评价</li>
-                                  <li><a class="btn">订单详情</a></li>
-                                </ul>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                        <div class="choose-title">
-                          <label data-toggle="checkbox" class="checkbox-pretty ">
-                            <input type="checkbox" checked="checked">
-                            <span>2017-02-11 11:5&nbsp;订单编号：7867473872181848&nbsp;店铺：哇哈哈<a>和我联系</a></span>
-                          </label>
-                          <a class="sui-btn btn-info share-btn">分享</a>
-                        </div>
-                        <table class="sui-table table-bordered order-datatable">
-                          <tbody>
-                            <tr>
-                              <td width="45%">
-                                <div class="typographic">
-                                  <div><img src="static/img/dp03.png"></div>
-                                  <div>
-                                    <a href="" class="block-text">包邮&nbsp;正品玛姬儿压缩面膜无纺布纸膜100粒&nbsp;送泡瓶面膜刷喷瓶&nbsp;新款</a>
-                                    <span class="guige">规格：温泉喷雾150ml</span>
-                                  </div>
-                                </div>
-                              </td>
-                              <td width="6%" class="center">遇见你了得</td>
-                              <td width="6%" class="center">
-                                <ul class="unstyled">
-                                  <li class="o-price">¥299.00</li>
-                                </ul>
-                              </td>
-                              <td width="10%" class="center">
-                                <ul class="unstyled">
-                                  <li >申请售后</li>
-                                  <li >投诉</li>
-                                </ul>
-                              </td>
-                              <td width="10%" class="center">
-                                <ul class="unstyled">
-                                  <li >交易成功</li>
-                                  <li >订单详情</li>
-                                </ul>
-                              </td>
-                              <td width="11%" class="center">
-                                <ul class="unstyled">
-                                  <li>评价</li>
-                                  <li><a class="btn">订单详情</a></li>
-                                </ul>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                        <div class="choose-title">
-                          <label data-toggle="checkbox" class="checkbox-pretty ">
-                            <input type="checkbox" checked="checked">
-                            <span>2017-02-11 11:5&nbsp;订单编号：7867473872181848&nbsp;店铺：哇哈哈<a>和我联系</a></span>
-                          </label>
-                          <a class="sui-btn btn-info share-btn">分享</a>
-                        </div>
-                        <table class="sui-table table-bordered order-datatable">
-                          <tbody>
-                            <tr>
-                              <td width="45%">
-                                <div class="typographic">
-                                  <div><img src="static/img/dp03.png"></div>
-                                  <div>
-                                    <a href="" class="block-text">包邮&nbsp;正品玛姬儿压缩面膜无纺布纸膜100粒&nbsp;送泡瓶面膜刷喷瓶&nbsp;新款</a>
-                                    <span class="guige">规格：温泉喷雾150ml</span>
-                                  </div>
-                                </div>
-                              </td>
-                              <td width="6%" class="center">遇见你了得</td>
-                              <td width="6%" class="center">
-                                <ul class="unstyled">
-                                  <li class="o-price">¥299.00</li>
-                                </ul>
-                              </td>
-                              <td width="10%" class="center">
-                                <ul class="unstyled">
-                                  <li >申请售后</li>
-                                  <li >投诉</li>
-                                </ul>
-                              </td>
-                              <td width="10%" class="center">
-                                <ul class="unstyled">
-                                  <li >交易成功</li>
-                                  <li >订单详情</li>
-                                </ul>
-                              </td>
-                              <td width="11%" class="center">
-                                <ul class="unstyled">
-                                  <li>评价</li>
-                                  <li><a class="btn">订单详情</a></li>
-                                </ul>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </el-tab-pane>
-            <el-tab-pane label="关注商品">
-              <div class="con-wrap">
-                <div class="atten-title">
-                  <h2>全部</h2>
-                  <div class="search">搜索</div>
-                </div>
-              </div>
-              <div class="atten-con">
-                <div class="atten-filter">
-                  <a href="">分类</a>
-                  <p>批量操作</p>
-                </div>
-              </div>
-              <ul class="atten-ul">
-                <li class="atten-li">
-                  <div class="atten-img">
-                    <a href=""><img src="static/img/s3.png"></a>
-                  </div>
-                  <div class="atten-desc">
-                    <p>商品描述吗日本 Dr.Ci.Labo城野医生毛孔收敛水 10本 Dr.Ci.Labo城野医生毛孔收敛</p>
-                    <span>￥109.00</span>
-                  </div>
-                  <div class="atten-detail-filter">
-                    <div>加入购物车</div>
-                    <div>对比</div>
-                    <div>降价通知</div>
-                  </div>
-                </li>
-                <li class="atten-li">
-                  <div class="atten-img">
-                    <a href=""><img src="static/img/s3.png"></a>
-                  </div>
-                  <div class="atten-desc">
-                    <p>商品描述吗日本 Dr.Ci.Labo城野医生毛孔收敛水 10本 Dr.Ci.Labo城野医生毛孔收敛</p>
-                    <span>￥109.00</span>
-                  </div>
-                  <div class="atten-detail-filter">
-                    <div>加入购物车</div>
-                    <div>对比</div>
-                    <div>降价通知</div>
-                  </div>
-                </li>
-                <li class="atten-li">
-                  <div class="atten-img">
-                    <a href=""><img src="static/img/s3.png"></a>
-                  </div>
-                  <div class="atten-desc">
-                    <p>商品描述吗日本 Dr.Ci.Labo城野医生毛孔收敛水 10本 Dr.Ci.Labo城野医生毛孔收敛</p>
-                    <span>￥109.00</span>
-                  </div>
-                  <div class="atten-detail-filter">
-                    <div>加入购物车</div>
-                    <div>对比</div>
-                    <div>降价通知</div>
-                  </div>
-                </li>
-                <li class="atten-li">
-                  <div class="atten-img">
-                    <a href=""><img src="static/img/s3.png"></a>
-                  </div>
-                  <div class="atten-desc">
-                    <p>商品描述吗日本 Dr.Ci.Labo城野医生毛孔收敛水 10本 Dr.Ci.Labo城野医生毛孔收敛</p>
-                    <span>￥109.00</span>
-                  </div>
-                  <div class="atten-detail-filter">
-                    <div>加入购物车</div>
-                    <div>对比</div>
-                    <div>降价通知</div>
-                  </div>
-                </li>
-                <li class="atten-li">
-                  <div class="atten-img">
-                    <a href=""><img src="static/img/s3.png"></a>
-                  </div>
-                  <div class="atten-desc">
-                    <p>商品描述吗日本 Dr.Ci.Labo城野医生毛孔收敛水 10本 Dr.Ci.Labo城野医生毛孔收敛</p>
-                    <span>￥109.00</span>
-                  </div>
-                  <div class="atten-detail-filter">
-                    <div>加入购物车</div>
-                    <div>对比</div>
-                    <div>降价通知</div>
-                  </div>
-                </li>
-              </ul>
-            </el-tab-pane>
-            <el-tab-pane label="关注店铺">
-              <div class="con-wrap">
-                <div class="shops">
-                  <ul class="shops-ul">
-                    <li class="shops-li">
-                      <div class="shops-detail">
-                        <div class="shops-img">
-                          <router-link :to="{path: '/detail'}">
-                            <img src="static/img/s3.png">
-                          </router-link>
-                          <p>猴尾巴设计有限公司</p>
-                        </div>
-                        <div class="shops-link">
-                          <div>进入店铺</div>
-                          <div>联系客服</div>
-                        </div>
-                      </div>
-                      <ul class="shops-goods">
-                        <li class="shops-goods-li">
-                          <a><img src="static/img/s3.png"></a>
-                          <p>￥44</p>
-                        </li>
-                        <li class="shops-goods-li">
-                          <a><img src="static/img/s3.png"></a>
-                          <p>￥44</p>
-                        </li>
-                      </ul>
-                    </li>
-                    <li class="shops-li">
-                      <div class="shops-detail">
-                        <div class="shops-img">
-                          <router-link :to="{path: '/detail'}">
-                            <img src="static/img/s3.png">
-                          </router-link>
-                          <p>猴尾巴设计有限公司</p>
-                        </div>
-                        <div class="shops-link">
-                          <div>进入店铺</div>
-                          <div>联系客服</div>
-                        </div>
-                      </div>
-                      <ul class="shops-goods">
-                        <li class="shops-goods-li">
-                          <a><img src="static/img/s3.png"></a>
-                          <p>￥44</p>
-                        </li>
-                        <li class="shops-goods-li">
-                          <a><img src="static/img/s3.png"></a>
-                          <p>￥44</p>
-                        </li>
-                      </ul>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </el-tab-pane>
-            <el-tab-pane label="客户服务">客户服务</el-tab-pane>
-            <el-tab-pane label="退款维权">退款维权</el-tab-pane>
-            <el-tab-pane label="设置">设置</el-tab-pane>
             <el-tab-pane label="个人信息">
               <div class="con-wrap">
                 <el-tabs type="border-card">
@@ -1381,35 +292,110 @@
             </el-tab-pane>
           </el-tabs> -->
         </div>
+        <div class="recommend" v-if="isOrder">
+          <div class="recommend-top">
+            <span>为您推荐</span>
+            <hr>
+            <div class="page-turning">
+              <el-pagination small layout="prev, pager, next" :total="50"></el-pagination>
+            </div>
+          </div>
+          <div class="recommend-list">
+            <ul class="recommend-list">
+              <li class="list-item">
+                <img src="static/img/user/user_demo.png">
+                <p class="list-item-title">
+                  希箭HOROW 全铜冷热水龙头<br>
+                  单把双孔方形面盆龙头卫浴
+                </p>
+                <p class="price">￥549.00</p>
+              </li>
+              <li class="list-item">
+                <img src="static/img/user/user_demo.png">
+                <p class="list-item-title">
+                  希箭HOROW 全铜冷热水龙头<br>
+                  单把双孔方形面盆龙头卫浴
+                </p>
+                <p class="price">￥549.00</p>
+              </li>
+              <li class="list-item">
+                <img src="static/img/user/user_demo.png">
+                <p class="list-item-title">
+                  希箭HOROW 全铜冷热水龙头<br>
+                  单把双孔方形面盆龙头卫浴
+                </p>
+                <p class="price">￥549.00</p>
+              </li>
+              <li class="list-item">
+                <img src="static/img/user/user_demo.png">
+                <p class="list-item-title">
+                  希箭HOROW 全铜冷热水龙头<br>
+                  单把双孔方形面盆龙头卫浴
+                </p>
+                <p class="price">￥549.00</p>
+              </li>
+              <li class="list-item">
+                <img src="static/img/user/user_demo.png">
+                <p class="list-item-title">
+                  希箭HOROW 全铜冷热水龙头<br>
+                  单把双孔方形面盆龙头卫浴
+                </p>
+                <p class="price">￥549.00</p>
+              </li>
+              <li class="list-item">
+              <img src="static/img/user/user_demo.png">
+              <p class="list-item-title">
+                希箭HOROW 全铜冷热水龙头<br>
+                单把双孔方形面盆龙头卫浴
+              </p>
+              <p class="price">￥549.00</p>
+            </li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 <script>
-import { apiAxios } from '../../common/utils'
-import { api } from '../../common/api'
-import shortcut from '../../components/shortcutHeader'
-import userNav from '../../components/userNav'
-import youLike from '../../components/youLike'
+import shortcut from '@/components/shortcutHeader'
+import userNav from '@/components/userNav'
+import youLike from '@/components/youLike'
 export default {
   data () {
     return {
       title: '',
       nav: [
-        {name: '购物车', path: 'userCart'},
+        {name: '购物车', path: 'cart'},
         {name: '我的订单', path: 'userOrder'},
-        {name: '我的收藏', path: 'userCollect'}, // 收藏店铺userCollectShop收藏宝贝userCollectGoods
-        {name: '收藏宝贝', path: 'userCollectGoods'}, // 收藏宝贝
+        {
+          name: '我的收藏',
+          path: '',
+          child: [
+            {name: '收藏店铺', path: 'userCollectShop'},
+            {name: '收藏宝贝', path: 'userCollectGoods'}
+          ]
+        },
         {name: '我的评价', path: 'userAssess'},
         {name: '我的足迹', path: 'userHistory'},
         {name: '我的优惠', path: 'userFee'},
-        {name: '我的发票', path: 'userTip'},
-        {name: '开票信息', path: 'userInvoiceInfo'},
-        {name: '发票管理', path: 'userInvoiceManage'},
-        {name: '退款维权', path: 'userProtect'},
-        {name: '退款管理', path: 'userRefundManage'},
-        {name: '投诉管理', path: 'userComplaintManage'},
-        {name: '举报管理', path: 'userReportManage'},
+        {
+          name: '我的发票',
+          path: '',
+          child: [
+            {name: '开票信息', path: 'userInvoiceInfo'},
+            {name: '发票管理', path: 'userInvoiceManage'}
+          ]
+        },
+        {
+          name: '退款维权',
+          path: '',
+          child: [
+            {name: '退款管理', path: 'userRefundManage'},
+            {name: '投诉管理', path: 'userComplaintManage'},
+            {name: '举报管理', path: 'userReportManage'}
+          ]
+        },
         {name: '购买过的店铺', path: 'userBuyHistory'}
       ],
       orderStatesNum: '', // 用户订单状态数量
@@ -1421,70 +407,72 @@ export default {
       isflowMore: true, // 展开更多物流信息
       tabPosition: 'left',
       userBirthday: '', // 用户生日
-      userImageUrl: 'static/img/logo-200.png' // 用户头像
+      userImageUrl: 'static/img/logo-200.png', // 用户头像
+      goodsSellersNum: '', // 关注店铺和商品数量
+      isOrder: false
     }
   },
   components: { shortcut, userNav, youLike },
   created () {
     this.$cookies.get('userInfo')
     let path = this.$route.path.split('/')[2]
-    this.nav.forEach(item => {
+    for (let item of this.nav) {
       if (item.path === path) {
         this.title = item.name
+        break
       }
-    })
+      if (item.path === '') {
+        let temBreak = false
+        for (let list of item.child) {
+          if (list.path === path) {
+            this.title = list.name
+            temBreak = true
+            break
+          }
+        }
+        if (temBreak) break
+      }
+    }
   },
   mounted () {
+    let pathChild = this.$route.path.split('/')[2]
+    pathChild === 'userOrder' ? this.isOrder = true : this.isOrder = false
     // 用户订单状态数据
-    apiAxios.AxiosG({
-      url: api.userOrderStates,
-      params: {userName: this.$cookies.get('user-key')}
-    }, res => {
-      if (res.data.success) {
-        this.orderStatesNum = res.data.data
-      }
+    this.API.userOrderStatus({userName: this.$cookies.get('user-key')}).then(res => {
+      this.orderStatesNum = res
     })
     // 大家都在看
-    apiAxios.AxiosG({
-      url: api.user,
-      params: {categoryId: 14}
-    }, res => {
-      if (res.data.success) {
-        this.usLook = res.data.data.contentList
-      }
+    this.API.user({categoryId: 14}).then(res => {
+      this.usLook = res.contentList
     })
     // 猜你喜欢
-    apiAxios.AxiosG({
-      url: api.user,
-      params: {categoryId: 13}
-    }, res => {
-      if (res.data.success) {
-        this.likeList = res.data.data.contentList
-      }
+    this.API.user({categoryId: 13}).then(res => {
+      this.likeList = res.contentList
     })
     // 浏览记录
-    apiAxios.AxiosG({
-      url: api.user,
-      params: {categoryId: 15}
-    }, res => {
-      if (res.data.success) {
-        this.hisList = res.data.data.contentList
-      }
+    this.API.user({categoryId: 15}).then(res => {
+      this.hisList = res.contentList
     })
-    // 浏览记录
-    apiAxios.AxiosG({
-      url: api.user,
-      params: {categoryId: 16}
-    }, res => {
-      if (res.data.success) {
-        this.rightAbs = res.data.data.contentList
-      }
+    // 右侧图片广告
+    this.API.user({categoryId: 16}).then(res => {
+      this.rightAbs = res.contentList
+    })
+    // 关注店铺和商品
+    this.API.userGoodsShopNum({userName: this.$cookies.get('user-key')}).then(res => {
+      this.goodsSellersNum = res
     })
   },
   methods: {
-    tab (e) {
-      this.$router.push({path: '/user/' + e.path})
-      this.title = e.name
+    tab (e, index) {
+      if (e.path === 'cart') this.$router.push({path: '/cart'})
+      else {
+        if (e.child) {
+          this.$refs.child[index].style.display === 'none' ? this.$refs.child[index].style.display = 'block' : this.$refs.child[index].style.display = 'none'
+        } else {
+          this.$router.push({path: '/user/' + e.path})
+          this.title = e.name
+        }
+      }
     },
     handleOpen (key, keyPath) {
       console.log(key, keyPath)
@@ -1508,15 +496,36 @@ export default {
     },
     addressName () {
     }
+  },
+  watch: {
+    '$route' (to, from) {
+      if (to.path === '/user') {
+        this.title = ''
+      } else {
+        let path = this.$route.path.split('/')[2]
+        path === 'userOrder' ? this.isOrder = true : this.isOrder = false
+        for (let item of this.nav) {
+          if (item.path === path) {
+            this.title = item.name
+            break
+          }
+          if (item.hasOwnProperty('child')) {
+            for (let list of item.child) {
+              if (list.path === path) {
+                this.title = list.name
+                break
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }
-
 </script>
 <style scoped>
-/*@import '../../assets/css/cart/webbase.css';
-@import '../../assets/css/user/pages-seckillOrder.css';*/
 @import '../../assets/css/user/user.css';
-/*@import "../../assets/css/search/search.css"*/
+/*主页*/
   .screen-back{
     width:100%;
     background: #F4F4F4;
@@ -1551,22 +560,73 @@ export default {
     font-style: normal;
     text-decoration: none;
     color:rgba(36,36,36,1);
-    font-size:14px;
+    font-size:16px;
     cursor: pointer;
     transition: all .15s ease-out;
     display: block;
-    padding-left: 30px;
+    padding-left: 20px;
     text-align: left;
   }
-  .account-sidebar .account-nav li.current a {
+  .account-sidebar .account-nav li li a{
+    font-size:12px;
+    padding-left: 30px;
+  }
+  .account-sidebar .account-nav li.current> a {
     position: relative;
     z-index: 1;
     color: red;
   }
+  li div .nav-child {
+    display: none;
+    transition: all 0.5;
+  }
   .account-content {
     width: 1083px;
     margin-left: 5px;
-    padding-bottom: 142px;
   }
-
+/*为你推荐*/
+  .recommend{
+    width:1200px;
+    height:312px;
+    background:rgba(255,255,255,1);
+    border:1px solid rgba(220,220,220,1);
+    margin-top: 30px;
+    padding: 14px 16px 27px 23px;
+  }
+  .recommend .recommend-top{
+    display: inline;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    margin-bottom: 37px;
+  }
+  .recommend hr{
+    width:903px;
+    color:#D8D8D8;
+    opacity: 0.4;
+    display: inline-block;
+    margin-left:40px;
+  }
+  .recommend .recommend-list{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-wrap: wrap;
+  }
+  .recommend-list .list-item{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: space-around;
+    font-size:16px;
+    font-weight:500;
+    color:rgba(0,0,0,1);
+    margin-right: 30px;
+  }
+  .recommend-list .list-item-title{
+    font-size:14px;
+    font-weight:300;
+    color:rgba(143,143,143,1);
+    margin: 7px 0 7px 0;
+  }
 </style>

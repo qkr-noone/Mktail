@@ -1,7 +1,7 @@
 <template>
   <div id="getOrderInfo">
     <shortcutHeader></shortcutHeader>
-    <div class="sum-nav">
+    <div class="sum-nav" id="sumNav">
       <div class="sum-nav-con">
         <div class="sum-nav-logo">
           <a href=""><img src="static/img/mk_logo_addorder.png"></a>
@@ -51,8 +51,8 @@
         </div>
         <div class="add-con">
           <div>
-            <ul class="add-con-ul">
-              <li v-for="list in addressList" :key="list.id">
+            <ul class="add-con-ul" :class="over? 'add-show': ''">
+              <li v-for="(list, index) in addressList" :key="list.id" v-if="index<3 || over">
                 <div class="add-box" @click="chooseAddress = list.id" :class="{'select-addr': chooseAddress === list.id}">
                   <div class="add-box-1">
                     <h5><span>{{list.contact}}</span><span class="add-posi">({{list.provinceId}}{{list.cityId}})</span></h5>
@@ -63,10 +63,10 @@
                   <div class="add-box-2">
                     <span>{{list.provinceId}}{{list.cityId}}{{list.townId}}{{list.address}}{{list.mobile}}</span>
                   </div>
-                  <div class="add-box-3"><span class="set" v-show="chooseAddress === list.id" @click="setAddress">修改</span></div>
+                  <div class="add-box-3"><span class="set" v-show="chooseAddress === list.id" @click="setAddress(list)">修改</span></div>
                 </div>
               </li>
-              <li v-if="addressList.length<4">
+              <li>
                 <div class="add-box">
                   <div class="add-box-4">
                     <i class="el-icon-plus" @click="getForm()"></i>
@@ -75,6 +75,12 @@
                 </div>
               </li>
             </ul>
+            <a class="add-more" v-if="addressList.length > 3 " @click="over=!over">
+              <p v-if="over">收起更多收货地址</p>
+              <p v-else>显示更多收货地址</p>
+              <i class="el-icon-arrow-up" v-if="over"></i>
+              <i class="el-icon-arrow-down" v-else></i>
+            </a>
           </div>
         </div>
       </div>
@@ -247,8 +253,21 @@
           <el-form-item label="备用手机：" prop="phone">
             <el-input v-model="ruleForm.phone" placeholder="选填"></el-input>
           </el-form-item>
-          <el-form-item label="所在地区：" prop="address">
-            <el-input v-model="ruleForm.address" placeholder="请选择省 请选择市 请选择区 请选择乡镇"></el-input>
+          <el-form-item label="所在地区：" prop="address"  class="select flow-addr">
+              <i class="el-icon-arrow-down addr-down"></i>
+              <div class="addr-box">
+                <ul class="pro-box">
+                  <li v-for="list in addrOptions" :key="list.id" :class="{'choose': addressOne === list.province}" @click="tabAddr(list.provinceid, list.province)">{{list.province}}</li>
+                </ul>
+                <ul class="city-box" v-if="addressOne">
+                  <li v-for="data in cityList" :key="data.id" :class="{'choose': addressTwoId === data.cityid}" @click="tabCity(data.city, data.cityid)">{{data.city}}</li>
+                </ul>
+                <ul class="county-box" v-if="addressTwo">
+                  <li v-for="data in countyList" :key="data.id" :class="{'choose': addressThreeId === data.areaid}" @click="tabCounty(data.area, data.areaid)">{{data.area}}</li>
+                </ul>
+              </div>
+            <!-- </span> -->
+            <el-input v-model="ruleForm.address" placeholder="请选择省 请选择市 请选择区"></el-input>
           </el-form-item>
           <el-form-item label="详细地址:" prop="deAddress">
             <el-input v-model="ruleForm.deAddress" placeholder="街道、小区、楼牌号等，无须重复填写省市区"></el-input>
@@ -272,7 +291,7 @@
         <div class="user-inf-push">
           <a href="javascript:;" @click="submitForm('ruleForm')">保存并使用</a>
         </div>
-        <div class="close" @click="closeForm()">
+        <div class="close" @click="getForm()">
           <i class="el-icon-close"></i>
         </div>
       </div>
@@ -282,10 +301,9 @@
 </template>
 <script>
 import { mapMutations } from 'vuex'
-import shortcutHeader from '../../components/shortcutHeader'
-import pageFooter from '../../components/pageFooter'
-import { apiAxios, getStore, setStore } from '../../common/utils'
-import { api } from '../../common/api'
+import shortcutHeader from '@/components/shortcutHeader'
+import pageFooter from '@/components/pageFooter'
+import { getStore, setStore } from '@/common/utils'
 export default {
   data () {
     return {
@@ -321,7 +339,7 @@ export default {
           { min: 11, max: 11, message: '请输入正确手机号', trigger: 'blur' }
         ],
         phone: [
-          { required: false, message: '请输入手机号', trigger: 'blur' },
+          { required: false, message: '请输入备用手机号', trigger: 'blur' },
           { min: 11, max: 11, message: '请输入正确手机号', trigger: 'blur' }
         ],
         address: [
@@ -333,12 +351,21 @@ export default {
           { min: 1, max: 90, message: '长度在 1 到 90 个字符', trigger: 'blur' }
         ],
         otherTag: [
-          { required: false, message: '请输入E-mail', trigger: 'blur' },
+          { required: false, message: '请输入标签', trigger: 'blur' },
           { min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur' }
         ]
       },
       skuId: '',
-      random: ''
+      random: '',
+      addrOptions: [],
+      addressOne: '',
+      addressTwo: '',
+      addressOneId: '',
+      addressTwoId: '',
+      addressThreeId: '',
+      cityList: [],
+      countyList: [],
+      over: false
     }
   },
   components: { shortcutHeader, pageFooter },
@@ -347,7 +374,7 @@ export default {
     this.random = this.$route.query.random
     // Q. 店铺名字 （需在detail 取到并且传入）
     let sellerName = this.$route.query.sellerName || ''
-    if (this.skuId) {
+    if (this.skuId) { // 从立即购买进入提交
       this.goodSkuList = JSON.parse(getStore('selectList' + this.random))
       let objList = {
         orderItemList: [],
@@ -357,7 +384,7 @@ export default {
       objList.orderItemList.push(this.goodSkuList[0])
       this.orderList.push(objList)
       console.log(this.orderList, this.goodSkuList, 99)
-    } else {
+    } else { // 从购物车进入提交
       let cartList = JSON.parse(getStore('cartList'))
       for (let val of cartList) {
         for (let item of val.orderItemList) {
@@ -394,31 +421,19 @@ export default {
     console.log(this.orderList, 100)
   },
   mounted () {
-    apiAxios.AxiosG({
-      url: api.addressListByUser,
-      params: {userId: this.$cookies.get('user-key')}
-    }, rtn => {
-      this.addressList = rtn.data
-      this.addressList.sort(this.compare('isDefault'))
-      for (let val of this.addressList) {
-        if (val.isDefault === '1') {
-          this.defaultAddress = val
-          this.chooseAddress = val.id
-          break
-        }
-      }
-    })
+    this.requstAdd()
     this.goodSkuList.forEach(item => {
       this.totalNum += Number(item.num)
       this.totalPrice += Number(item.totalFee)
     })
     this.totalPrice = (this.totalPrice).toFixed(2)
     this.submitPrice = this.totalPrice
+    this.API.allProvince().then(res => {
+      this.addrOptions = res
+    })
   },
   methods: {
-    ...mapMutations([
-      'setCartList'
-    ]),
+    ...mapMutations(['setCartList']),
     // 比较指定对象属性值大小 降序
     compare (property) {
       return (a, b) => {
@@ -508,76 +523,126 @@ export default {
         source_type: 2, // "订单来源：1:app端，2：pc端，3：M端，4：微信端，5：手机qq端",
         seller_id: '' // "商家ID"
       }
-      let orderInfo = this.skuId ? api.directOrderInfo : api.getOrderInfo
-      apiAxios.AxiosP({
-        url: orderInfo,
-        params: {userName: this.$cookies.get('user-key')},
-        data: order
-      }, rtn => {
-        if (rtn.data.success) {
-          this.$message.success('提交订单成功')
-          if (this.skuId) {} else {
-            console.log(cartList, 2)
-            selectList.forEach(val => {
-              for (let item of cartList) {
-                for (let index in item.orderItemList) {
-                  if (item.orderItemList[index].itemId === val.itemId) {
-                    this.$delete(item.orderItemList, index)
-                    if (!item.orderItemList.length) {
-                      this.$delete(cartList, cartList.indexOf(item))
-                      console.log('成功删除购物车对应数据')
-                    }
-                    break
+      let orderInfo = this.skuId ? 'directOrderInfo' : 'getOrderInfo'
+      this.API[orderInfo](order, this.$cookies.get('user-key')).then(rtn => {
+        if (rtn.success === false) {
+          this.$message.error('提交订单失败')
+          return false
+        }
+        this.$message.success('提交订单成功')
+        if (this.skuId) {} else {
+          selectList.forEach(val => {
+            for (let item of cartList) {
+              for (let index in item.orderItemList) {
+                if (item.orderItemList[index].itemId === val.itemId) {
+                  this.$delete(item.orderItemList, index)
+                  if (!item.orderItemList.length) {
+                    this.$delete(cartList, cartList.indexOf(item))
+                    console.log('成功删除购物车对应数据')
                   }
+                  break
                 }
               }
-            })
-            console.log(cartList, 3)
-            setStore('cartList', cartList)
-          }
-          this.$router.push({path: '/payHome'})
-        } else {
-          this.$message.error('提交订单失败')
+            }
+          })
+          setStore('cartList', cartList)
         }
+        let temOutTradeNo = rtn
+        this.$router.push({path: '/payHome', query: {outTradeNo: temOutTradeNo}})
       })
     },
     getForm () {
+      this.isForm = !this.isForm
+    },
+    setAddress (item) { // Q. 省市区ID 查询  显示  初始化
       this.isForm = true
-    },
-    closeForm () {
-      this.isForm = false
-    },
-    setAddress () {
+      this.addressOne = item.provinceId
+      this.addressTwo = item.cityId
+      this.addressThree = item.townId
+      this.ruleForm.address = this.addressOne + this.addressTwo + this.addressThree
+      this.ruleForm.mobile = item.mobile
+      this.ruleForm.deAddress = item.address
+      this.ruleForm.username = item.contact
+      item.isDefault === '1' ? this.ruleForm.isDefault = true : this.ruleForm.isDefault = false
+      this.ruleForm.phone = item.notes
+      this.ruleForm.otherTag = item.alias
     },
     // 新增地址
     submitForm (formName) {
-      this.$refs[formName].validate((valid) => {
+      this.$refs[formName].validate(valid => {
         if (valid) {
-          let address = this.ruleForm
-          console.log(this.ruleForm)
-          apiAxios.AxiosP({
-            url: api.addressAdd,
-            data: address
-          }, res => {
-            if (res.data.success) {
-              this.$notify.success({
-                title: '成功',
-                message: '新增地址成功'
-              })
-            } else {
+          let address = {
+            userId: this.$cookies.get('user-key'),
+            provinceId: this.addressOneId,
+            cityId: this.addressTwoId,
+            townId: this.addressThreeId,
+            mobile: this.ruleForm.mobile,
+            address: this.ruleForm.deAddress,
+            contact: this.ruleForm.username,
+            isDefault: this.ruleForm.isDefault ? 1 : 0,
+            notes: this.ruleForm.phone,
+            createDate: this.formatDate(new Date()),
+            aliad: this.ruleForm.otherTag || this.ruleForm.tag
+          }
+          this.API.addressAdd(address).then(res => {
+            if (res.success === false) {
               this.$notify.error({
                 title: '错误',
                 message: '新增地址失败'
               })
+              return false
             }
+            this.$notify.success({
+              title: '成功',
+              message: '新增地址成功'
+            })
+            this.requstAdd()
+            this.isForm = false
           })
-          // this.isForm = false
         } else {
           this.$notify.error({
             title: '错误',
             message: '输入信息有误'
           })
           return false
+        }
+      })
+    },
+    tabAddr (provinceid, province) {
+      this.addressOne = ''
+      this.addressTwo = ''
+      this.addressThree = ''
+      this.addressOne = province
+      this.addressOneId = provinceid
+      this.API.allCity({proviceId: provinceid}).then(res => {
+        this.cityList = res
+      })
+    },
+    tabCity (city, cityid) {
+      this.addressTwo = ''
+      this.addressThree = ''
+      this.addressTwo = city
+      this.addressTwoId = cityid
+      this.API.allAreas({cityId: cityid}).then(res => {
+        this.countyList = res
+      })
+    },
+    tabCounty (area, areaid) {
+      this.addressThree = area
+      this.addressThreeId = areaid
+      this.ruleForm.address = this.addressOne + this.addressTwo + this.addressThree
+    },
+    requstAdd () {
+      this.API.addressListByUser({userId: this.$cookies.get('user-key')}).then(rtn => {
+        // Q.少了 data
+        this.addressList = rtn
+        // this.addressList.sort(this.compare('isDefault'))
+        for (let val of this.addressList) {
+          if (val.isDefault === '1') {
+            this.defaultAddress = val
+            this.chooseAddress = val.id
+            break
+          }
         }
       })
     }
@@ -651,5 +716,55 @@ export default {
   .el-checkbox-group, .el-radio-group {
     width: 100%;
     text-align: left;
+  }
+  .select-con{
+    line-height: 27px;
+    font-size: 12px;
+  }
+  .flow-addr {
+    position: relative;
+  }
+  .flow-addr ul>li.choose {
+    color: blue;
+  }
+  .addr-down {
+    position: absolute;
+    right: 15px;
+    top: 12px;
+    color: red;
+    z-index: 20;
+    font-size: 20px;
+    line-height: 20px;
+  }
+  .addr-box {
+    height: 0;
+    overflow: hidden;
+    position: absolute;
+    background-color: #fff;
+    z-index: 10;
+    top: 40px;
+    left: 0;
+  }
+  .addr-box .pro-box, .city-box, .county-box {
+    min-width: 126px;
+    height: 200px;
+    font-size: 12px;
+    border: 1px solid #ddd;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+  }
+  .flow-addr .addr-box ul.pro-box li, .flow-addr .addr-box ul.city-box li, .flow-addr .addr-box ul.county-box li {
+    text-align: left;
+    cursor: pointer;
+    line-height: 28px;
+    height: 28px;
+    padding: 0 10px;
+  }
+  .flow-addr .el-form-item__content:hover .addr-box{
+    height: auto;
+    display: flex;
   }
 </style>

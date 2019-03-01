@@ -21,7 +21,7 @@
               <div><router-link :to="{path:'/user'}">{{username}}</router-link></div>
             </li>
             <li>
-              <div><router-link :to="{path:'user'}">我的订单</router-link></div>
+              <div><router-link :to="{path:'/user'}">我的订单</router-link></div>
             </li>
             <li>
               <div><router-link :to="{path:'/user'}">消息中心</router-link></div>
@@ -54,10 +54,6 @@ export default {
   mounted () {
     this.username = this.$cookies.isKey('userInfo') ? this.$cookies.get('userInfo').username : ''
   },
-  activated () {
-    // this.username = this.$cookies.isKey('userInfo') ? this.$cookies.get('userInfo').username : ''
-  },
-  deactivated () {},
   methods: {
     home () {
       this.$router.push({path: '/home'})

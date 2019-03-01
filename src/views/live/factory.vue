@@ -234,9 +234,9 @@
   </div>
 </template>
 <script>
-import shortcut from '../../components/shortcutHeader'
-import live3Dheader from '../../components/live3Dheader'
-import pageFooter from '../../components/pageFooter'
+import shortcut from '@/components/shortcutHeader'
+import live3Dheader from '@/components/live3Dheader'
+import pageFooter from '@/components/pageFooter'
 export default {
   data () {
     return {

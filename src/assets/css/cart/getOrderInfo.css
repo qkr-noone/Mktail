@@ -89,14 +89,17 @@
   .add-con-ul {
     display: flex;
     flex-wrap: wrap;
+    height: 131px;
+    overflow: hidden;
+    transition: all 0.7s;
   }
   .add-con-ul li +li {
     margin-left: 15px;
   }
-  .add-con-ul li:nth-child(5n){
+  .add-con-ul li:nth-child(4n+1){
     margin-left: 0px;
   }
-  .add-con-ul li:nth-child(5n+5){
+  .add-con-ul li:nth-child(n+5){
     margin-top: 20px;
   }
   .add-box {
@@ -192,6 +195,18 @@
   .add-box-4 i{
     font-size: 26px;
     cursor: pointer;
+  }
+  .add-more {
+    color: #FFAA00;
+    margin-top: 20px;
+    display: flex;
+    width: 150px;
+    height: 25px;
+    align-items: center;
+    cursor: pointer;
+  }
+  .add-con-ul.add-show{
+    height: auto;
   }
 /* 支付方式*/
   .pay-con {}

@@ -66,10 +66,8 @@
   </div>
 </template>
 <script>
-import pageFooter from '../../components/pageFooter'
-import checkoutCounter from '../../components/checkoutCounter'
-import { apiAxios } from '../../common/utils'
-import { api } from '../../common/api'
+import pageFooter from '@/components/pageFooter'
+import checkoutCounter from '@/components/checkoutCounter'
 export default {
   data () {
     return {
@@ -84,23 +82,14 @@ export default {
   },
   components: { pageFooter, checkoutCounter },
   mounted () {
-    apiAxios.AxiosG({
-      url: api.payPageInfo,
-      params: {userName: this.$cookies.get('user-key')}
-    }, rtn => {
-      if (rtn.data.success) {
-        this.orderInfo = rtn.data.data
-        console.log(this.orderInfo)
-        this.totalFee = (rtn.data.data.totalFee / 100).toFixed(2)
-      }
+    this.API.payPageInfo({userName: this.$cookies.get('user-key')}).then(rtn => {
+      if (rtn.success === false) return false
+      this.orderInfo = rtn
+      this.totalFee = (rtn.totalFee / 100).toFixed(2)
     })
-    apiAxios.AxiosG({
-      url: api.payUserCash,
-      params: {userName: this.$cookies.get('user-key')}
-    }, rtn => {
-      if (rtn.data.success) {
-        this.cash = rtn.data.data
-      }
+    this.API.payUserCash({userName: this.$cookies.get('user-key')}).then(rtn => {
+      if (rtn.success === false) return false
+      this.cash = rtn
     })
   },
   methods: {
@@ -118,21 +107,30 @@ export default {
         this.once = false
         if (this.isChecked) {
           if (this.password.length > 5) {
-            apiAxios.AxiosG({
-              url: api.payMkWallet,
-              params: {userName: this.$cookies.get('user-key'), paymentPassword: this.password, orderId: this.orderInfo.orderList}
-            }, res => {
-              // Q. 支付状态 密码错误
-              if (res.data.success) {
-                console.log('支付成功', res)
-                this.$router.push({path: '/paysuccess'})
-              } else {
-                this.$notify.error({
-                  title: '失败',
-                  message: '支付失败'
-                })
-                this.$router.push({path: '/payfail'})
+            this.API.payMkWallet({userName: this.$cookies.get('user-key'), paymentPassword: this.password, outTradeNo: this.orderInfo.outTradeNo}).then(res => {
+              if (res.success === false) {
+                if (res.data === 4) {
+                  this.$notify.error({
+                    title: '失败',
+                    message: '密码错误，请重试'
+                  })
+                  this.password = ''
+                } else if (res.data === 3) {
+                  this.$notify.error({
+                    title: '错误',
+                    message: '该订单已提交，请勿重复提交'
+                  })
+                } else {
+                  this.$notify.error({
+                    title: '失败',
+                    message: '支付失败，账户余额不足'
+                  })
+                  this.$router.push({path: '/payfail'})
+                }
+                return false
               }
+              console.log('支付成功', res)
+              this.$router.push({path: '/paysuccess'})
             })
           } else this.isPassword = true
         } else this.$message.warning('请勾选钱包')

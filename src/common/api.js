@@ -19,6 +19,9 @@ let api = {
   cartAllDelete: '/cart/cart/deleteCartGoodAll', // 删除全部、选中购物车数据
   addressListByUser: '/cart/address/findListByLoginUser', // 根据用户获取返回收货地址集合
   addressAdd: '/cart/address/add', // 新增收货地址
+  allProvince: '/cart/address/getAllProvince', // 获取全部省份
+  allCity: '/cart/address/getAllCity', // 根据省份id获取市
+  allAreas: '/cart/address/getAllAreas', // 根据市id获取区、县
   getOrderInfo: '/cart/order/add', // 从购物车进入 提交订单
   directOrderInfo: '/cart/order/directAdd', // 从立即购买进入 提交订单
   payPageInfo: '/cart/order/searchPayLog', // 支付页面信息
@@ -30,9 +33,11 @@ let api = {
   register: '/user/user/add', // 注册用户
   login: '/user/login/authenticateUser', // 登陆
   user: '/personCenter/personCenter/findByCategoryIdInPersonCenter', // 进入用户中心
-  userOrderStates: '/personCenter/personCenter/findAllOrderStatusByUsername', // 用户订单状态数量
+  userOrderStatus: '/personCenter/personCenter/findAllOrderStatusByUsername', // 用户订单状态数量
   userCollectType: '/userCollect/userCollect/findUserCollectByTypeAndUserName', // 用户关注类型
-  goodsBySeller: '/userCollect/userCollect/findGoodsBySeller' // 收藏店铺商品
+  goodsBySeller: '/userCollect/userCollect/findGoodsBySeller', // 收藏店铺商品
+  userGoodsShopNum: '/userCollect/userCollect/getGoodsCollectCountAndSellersCollectCount', // 关注店铺商品数量
+  userOrder: '/cart/order/findOrderByUsernameAndStatus' // 用户订单列表
 }
 export {
   api

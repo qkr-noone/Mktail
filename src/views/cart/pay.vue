@@ -61,9 +61,7 @@
   </div>
 </template>
 <script>
-import pageFooter from '../../components/pageFooter'
-import { apiAxios } from '../../common/utils'
-import { api } from '../../common/api'
+import pageFooter from '@/components/pageFooter'
 export default {
   data () {
     return {
@@ -76,31 +74,20 @@ export default {
   components: { pageFooter },
   mounted () {
     this.payStyle = this.$route.query.payStyle || ''
-    apiAxios.AxiosG({
-      url: api.payPageInfo,
-      params: {userName: this.$cookies.get('user-key')}
-    }, rtn => {
-      if (rtn.data.success) {
-        this.orderInfo = rtn.data.data
-        this.totalFee = (rtn.data.data.totalFee / 100).toFixed(2)
-      }
+    this.API.payPageInfo({userName: this.$cookies.get('user-key')}).then(rtn => {
+      if (rtn.success === false) return false
+      this.orderInfo = rtn
+      this.totalFee = (rtn.totalFee / 100).toFixed(2)
     })
-    apiAxios.AxiosG({
-      url: api.payCreate,
-      params: {userName: this.$cookies.get('user-key')}
-    }, rtn => {
-      if (rtn.data.success) {
-        console.log(rtn)
-      }
+    // 创建支付链接
+    this.API.payCreate({userName: this.$cookies.get('user-key')}).then(rtn => {
+      console.log(rtn)
     })
   },
   methods: {
     payOrder () {
-      apiAxios.AxiosP({
-        url: api.payOrder,
-        data: {}
-      }, rtn => {
-        console.log(rtn.data)
+      this.API.payOrder().then(rtn => {
+        console.log(rtn)
       })
     },
     changePay () {
@@ -109,11 +96,8 @@ export default {
   },
   watch: {
     paySuccess (newState) {
-      if (newState) {
-        this.$router.push('/paysuccess')
-      } else {
-        this.$router.push('/payfail')
-      }
+      if (newState) this.$router.push('/paysuccess')
+      else this.$router.push('/payfail')
     }
   }
 }

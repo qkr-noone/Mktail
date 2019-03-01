@@ -41,9 +41,9 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content:start;
+    justify-content:center;
     font-size:15px;
-    font-family:SourceHanSansCN-Regular;
+    font-family:Bahnschrift;
     font-weight:400;
   }
   .footer-list{

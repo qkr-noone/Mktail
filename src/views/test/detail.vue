@@ -1,8 +1,5 @@
 <template>
-  <div id="test-index">
-    <keep-alive>
-      <router-view></router-view>
-    </keep-alive>
+  <div>
     <div>testDetail</div>
   </div>
 </template>

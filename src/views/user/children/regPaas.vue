@@ -1,10 +1,11 @@
 <template>
   <div id="reg-paas">
     <div class="container">
-      <regHeader></regHeader>
+      <regComFooter></regComFooter>
       <div class="middle">
         <div class="title">
           <p class="title-text">平台服务协议</p>
+          <router-link :to="{path: '/register', query: tem }" style="color: #ffd704">返回注册</router-link>
           <span class="effective-date">版本生效日期：2018年12月25日</span>
         </div>
         <div class="middle-content">
@@ -331,13 +332,18 @@
   </div>
 </template>
 <script>
-import regHeader from '../../../components/regHeader'
-import regFooter from '../../../components/regFooter'
+import regComFooter from '@/components/regComFooter'
+import regFooter from '@/components/regFooter'
 export default {
   data () {
-    return {}
+    return {
+      tem: {}
+    }
   },
-  components: { regHeader, regFooter }
+  components: { regComFooter, regFooter },
+  mounted () {
+    this.tem = this.$route.query
+  }
 }
 </script>
 <style scoped>

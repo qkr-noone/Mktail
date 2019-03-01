@@ -185,6 +185,52 @@
     font-size: 16px;
     padding: 0 3px;
   }
+  .flow-addr {
+    position: relative;
+  }
+  .choose {
+    color: blue;
+  }
+  .addr-box {
+    height: 0;
+    overflow: hidden;
+    position: absolute;
+    background-color: #fff;
+    z-index: 10;
+  }
+  .addr-box .pro-box, .city-box {
+    min-width: 126px;
+    height: 200px;
+    font-size: 12px;
+    border: 1px solid #ddd;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  .addr-box ul li {
+    text-align: left;
+    cursor: pointer;
+    line-height: 25px;
+    padding: 0 5px;
+  }
+  .flow-addr:hover .addr-box{
+    height: auto;
+    display: flex;
+  }
+  .city-box {}
+  .flow-item {
+    border-right: 1px solid #E3E3E3;
+    border-left: 1px solid #E3E3E3;
+    padding:  0 15px;
+    line-height: 28px;
+    margin-right: 10px;
+  }
+  .flow-send-date {
+    width:50px;
+    height:20px;
+    background:rgba(254,233,235,1);
+    border:1px solid rgba(200,22,35,1);
+    line-height: 20px;
+  }
   .allgoods .title-tip>h4, .cart-shop {
     text-align: left;
   }

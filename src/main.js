@@ -6,19 +6,17 @@ import router from './router'
 import ElementUI from 'element-ui'
 import store from './store'
 import 'element-ui/lib/theme-chalk/index.css'
+import API from './common/apis'
 import VueCookies from 'vue-cookies'
-let VueScrollTo = require('vue-scrollto')
-// import VueVideoPlayer from 'vue-video-player'
-// import 'video.js/dist/video-js.css'
-// import 'vue-video-player/src/custom-theme.css'
-// import 'videojs-flash'
-// import 'videojs-contrib-hls/dist/videojs-contrib-hls'
+// import "./assets/icomoon_test/style.css"
 
+let VueScrollTo = require('vue-scrollto')
+
+Vue.prototype.API = API
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 Vue.use(VueScrollTo)
 Vue.use(VueCookies)
-// Vue.use(VueVideoPlayer)
 /* eslint-disable no-new */
 let vueDom = new Vue({
   el: '#app',

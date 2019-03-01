@@ -121,20 +121,6 @@
                     <div class="p-img">
                       <router-link :to="{ path:'/detail',query:{goodsId: item.goodsId, skuId: item.id}}"><img :src="item.image" /></router-link>
                     </div>
-                    <!-- <div class="p-scroll">
-                      <span class="ps-prev"><i class="el-icon-arrow-left"></i></span>
-                      <span class="ps-next"><i class="el-icon-arrow-right"></i></span>
-                      <div class="ps-wrap">
-                        <ul class="ps-main">
-                          <li class="ps-item">
-                            <a href="" class="curr" title=""><img :src="item.image" data-sku="" data-lazy-img="" width="25" height="25"></a>
-                          </li>
-                          <li class="ps-item">
-                            <a href="" class="curr" title=""><img src="static/img/phone.png" data-sku="" data-lazy-img="" width="25" height="25"></a>
-                          </li>
-                        </ul>
-                      </div>
-                    </div> -->
                     <div class="p-price">
                       <strong>
                         <em>¥</em>
@@ -157,14 +143,6 @@
                       <a><img src="static/img/mk_search_addgoods.png"><span>收藏</span></a>
                       <a><img src="static/img/mk_search_addcart.png"><span>加购物车</span></a>
                     </div>
-                    <!-- <div class="p-focus">
-                      <a class="J_focus" data-sku="10947521008" href="javascript:;" title="点击关注"><i class="el-icon-star-off"></i>关注</a>
-                    </div>   -->
-                    <!-- <div class="p-icons" id="J_pro_10947521008" data-done="1">
-                        <i class="goods-icons2 J-picon-tips" data-tips="退换货免运费">运费险险</i>
-                    </div> -->
-                    <!-- 广告 -->
-                    <!-- <span class="p-promo-flag"></span> -->
                     <img>
                   </div>
                 </li>
@@ -218,7 +196,7 @@
         </div>
       </div>
     </div>
-    <pageFooter></pageFooter>
+    <pageFooter id="bottom"></pageFooter>
     <div class="point">
       <div class="point-con">
         <ul class="point-ul">
@@ -233,13 +211,11 @@
   </div>
 </template>
 <script>
-import { apiAxios } from '../../common/utils'
-import { api } from '../../common/api'
-import shortcut from '../../components/shortcutHeader'
-import headerNav from '../../components/headerNav'
-import homeNav from '../../components/homeNav'
-import absBox from '../../components/absBox'
-import pageFooter from '../../components/pageFooter'
+import shortcut from '@/components/shortcutHeader'
+import headerNav from '@/components/headerNav'
+import homeNav from '@/components/homeNav'
+import absBox from '@/components/absBox'
+import pageFooter from '@/components/pageFooter'
 export default {
   data () {
     return {
@@ -279,48 +255,25 @@ export default {
   created () {
     this.keywords = this.$route.query.keywords
     if (this.keywords) {
+      // true / false 判断是否在原基础上过滤搜索
       this.search([this.keywords, false])
     }
   },
-  activated () {},
-  deactivated () {
-    this.$destroy()
-  },
   mounted () {
-    apiAxios.AxiosG({
-      url: api.detailCon,
-      params: {categoryId: 10}
-    }, res => {
-      if (res.data.success) {
-        this.absList = res.data.data.contentList
-        this.absCate = res.data.data.contentCategory
-      }
+    this.API.detailCon({categoryId: 10}).then(res => {
+      this.absList = res.contentList
+      this.absCate = res.contentCategory
     })
-    apiAxios.AxiosG({
-      url: api.detailCon,
-      params: {categoryId: 11}
-    }, res => {
-      if (res.data.success) {
-        this.bestGoList = res.data.data.contentList
-        this.bestGoCate = res.data.data.contentCategory
-      }
+    this.API.detailCon({categoryId: 11}).then(res => {
+      this.bestGoList = res.contentList
+      this.bestGoCate = res.contentCategory
     })
-    apiAxios.AxiosG({
-      url: api.detailCon,
-      params: {categoryId: 9}
-    }, res => {
-      if (res.data.success) {
-        this.likeList = res.data.data.contentList
-        this.likeCate = res.data.data.contentCategory
-      }
+    this.API.detailCon({categoryId: 9}).then(res => {
+      this.likeList = res.contentList
+      this.likeCate = res.contentCategory
     })
-    apiAxios.AxiosG({
-      url: api.detailCon,
-      params: {categoryId: 12}
-    }, res => {
-      if (res.data.success) {
-        this.bottomAbs = res.data.data.contentList
-      }
+    this.API.detailCon({categoryId: 12}).then(res => {
+      this.bottomAbs = res.contentList
     })
   },
   methods: {
@@ -349,26 +302,23 @@ export default {
     },
     search (keywords) {
       this.keywords = keywords[0]
+      // 输入关键词时，初始化
       if (keywords[1]) {
         this.selectBrand = []
         this.selectSpec = []
+        this.temSort.field = ''
+        this.temSort.sort = ''
+        this.currentPage = 1
       }
       this.isSelectBrand = true
       let priceRange = ''
       let userPrice = []
-      if (this.smallPrice !== '' && this.smallPrice >= 0) {
-        userPrice.push(this.smallPrice)
-      }
-      if (this.bigPrice !== '' && this.bigPrice >= 0) {
-        userPrice.push(this.bigPrice)
-      }
+      if (this.smallPrice !== '' && this.smallPrice >= 0) userPrice.push(this.smallPrice)
+      if (this.bigPrice !== '' && this.bigPrice >= 0) userPrice.push(this.bigPrice)
       userPrice.sort()
       if (userPrice.length) {
-        if (userPrice.length === 1) {
-          priceRange = userPrice[0].toString() + '-' + userPrice[0].toString()
-        } else if (userPrice.length === 2) {
-          priceRange = userPrice[0].toString() + '-' + userPrice[1].toString()
-        }
+        if (userPrice.length === 1) priceRange = userPrice[0].toString() + '-' + userPrice[0].toString()
+        else if (userPrice.length === 2) priceRange = userPrice[0].toString() + '-' + userPrice[1].toString()
       }
       // 初始化价格区间
       this.bigPrice = ''
@@ -404,29 +354,21 @@ export default {
             spec_* 规格
           */
         }
-      this.$router.push({ path: '/search', query: searchMap })
-      if (searchMap.brand) {
-        this.isSelectBrand = false
-      }
-      apiAxios.AxiosP({
-        url: api.search,
-        method: 'post',
-        data: searchMap
-      }, (rtn) => {
-        if (rtn.status === 200) {
-          this.searchList = rtn.data
-          this.totalPages = this.searchList.totalPages || 1
-          this.brandList = this.searchList.brandList || ''
-          this.specList = this.searchList.specList || ''
-          if (this.specList) {
-            for (let i = 0; i < this.specList.length; i++) {
-              this.specNavList.push({spec: this.specList[i].text, id: this.specList[i].id})
-            }
+      this.$router.replace({ path: '/search', query: searchMap })
+      if (searchMap.brand) this.isSelectBrand = false
+      this.API.search(searchMap).then(rtn => {
+        this.searchList = rtn
+        this.totalPages = this.searchList.totalPages || 1
+        this.brandList = this.searchList.brandList || ''
+        this.specList = this.searchList.specList || ''
+        if (this.specList) {
+          for (let i = 0; i < this.specList.length; i++) {
+            this.specNavList.push({spec: this.specList[i].text, id: this.specList[i].id})
           }
-          // this.specNavList = [...new Set(this.specNavList)]
         }
       })
     },
+    // 选择spec时 修改样式
     selectStyle (item, index) {
       if (this.isSelectBrandMore) { // 正常选择单个品牌
         if (this.$refs.brandli[index].children[0].className.length <= 0) {
@@ -459,6 +401,7 @@ export default {
         }
       }
     },
+    // 切换修改 spec
     selectAttr (item, index, rollNum) {
       let specIdList = this.specNavList.find(tip => {
         return tip.id === item.specId
@@ -497,7 +440,8 @@ export default {
       this.search([this.keywords, false])
       this.isSelectSpec.push(rollNum)
     },
-    selectBrandMore (event) { // 品牌多选
+    // 品牌多选
+    selectBrandMore (event) {
       let brandTag = this.$refs.brandul.style
       brandTag.height = 'initial'
       brandTag.maxHeight = '60px'
@@ -514,7 +458,8 @@ export default {
       }
       console.log(2, this.$refs.brandul.parentElement.offsetHeight)
     },
-    selectMore (event, index) { // spec多选
+    // spec多选
+    selectMore (event, index) {
       let specul = this.$refs.specul[index].style
       if (specul.maxHeight === '120px') {
         specul.height = '30px'
@@ -531,7 +476,8 @@ export default {
         specul.overflowY = 'hidden'
       }
     },
-    more (event, index) { // 更多
+    // 显示 更多
+    more (event, index) {
       let specUl
       if (index !== undefined) {
         specUl = this.$refs.specul[index].style
@@ -549,6 +495,7 @@ export default {
         curTag.children[1].className = 'el-icon-arrow-up'
       }
     },
+    // 取消选择spec
     btnCancel () {
       let brandTag = this.$refs.brandul.style
       brandTag.height = '30px'
@@ -566,6 +513,7 @@ export default {
         brandTag.overflowY = 'hidden'
       }
     },
+    // 确定选择spec
     btnComfirm (index) {
       if (index === 1) { // 1 为品牌
         this.selectBrand = this.temSelectList
@@ -578,6 +526,7 @@ export default {
     btnPrice () {
       this.search([this.keywords, false])
     },
+    // 结果条件过滤
     chooseSort (type) {
       if (this.choose_sort !== type) {
         this.isPriceSort = false
@@ -625,4 +574,13 @@ export default {
 </script>
 <style scoped>
 @import "../../assets/css/search/search.css";
+#search-index > *{
+  padding-left: calc(100vw - 100%)
+}
+#headTop{
+  background-color: #ECECEC;
+}
+#bottom {
+  background-color: #f5f5f5;
+}
 </style>

@@ -14,22 +14,8 @@
 <script>
 export default {
   name: 'app',
-  provide () {
-    return {
-      reload: this.reload
-    }
-  },
   data () {
-    return {
-      isRouterAlive: true
-    }
-  },
-  methods: {
-    reload () {
-      this.$nextTick(() => {
-        this.isRouterAlive = true
-      })
-    }
+    return {}
   }
 }
 </script>

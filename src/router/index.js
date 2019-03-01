@@ -31,17 +31,6 @@ router = new Router({
       component: resolve => require(['@/views/home/index'], resolve)
     },
     {
-      path: '/test',
-      meta: {
-        keepAlive: true
-      },
-      component: resolve => require(['@/views/test/index'], resolve)
-    },
-    {
-      path: '/test/detail',
-      component: resolve => require(['@/views/test/detail'], resolve)
-    },
-    {
       path: '/search',
       name: 'search',
       component: resolve => require(['@/views/search/index'], resolve)
@@ -143,139 +132,179 @@ router = new Router({
     },
     { // 用户中心首页
       path: '/user',
-      meta: {
-        isLogin: true
-      },
+      meta: { isLogin: true },
       component: resolve => require(['@/views/user/user'], resolve),
       children: [
         {
-          path: 'userCart',
-          component: resolve => require(['@/views/user/children/userCart'], resolve)
-        },
-        {
           path: 'userOrder',
-          component: resolve => require(['@/views/user/children/userOrder'], resolve)
+          redirect: '/user/userOrder/statu-z',
+          meta: { isLogin: true },
+          component: resolve => require(['@/views/user/children/userOrder'], resolve),
+          children: [
+            {
+              path: 'statu-z',
+              meta: { isLogin: true },
+              component: resolve => require(['@/views/user/children/order/statu-z'], resolve)
+            },
+            {
+              path: 'statu-one',
+              meta: { isLogin: true },
+              component: resolve => require(['@/views/user/children/order/statu-one'], resolve)
+            },
+            {
+              path: 'statu-second',
+              meta: { isLogin: true },
+              component: resolve => require(['@/views/user/children/order/statu-second'], resolve)
+            },
+            {
+              path: 'statu-three',
+              meta: { isLogin: true },
+              component: resolve => require(['@/views/user/children/order/statu-three'], resolve)
+            },
+            {
+              path: 'statu-four',
+              meta: { isLogin: true },
+              component: resolve => require(['@/views/user/children/order/statu-four'], resolve)
+            },
+            {
+              path: 'statu-five',
+              meta: { isLogin: true },
+              component: resolve => require(['@/views/user/children/order/statu-five'], resolve)
+            }
+          ]
         },
         {
           path: 'userCollectGoods',
+          meta: { isLogin: true },
           component: resolve => require(['@/views/user/children/userCollectGoods'], resolve)
         },
         {
-          path: 'userCollect',
-          component: resolve => require(['@/views/user/children/userCollect'], resolve)
+          path: 'userCollectShop',
+          meta: { isLogin: true },
+          component: resolve => require(['@/views/user/children/userCollectGoods'], resolve)
         },
         {
           path: 'userAssess',
+          meta: { isLogin: true },
           component: resolve => require(['@/views/user/children/userAssess'], resolve)
         },
         {
           path: 'userHistory',
+          meta: { isLogin: true },
           component: resolve => require(['@/views/user/children/userHistory'], resolve)
         },
         {
           path: 'userFee',
+          meta: { isLogin: true },
           component: resolve => require(['@/views/user/children/userFee'], resolve)
         },
         {
-          path: 'userTip',
-          component: resolve => require(['@/views/user/children/userTip'], resolve)
-        },
-        {
-          path: 'userProtect',
-          component: resolve => require(['@/views/user/children/userProtect'], resolve)
-        },
-        {
           path: 'userInvoiceInfo',
+          meta: { isLogin: true },
           component: resolve => require(['@/views/user/children/userInvoiceInfo'], resolve)
         },
         {
           path: 'userInvoiceManage',
+          meta: { isLogin: true },
           component: resolve => require(['@/views/user/children/userInvoiceManage'], resolve)
         },
         {
           path: 'userRefundManage',
+          meta: { isLogin: true },
           component: resolve => require(['@/views/user/children/userRefundManage'], resolve)
         },
         {
           path: 'userComplaintManage',
+          meta: { isLogin: true },
           component: resolve => require(['@/views/user/children/userComplaintManage'], resolve)
         },
         {
           path: 'userReportManage',
+          meta: { isLogin: true },
           component: resolve => require(['@/views/user/children/userReportManage'], resolve)
         },
         {
           path: 'userBuyHistory',
+          meta: { isLogin: true },
           component: resolve => require(['@/views/user/children/userBuyHistory'], resolve)
         }
       ]
     },
     { // 用户中心账户设置
       path: '/userSet',
-      meta: {
-        isLogin: true
-      },
+      meta: { isLogin: true },
       component: resolve => require(['@/views/user/userSet'], resolve),
       children: [
         {
           path: 'account',
+          meta: { isLogin: true },
           component: resolve => require(['@/views/user/item/account'], resolve)
         },
         {
           path: 'address',
+          meta: { isLogin: true },
           component: resolve => require(['@/views/user/item/address'], resolve)
         },
         {
           path: 'alipay',
+          meta: { isLogin: true },
           component: resolve => require(['@/views/user/item/alipay'], resolve)
         },
         {
           path: 'app',
+          meta: { isLogin: true },
           component: resolve => require(['@/views/user/item/app'], resolve)
         },
         {
           path: 'bankCard',
+          meta: { isLogin: true },
           component: resolve => require(['@/views/user/item/bankCard'], resolve)
         },
         {
           path: 'bindingPhone',
+          meta: { isLogin: true },
           component: resolve => require(['@/views/user/item/bindingPhone'], resolve)
         },
         {
           path: 'message',
+          meta: { isLogin: true },
           component: resolve => require(['@/views/user/item/message'], resolve)
         },
         {
           path: 'personalInfo',
+          meta: { isLogin: true },
           component: resolve => require(['@/views/user/item/personalInfo'], resolve)
         },
         {
           path: 'secretSet',
+          meta: { isLogin: true },
           component: resolve => require(['@/views/user/item/secretSet'], resolve)
         },
         {
           path: 'secure',
+          meta: { isLogin: true },
           component: resolve => require(['@/views/user/item/secure'], resolve)
         },
         {
           path: 'share',
+          meta: { isLogin: true },
           component: resolve => require(['@/views/user/item/share'], resolve)
         },
         {
           path: 'WeChat',
+          meta: { isLogin: true },
           component: resolve => require(['@/views/user/item/WeChat'], resolve)
         },
         {
           path: 'weibo',
+          meta: { isLogin: true },
           component: resolve => require(['@/views/user/item/weibo'], resolve)
         }
       ]
     },
     {
       path: '/userInfo',
-      meta: {
-        isLogin: true
-      },
+      meta: { isLogin: true },
       component: resolve => require(['@/views/user/userInfo'], resolve)
     },
     {

@@ -16,8 +16,8 @@
                   <div class="item-list clearfix">
                     <div class="subitem">
                       <dl class="fore1" v-for="list in item.children" v-if="list.children.length" :key="list.id">
-                        <dt><a href="">{{ list.name }}</a></dt>
-                        <dd><a href="" v-for="series in list.children" :key="series.id">{{ series.name }}</a></dd>
+                        <dt><router-link :to="{path: '/search', query: {keywords: list.name}}" >{{ list.name }}</router-link></dt>
+                        <dd><router-link :to="{path: '/search', query: {keywords: series.name}}" v-for="series in list.children" :key="series.id">{{ series.name }}</router-link></dd>
                       </dl>
                     </div>
                   </div>
@@ -57,9 +57,9 @@
                 </div>
               </div>
               <div class="news-info">
-                <li><a><span class="news-tip">【热门】</span>新能源车企不能再躺在政策温床上睡懒觉</a></li>
-                <li><a><span class="news-tip">【知识】</span>新能源车企不能再躺在政策温床上睡懒觉</a></li>
-                <li><a><span class="news-tip">【公告】</span>新能源车企不能再躺在政策温床上睡懒觉</a></li>
+                <li v-for="(list, index) in tipHot" :key="list.id" v-if="index === 0"><a href="javascript:;"><span class="news-tip">【热门】</span>{{list.title}}</a></li>
+                <li v-for="(list, index) in tipKnown" :key="list.id" v-if="index === 0"><a href="javascript:;"><span class="news-tip">【知识】</span>{{list.title}}</a></li>
+                <li v-for="(list, index) in tipAbs" :key="list.id" v-if="index === 0"><a href="javascript:;"><span class="news-tip">【公告】</span>{{list.title}}</a></li>
               </div>
               <div class="other-info">
                 <li><a><img src="static/img/mk_huiyuan.png"><h5>会员</h5></a></li>
@@ -135,7 +135,7 @@
       </div>
     </div>
     <!-- 主题货源 -->
-    <div class="container_h" @click="liveShow">
+    <div class="container_h">
       <div class="py-container source">
         <div class="source-title">
           <span></span><p>主题货源</p>
@@ -197,7 +197,7 @@
         <div>
           <div class="hot-title">
             <p>猜你喜欢</p>
-            <p>换一换</p>
+            <p @click="changeLike()">换一换</p>
           </div>
           <div class="hot-con">
             <ul class="hot-con-ul">
@@ -236,9 +236,6 @@
         </ul>
       </div>
     </div>
-    <a>
-      <iframe class="live_iframe" ref="live_iframe" id="live_iframe" v-bind:src="liveSource" width="360" height="300" frameborder="0" scrolling="no"></iframe>
-    </a>
     <div class="mask" v-show="is3Ding">
       <iframe class="mask_iframe" ref="threeDSrc"  frameborder="0" scrolling="" g="no">
       </iframe>
@@ -250,25 +247,25 @@
 </template>
 
 <script>
-import { apiAxios } from '../../common/utils'
-import { api } from '../../common/api'
-import shortcut from '../../components/shortcutHeader'
-import headerNav from '../../components/headerNav'
-import homeNav from '../../components/homeNav'
-import absBox from '../../components/absBox'
-import youLike from '../../components/youLike'
-import pageFooter from '../../components/pageFooter'
+import shortcut from '@/components/shortcutHeader'
+import headerNav from '@/components/headerNav'
+import homeNav from '@/components/homeNav'
+import absBox from '@/components/absBox'
+import youLike from '@/components/youLike'
+import pageFooter from '@/components/pageFooter'
 export default {
   data () {
     return {
       is3Ding: false,
-      liveSource: '',
       cateMenuItem: '',
       isShowNav: '', // 二级菜单显示状态
       menuData: '', // 条目菜单
       bannerList: '', // banner
       bgImg: '#f4f4f4',
       absList: [], // 轮播广告
+      tipHot: [], // 热门
+      tipKnown: [], // 知识
+      tipAbs: [], // 公告
       bsaleList: [], // 会员3D
       hardwareList: [], // 五金工具
       lifeShops: [], // 日用百货
@@ -297,287 +294,119 @@ export default {
   computed: {},
   created () {
     // 获取条目菜单
-    apiAxios.AxiosG({
-      url: api.homeMenu
-    }, (rtn) => {
-      if (rtn.data.success) {
-        this.menuData = rtn.data.data.children
-      }
+    this.API.homeMenu().then(rtn => {
+      this.menuData = rtn.children
     })
     // 主页banner
-    apiAxios.AxiosG({
-      url: api.homeBanner,
-      params: { categoryId: 1 }
-    }, (rtn) => {
-      if (rtn.data.success) {
-        this.bannerList = rtn.data.data.contentList
-      }
+    this.API.homeBanner({categoryId: 1}).then(rtn => {
+      this.bannerList = rtn.contentList
+    })
+    // 热门
+    this.API.homeBanner({categoryId: 22}).then(rtn => {
+      this.tipHot = rtn.contentList
+    })
+    // 知识
+    this.API.homeBanner({categoryId: 23}).then(rtn => {
+      this.tipKnown = rtn.contentList
+    })
+    // 公告
+    this.API.homeBanner({categoryId: 24}).then(rtn => {
+      this.tipAbs = rtn.contentList
     })
     // 主页banner广告
-    apiAxios.AxiosG({
-      url: api.homeBanner,
-      params: { categoryId: 2 }
-    }, (rtn) => {
-      if (rtn.data.success) {
-        this.absList = rtn.data.data.contentList
-      }
+    this.API.homeBanner({categoryId: 2}).then(rtn => {
+      this.absList = rtn.contentList
     })
     // 会员3D
-    apiAxios.AxiosG({
-      url: api.homeBanner,
-      params: { categoryId: 3 }
-    }, (rtn) => {
-      if (rtn.data.success) {
-        this.bsaleList = rtn.data.data.contentList
-      }
+    this.API.homeBanner({categoryId: 3}).then(rtn => {
+      this.bsaleList = rtn.contentList
     })
     // 大类 分类
-    apiAxios.AxiosG({
-      url: api.homeBanner,
-      params: { categoryId: 4 }
-    }, (rtn) => {
-      if (rtn.data.success) {
-        this.classList = rtn.data.data.contentList
-      }
+    this.API.homeBanner({categoryId: 4}).then(rtn => {
+      this.classList = rtn.contentList
     })
     // 五金工具 内容
-    apiAxios.AxiosG({
-      url: api.homeClass,
-      params: { contentId: 19 }
-    }, (rtn) => {
-      if (rtn.data.success) {
-        this.hardwareList = rtn.data.data
-      }
+    this.API.homeClass({contentId: 19}).then(rtn => {
+      this.hardwareList = rtn
     })
     // 日用百货
-    apiAxios.AxiosG({
-      url: api.homeClass,
-      params: { contentId: 20 }
-    }, (rtn) => {
-      if (rtn.data.success) {
-        this.lifeShops = rtn.data.data
-      }
+    this.API.homeClass({contentId: 20}).then(rtn => {
+      this.lifeShops = rtn
     })
     // 机械
-    apiAxios.AxiosG({
-      url: api.homeClass,
-      params: { contentId: 21 }
-    }, (rtn) => {
-      if (rtn.data.success) {
-        this.mechanicList = rtn.data.data
-      }
+    this.API.homeClass({contentId: 21}).then(rtn => {
+      this.mechanicList = rtn
     })
     // 机电设备
-    apiAxios.AxiosG({
-      url: api.homeClass,
-      params: { contentId: 22 }
-    }, (rtn) => {
-      if (rtn.data.success) {
-        this.elecList = rtn.data.data
-      }
+    this.API.homeClass({contentId: 22}).then(rtn => {
+      this.elecList = rtn
     })
     // 3c数码
-    apiAxios.AxiosG({
-      url: api.homeClass,
-      params: { contentId: 23 }
-    }, (rtn) => {
-      if (rtn.data.success) {
-        this.threeCList = rtn.data.data
-      }
+    this.API.homeClass({contentId: 23}).then(rtn => {
+      this.threeCList = rtn
     })
     // 汽车用品
-    apiAxios.AxiosG({
-      url: api.homeClass,
-      params: { contentId: 24 }
-    }, (rtn) => {
-      if (rtn.data.success) {
-        this.cartLife = rtn.data.data
-      }
+    this.API.homeClass({contentId: 24}).then(rtn => {
+      this.cartLife = rtn
     })
     // 企业直播
-    apiAxios.AxiosG({
-      url: api.homeBanner,
-      params: { categoryId: 7 }
-    }, (rtn) => {
-      if (rtn.data.success) {
-        this.companyLive = rtn.data.data.contentList
-      }
+    this.API.homeBanner({categoryId: 7}).then(rtn => {
+      this.companyLive = rtn.contentList
     })
     // 主题货源
-    apiAxios.AxiosG({
-      url: api.homeBanner,
-      params: { categoryId: 5 }
-    }, (rtn) => {
-      if (rtn.data.success) {
-        this.sourceList = rtn.data.data.contentList
-      }
+    this.API.homeBanner({categoryId: 5}).then(rtn => {
+      this.sourceList = rtn.contentList
     })
     // 照明工具
-    apiAxios.AxiosG({
-      url: api.homeClass,
-      params: { contentId: 25 }
-    }, (rtn) => {
-      if (rtn.data.success) {
-        this.lightList = rtn.data.data
-      }
+    this.API.homeClass({contentId: 25}).then(rtn => {
+      this.lightList = rtn
     })
-    apiAxios.AxiosG({
-      url: api.homeClass,
-      params: { contentId: 26 }
-    }, (rtn) => {
-      if (rtn.data.success) {
-        this.lightList1 = rtn.data.data
-      }
+    this.API.homeClass({contentId: 26}).then(rtn => {
+      this.lightList1 = rtn
     })
-    apiAxios.AxiosG({
-      url: api.homeClass,
-      params: { contentId: 27 }
-    }, (rtn) => {
-      if (rtn.data.success) {
-        this.lightList2 = rtn.data.data
-      }
+    this.API.homeClass({contentId: 27}).then(rtn => {
+      this.lightList2 = rtn
     })
-    apiAxios.AxiosG({
-      url: api.homeClass,
-      params: { contentId: 28 }
-    }, (rtn) => {
-      if (rtn.data.success) {
-        this.lightList3 = rtn.data.data
-      }
+    this.API.homeClass({contentId: 28}).then(rtn => {
+      this.lightList3 = rtn
     })
-    apiAxios.AxiosG({
-      url: api.homeClass,
-      params: { contentId: 29 }
-    }, (rtn) => {
-      if (rtn.data.success) {
-        this.lightList4 = rtn.data.data
-      }
+    this.API.homeClass({contentId: 29}).then(rtn => {
+      this.lightList4 = rtn
     })
-    apiAxios.AxiosG({
-      url: api.homeClass,
-      params: { contentId: 30 }
-    }, (rtn) => {
-      if (rtn.data.success) {
-        this.lightList5 = rtn.data.data
-      }
+    this.API.homeClass({contentId: 30}).then(rtn => {
+      this.lightList5 = rtn
     })
-    apiAxios.AxiosG({
-      url: api.homeClass,
-      params: { contentId: 31 }
-    }, (rtn) => {
-      if (rtn.data.success) {
-        this.lightList6 = rtn.data.data
-      }
+    this.API.homeClass({contentId: 31}).then(rtn => {
+      this.lightList6 = rtn
     })
-    apiAxios.AxiosG({
-      url: api.homeClass,
-      params: { contentId: 32 }
-    }, (rtn) => {
-      if (rtn.data.success) {
-        this.lightList7 = rtn.data.data
-      }
+    this.API.homeClass({contentId: 32}).then(rtn => {
+      this.lightList7 = rtn
     })
-    apiAxios.AxiosG({
-      url: api.homeClass,
-      params: { contentId: 33 }
-    }, (rtn) => {
-      if (rtn.data.success) {
-        this.lightList8 = rtn.data.data
-      }
+    this.API.homeClass({contentId: 33}).then(rtn => {
+      this.lightList8 = rtn
     })
     // 商学院
-    apiAxios.AxiosG({
-      url: api.homeBanner,
-      params: { categoryId: 8 }
-    }, (rtn) => {
-      if (rtn.data.success) {
-        this.school = rtn.data.data.contentList
-      }
+    this.API.homeBanner({categoryId: 8}).then(rtn => {
+      this.school = rtn.contentList
     })
     // 猜你喜欢
-    apiAxios.AxiosG({
-      url: api.homeBanner,
-      params: { categoryId: 6 }
-    }, (rtn) => {
-      if (rtn.data.success) {
-        this.likeList = rtn.data.data.contentList
-      }
+    this.API.homeBanner({categoryId: 6}).then(rtn => {
+      this.likeList = rtn.contentList
     })
-    // this.$router.push({ path:'/artist/dynamic',query:{id: this.$route.query.id} })
   },
   activated () {
     this.username = this.$cookies.isKey('userInfo') ? this.$cookies.get('userInfo').username : ''
   },
-  deactivated () {},
   mounted () {
     this.username = this.$cookies.isKey('userInfo') ? this.$cookies.get('userInfo').username : ''
-    // 为iframe点击可触发点击事件
-    // let IframeOnClick = {
-    //   resolution: 200,
-    //   iframes: [],
-    //   interval: null,
-    //   Iframe: function () {
-    //     this.element = arguments[0]
-    //     this.cb = arguments[1]
-    //     this.hasTracked = false
-    //   },
-    //   track: function (element, cb) {
-    //     this.iframes.push(new this.Iframe(element, cb))
-    //     if (!this.interval) {
-    //       let _this = this
-    //       this.interval = setInterval(function () { _this.checkClick() }, this.resolution)
-    //     }
-    //   },
-    //   checkClick: function () {
-    //     if (document.activeElement) {
-    //       let activeElement = document.activeElement
-    //       for (let i in this.iframes) {
-    //         if (activeElement === this.iframes[i].element) { // user is in this Iframe
-    //           if (this.iframes[i].hasTracked === false) {
-    //             this.iframes[i].cb.apply(window, [])
-    //             this.iframes[i].hasTracked = true
-    //           }
-    //         } else {
-    //           this.iframes[i].hasTracked = false
-    //         }
-    //       }
-    //     }
-    //   }
-    // }
-    // // 获取iframe 框架下的body节点并且监听
-    // let iframeDom = this.$el.getElementsByTagName('iframe')[0].contentWindow.document.body
-    // this.iframeDom = iframeDom
-    // if (this.iframeDom.offsetHeight) {
-    //   this.iframeDom.addEventListener('click', (e) => {
-    //     this.liveSource = 'static/live.html'
-    //     return false
-    //   })
-    // } else { // 火狐 body高度为0 无法触发body点击事件
-    //   IframeOnClick.track(this.$refs.live_iframe, () => {
-    //     this.liveSource = 'static/live.html'
-    //     return false
-    //   })
-    // }
   },
   methods: {
     carouselChange (index, key) {
       this.bgImg = this.bannerList[index].bgcolor
     },
-    onTest () {
-      apiAxios.AxiosG({
-        url: '/test/live/url'
-      }, (rtn) => {
-        this.playerOptions.HLS = rtn.data.data.url_hls
-        console.log(this.playerOptions.HLS)
-      })
-    },
     livePage (url) { // http://192.168.1.11/
       this.$router.push({path: '/live/factory'})
       return false
-    },
-    liveShow () {
-      console.log(12121)
-      this.liveSource = 'static/live.html?id=10&sd=10&ii=10'
     },
     threeDclose () {
       this.is3Ding = false
@@ -591,6 +420,12 @@ export default {
     },
     register () {
       this.$router.push({path: '/register'})
+    },
+    // 换一换 喜欢
+    changeLike () {
+      this.API.homeBanner({categoryId: 6}).then(rtn => {
+        this.likeList = rtn.contentList
+      })
     }
   }
 }

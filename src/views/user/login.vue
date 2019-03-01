@@ -1,41 +1,33 @@
 <template>
   <div id="login">
-    <keep-alive>
-      <router-view></router-view>
-    </keep-alive>
-      <div class="log-top">
-        <div class="py-container">
-          <div class="top">
+    <div class="log-top">
+      <div class="py-container top">
         <div class="top_left">
-          <div class="h-logo" ref='logoIsCursor'>
-                <router-link :to="{path: isHome}" ><img src="static/img/log/log_logo1.png"></router-link>
-              </div>
+          <refHeader></refHeader>
           <p class="title">欢迎登陆</p>
         </div>
         <div class="top_right">为确保您账户的安全及正常使用，依《网络安全法》相关要求，6月1日起会员账户需绑定手机。如您还未绑定，请尽快完成，感谢您的理解及支持！</div>
         <div class="opinion">
-              <img src="static/img/log/log_ opinion1.png">
-              <a>我想对"登陆"提意见</a>
-          </div>
-      </div>
+          <img src="static/img/log/log_ opinion1.png"><a>我想对"登陆"提意见</a>
         </div>
       </div>
-      <div class="log-middle">
-        <div class="py-container">
-          <div class="middle">
+    </div>
+    <div class="log-middle">
+      <div class="py-container">
+        <div class="middle">
           <div class="middle_left">
-            <img src="static/img/log/log_christmas1.jpg">
+            <a href="javascript:;"></a>
           </div>
           <div class="loginform">
             <div class="title">
-              <p @click= "accountNumber()" :class="{active:account === true }">账号登陆</p>
+              <p @click="accountNumber()" :class="{active:account === true }">账号登陆</p>
               <p>|</p>
-              <p @click= "sweepCode()" :class="{active:account === false }">扫码登陆</p>
+              <p @click="sweepCode()" :class="{active:account === false }">扫码登陆</p>
             </div>
-            <section v-show="account === true" >
-              <input type="text" placeholder="邮箱/手机号码" v-model="username"/>
-              <input type="password" placeholder="密码" v-model="password"/>
-              <input type="button" value="登陆" class="btn" @click="userLogin"/>
+            <section v-show="account === true">
+              <input type="text" placeholder="邮箱/手机号码" v-model="username" />
+              <input type="password" placeholder="密码" v-model="password" />
+              <input type="button" value="登陆" class="btn" @click="userLogin" />
               <p class="reg">
                 <span class="sort">
                   <a>手机短信登陆</a>/
@@ -45,7 +37,7 @@
                 <a>忘记密码</a>
               </p>
             </section>
-            <section v-show="account === false" >
+            <section v-show="account === false">
               <img src="static/img/log/log_scan1.png">
               <p class="openAPP">打开 <router-link :to="{}">猴尾巴商城APP</router-link>扫一扫登陆</p>
             </section>
@@ -59,23 +51,17 @@
               </span>
             </div>
           </div>
+        </div>
       </div>
-       </div>
-      </div>
-      <div class="log-bottom">
-        <div class="py-container">
-         <div class="bottom">
-          <regFooter></regFooter>
-      </div>
-       </div>
-      </div>
+    </div>
+    <regFooter></regFooter>
   </div>
 </template>
 <script>
 import { mapMutations, mapState } from 'vuex'
-import regFooter from '../../components/regFooter'
-import { apiAxios, setStore } from '../../common/utils'
-import { api } from '../../common/api'
+import regFooter from '@/components/regFooter'
+import refHeader from '@/components/regHeader'
+import { setStore } from '@/common/utils'
 export default {
   data () {
     return {
@@ -84,20 +70,12 @@ export default {
       account: true
     }
   },
-  components: {regFooter},
+  components: {regFooter, refHeader},
   computed: {
     ...mapState(['userInfo'])
   },
-  created () {
-    let curRoute = this.$route.path
-    this.isHome = (curRoute === '/home' ? '' : '/home')
-    // curRoute === '/shops' ? this.isShops = true : this.isShops = false
-  },
-  mounted () {
-    if (!this.isHome) {
-      this.$refs.logoIsCursor.children[0].style.cursor = 'default'
-    }
-  },
+  created () {},
+  mounted () {},
   methods: {
     ...mapMutations(['setCartList', 'setUserInfo']),
     accountNumber () {
@@ -115,33 +93,26 @@ export default {
         this.$message.warning('请输入用户名和密码')
         return false
       }
-      apiAxios.AxiosG({
-        url: api.login,
-        params: {name: this.username, password: this.password}
-      }, rtn => {
-        if (rtn.data.success) {
-          this.$message.success('登陆成功')
-          this.$cookies.set('user-key', this.username)
-          this.$cookies.set('userInfo', (rtn.data.data))
-          this.setUserInfo(rtn.data.data)
-          this.password = ''
-          this.cart()
-        } else {
-          this.$message.error(rtn.data.message)
-          this.password = ''
-        }
+      this.API.login({name: this.username, password: this.password}).then(res => {
+        this.password = ''
+        // 验证失败
+        if (res.success === false) return false
+        this.$message.success('登陆成功')
+        this.$cookies.set('user-key', this.username)
+        this.$cookies.set('userInfo', res)
+        this.setUserInfo(res)
+        this.cart()
       })
     },
     cart () {
-      apiAxios.AxiosG({
-        url: api.cartList,
-        params: {username: this.$cookies.get('user-key')}
-      }, rtn => {
-        if (rtn.data.success) {
-          this.setCartList(rtn.data.data)
-        } else { // 购物车为空
+      this.API.cartList({username: this.$cookies.get('user-key')}).then(res => {
+        if (res.success === false) {
+          this.setCartList(res.data)
+          setStore('cartList', res.data)
+          return false
         }
-        setStore('cartList', rtn.data.data)
+        this.setCartList(res)
+        setStore('cartList', res)
       })
       this.$router.push(this.$route.query.back)
     }
@@ -150,6 +121,10 @@ export default {
 
 </script>
 <style scoped>
+  #login{
+    min-height: 100vh;
+    background-color: #F4F4F4;
+  }
   .py-container{
     width: 1226px;
     margin: 0 auto;
@@ -167,12 +142,6 @@ export default {
     font-family:SimHei;
     font-weight:400;
     color:rgba(135,135,135,1);
-  }
-  .top .top_left img{
-    margin-left:70px;
-    margin-bottom:14px;
-    margin-top: 2px;
-    margin-left: 70px;
   }
   .top_left{
     display: flex;
@@ -211,23 +180,23 @@ export default {
     background: #F4F4F4;
   }
   .log-middle{
-    background:rgba(240,62,62,1);
+    background: url(/static/img/mk_logo_bg.jpg) center no-repeat;
+    background-size: cover;
   }
   .log-bottom{
     background: #F4F4F4;
   }
  .middle{
    box-sizing:border-box;
-   height:500px;
-   background:rgba(240,62,62,1);
-   padding:39px 70px 38px 71px;
+   height:600px;
+   padding:89px 70px 88px 71px;
    position: relative;
  }
   .middle .middle_left{
     float: left;
   }
-  .middle .middle_left img{
-    width:800px;
+  .middle .middle_left a{
+    width:600px;
     height:423px;
   }
  .middle .loginform{

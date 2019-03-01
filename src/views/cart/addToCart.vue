@@ -36,136 +36,13 @@
           </li>
         </ul>
       </div>
-      <!-- <div class="like">
-        <h4 class="kt">猜你喜欢</h4>
-        <div class="like-list">
-          <ul class="yui3-g">
-            <li class="yui3-u-1-6">
-              <div class="list-wrap">
-                <div class="p-img">
-                  <img src="static/img/itemlike01.png" />
-                </div>
-                  <div class="attr">
-                    <em>DELL戴尔Ins 15MR-7528SS 15英寸 银色 笔记本</em>
-                  </div>
-                  <div class="price">
-                    <strong>
-                <em>¥</em>
-                <i>3699.00</i>
-              </strong>
-                  </div>
-                  <div class="commit">
-                    <i class="command">加入购物车</i>
-                  </div>
-                </div>
-            </li>
-            <li class="yui3-u-1-6">
-              <div class="list-wrap">
-                <div class="p-img">
-                  <img src="static/img/itemlike02.png" />
-                </div>
-                  <div class="attr">
-                    <em>Apple苹果iPhone 6s/6s Plus 16G 64G 128G</em>
-                  </div>
-                  <div class="price">
-                    <strong>
-                <em>¥</em>
-                <i>4388.00</i>
-              </strong>
-                  </div>
-                  <div class="commit">
-                    <i class="command">加入购物车</i>
-                  </div>
-                </div>
-            </li>
-            <li class="yui3-u-1-6">
-              <div class="list-wrap">
-                <div class="p-img">
-                  <img src="static/img/itemlike03.png" />
-                </div>
-                  <div class="attr">
-                    <em>DELL戴尔Ins 15MR-7528SS 15英寸 银色 笔记本</em>
-                  </div>
-                  <div class="price">
-                    <strong>
-                <em>¥</em>
-                <i>4088.00</i>
-              </strong>
-                  </div>
-                  <div class="commit">
-                    <i class="command">加入购物车</i>
-                  </div>
-                </div>
-            </li>
-            <li class="yui3-u-1-6">
-              <div class="list-wrap">
-                <div class="p-img">
-                  <img src="static/img/itemlike04.png" />
-                </div>
-                  <div class="attr">
-                    <em>DELL戴尔Ins 15MR-7528SS 15英寸 银色 笔记本</em>
-                  </div>
-                  <div class="price">
-                    <strong>
-                <em>¥</em>
-                <i>4088.00</i>
-              </strong>
-                  </div>
-                  <div class="commit">
-                    <i class="command">加入购物车</i>
-                  </div>
-                </div>
-            </li>
-            <li class="yui3-u-1-6">
-              <div class="list-wrap">
-                <div class="p-img">
-                  <img src="static/img/itemlike05.png" />
-                </div>
-                  <div class="attr">
-                    <em>DELL戴尔Ins 15MR-7528SS 15英寸 银色 笔记本</em>
-                  </div>
-                  <div class="price">
-                    <strong>
-                <em>¥</em>
-                <i>4088.00</i>
-              </strong>
-                  </div>
-                  <div class="commit">
-                    <i class="command">加入购物车</i>
-                  </div>
-                </div>
-            </li>
-            <li class="yui3-u-1-6">
-              <div class="list-wrap">
-                <div class="p-img">
-                  <img src="static/img/itemlike06.png" />
-                </div>
-                  <div class="attr">
-                    <em>DELL戴尔Ins 15MR-7528SS 15英寸 银色 笔记本</em>
-                  </div>
-                  <div class="price">
-                    <strong>
-                <em>¥</em>
-                <i>4088.00</i>
-              </strong>
-                  </div>
-                  <div class="commit">
-                    <i class="command">加入购物车</i>
-                  </div>
-                </div>
-            </li>
-          </ul>
-        </div>
-      </div> -->
     </div>
     <pageFooter></pageFooter>
   </div>
 </template>
 <script>
-import shortcutHeader from '../../components/shortcutHeader'
-import pageFooter from '../../components/pageFooter'
-import { apiAxios } from '../../common/utils'
-import { api } from '../../common/api'
+import shortcutHeader from '@/components/shortcutHeader'
+import pageFooter from '@/components/pageFooter'
 export default {
   data () {
     return {
@@ -183,27 +60,15 @@ export default {
     this.$destroy()
   },
   mounted () {
-    apiAxios.AxiosG({
-      url: api.singleCart,
-      params: {itemId: this.$route.query.skuId || '', num: this.$route.query.num || ''}
-    }, rtn => {
-      if (rtn.data.success) {
-        this.goodSkuList = rtn.data.data.skuInformation
-        this.spec = JSON.parse(this.goodSkuList.spec)
-        this.num = rtn.data.data.num
-        this.goodsName = rtn.data.data.goodsName
-      } else {
-        this.$message.warning('显示有误')
-      }
+    this.API.singleCart({itemId: this.$route.query.skuId || '', num: this.$route.query.num || ''}).then(rtn => {
+      this.goodSkuList = rtn.skuInformation
+      this.spec = JSON.parse(this.goodSkuList.spec)
+      this.num = rtn.num
+      this.goodsName = rtn.goodsName
     })
-    apiAxios.AxiosG({
-      url: api.detailCon,
-      params: {categoryId: 9}
-    }, res => {
-      if (res.data.success) {
-        this.likeList = res.data.data.contentList
-        this.likeCate = res.data.data.contentCategory
-      }
+    this.API.detailCon({categoryId: 9}).then(res => {
+      this.likeList = res.contentList
+      this.likeCate = res.contentCategory
     })
   }
 }
@@ -211,5 +76,4 @@ export default {
 </script>
 <style scoped>
 @import "../../assets/css/cart/add-success.css";
-/*@import "../../assets/css/detail/pages-item.css"*/
 </style>

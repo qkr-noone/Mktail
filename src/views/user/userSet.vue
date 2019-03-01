@@ -28,11 +28,9 @@
   </div>
 </template>
 <script>
-// import { apiAxios } from '../../common/utils'
-// import { api } from '../../common/api'
-import shortcut from '../../components/shortcutHeader'
-import userNav from '../../components/userNav'
-import regFooter from '../../components/regFooter'
+import shortcut from '@/components/shortcutHeader'
+import userNav from '@/components/userNav'
+import regFooter from '@/components/regFooter'
 export default {
   data () {
     return {

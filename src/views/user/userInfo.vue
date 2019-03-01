@@ -28,11 +28,9 @@
   </div>
 </template>
 <script>
-// import { apiAxios } from '../../common/utils'
-// import { api } from '../../common/api'
-import shortcut from '../../components/shortcutHeader'
-import userNav from '../../components/userNav'
-import pageFooter from '../../components/pageFooter'
+import shortcut from '@/components/shortcutHeader'
+import userNav from '@/components/userNav'
+import pageFooter from '@/components/pageFooter'
 export default {
   data () {
     return {
@@ -72,10 +70,7 @@ export default {
 
 </script>
 <style scoped>
-/*@import '../../assets/css/cart/webbase.css';
-@import '../../assets/css/user/pages-seckillOrder.css';*/
 @import '../../assets/css/user/user.css';
-/*@import "../../assets/css/search/search.css"*/
   .user {
     display: flex;
     justify-content: space-between;

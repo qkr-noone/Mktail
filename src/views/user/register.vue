@@ -1,20 +1,13 @@
 <template>
   <div id="register">
-    <keep-alive>
-      <router-view></router-view>
-    </keep-alive>
     <div class="reg-top">
-      <div class="py-container">
-      <div class="top">
-      <div class="top_left">
-        <div class="h-logo" ref='logoIsCursor'>
-          <router-link :to="{path: isHome}" ><img src="static/img/logo-118-69.png"></router-link>
+      <div class="py-container top">
+        <div class="top_left">
+          <refHeader></refHeader>
+          <p class="title">账户注册</p>
         </div>
-        <p class="title">账户注册</p>
+        <span class="go">我已注册，<router-link :to="{path: '/login'}">马上登录</router-link>></span>
       </div>
-      <span class="go">我已注册，<router-link :to="{path: '/login'}">马上登录</router-link>></span>
-    </div>
-    </div>
     </div>
     <div class="reg-middle">
       <div class="py-container">
@@ -22,14 +15,14 @@
           <section class="middle-title">
             <div class="title " :class="{active: show === 0}" @click="companyShow()">
               <a class="fixed-height" @click="changeShowType='company'">
-              <img :src="show ===0? 'static/img/reg/reg_rectangle_active1.png' :'./../../static/img/reg/reg_rectangle1.png'">
-              <p class="title-text ">企业账户注册</p>
+                <img :src="show ===0? 'static/img/reg/reg_rectangle_active1.png' :'./../../static/img/reg/reg_rectangle1.png'">
+                <p class="title-text ">企业账户注册</p>
               </a>
             </div>
             <div class="title" :class="{active: show === 1}" @click="personShow()">
               <a class="fixed-height" @click="changeShowType='person'">
-              <img :src=" show===1? 'static/img/reg/reg_slice_active1.png' :'static/img/reg/reg_slice1.png'" class="reduce-height">
-              <p class="title-text">个人账户注册</p>
+                <img :src=" show===1? 'static/img/reg/reg_slice_active1.png' :'static/img/reg/reg_slice1.png'" class="reduce-height">
+                <p class="title-text">个人账户注册</p>
               </a>
             </div>
           </section>
@@ -42,7 +35,7 @@
                 <div class="agreement-detail">
                   <p>
                     <strong>【审慎阅读】</strong>您在申请注册流程中点击同意前，应当认真阅读以下协议。请您务必 <strong>审慎阅读、充分理解协议中相关条款内容，
-                    其中包括：</strong>
+                      其中包括：</strong>
                   </p>
                   <p> <strong>1、与您约定免除或限制责任的条款；</strong></p>
                   <p><strong>2、与您约定法律适用和管辖的条款；</strong></p>
@@ -56,19 +49,19 @@
                     如您在使用平台服务中与其他用户发生争议，依您与其他用户达成的协议处理。
                   </p>
                   <p><strong>阅读协议的过程中，如果您不同意相关协议或其中任何条款约定，您应立即停止注册程序。</strong></p>
-                  <p><router-link :to="{name:'paas'}">《平台服务条款》</router-link></p>
-                  <p><router-link :to="{name: 'privacy'}">《隐私权政策》</router-link></p>
-                  <p><router-link :to="{name:'legal'}">《法律声明》</router-link></p>
-                  <p><router-link :to="{name: 'pay'}">《支付交易协议》</router-link></p>
+                  <p><router-link :to="{path:'/register/paas', query:{company: true}}">《平台服务条款》</router-link><p>
+                  <p><router-link :to="{path: '/register/privacy', query:{company: true}}">《隐私权政策》</router-link></p>
+                  <p><router-link :to="{path:'/register/legal', query:{company: true}}">《法律声明》</router-link></p>
+                  <p><router-link :to="{path: '/register/pay', query:{company: true}}">《支付交易协议》</router-link></p>
                 </div>
                 <button class="btn_agree" @click="agree()">同意并继续</button>
               </div>
-              <div class="info"  v-show="isAgree === true">
+              <div class="info" v-show="isAgree === true">
                 <form class="sui-form form-horizontal">
                   <div class="control-group">
                     <label class="control-label">会员名：</label>
                     <div class="controls">
-                      <input type="text"  placeholder="设置会员名" class="input-xfat input-xlarge" v-model="userName">
+                      <input type="text" placeholder="设置会员名" class="input-xfat input-xlarge" v-model="userName">
                     </div>
                   </div>
                   <div class="control-group">
@@ -84,9 +77,9 @@
                     </div>
                   </div>
                   <div class="control-group">
-                    <label  class="control-label">联系人姓名：</label>
+                    <label class="control-label">联系人姓名：</label>
                     <div class="controls">
-                      <input type="text"  placeholder="请输入真实名字" class="input-xfat input-xlarge" >
+                      <input type="text" placeholder="请输入真实名字" class="input-xfat input-xlarge">
                     </div>
                   </div>
                   <div class="control-group">
@@ -108,12 +101,12 @@
                   <div class="control-group">
                     <label class="control-label">验证码：</label>
                     <div class="controls">
-                      <input type="text" placeholder="请输入验证码" class="input-xfat input-xlarge" >
+                      <input type="text" placeholder="请输入验证码" class="input-xfat input-xlarge">
                     </div>
                   </div>
                   <div class="control-group">
-                    <div class="controls">
-                      <el-checkbox v-model="checked" >创建网站账号的同时，我同意遵守：<br><a ref="https://www.baidu.com">《平台服务条款》</a>及 <a ref="https://www.baidu.com">《隐私声明》</a></el-checkbox>
+                    <div class="controls checkbox">
+                      <input type="checkbox" name="" v-model="checked"><span>创建网站账号的同时，我同意遵守：</span><router-link :to="{path: '/register/paas'}" style="color: #FF4606">《平台服务条款》</router-link>及 <router-link :to="{path: '/register/legal'}" style="color: #FF4606">《隐私声明》</router-link>
                     </div>
                   </div>
                   <div class="control-group">
@@ -126,14 +119,14 @@
             </section>
           </transition>
           <transition>
-            <section  v-show="changeShowType ==='person'">
+            <section v-show="changeShowType ==='person'">
               <span class="explain">无企业营业执照的个人用户请注册个人账户。权益如下：做个人实名认证；作为买家身份采购；</span>
               <div class="info">
                 <form class="sui-form form-horizontal">
                   <div class="control-group">
                     <label class="control-label">会员名：</label>
                     <div class="controls">
-                      <input type="text"  placeholder="设置会员名" class="input-xfat input-xlarge" v-model="userName">
+                      <input type="text" placeholder="设置会员名" class="input-xfat input-xlarge" v-model="userName">
                     </div>
                   </div>
                   <div class="control-group">
@@ -156,7 +149,8 @@
                         <option>中国香港</option>
                       </select>
                       <input type="text" class="input-xfat input-xlarge mobile" maxlength="16" v-model="phoneValue">
-                      <button class="getPhoneCode" @click="sendCode()">获取手机验证码</button>
+                      <button class="getPhoneCode" @click="sendCode()" v-if="time===60">获取手机验证码</button>
+                      <button class="getPhoneCode" v-else>{{this.time}}秒后可重新获取</button>
                     </div>
                   </div>
                   <div class="control-group">
@@ -166,8 +160,8 @@
                     </div>
                   </div>
                   <div class="control-group">
-                    <div class="controls">
-                      <el-checkbox v-model="checked" >创建网站账号的同时，我同意遵守：<br><a ref="https://www.baidu.com">《平台服务条款》</a>及<a ref="https://www.baidu.com">《隐私声明》</a></el-checkbox>
+                    <div class="controls checkbox">
+                      <input type="checkbox" name="" v-model="checked"><span>创建网站账号的同时，我同意遵守：</span><router-link :to="{path: '/register/paas', query:{person: true}}" style="color: #FF4606">《平台服务条款》</router-link>及 <router-link :to="{path: '/register/legal', query:{person: true}}" style="color: #FF4606">《隐私声明》</router-link>
                     </div>
                   </div>
                   <div class="control-group">
@@ -180,62 +174,33 @@
             </section>
           </transition>
           <div class="question">
-        <img src="static/img/reg/reg_monkey1.png">
-        <div class="know-more">
-          <p>了解更多</p>
-          <ul>
-            <li><a>手机收不到验证码?</a></li>
-            <li><a>会员账户注册不成功?</a></li>
-            <li><a>个人账户可以开店吗?</a></li>
-            <li><a>账户如何换名字?</a></li>
-            <li><a>个人账户需要营业执照吗?</a></li>
-            <li><a>其他问题</a></li>
-          </ul>
-          <div class="clikeme">
-            <img src="static/img/reg/reg_oval1.png"/>
-            <span class="text">?</span>
-            <a class="a">点我提问</a>
+            <img src="static/img/reg/reg_monkey1.png">
+            <div class="know-more">
+              <p>了解更多</p>
+              <ul>
+                <li><a>手机收不到验证码?</a></li>
+                <li><a>会员账户注册不成功?</a></li>
+                <li><a>个人账户可以开店吗?</a></li>
+                <li><a>账户如何换名字?</a></li>
+                <li><a>个人账户需要营业执照吗?</a></li>
+                <li><a>其他问题</a></li>
+              </ul>
+              <div class="clikeme">
+                <img src="static/img/reg/reg_oval1.png" />
+                <span class="text">?</span>
+                <a class="a">点我提问</a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      </div>
-      </div>
     </div>
-    <div class="reg-bottom">
-      <div class="py-container">
-        <footer>
-          <ul class="footer-list">
-              <li class="footer-list-item">
-                <a ref="http://www.baidu.com" >关于MKtail</a>&nbsp;&nbsp;||
-              </li>
-              <li class="footer-list-item">
-                <a ref="http://www.baidu.com" >联系我们</a>&nbsp;&nbsp;||
-              </li>
-              <li class="footer-list-item">
-                <a ref="http://www.baidu.com" >友情链接</a>&nbsp;&nbsp;||
-              </li>
-              <li class="footer-list-item">
-                <a ref="http://www.baidu.com" >法律声明</a>&nbsp;&nbsp;||
-              </li>
-              <li class="footer-list-item">
-                <a ref="http://www.baidu.com" >用户体验提升计划</a>&nbsp;&nbsp;||
-              </li>
-              <li class="footer-list-item">
-                <a ref="http://www.baidu.com" >会员认证</a>&nbsp;&nbsp;||
-              </li>
-            </ul>
-          <p>MKtail公司版权所有-粤ICP备京公网安备 <img src="static/img/reg/reg_ghs1.png">11010820220134号-京ICP证110507</p>
-        </footer>
-      </div>
-    </div>
-    <transition>
-      <router-view></router-view>
-    </transition>
+    <regFooter></regFooter>
   </div>
 </template>
 <script>
-import { apiAxios } from '../../common/utils'
-import { api } from '../../common/api'
+import regFooter from '@/components/regFooter'
+import refHeader from '@/components/regHeader'
 export default {
   data () {
     return {
@@ -248,12 +213,12 @@ export default {
       time: 60, // 验证码限制时间
       newsTip: '获取短信验证码',
       smsCode: '',
-      isHome: '',
-      changeShowType: 'company', // 企业注册
-      show: 0,
+      changeShowType: 'person', // 个人注册
+      show: 1,
       isAgree: false // 是否同意注册条款
     }
   },
+  components: {regFooter, refHeader},
   methods: {
     sendCode () {
       if (this.flag) {
@@ -268,20 +233,12 @@ export default {
         this.$message.warning('请输入正确的手机号')
         return false
       }
-      apiAxios.AxiosG({
-        url: api.sendCode,
-        params: {phone: this.phoneValue}
-      }, rtn => {
-        if (rtn.data.success) {
-          this.$message.success(rtn.data.message)
-          this.flag = true
-          this.smsCode = rtn.data.data
-          console.log(this.smsCode)
-          this.newsTip = this.time + '秒后可重新获取'
-          this.setTime()
-        } else {
-          this.$message.error(rtn.data.message)
-        }
+      this.API.sendCode({phone: this.phoneValue}).then(res => {
+        this.$message.success('验证码已发送')
+        this.flag = true
+        this.smsCode = res
+        this.newsTip = this.time + '秒后可重新获取'
+        this.setTime()
       })
     },
     change () {
@@ -328,24 +285,17 @@ export default {
         password: this.password,
         phone: this.phoneValue
       }
-      console.log(user, this.smsCode)
-      apiAxios.AxiosP({
-        url: api.register,
-        params: {smscode: this.smsCode},
-        data: user
-      }, rtn => {
-        if (rtn.data.success) {
-          this.smsCode = ''
-          this.time = 60
-          this.password = ''
-          this.REpassword = ''
-          this.$message.success(rtn.data.message)
-          this.$router.push({path: '/login'})
-        } else {
-          this.smsCode = ''
-          this.time = 60
-          this.$message.error(rtn.data.message)
-        }
+      this.API.register(user, this.smsCode).then(res => {
+        this.smsCode = ''
+        this.time = 60
+        this.password = ''
+        this.REpassword = ''
+        this.$message.success('注册成功')
+        this.$router.push({path: '/login'})
+      }).catch(() => {
+        console.log('error')
+        this.smsCode = ''
+        this.time = 60
       })
     },
     setTime () {
@@ -377,25 +327,40 @@ export default {
       }
     }
   },
-  created () {
-    let curRoute = this.$route.path
-    this.isHome = (curRoute === '/home' ? '' : '/home')
-  },
   mounted () {
-    if (!this.isHome) {
-      this.$refs.logoIsCursor.children[0].style.cursor = 'default'
+    if (this.$cookies.get('user-key')) { // 已登录
+      this.$router.push({path: '/home'})
+    }
+    if (this.$route.query.company) {
+      this.changeShowType = 'company'
+      this.show = 0
+    } else if (this.$route.query.person) {
+      this.changeShowType = 'person'
+      this.show = 1
     }
   }
 }
 </script>
 <style scoped>
   /* 注册页面*/
+  #register{
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  #register> * {
+    padding-left: calc(100vw - 100%);
+  }
   .py-container{
     width: 1226px;
     margin: 0 auto;
   }
   .reg-top{
     background: #F4F4F4;
+  }
+  .reg-middle {
+    flex-grow: 1;
   }
   .reg-bottom{
     background: #ececec;
@@ -440,7 +405,7 @@ export default {
   .middle{
     position: relative;
   }
-  /*中部内容区域*/
+/*中部内容区域*/
   .middle-title{
     display: flex;
     justify-content: center;
@@ -547,7 +512,7 @@ export default {
     color:rgba(254,254,254,1);
     line-height:20px;margin-top: 10px;
   }
-  /*中部右边问题框*/
+/*中部右边问题框*/
   .question{
     position: absolute;
     top:200px;
@@ -638,6 +603,17 @@ export default {
  .el-checkbox a{
     color:#FF4606
   }
+  .checkbox {
+    margin-left: 113px;
+    flex-wrap: wrap;
+    font-size: 14px;
+    color: #A3A3A3;
+    width: 268px;
+    line-height: 22px;
+  }
+  .checkbox input {
+    margin-right: 10px;
+  }
  .controls select{
    height:40px;
    width:140px;
@@ -650,6 +626,7 @@ export default {
   }
   .controls {
     display: flex;
+    align-items: center;
   }
   .controls .mobile{
     margin-left: -5px !important;
@@ -702,58 +679,14 @@ export default {
     padding: 0 20px;
     margin: 15px 0
   }
-
   .copyright ul li:last-child {
     border-right: 0
   }
-  .h-logo {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin-top: 13px;
-  }
-  .h-logo span {
-    font-size: 27px;
-    color: #754C24;
-    font-family: "Bahnschrift";
-    text-align: left;
-    margin-left: 8px;
-    margin-bottom: 30px;
-  }
-  /*页脚*/
-  footer{
-    height:120px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin-top: 0;
-  }
-  footer p{
-    font-size:15px;
-    font-family:SimHei;
-    font-weight:400;
-    color:rgba(88,88,88,1);
-    line-height:27px;
-    margin-top: -30px;
-  }
-  .footer-list{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 30px;
-  }
-  .footer-list-item{
-    margin-right:5px;
-    font-size:14px;
-    font-family:Bahnschrift;
-    font-weight:400;
-    color:rgba(109,109,109,1);
-  }
-  footer img{
-    display: inline;
-  }
   .getPhoneCode{
     margin-left: 10px;
+    width: 120px;
+    height: 40px;
+    background-color: #FFD704;
+    color: green;
   }
 </style>
