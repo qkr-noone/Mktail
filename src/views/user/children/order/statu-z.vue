@@ -226,7 +226,8 @@ export default {
         { label: '交易关闭', index: 1 },
         { label: '退款中的订单', index: 1 }
       ],
-      all: '' // 所有订单
+      all: '', // 所有订单
+      pageNum: 1
     }
   },
   props: {
@@ -244,7 +245,7 @@ export default {
       document.documentElement.scrollTop = this.scroll.scrollTop
     })
     // 所有订单
-    this.API.userOrder({userName: this.$cookies.get('user-key')}).then(res => {
+    this.API.userOrder({userName: this.$cookies.get('user-key'), pageNum: this.pageNum, pageSize: 15}).then(res => {
       this.all = res
     })
   },

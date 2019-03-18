@@ -130,6 +130,7 @@
   .add-box-1 h5 {
     display: flex;
     align-items: center;
+    width: 194px;
   }
   .add-box-1 .add-posi{
     width: 159px;
@@ -195,6 +196,10 @@
   .add-box-4 i{
     font-size: 26px;
     cursor: pointer;
+  }
+  .add-other{
+    display: flex;
+    justify-content: space-between;
   }
   .add-more {
     color: #FFAA00;

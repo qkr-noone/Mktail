@@ -88,6 +88,16 @@ export default {
       invoiceActive: 0
     }
   },
+  props: {
+    scroll: {
+      type: Object
+    }
+  },
+  mounted () {
+    this.$nextTick(() => {
+      document.documentElement.scrollTop = this.scroll.scrollTop
+    })
+  },
   methods: {
     changeTabActive (val) {
       this.invoiceActive = val

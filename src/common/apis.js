@@ -1,6 +1,6 @@
 import fetch from './fetch'
 
-let IP = 'http://192.168.0.40:8083' /* http://192.168.0.40:8083 https://easy-mock.com/mock/5bf6166bf9b2636f875b693c/test */
+let IP = 'http://192.168.1.40:8083' /* http://192.168.1.221:8083 https://easy-mock.com/mock/5bf6166bf9b2636f875b693c/test */
 const http = {
   get: (path, data) => fetch.get(IP + path, {
     params: data
@@ -71,6 +71,10 @@ export default {
 
   // 新增收货地址
   addressAdd: data => http.post('/cart/address/add', data),
+  // 修改地址
+  addressUpdate: data => http.post('/cart/address/update', data),
+  // 根据ID数组批量删除地址项项信息
+  addressDelete: data => http.get('/cart/address/delete', data),
   // 根据用户获取返回收货地址集合
   addressListByUser: data => http.get('/cart/address/findListByLoginUser', data),
   // 从购物车进入 提交订单
@@ -101,5 +105,9 @@ export default {
   // 用户关注类型
   userCollectType: data => http.get('/userCollect/userCollect/findUserCollectByTypeAndUserName', data),
   // 收藏店铺商品
-  goodsBySeller: data => http.get('/userCollect/userCollect/findGoodsBySeller', data)
+  goodsBySeller: data => http.get('/userCollect/userCollect/findGoodsBySeller', data),
+  // 获取用户的详细信息
+  userBaseInfo: data => http.get('/personData/personData/findUserInfoByUserName', data),
+  // 修改用户的详细信息
+  userUpdateInfo: data => http.post('/personData/personData/UpdateUser', data)
 }

@@ -27,8 +27,12 @@ export default {
   data () {
     return {
       isActive: 0,
-      list: '',
-      scroll: {}
+      list: ''
+    }
+  },
+  props: {
+    scroll: {
+      type: Object
     }
   },
   mounted () {
@@ -39,6 +43,9 @@ export default {
     else if (routerChild === 'statu-four') this.isActive = 4
     else if (routerChild === 'statu-five') this.isActive = 5
     else this.isActive = 0
+    this.$nextTick(() => {
+      document.documentElement.scrollTop = this.scroll.scrollTop
+    })
   },
   activated () {
     console.log(this.$route)

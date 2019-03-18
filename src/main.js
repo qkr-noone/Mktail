@@ -8,11 +8,11 @@ import store from './store'
 import 'element-ui/lib/theme-chalk/index.css'
 import API from './common/apis'
 import VueCookies from 'vue-cookies'
-// import "./assets/icomoon_test/style.css"
 
-let VueScrollTo = require('vue-scrollto')
+let VueScrollTo = require('vue-scrollto') // 滚动至指定位置
 
 Vue.prototype.API = API
+// Vue.prototype.lodash = lodash
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 Vue.use(VueScrollTo)

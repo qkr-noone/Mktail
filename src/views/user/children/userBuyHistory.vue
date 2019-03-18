@@ -138,6 +138,22 @@
 export default {
   data () {
     return {}
+  },
+  props: {
+    scroll: {
+      type: Object
+    },
+    currentPage: {
+      type: Object
+    }
+  },
+  mounted () {
+    this.$nextTick(() => {
+      document.documentElement.scrollTop = this.scroll.scrollTop
+    })
+  },
+  methods: {
+    handleCurrentChange () {}
   }
 }
 

@@ -40,27 +40,25 @@
 </template>
 
 <script>
-import { getStore } from '../common/utils'
+import { getStore } from '@/common/utils'
 export default {
   name: 'headerNav',
   data () {
     return {
-      isHome: '' // 判断logo 是否可触发home点击
+      isHome: '', // 判断logo 是否可触发home点击
       // isShops: false
+      cartNum: 0
     }
   },
   props: [],
-  computed: {
-    cartNum () {
-      let num = 0
-      let cartList = JSON.parse(getStore('cartList'))
-      cartList.length && cartList.forEach(item => {
-        item.orderItemList.forEach(list => {
-          num += Number(list.num)
-        })
+  activated () {
+    this.cartNum = 0
+    let cartList = JSON.parse(getStore('cartList')) || []
+    cartList.length && cartList.forEach(item => {
+      item.orderItemList.forEach(list => {
+        this.cartNum += Number(list.num)
       })
-      return num
-    }
+    })
   },
   created () {
     let curRoute = this.$route.path

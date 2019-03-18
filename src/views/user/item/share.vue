@@ -35,7 +35,35 @@ export default {
 }
 </script>
 <style scoped>
-  @import '../../../assets/css/user/user-set.css';
+  .con-wrap {
+    position: relative;
+    font-family:SourceHanSansCN-Regular;
+    font-weight:400;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  .con-de {
+    border: 1px solid #F4F4F4;
+    flex-grow: 1;
+    position: relative;
+  }
+  .title {
+    height:41px;
+    line-height: 41px;
+    display: flex;
+  }
+  .title a {
+    border:1px solid rgba(244,244,244,1);
+    padding: 7px 20px;
+    font-size: 24px;
+    line-height: 24px;
+    color: #000000;
+  }
+  .con-item {
+    margin-left: 40px;
+    font-weight: 400;
+  }
   .con-item {
     text-align: left;
     margin-top: 25px;
@@ -53,6 +81,7 @@ export default {
   }
   .con-item .group img{
     margin-right: 20px;
+    display: inline;
   }
   .con-item .group button{
     width:80px;

@@ -61,8 +61,8 @@
     color: red;
   }
   .account-content {
-    flex-grow: 1;
-    background-color: #fff;
+    width: 1083px;
+    margin-left: 5px;
     margin-bottom: 20px;
     min-height: 800px;
   }

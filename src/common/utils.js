@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-let IP = 'http://192.168.0.40:8083' /* http://192.168.0.40:8083 https://easy-mock.com/mock/5bf6166bf9b2636f875b693c/test */
+let IP = 'http://192.168.0.40:8083' /* http://192.168.1.221:8083 https://easy-mock.com/mock/5bf6166bf9b2636f875b693c/test */
 let apiAxios = {
   AxiosG: (para, callback, error) => {
     axios({

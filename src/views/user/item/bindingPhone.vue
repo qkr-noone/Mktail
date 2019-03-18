@@ -62,9 +62,64 @@ export default {
 }
 </script>
 <style scoped>
-  @import '../../../assets/css/user/user-set.css';
-  .con-de{
+  .con-wrap {
     position: relative;
+    font-family:SourceHanSansCN-Regular;
+    font-weight:400;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  .con-de {
+    border: 1px solid #F4F4F4;
+    flex-grow: 1;
+    position: relative;
+  }
+  .title {
+    height:41px;
+    line-height: 41px;
+    display: flex;
+    margin-top: 10px;
+  }
+  .title a {
+    border:1px solid rgba(244,244,244,1);
+    padding: 7px 20px;
+    font-size: 24px;
+    line-height: 24px;
+    font-weight:bold;
+    color: #000000;
+  }
+  .con-item .no-binding{
+    font-size:18px;
+    margin: 180px 0 15px 0;
+    color:#000000;
+    font-weight:400;
+  }
+  .con-item  .why-binding{
+    font-size:24px;
+    margin: 150px 0 10px  0;
+  }
+  .con-item .btn-binding{
+    font-size:14px;
+    font-family:SimSun;
+    color:rgba(255,255,255,1);
+    width:113px;
+    height:27px;
+    border:1px solid rgba(253,154,0,1);
+    background:linear-gradient(0deg,rgba(249,160,0,1) 0%,rgba(249,200,0,1) 100%);
+  }
+  .con-item .hr-binding{
+    width:553px;
+    background:rgba(185,185,185,1);
+    margin: 0 auto;
+    margin-bottom: 10px;
+    text-align: center !important;
+  }
+  .con-item .info-binding{
+    font-size:14px;
+    font-weight:300;
+    color:rgba(85,85,85,1);
+    text-align: center;
   }
  .elastic-frame{
     width:379px;
@@ -127,6 +182,29 @@ export default {
     color:rgba(77,77,77,1);
   }
 /*验证码*/
+  /*验证码*/
+  .test,.arrow,.text-right{
+    display: inline-block;
+    font-size:14px;
+  }
+  .test .arrow{
+    width:13%;
+    background:rgba(255,255,255,1);
+    border-right: none;
+    font-family:SimHei;
+    font-weight:400;
+    color:rgba(135,135,135,1);
+    text-align: center;
+  }
+  .test .text-right{
+    width:84%;
+    background:rgba(244,244,244,1);
+    margin-left: -8px;
+    font-family:SourceHanSansCN-Light;
+    font-weight:300;
+    color:rgba(167,167,167,1);
+    text-align: center;
+  }
   .proving{
     position: absolute;
     right:300px !important;

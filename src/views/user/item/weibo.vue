@@ -77,7 +77,35 @@ export default {
 }
 </script>
 <style scoped>
-  @import '../../../assets/css/user/user-set.css';
+  .con-wrap {
+    position: relative;
+    font-family: "SimHei";
+    font-weight:400;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  .con-de {
+    border: 1px solid #F4F4F4;
+    flex-grow: 1;
+    position: relative;
+  }
+  .title {
+    height:41px;
+    line-height: 41px;
+    display: flex;
+  }
+  .title a {
+    border:1px solid rgba(244,244,244,1);
+    padding: 7px 20px;
+    font-size: 24px;
+    line-height: 24px;
+    color: #000000;
+  }
+  .con-item {
+    margin-left: 40px;
+    font-weight: 400;
+  }
   .con-de{
     position: relative;
   }
@@ -105,6 +133,59 @@ export default {
   }
   .elastic-frame .btn{
     background:rgba(254,133,4,1);
+  }
+  .elastic-frame{
+    position: absolute;
+    top:116px;
+    left:301px;
+    width:500px;
+    height:400px;
+    background:rgba(255,255,255,1);
+    box-shadow:0px 0px 9px 0px rgba(0, 0, 0, 0.13);
+    display: flex;
+    flex-direction: column;
+    align-items: center;;
+  }
+  .elastic-frame p {
+    margin: 81px 0 51px 30px;
+    font-size: 14px;
+    font-family: SourceHanSansCN-Regular;
+    font-weight: 400;
+    color: rgba(135,135,135,1);
+    line-height: 7px;
+  }
+  .elastic-frame .group {
+    background: rgba(255,255,255,1);
+    border: 2px solid rgba(227,227,227,1);
+    text-align: left;
+    margin-bottom: 37px;
+  }
+  .elastic-frame img {
+    display: inline-block;
+    margin-top: -2px;
+  }
+  .elastic-frame .group input {
+    border: none;
+    height: 30px;
+    width: 220px;
+    margin-left: -8px;
+    padding-left: 5px;
+  }
+  .elastic-frame .btn{
+    width: 150px;
+    height: 30px;
+    font-size: 14px;
+    font-family: SourceHanSansCN-Regular;
+    font-weight: 400;
+    color: rgba(255,255,255,1);
+    background:rgba(254,133,4,1);
+  }
+  .bindinged .text{
+    margin:29px 0 29px 0;
+    font-size:14px;
+    font-family:SourceHanSansCN-Regular;
+    font-weight:400;
+    color:rgba(100,100,100,1);
   }
   .bindinged .state{
     font-size:14px;

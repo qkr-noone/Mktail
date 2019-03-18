@@ -100,7 +100,33 @@ export default {
 }
 </script>
 <style scoped>
-  @import '../../../assets/css/user/user-set.css';
+  /*@import '../../../assets/css/user/user-set.css';*/
+  .con-wrap {
+    position: relative;
+    font-family:SourceHanSansCN-Regular;
+    font-weight:400;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    margin-top: 20px;
+  }
+  .con-de {
+    border: 1px solid #F4F4F4;
+    flex-grow: 1;
+  }
+  .title {
+    height:41px;
+    line-height: 41px;
+    display: flex;
+  }
+  .title a {
+    border:1px solid rgba(244,244,244,1);
+    padding: 7px 20px;
+    font-size: 24px;
+    line-height: 24px;
+    font-weight:bold;
+    color: #000000;
+  }
   .error-ipt{
     display: inline-block;
     width:14px;
@@ -155,6 +181,9 @@ export default {
   }
   .con-item form .group label{
     font-size:16px;
+  }
+  .con-item img {
+    display: inline;
   }
   .con-item form .group input,select{
     width:188px;

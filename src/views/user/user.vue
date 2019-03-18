@@ -30,10 +30,10 @@
                       <img src="static/img/mk_logo_login.png">
                     </a>
                     <span class="user-name">爱你呦</span>
-                    <div class="user-service">
+                    <!-- <div class="user-service">
                       <p>开通尊享会员服务</p>
                       <a>立即开通</a>
-                    </div>
+                    </div> -->
                   </div>
                   <div class="con-item-other">
                     <div>
@@ -168,7 +168,7 @@
               </div>
             </div>
             <transition v-else>
-              <router-view></router-view>
+              <router-view :scroll='scroll'></router-view>
             </transition>
           </div>
           <!-- <el-tabs  :tab-position="tabPosition" style="background-color: #fff">
@@ -409,7 +409,8 @@ export default {
       userBirthday: '', // 用户生日
       userImageUrl: 'static/img/logo-200.png', // 用户头像
       goodsSellersNum: '', // 关注店铺和商品数量
-      isOrder: false
+      isOrder: false,
+      scroll: {}
     }
   },
   components: { shortcut, userNav, youLike },
@@ -450,9 +451,9 @@ export default {
       this.likeList = res.contentList
     })
     // 浏览记录
-    this.API.user({categoryId: 15}).then(res => {
-      this.hisList = res.contentList
-    })
+    // this.API.user({categoryId: 15}).then(res => {
+    //   this.hisList = res.contentList
+    // })
     // 右侧图片广告
     this.API.user({categoryId: 16}).then(res => {
       this.rightAbs = res.contentList
@@ -469,7 +470,10 @@ export default {
         if (e.child) {
           this.$refs.child[index].style.display === 'none' ? this.$refs.child[index].style.display = 'block' : this.$refs.child[index].style.display = 'none'
         } else {
-          this.$router.push({path: '/user/' + e.path})
+          let queryList = this.$route.query
+          this.scroll = { scrollTop: document.documentElement.scrollTop }
+          Object.assign(queryList, this.scroll)
+          this.$router.push({path: '/user/' + e.path, query: queryList})
           this.title = e.name
         }
       }

@@ -39,31 +39,31 @@
   .con-item-user {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     width: 180px;
-    height: 188px;
-    background:rgba(231,22,0,1);
-    box-shadow: 2px 3px 7px 0px rgba(60,59,59,0.34);
-    margin-top: -5px;
-    color: #fff;
+    height: 180px;
   }
   .user-head {
     border-radius: 50%;
     overflow: hidden;
-    width: 60px;
-    height: 60px;
-    margin-top: 22px;
+    border: 1px solid rgba(204, 204, 204, 1);
+    width: 80px;
+    height: 80px;
     display: flex;
     justify-content: center;
     align-items: center;
   }
   .user-name {
-    margin: 22px 0;
     font-size: 14px;
+    margin-top: 12px;
+    color: #7F7F7F;
+    font-family:SourceHanSansCN-Normal;
   }
   .user-head>img{
-    width: 60px;
+    border-radius: 50%;
+    width: 68px;
+    height: 68px;
   }
   .user-service {
     height: 40px;
@@ -178,8 +178,10 @@
   }
   .con-le-flow {
     width: 100%;
-    background-color: #FFD704;
     overflow: hidden;
+    background: url(/static/img/mk_user_flow_bg.png) no-repeat top;
+    background-size: contain;
+    background-color: #FFD704;
   }
   .con-le-like, .con-ri-focus, .con-ri-his{
     width: 100%;

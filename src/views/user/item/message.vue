@@ -42,8 +42,14 @@ export default {
 
 </script>
 <style scoped>
-  @import '../../../assets/css/user/user-set.css';
+  .con-wrap {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
   .con-de{
+    border: 1px solid #F4F4F4;
+    flex-grow: 1;
     font-size:14px;
     font-family:SourceHanSansCN-Regular;
     font-weight:400;
@@ -75,6 +81,10 @@ export default {
   .con-item .info .notice{
     display: inline-block;
     margin-right:30px;
+  }
+  .con-item {
+    margin-left: 40px;
+    font-weight: 400;
   }
 
 </style>

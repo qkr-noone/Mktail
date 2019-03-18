@@ -66,6 +66,16 @@ export default {
       panelShow2: false
     }
   },
+  props: {
+    scroll: {
+      type: Object
+    }
+  },
+  mounted () {
+    this.$nextTick(() => {
+      document.documentElement.scrollTop = this.scroll.scrollTop
+    })
+  },
   methods: {
     changeTab (val) {
       this.plainInvoice = val

@@ -42,14 +42,14 @@
             </div>
             <div class="Right">
               <div class="user-info">
-                <router-link :to="{path: '/user'}"><img src="static/img/mk_logo_login.png"></router-link>
+                <router-link :to="{path: '/user'}"><img :src="userInfo.headPic || 'static/img/mk_logo_login.png'"></router-link>
                 <p class="user-tip">Hi，你好</p>
-                <div class="user-coming" v-if="!username">
+                <div class="user-coming" v-if="!userInfo.username">
                   <router-link :to="{path: '/login'}">登陆</router-link>
                   <router-link :to="{path: '/register'}">注册</router-link>
                 </div>
                 <div class="user-coming" v-else>
-                  <router-link :to="{path: '/user'}">{{username}}</router-link>
+                  <router-link :to="{path: '/user'}">{{userInfo.username}}</router-link>
                 </div>
                 <div class="user-out">
                   <a>新人有礼</a>
@@ -287,7 +287,7 @@ export default {
       lightList8: [],
       school: [], // 商学院
       likeList: [], // 猜你喜欢
-      username: ''
+      userInfo: ''
     }
   },
   components: { shortcut, headerNav, pageFooter, absBox, youLike, homeNav },
@@ -395,10 +395,11 @@ export default {
     })
   },
   activated () {
-    this.username = this.$cookies.isKey('userInfo') ? this.$cookies.get('userInfo').username : ''
+    this.userInfo = this.$cookies.isKey('userInfo') ? this.$cookies.get('userInfo') : ''
   },
   mounted () {
-    this.username = this.$cookies.isKey('userInfo') ? this.$cookies.get('userInfo').username : ''
+    this.userInfo = this.$cookies.isKey('userInfo') ? this.$cookies.get('userInfo') : ''
+    console.log(this.userInfo)
   },
   methods: {
     carouselChange (index, key) {

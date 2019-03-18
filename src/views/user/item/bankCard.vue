@@ -79,10 +79,96 @@ export default {
 }
 </script>
 <style scoped>
-  @import '../../../assets/css/user/user-set.css';
-  .con-de{
+  .con-wrap {
+    position: relative;
+    font-family:SourceHanSansCN-Regular;
+    font-weight:400;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  .con-de {
+    border: 1px solid #F4F4F4;
+    flex-grow: 1;
     position: relative;
   }
+  .title {
+    height:41px;
+    line-height: 41px;
+    display: flex;
+    margin-top: 10px;
+  }
+  .title a {
+    border:1px solid rgba(244,244,244,1);
+    padding: 7px 20px;
+    font-size: 24px;
+    line-height: 24px;
+    font-weight:bold;
+    color: #000000;
+  }
+/*关于绑定前*/
+  .binding{
+    font-family:SourceHanSansCN-Normal;
+    color:rgba(0,0,0,1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .con-item .no-binding{
+    font-size:18px;
+    margin: 180px 0 15px 0;
+    color:#000000;
+    font-weight:400;
+  }
+  .con-item  .why-binding{
+    font-size:24px;
+    margin: 150px 0 10px  0;
+  }
+  .con-item .btn-binding{
+    font-size:14px;
+    font-family:SimSun;
+    color:rgba(255,255,255,1);
+    width:113px;
+    height:27px;
+    border:1px solid rgba(253,154,0,1);
+    background:linear-gradient(0deg,rgba(249,160,0,1) 0%,rgba(249,200,0,1) 100%);
+  }
+  .con-item .hr-binding{
+    width:553px;
+    background:rgba(185,185,185,1);
+    margin-bottom: 10px;
+    text-align: center !important;
+  }
+  .con-item .info-binding{
+    font-size:14px;
+    font-weight:300;
+    color:rgba(85,85,85,1);
+    text-align: center;
+  }
+/*验证码*/
+  .test,.arrow,.text-right{
+    display: inline-block;
+    font-size:14px;
+  }
+  .test .arrow{
+    width:13%;
+    background:rgba(255,255,255,1);
+    border-right: none;
+    font-family:SimHei;
+    font-weight:400;
+    color:rgba(135,135,135,1);
+    text-align: center;
+  }
+  .test .text-right{
+    width:84%;
+    background:rgba(244,244,244,1);
+    margin-left: -8px;
+    font-family:SourceHanSansCN-Light;
+    font-weight:300;
+    color:rgba(167,167,167,1);
+    text-align: center;
+  }
+/*绑定弹窗*/
   .elastic-frame {
     position: absolute;
     left:317px;
@@ -92,6 +178,10 @@ export default {
     background:rgba(255,255,255,1);
     box-shadow:0px 0px 6px 0px rgba(0, 0, 0, 0.35);
     text-align: left;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
   }
   .elastic-frame p{
     font-size:12px;
@@ -142,6 +232,7 @@ export default {
    .test{
     width:248px;
     height:33px;
+    border: 1px solid rgba(227,227,227,1);
   }
   .elastic-frame .drap{
     height:33px !important;

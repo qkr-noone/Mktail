@@ -113,8 +113,9 @@ export default {
         }
         this.setCartList(res)
         setStore('cartList', res)
+      }).then(() => {
+        this.$router.push(this.$route.query.back)
       })
-      this.$router.push(this.$route.query.back)
     }
   }
 }
@@ -180,7 +181,7 @@ export default {
     background: #F4F4F4;
   }
   .log-middle{
-    background: url(/static/img/mk_logo_bg.jpg) center no-repeat;
+    background: url(/static/img/mk_logo_bg.png) center no-repeat;
     background-size: cover;
   }
   .log-bottom{

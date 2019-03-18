@@ -64,7 +64,7 @@
               <p class="item-title">{{goods.title}} </p>
               <p class="item-price">¥{{goods.price}}</p>
               <p class="inform-operation">
-                <a>降价通知</a>
+                <!-- <a>降价通知</a> -->
                 <a>加入购物车</a>
               </p>
               <div class="mask">
@@ -94,7 +94,7 @@
                    <a >新品<span>(0)</span></a>
                  </div>
                 <div class="sto-li">
-                  <li class="store-item " v-if="storeGoods" v-for="(storeGoods,i) in store.child" :key='i'>
+                  <li class="store-item " v-if="storeGoods && i < 5" v-for="(storeGoods,i) in store.child" :key='i'>
                     <img :src="storeGoods.image">
                     <p class="storeItem-title">{{storeGoods.title}}</p>
                     <p class="storeItem-price">¥{{storeGoods.price}}</p>
@@ -145,12 +145,20 @@ export default {
       destination: '请选择'
     }
   },
+  props: {
+    scroll: {
+      type: Object
+    }
+  },
   mounted () {
     let tem = this.$route.path.split('/')[2]
     tem === 'userCollectGoods' ? this.focusGoods = true : this.focusGoods = false
     this.username = this.$cookies.isKey('userInfo') ? this.$cookies.get('userInfo').username : ''
     this.requestGoods()
     this.requestStore()
+    this.$nextTick(() => {
+      document.documentElement.scrollTop = this.scroll.scrollTop
+    })
     // 配送至
     this.API.allProvince().then(res => {
       this.addrOptions = res
@@ -162,9 +170,13 @@ export default {
     })
   },
   methods: {
+    // 切换
     changeActive (val, path) {
       this.focusGoods = val
-      this.$router.push({path: path})
+      let queryList = this.$route.query
+      let scroll = { scrollTop: document.documentElement.scrollTop }
+      Object.assign(queryList, scroll)
+      this.$router.push({path: path, query: queryList})
     },
     request: function (sellerId, shops) {
       this.API.goodsBySeller({sellerId: sellerId}).then(res => {
@@ -218,6 +230,9 @@ export default {
     '$route' () {
       let tem = this.$route.path.split('/')[2]
       tem === 'userCollectGoods' ? this.focusGoods = true : this.focusGoods = false
+      this.$nextTick(() => {
+        document.documentElement.scrollTop = this.$route.query.scrollTop
+      })
     }
   }
 }
@@ -404,7 +419,7 @@ export default {
     padding-top: 23px;
   }
   .go-ul .goods-item>img{
-    width:250px;
+    width:248px;
   }
   .go-ul .goods-item .item-title{
     margin: 0 4px;
@@ -426,13 +441,14 @@ export default {
     height:35px;
     border-top:1px solid rgba(219,219,219,1);
     line-height: 35px;
+    text-align: center;
   }
   .goodsList .goods-item .inform-operation>a{
     width:49%;
     text-align: center;
   }
   .goodsList .goods-item .inform-operation>a:first-child{
-    border-right:1px solid rgba(219,219,219,1);
+    /*border-right:1px solid rgba(219,219,219,1);*/
   }
   .mask{
     width: 100%;
@@ -464,6 +480,7 @@ export default {
     display: flex;
     flex-direction: column;
     padding: 0 14px;
+    overflow: hidden;
   }
   .sto-li {
     display: flex;

@@ -55,13 +55,13 @@
               <li v-for="(list, index) in addressList" :key="list.id" v-if="index<3 || over">
                 <div class="add-box" @click="chooseAddress = list.id" :class="{'select-addr': chooseAddress === list.id}">
                   <div class="add-box-1">
-                    <h5><span>{{list.contact}}</span><span class="add-posi">({{list.provinceId}}{{list.cityId}})</span></h5>
+                    <h5><span>{{list.contact}}</span><span class="add-posi">({{list.province}}{{list.city}})</span></h5>
                     <div class="add-tip">
                       <span class="tip1" v-if="list.isDefault === '1'">默认</span><span class="tip2" v-if="list.alias">{{list.alias}}</span>
                     </div>
                   </div>
                   <div class="add-box-2">
-                    <span>{{list.provinceId}}{{list.cityId}}{{list.townId}}{{list.address}}{{list.mobile}}</span>
+                    <span>{{list.province}}{{list.city}}{{list.area}}{{list.address}}{{list.mobile}}</span>
                   </div>
                   <div class="add-box-3"><span class="set" v-show="chooseAddress === list.id" @click="setAddress(list)">修改</span></div>
                 </div>
@@ -75,12 +75,18 @@
                 </div>
               </li>
             </ul>
-            <a class="add-more" v-if="addressList.length > 3 " @click="over=!over">
-              <p v-if="over">收起更多收货地址</p>
-              <p v-else>显示更多收货地址</p>
-              <i class="el-icon-arrow-up" v-if="over"></i>
-              <i class="el-icon-arrow-down" v-else></i>
-            </a>
+            <div class="add-other">
+              <a class="add-more" v-if="addressList.length > 3 " @click="over=!over">
+                <p v-if="over">收起更多收货地址</p>
+                <p v-else>显示更多收货地址</p>
+                <i class="el-icon-arrow-up" v-if="over"></i>
+                <i class="el-icon-arrow-down" v-else></i>
+              </a>
+              <router-link :to="{path: '/userSet/address'}"  target="_blank" class="add-more">
+                <p>管理收货地址</p>
+                <i class="el-icon-arrow-right"></i>
+              </router-link>
+            </div>
           </div>
         </div>
       </div>
@@ -90,19 +96,14 @@
         </div>
         <div class="pay-con">
           <ul class="pay-con-ul">
-            <li class="pay-con-li" :class="{'select-pay': choosePay ==='bankPay'}" @click="choosePay = 'bankPay'">
-              <div class="pay-con-box">银行卡支付</div>
-              <div class="select-tip" v-show="choosePay ==='bankPay'"><span><i class="el-icon-check"></i></span></div>
-              <!-- <i class="el-icon-check"></i> -->
+            <li class="pay-con-li" :class="{'select-pay': choosePay ==='onlinePay'}" @click="choosePay = 'onlinePay'">
+              <div class="pay-con-box">在线支付</div>
+              <div class="select-tip" v-show="choosePay ==='onlinePay'"><span><i class="el-icon-check"></i></span></div>
             </li>
-            <li class="pay-con-li" :class="{'select-pay': choosePay ==='alipay'}" @click="choosePay = 'alipay'">
-              <div class="pay-con-box">支付宝</div>
-              <div class="select-tip" v-show="choosePay ==='alipay'"><span><i class="el-icon-check"></i></span></div>
-            </li>
-            <li class="pay-con-li" :class="{'select-pay': choosePay ==='weChatPay'}" @click="choosePay = 'weChatPay'">
-              <div class="pay-con-box">微信支付</div>
-              <div class="select-tip" v-show="choosePay ==='weChatPay'"><span><i class="el-icon-check"></i></span></div>
-            </li>
+            <!-- <li class="pay-con-li" :class="{'select-pay': choosePay ==='offlinePay'}" @click="choosePay = 'offlinePay'">
+              <div class="pay-con-box">货到付款</div>
+              <div class="select-tip" v-show="choosePay ==='offlinePay'"><span><i class="el-icon-check"></i></span></div>
+            </li> -->
           </ul>
         </div>
       </div>
@@ -230,7 +231,7 @@
         <div class="receiverInfo">
           <div>
             <span class="sum-add-tip">寄送至:</span>
-            <span>{{defaultAddress.provinceId}}{{defaultAddress.cityId}}{{defaultAddress.townId}}{{defaultAddress.address}}</span>
+            <span>{{defaultAddress.province}}{{defaultAddress.city}}{{defaultAddress.area}}{{defaultAddress.address}}</span>
           </div>
           <div>
             <span class="sum-add-tip">收货人：</span>
@@ -257,12 +258,12 @@
               <i class="el-icon-arrow-down addr-down"></i>
               <div class="addr-box">
                 <ul class="pro-box">
-                  <li v-for="list in addrOptions" :key="list.id" :class="{'choose': addressOne === list.province}" @click="tabAddr(list.provinceid, list.province)">{{list.province}}</li>
+                  <li v-for="list in addrOptions" :key="list.id" :class="{'choose': addressOneId === list.provinceid}" @click="tabAddr(list.provinceid, list.province)">{{list.province}}</li>
                 </ul>
-                <ul class="city-box" v-if="addressOne">
+                <ul class="city-box" v-if="addressOneId">
                   <li v-for="data in cityList" :key="data.id" :class="{'choose': addressTwoId === data.cityid}" @click="tabCity(data.city, data.cityid)">{{data.city}}</li>
                 </ul>
-                <ul class="county-box" v-if="addressTwo">
+                <ul class="county-box" v-if="addressTwoId">
                   <li v-for="data in countyList" :key="data.id" :class="{'choose': addressThreeId === data.areaid}" @click="tabCounty(data.area, data.areaid)">{{data.area}}</li>
                 </ul>
               </div>
@@ -270,7 +271,7 @@
             <el-input v-model="ruleForm.address" placeholder="请选择省 请选择市 请选择区"></el-input>
           </el-form-item>
           <el-form-item label="详细地址:" prop="deAddress">
-            <el-input v-model="ruleForm.deAddress" placeholder="街道、小区、楼牌号等，无须重复填写省市区"></el-input>
+            <el-input v-model="ruleForm.deAddress" placeholder="乡镇、街道、小区、楼牌号等，无须重复填写省市区"></el-input>
           </el-form-item>
           <el-form-item label="标签:" prop="tag">
             <el-radio-group v-model="ruleForm.tag">
@@ -315,7 +316,7 @@ export default {
       submitPrice: '',
       defaultAddress: '',
       chooseAddress: '',
-      choosePay: 'weChatPay',
+      choosePay: 'onlinePay',
       sellerId: 0,
       formDesc: '',
       isForm: false,
@@ -358,14 +359,14 @@ export default {
       skuId: '',
       random: '',
       addrOptions: [],
-      addressOne: '',
-      addressTwo: '',
       addressOneId: '',
       addressTwoId: '',
       addressThreeId: '',
       cityList: [],
       countyList: [],
-      over: false
+      over: false,
+      isUpdate: 0,
+      tem: []
     }
   },
   components: { shortcutHeader, pageFooter },
@@ -418,7 +419,6 @@ export default {
       this.$message.warning('信息有误')
       this.$router.go(-1)
     }
-    console.log(this.orderList, 100)
   },
   mounted () {
     this.requstAdd()
@@ -464,7 +464,6 @@ export default {
       let cartList = []
       if (this.skuId) {
         // 从立即购买 过来
-        console.log(0)
         this.$message.error('获取用户订单信息失败')
         this.goodSkuList.forEach(item => {
           price += Number(item.totalFee)
@@ -473,9 +472,7 @@ export default {
       } else {
         // 提交的数据在购物车具体的属性参数（选中、数量）可能修改了，再次获取
         cartList = JSON.parse(getStore('cartList'))
-        console.log(cartList, 1)
         if (!cartList.length) {
-          console.log(1)
           this.$message.error('获取用户订单信息失败')
           return false
         }
@@ -487,7 +484,6 @@ export default {
           }
         }
         if (!selectList.length) {
-          console.log(2)
           this.$message.error('获取用户订单信息失败')
           return false
         }
@@ -514,7 +510,7 @@ export default {
         buyer_message: '', // "买家留言",
         buyer_nick: '', // "买家昵称",
         buyer_rate: '', // "买家是否已经评价",
-        receiver_area_name: this.defaultAddress.provinceId + this.defaultAddress.cityId + this.defaultAddress.townId + this.defaultAddress.address, // "收货人地区名称(省，市，县)街道",
+        receiver_area_name: this.defaultAddress.province + this.defaultAddress.city + this.defaultAddress.alias + this.defaultAddress.address, // "收货人地区名称(省，市，县)街道",
         receiver_mobile: this.defaultAddress.mobile, // "收货人手机",
         receiver_zip_code: '', // "收货人邮编",
         receiver: this.defaultAddress.contact, // "收货人",
@@ -524,6 +520,7 @@ export default {
         seller_id: '' // "商家ID"
       }
       let orderInfo = this.skuId ? 'directOrderInfo' : 'getOrderInfo'
+      console.log(orderInfo, 10)
       this.API[orderInfo](order, this.$cookies.get('user-key')).then(rtn => {
         if (rtn.success === false) {
           this.$message.error('提交订单失败')
@@ -556,47 +553,75 @@ export default {
     },
     setAddress (item) { // Q. 省市区ID 查询  显示  初始化
       this.isForm = true
-      this.addressOne = item.provinceId
-      this.addressTwo = item.cityId
-      this.addressThree = item.townId
-      this.ruleForm.address = this.addressOne + this.addressTwo + this.addressThree
+      this.addrInit()
+      this.$set(this.tem, 0, {addr: item.province, id: item.provinceId})
+      this.$set(this.tem, 1, {addr: item.city, id: item.cityId})
+      this.$set(this.tem, 2, {addr: item.area, id: item.townId})
+      this.ruleForm.address = ''
+      this.tem.forEach(ele => {
+        this.ruleForm.address += ele.addr
+      })
       this.ruleForm.mobile = item.mobile
       this.ruleForm.deAddress = item.address
       this.ruleForm.username = item.contact
       item.isDefault === '1' ? this.ruleForm.isDefault = true : this.ruleForm.isDefault = false
-      this.ruleForm.phone = item.notes
+      this.ruleForm.phone = item.spareMobile
       this.ruleForm.otherTag = item.alias
+      this.isUpdate = item.id
     },
-    // 新增地址
+    // 新增地址 修改地址
     submitForm (formName) {
+      if (this.tem.length < 3) {
+        this.$notify.warning({
+          title: '提示',
+          message: '所在地区信息选择不全'
+        })
+        return
+      }
       this.$refs[formName].validate(valid => {
         if (valid) {
           let address = {
             userId: this.$cookies.get('user-key'),
-            provinceId: this.addressOneId,
-            cityId: this.addressTwoId,
-            townId: this.addressThreeId,
+            provinceId: this.tem[0].id,
+            cityId: this.tem[1].id,
+            townId: this.tem[2].id,
             mobile: this.ruleForm.mobile,
             address: this.ruleForm.deAddress,
             contact: this.ruleForm.username,
-            isDefault: this.ruleForm.isDefault ? 1 : 0,
-            notes: this.ruleForm.phone,
-            createDate: this.formatDate(new Date()),
-            aliad: this.ruleForm.otherTag || this.ruleForm.tag
+            isDefault: this.ruleForm.isDefault ? '1' : '0',
+            spareMobile: this.ruleForm.phone,
+            alias: this.ruleForm.otherTag || this.ruleForm.tag
           }
-          this.API.addressAdd(address).then(res => {
+          let addApi = this.isUpdate ? 'addressUpdate' : 'addressAdd'
+          if (!this.isUpdate) {
+            // 判断地址是否已满20个
+            if (this.addressList.length >= 20) {
+              this.$notify.warning({
+                title: '提示',
+                message: '地址数量已满20条，请在地址管理删除，再重新添加哦'
+              })
+              return
+            }
+            Object.assign(address, {createDate: this.formatDate(new Date())})
+          }
+          address = this.isUpdate ? Object.assign(address, {id: this.isUpdate}) : address
+          console.log(address, this.addressOneId, 0)
+          this.API[addApi](address).then(res => {
             if (res.success === false) {
               this.$notify.error({
                 title: '错误',
-                message: '新增地址失败'
+                message: '设置地址失败'
               })
               return false
             }
             this.$notify.success({
               title: '成功',
-              message: '新增地址成功'
+              message: '设置地址成功'
             })
-            this.requstAdd()
+            this.API.addressListByUser({userId: this.$cookies.get('user-key')}).then(rtn => {
+              this.addressList = rtn
+            })
+            this.chooseAddress = this.isUpdate ? this.isUpdate : res
             this.isForm = false
           })
         } else {
@@ -609,34 +634,45 @@ export default {
       })
     },
     tabAddr (provinceid, province) {
-      this.addressOne = ''
-      this.addressTwo = ''
-      this.addressThree = ''
-      this.addressOne = province
+      this.tem = []
+      this.$set(this.tem, 0, {addr: province, id: provinceid})
+      this.addressTwoId = ''
+      this.addressThreeId = ''
       this.addressOneId = provinceid
       this.API.allCity({proviceId: provinceid}).then(res => {
         this.cityList = res
       })
+      this.ruleForm.address = ''
+      this.ruleForm.address = this.tem[0].addr
+      this.tem.forEach((list, index) => {
+        if (index > 0) this.$delete(this.tem, index)
+      })
     },
     tabCity (city, cityid) {
-      this.addressTwo = ''
-      this.addressThree = ''
-      this.addressTwo = city
+      this.$set(this.tem, 1, {addr: city, id: cityid})
       this.addressTwoId = cityid
+      this.addressThreeId = ''
       this.API.allAreas({cityId: cityid}).then(res => {
         this.countyList = res
       })
+      this.ruleForm.address = ''
+      this.tem.forEach((list, index) => {
+        if (index > 1) this.$delete(this.tem, index)
+        else this.ruleForm.address += list.addr
+      })
     },
     tabCounty (area, areaid) {
-      this.addressThree = area
+      this.$set(this.tem, 2, {addr: area, id: areaid})
       this.addressThreeId = areaid
-      this.ruleForm.address = this.addressOne + this.addressTwo + this.addressThree
+      this.ruleForm.address = ''
+      this.tem.forEach(ele => {
+        this.ruleForm.address += ele.addr
+      })
     },
     requstAdd () {
       this.API.addressListByUser({userId: this.$cookies.get('user-key')}).then(rtn => {
-        // Q.少了 data
+        if (rtn === '请求成功，无返回值') return false
         this.addressList = rtn
-        // this.addressList.sort(this.compare('isDefault'))
         for (let val of this.addressList) {
           if (val.isDefault === '1') {
             this.defaultAddress = val
@@ -645,6 +681,21 @@ export default {
           }
         }
       })
+    },
+    // 初始化
+    addrInit () {
+      this.addressOneId = ''
+      this.addressTwoId = ''
+      this.addressThreeId = ''
+      this.ruleForm.address = ''
+      this.ruleForm.mobile = ''
+      this.ruleForm.deAddress = ''
+      this.ruleForm.username = ''
+      this.ruleForm.isDefault = false
+      this.ruleForm.phone = ''
+      this.ruleForm.tag = ''
+      this.ruleForm.otherTag = ''
+      this.isUpdate = 0
     }
   },
   watch: {
@@ -655,12 +706,17 @@ export default {
           break
         }
       }
+    },
+    isForm (newS) {
+      // 初始化
+      if (!newS) {
+        this.addrInit()
+      }
     }
   }
 }
 </script>
 <style scoped>
-/*@import "../../assets/css/cart/webbase.css";*/
 @import "../../assets/css/cart/getOrderInfo.css";
 /* 获取用户信息表格*/
   .user-info {

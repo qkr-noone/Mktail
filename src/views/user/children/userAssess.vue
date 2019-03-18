@@ -97,6 +97,16 @@ export default {
       assessCommodity: false
     }
   },
+  props: {
+    scroll: {
+      type: Object
+    }
+  },
+  mounted () {
+    this.$nextTick(() => {
+      document.documentElement.scrollTop = this.scroll.scrollTop
+    })
+  },
   methods: {
     tabTitleChange (val) {
       this.assessCommodity = val

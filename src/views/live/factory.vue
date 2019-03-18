@@ -118,7 +118,7 @@
                 <div class="source-box">
                   <div class="source-scroll">
                     <ul class="source-ul">
-                      <a v-for="(list, index) in sourceList" :key="index" class="source-a" href="javascript:;" @click="sourcePlay(list)">{{index+1}}</a>
+                      <a v-for="(list, index) in sourceList" :key="index" class="source-a" href="javascript:;" @click="sourcePlay(list, index)">{{index+1}}</a>
                     </ul>
                   </div>
                 </div>
@@ -269,6 +269,7 @@ export default {
   },
   components: { shortcut, live3Dheader, pageFooter },
   created  () {
+    console.log(this['liveSource' + 1])
   },
   mounted () {
     this.$nextTick(() => {
@@ -280,9 +281,13 @@ export default {
     }.bind(this)
   },
   methods: {
-    sourcePlay (list) {
+    sourcePlay (list, index) {
       let height = this.$refs.iframe0.offsetHeight
-      console.log(this.cutover)
+      console.log(this.cutover, index, this.cutover === ('liveSource' + (index + 1)))
+      // if (this.cutover === ('liveSource' + (index + 1))) {
+      //   this['liveSource' + (index + 1)] = '../static/live.html?' + 'source=' + list + '&height=' + height + '&page=liveSource' + (index + 1)
+      //   this.$refs.iframe[index].parentElement.children[1].style.display = 'none'
+      // }
       if (this.cutover === 'liveSource1') {
         this.liveSource1 = '../static/live.html?' + 'source=' + list + '&height=' + height + '&page=liveSource1'
         this.$refs.iframe0.parentElement.children[1].style.display = 'none'

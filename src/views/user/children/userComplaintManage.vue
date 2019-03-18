@@ -66,6 +66,16 @@ export default {
       complaintRecord: true
     }
   },
+  props: {
+    scroll: {
+      type: Object
+    }
+  },
+  mounted () {
+    this.$nextTick(() => {
+      document.documentElement.scrollTop = this.scroll.scrollTop
+    })
+  },
   methods: {
     changeActive (val) {
       this.complaintRecord = val

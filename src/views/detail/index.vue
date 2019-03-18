@@ -292,14 +292,14 @@ export default {
   data () {
     return {
       currentImg: '',
-      scroolListImg: '',
+      scroolListImg: [],
       is3Ding: false,
       activeName: 'one', // 详情参数选项卡
       goods: '',
       sellerInfo: {},
       goodsDesc: '',
       chooseAttr: '', // 选择属性
-      cateList: '',
+      cateList: [],
       spec: [],
       selectSku: '', // 选择的sku
       selectArr: '', // 被选中的sku属性、默认sku属性
@@ -355,15 +355,15 @@ export default {
       this.sellerInfo = rtn.sellerInfo
       this.show3dStatus = rtn.show3dStatus
       this.goodsDesc = rtn.goodsAll.goodsDesc
-      this.attrItem = JSON.parse(this.goodsDesc.customAttributeItems)
-      this.scroolListImg = JSON.parse(this.goodsDesc.itemImages)
+      this.attrItem = JSON.parse(this.goodsDesc.customAttributeItems) || []
+      this.scroolListImg = JSON.parse(this.goodsDesc.itemImages) || []
       if (this.scroolListImg.length) {
         this.currentImg = this.scroolListImg[0].url
       }
-      this.cateList = rtn.itemCatList
+      this.cateList = rtn.itemCatList || []
       this.goodsIntroduc = this.goodsDesc.introduction || ''
-      this.spec = JSON.parse(this.goodsDesc.specificationItems)
-      this.skuList = rtn.goodsAll.itemList
+      this.spec = JSON.parse(this.goodsDesc.specificationItems) || []
+      this.skuList = rtn.goodsAll.itemList || []
       if (this.$route.query.skuId) {
         for (let value of this.skuList) {
           if (String(this.$route.query.skuId) === String(value.id)) {
