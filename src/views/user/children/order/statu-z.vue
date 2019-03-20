@@ -91,7 +91,58 @@
           <button class="page-btn forbidden">下一页</button>
         </div>
       </div>
-      <div class="shop-list">
+      <div class="shop-list" v-for="list in all.rows" :key="list.id">
+        <div class="shop-info shopInfo-active">
+          <input type="checkbox" />
+          <span class="date">{{list.createTime}}</span>
+          <span class="order-num">订单号：<span>{{list.id}}</span></span>
+          <span class="name">{{list.sellerName}}</span>
+          <img src="static/img/user/user_part.png">
+          <span class="delete"><img src="static/img/user/user_delete.png"></span>
+        </div>
+        <div>
+          <ul class="shop-item" >
+            <li class="first-item">
+              <div class="item-Top" v-for="(item, num) in list.orderItemList" :key="item.itemId">
+                <img :src="item.picPath">
+                <div class="item-desc">
+                  <span class="item-title">{{item.title}}<br><span v-for="(tip, key, index) in JSON.parse(item.spec)" :key="index">{{key}}:{{tip}}</span>[交易快照]</span><br>
+                  <div class="back">退</div>
+                  <span class="text-red">7天无理由退货</span>
+                </div>
+                <span class="item-price">￥{{item.price}}</span>
+                <span class="item-num">{{item.num}}</span>
+                <span v-if="num === 0">
+                  <a>退款</a>|<a>退货</a><br>
+                  <span><a>投诉卖家</a></span>
+                </span>
+              </div>
+              <div class="item-Buttom">
+                <img src="static/img/user/user_car.png">
+                <span class="date">2019-01-01 16：00：37</span>
+                <span class="text-orange">您已选择在线支付，请等待确认审核</span>
+              </div>
+            </li>
+            <li class="list-item">
+              <span class="large-size">￥total</span>
+              <span>(含运费：￥0.00)</span>
+              <span>在线支付</span>
+            </li>
+            <li class="list-item">
+              <a>待发货</a>
+              <a>查看详情</a>
+              <a class="text-red">查看物流</a>
+            </li>
+            <li class="list-item">
+              <a>取消订单</a>
+              <a>修改订单</a>
+              <a>再次购买</a>
+              <a>发票详情</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!-- <div class="shop-list">
         <div class="shop-info shopInfo-active">
           <input type="checkbox" />
           <span class="date">2019-01-01</span>
@@ -187,7 +238,7 @@
             </li>
           </ul>
         </div>
-      </div>
+      </div> -->
     </div>
     <div class="shopPage">
       <button>上一页</button>
@@ -247,6 +298,7 @@ export default {
     // 所有订单
     this.API.userOrder({userName: this.$cookies.get('user-key'), pageNum: this.pageNum, pageSize: 15}).then(res => {
       this.all = res
+      console.log(this.all)
     })
   },
   methods: {
@@ -453,7 +505,6 @@ export default {
   .shop .shop-list {
     margin-top: 14px;
     width: 1065px;
-    height: 216px;
     background: rgba(255, 255, 255, 1);
     border: 1px solid rgba(191, 191, 191, 1);
     color: #414141;
@@ -496,14 +547,12 @@ export default {
     margin-right: 20px;
   }
   .shop .shop-item {
-    height: 165px;
+    min-height: 165px;
     display: flex;
-    justify-content: center;
-    align-items: center;
   }
   .shop .list-item {
     display: inline-block;
-    height: 165px;
+    /*height: 165px;*/
     width: 109px;
     border-left: 1px solid rgba(205, 205, 205, 1);
     display: flex;
@@ -526,13 +575,38 @@ export default {
     flex-direction: column !important;
     justify-content: space-around;
   }
+  div.shop-item:nth-child(n+1) > .first-item{
+    border-top: 1px solid red;
+  }
   .shop .item-Top {
     width: 719px;
     height: 121px;
     display: flex;
     flex-direction: row !important;
-    justify-content: space-around;
     align-items: center;
+  }
+  div.item-Top>:nth-child(n) {
+    margin-left: 28px;
+  }
+  .item-price, .item-num {
+    width: 50px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+  }
+  .item-Top >img {
+    width: 80px;
+    height: 80px;
+    overflow: hidden;
+  }
+  .item-desc {
+    width: 312px;
+  }
+  .item-title >span {
+    margin-right: 8px;
+  }
+  .first-item >div.item-Top:nth-child(n+2) {
+    border-top: 1px solid rgba(191, 191, 191, 1);
   }
   .shop .item-Buttom {
     width: 718px;

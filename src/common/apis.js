@@ -109,5 +109,9 @@ export default {
   // 获取用户的详细信息
   userBaseInfo: data => http.get('/personData/personData/findUserInfoByUserName', data),
   // 修改用户的详细信息
-  userUpdateInfo: data => http.post('/personData/personData/UpdateUser', data)
+  userUpdateInfo: data => http.post('/personData/personData/UpdateUser', data),
+  // 用户头像上传
+  userUpdateHead: data => http.post('/personData/personData/uploadFile', data),
+  // 字节流上传头像
+  userUploadBlodFlow: (data, extName) => http.post('/personData/personData/uploadFile1?extName=' + extName, data)
 }

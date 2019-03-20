@@ -8,10 +8,10 @@
           <span class="tab-text">我的订单：</span>
           <ul class="tab-title">
             <li class="tab-item" :class="{tabActive:isActive===0}" @click="changeTab(0, '/statu-z')"><a >所有订单</a></li>
-            <li class="tab-item" :class="{tabActive:isActive===1}" @click="changeTab(1, '/statu-one')"><a>待付款<span class="text-red num">2</span></a></li>
-            <li class="tab-item" :class="{tabActive:isActive===2}" @click="changeTab(2, '/statu-second')"><a>待发货<span class="text-red num">2</span></a></li>
-            <li class="tab-item" :class="{tabActive:isActive===3}" @click="changeTab(3, '/statu-three')"><a>待收货<span class="text-red num">3</span></a></li>
-            <li class="tab-item" :class="{tabActive:isActive===4}" @click="changeTab(4, '/statu-four')"><a>待评价<span class="text-red num">22+</span></a></li>
+            <li class="tab-item" :class="{tabActive:isActive===1}" @click="changeTab(1, '/statu-one')"><a>待付款<span class="text-red num">{{status.pendingPaymentCount}}</span></a></li>
+            <li class="tab-item" :class="{tabActive:isActive===2}" @click="changeTab(2, '/statu-second')"><a>待发货<span class="text-red num">{{status.toBeShippedCount}}</span></a></li>
+            <li class="tab-item" :class="{tabActive:isActive===3}" @click="changeTab(3, '/statu-three')"><a>待收货<span class="text-red num">{{status.toBeEvaluatedCount}}</span></a></li>
+            <li class="tab-item" :class="{tabActive:isActive===4}" @click="changeTab(4, '/statu-four')"><a>待评价<span class="text-red num">{{status.goodsReceivedCount}}</span></a></li>
             <li class="tab-item" :class="{tabActive:isActive===5}" @click="changeTab(5, '/statu-five')"><a>常购清单</a></li>
           </ul>
         </div>
@@ -27,7 +27,8 @@ export default {
   data () {
     return {
       isActive: 0,
-      list: ''
+      list: '',
+      status: {}
     }
   },
   props: {
@@ -45,6 +46,9 @@ export default {
     else this.isActive = 0
     this.$nextTick(() => {
       document.documentElement.scrollTop = this.scroll.scrollTop
+    })
+    this.API.userOrderStatus({userName: this.$cookies.get('user-key')}).then(res => {
+      this.status = res
     })
   },
   activated () {

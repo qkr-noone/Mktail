@@ -8,6 +8,7 @@ import store from './store'
 import 'element-ui/lib/theme-chalk/index.css'
 import API from './common/apis'
 import VueCookies from 'vue-cookies'
+import VueCropper from 'vue-cropper'
 
 let VueScrollTo = require('vue-scrollto') // 滚动至指定位置
 
@@ -17,6 +18,7 @@ Vue.config.productionTip = false
 Vue.use(ElementUI)
 Vue.use(VueScrollTo)
 Vue.use(VueCookies)
+Vue.use(VueCropper)
 /* eslint-disable no-new */
 let vueDom = new Vue({
   el: '#app',

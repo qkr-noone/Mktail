@@ -46,7 +46,7 @@
             <li class="first-item">
               <div class="item-Top">
                 <img src="static/img/user/user_telecontroller.png">
-                <div>
+                <div class="item-desc">
                   <span class="item-title">大金属通用对拷电动伸缩门卷帘闸门车库门道闸遥控器<br>钥匙315/433 [交易快照]</span><br>
                   <div class="back">退</div>
                   <span class="text-red">7天无理由退货</span>
@@ -264,7 +264,6 @@ export default {
   .shop .shop-list {
     margin-top: 14px;
     width: 1065px;
-    height: 216px;
     background: rgba(255, 255, 255, 1);
     border: 1px solid rgba(191, 191, 191, 1);
     color: #414141;
@@ -344,6 +343,14 @@ export default {
     flex-direction: row !important;
     justify-content: space-around;
     align-items: center;
+  }
+  .item-Top >img {
+    width: 80px;
+    height: 80px;
+    overflow: hidden;
+  }
+  .item-desc {
+    width: 312px;
   }
   .shop .item-Buttom {
     width: 718px;

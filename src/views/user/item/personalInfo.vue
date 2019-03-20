@@ -5,8 +5,7 @@
     </div>
     <div class="con-de"  >
       <div class="con-item user-info">
-        <div class="head">
-          <img :src="userInfo.headPic || 'static/img/user/user_headportrait.png'"/>
+        <div class="head" v-bind:style="{backgroundImage:'url('+ userInfo.headPic || 'static/img/user/user_headportrait.png' +')'}">
           <div class="editor" @click="editHeadImg">编辑头像</div>
         </div>
         <div class="info">
@@ -162,42 +161,52 @@
         </form>
       </div>
     </div>
-    <div class="full-path">
+    <div class="full-path" v-if="isFullUserHead">
       <div class="full-box">
         <div class="head-left">
-          <label class="head-choose" for="xFile">选择你要上传的头像</label>
-          <form><input type="file" id="xFile" style="position:absolute;clip:rect(0 0 0 0);" accept="image/png, image/jpeg, image/gif, image/jpg"></form>
+          <el-upload
+            class="avatar-uploader"
+            accept="image/png, image/jpeg, image/gif, image/jpg"
+            action="http://192.168.1.40:8083/personData/personData/uploadFile"
+            :show-file-list="false"
+            :on-success="handleAvatarSuccess"
+            :before-upload="beforeAvatarUpload">
+            <label class="head-choose">选择你要上传的头像</label>
+          </el-upload>
           <p class="hc-tip">仅支持JPG、GIF、PNG、JPEG格式，文件小于4M</p>
-          <div class="hc-img"><img src=""></div>
-          <button class="head-save">保存</button>
+          <div class="hc-img">
+            <vueCropper ref="cropper"
+              :img="userImageUrl"
+              :canScale="false"
+              :autoCrop="true"
+              :canMove="false"
+              :fixedBox="true"
+              :autoCropWidth="150"
+              :autoCropHeight="150"
+              :fixed="true"
+              mode="cover"
+              @realTime="realTime"
+              >
+            </vueCropper>
+          </div>
+          <!-- <img :src="userImageUrl"> -->
+          <button class="head-save" @click="userHeadSave">保存</button>
         </div>
         <div class="head-right">
           <h5 class="hr-title">效果预览</h5>
-          <p class="hc-tip hr-tip">你上传的图片会自动生成尺寸，请注意小尺寸的头像是否清晰</p>
-          <div class="hr-box"><img src=""></div>
+          <p class="hc-tip hr-tip">你上传的图片会自动生成以下尺寸，请注意尺寸的头像是否清晰</p>
+          <div class="hr-box"> <!-- v-bind:style="{backgroundImage:'url('+ newImageUrl +')'}" -->
+            <div class="show-preview" :style="{'width': previews.w + 'px', 'height': previews.h + 'px',  'overflow': 'hidden'}">
+              <div :style="previews.div">
+                <img :src="userImageUrl" :style="previews.img">
+              </div>
+            </div>
+          </div>
           <p class="hc-tip hr-size">头像预览150*150像素</p>
         </div>
         <div class="head-close">
-          <i class="el-icon-close"></i>
+          <i class="el-icon-close" @click="isFullUserHead = false"></i>
         </div>
-        <el-tab-pane label="头像照片">
-                    <p class="user-pic-tip ">当前头像（点击头像可修改，头像只能是JPG格式，且不能超过2M 哦）</p>
-                    <el-upload
-                      class="avatar-uploader"
-                      action="http://192.168.1.40:8083/personData/personData/uploadFile"
-                      :show-file-list="false"
-                      :on-success="handleAvatarSuccess"
-                      :before-upload="beforeAvatarUpload">
-                      <img v-if="userImageUrl" :src="userImageUrl" class="avatar">
-                      <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                    </el-upload>
-                    <div class="user-info-list">
-                      <span class="label"></span>
-                      <div class="submit save">
-                        <a>保存</a>
-                      </div>
-                    </div>
-                  </el-tab-pane>
       </div>
     </div>
   </div>
@@ -214,7 +223,10 @@ export default {
       cityList: [],
       countyList: [],
       currentAddress: [],
-      userImageUrl: ''
+      userImageUrl: '',
+      isFullUserHead: false,
+      newImageUrl: '',
+      previews: {}
     }
   },
   components: { dragVerify },
@@ -279,21 +291,45 @@ export default {
   },
   methods: {
     editHeadImg () {
+      this.isFullUserHead = true
     },
     handleAvatarSuccess (res, file) {
       this.userImageUrl = URL.createObjectURL(file.raw)
-      console.log(this.userImageUrl, 10)
     },
     beforeAvatarUpload (file) {
-      const isJPG = file.type === 'image/jpeg'
-      const isLt2M = file.size / 1024 / 1024 < 2
+      const isJPG = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif' || file.type === 'image/jpg'
+      const isLt2M = file.size / 1024 / 1024 < 4
       if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!')
+        this.$message.error('上传头像图片仅支持JPG、GIF、PNG、JPEG格式!')
       }
       if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 2MB!')
+        this.$message.error('上传头像图片大小不能超过 4MB!')
       }
       return isJPG && isLt2M
+    },
+    realTime (data) {
+      this.previews = data
+    },
+    userHeadSave () {
+      // 获取截图的base64 数据
+      this.$refs.cropper.getCropData((data) => {
+        console.log(data)
+      })
+      // 获取截图的blob数据
+      this.$refs.cropper.getCropBlob((data) => {
+        console.log('截图的blob:', data.type.split('/')[1])
+        let fd = new FormData()
+        fd.append('file', data)
+        this.API.userUploadBlodFlow(fd, data.type.split('/')[1]).then(res => {
+          console.log(res, 10000)
+        })
+        // Object.assign(data, {
+        //   preview: URL.createObjectURL(data)
+        // })
+        this.newImageUrl = data.preview
+      })
+      this.userInfo.headPic = this.userImageUrl
+      this.isFullUserHead = false
     },
     // 切换省，显示市列表
     tabAddr (provinceid) {
@@ -332,6 +368,7 @@ export default {
     infoInit () {
       this.isChangePhone = false
       this.isChangeEmail = false
+      // 用户基本信息
       this.API.userBaseInfo({userName: this.$cookies.get('user-key')}).then(res => {
         this.userInfo = res
         let tem = res.currentAddress.split('-')
@@ -339,9 +376,11 @@ export default {
           this.$set(this.currentAddress, i, {'addr': tem[i] || ''})
         }
       }).then(() => {
+        // 全部省份
         this.API.allProvince().then(res => {
           this.addrOptions = res
           this.addrOptions.forEach((ele, index) => {
+            // 通过省份名字查找id
             if (this.currentAddress[0].addr === ele.province) {
               this.$set(this.currentAddress[0], 'id', ele.provinceid)
             }
@@ -354,6 +393,7 @@ export default {
             this.API.allCity({proviceId: this.currentAddress[0].id}).then(res => {
               this.cityList = res
               this.cityList.forEach((list, index) => {
+                // 通过市查找id
                 if (this.currentAddress[1].addr === list.city) {
                   this.$set(this.currentAddress[1], 'id', list.cityid)
                 }
@@ -363,6 +403,7 @@ export default {
                 this.API.allAreas({cityId: this.currentAddress[1].id}).then(res => {
                   this.countyList = res
                   this.countyList.forEach((list, index) => {
+                    // 通过县、区查找id
                     if (this.currentAddress[2].addr === list.area) {
                       this.$set(this.currentAddress[2], 'id', list.areaid)
                     }
@@ -384,6 +425,7 @@ export default {
       dom.$refs.progressBar.style.width = '0'
       dom.$refs.handler.children[0].className = 'el-icon-d-arrow-right'
     },
+    // 修改提交
     submit () {
       if (this.isChangeEmail) {
         if (!this.userInfo.email) {
@@ -430,6 +472,10 @@ export default {
             message: '个人资料修改成功'
           })
           this.infoInit()
+          this.API.userBaseInfo({userName: this.$cookies.get('user-key')}).then(res => {
+            this.$cookies.set('userInfo', res)
+            this.setUserInfo(res)
+          })
         })
       } else {
         this.$notify.info({
@@ -444,6 +490,8 @@ export default {
 
 </script>
 <style scoped>
+.show-preview{width: 100%;height: 100%;}
+/* 主体 */
   .con-wrap {
     position: relative;
     font-family:SourceHanSansCN-Regular;
@@ -510,10 +558,9 @@ export default {
     margin-right: 30px;
     overflow: hidden;
     position: relative;
-  }
-  .con-item .head img{
-    width: 97px;
-    height: 97px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
   }
   .con-item .head .editor{
     width:98px;
@@ -525,6 +572,7 @@ export default {
     color:rgba(255,255,255,1);
     position: absolute;
     bottom: 0;
+    cursor: pointer;
   }
   .con-item .info p{
     margin: 8px 0 8px  0;
@@ -607,6 +655,7 @@ export default {
     height:40px;
     width:386px;
   }
+/*上传文件*/
   .full-path {
     position: fixed;
     top: 0;
@@ -617,6 +666,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 20;
   }
   .full-box {
     width:700px;
@@ -642,6 +692,7 @@ export default {
     line-height: 40px;
     color: #353535;
     font-size: 14px;
+    cursor: pointer;
   }
   .hc-tip {
     font-size:12px;
@@ -656,16 +707,21 @@ export default {
     height: 250px;
     border:1px solid rgba(227,227,227,1);
   }
+  /*.hc-img img {
+    max-height: 100%;
+    max-width: 100%;
+    overflow: hidden;
+  }*/
   .head-save {
-    width: 56px;
-    height:21px;
+    width: 70px;
+    height: 30px;
     font-size: 14px;
     text-shadow:0px 0px 3px rgba(39,39,39,0.68);
     color: #fff;
     border:1px solid rgba(214,214,214,1);
     background:linear-gradient(0deg,rgba(251,161,4,1) 0%,rgba(251,237,213,1) 100%);
     border-radius:5px;
-    margin-top: 8px;
+    margin-top: 15px;
   }
   .head-right {
     width: 230px;
@@ -687,6 +743,13 @@ export default {
     height: 150px;
     border:1px solid rgba(227,227,227,1);
     margin-bottom: 19px;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+  .hr-box img {
+    width: 100%;
+    height: 100%;
   }
   .hr-size {
     margin-bottom: 0;
@@ -701,45 +764,5 @@ export default {
     font-size: 30px;
     line-height: 35px;
     color: red;
-  }
-/* 头像设置 */
-  .avatar-uploader {
-    display: flex;
-    position: relative;
-  }
-  .avatar-uploader .el-upload {
-    border: 1px dashed #d9d9d9;
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-  }
-  .avatar-uploader .el-upload:hover {
-    border-color: #409EFF;
-  }
-  .avatar-uploader-icon {
-    position: absolute;
-    top: 0;
-    left: 0;
-    font-size: 28px;
-    color: #8c939d;
-    width: 178px;
-    height: 178px;
-    line-height: 178px;
-    text-align: center;
-    border: 1px solid #ddd;
-  }
-  .avatar {
-    width: 178px;
-    height: 178px;
-    display: block;
-  }
-  .user-pic-tip {
-    font-size: 12px;
-    color: #aaa;
-    margin-bottom: 15px;
-  }
-  .save {
-    margin-top: 20px;
   }
 </style>
