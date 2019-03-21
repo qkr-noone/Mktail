@@ -17,7 +17,7 @@
         </div>
       </div>
       <transition>
-        <router-view :scroll="scroll"></router-view>
+        <router-view></router-view>
       </transition>
     </div>
   </div>
@@ -31,11 +31,7 @@ export default {
       status: {}
     }
   },
-  props: {
-    scroll: {
-      type: Object
-    }
-  },
+  props: {},
   mounted () {
     let routerChild = this.$route.path.split('/')[3]
     if (routerChild === 'statu-one') this.isActive = 1
@@ -44,9 +40,6 @@ export default {
     else if (routerChild === 'statu-four') this.isActive = 4
     else if (routerChild === 'statu-five') this.isActive = 5
     else this.isActive = 0
-    this.$nextTick(() => {
-      document.documentElement.scrollTop = this.scroll.scrollTop
-    })
     this.API.userOrderStatus({userName: this.$cookies.get('user-key')}).then(res => {
       this.status = res
     })
@@ -57,10 +50,7 @@ export default {
   methods: {
     changeTab (val, path) {
       this.isActive = val
-      let queryList = this.$route.query
-      this.scroll = { scrollTop: document.documentElement.scrollTop }
-      Object.assign(queryList, this.scroll)
-      this.$router.push({path: '/user/userOrder' + path, query: queryList})
+      this.$router.push({path: '/user/userOrder' + path})
     }
   }
 }

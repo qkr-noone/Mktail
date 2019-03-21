@@ -25,34 +25,36 @@
         </ul>
       </div>
       <div class="shop-handle">
-        <input type="checkbox"/>全选
-        <button class="confirm-btn">批量确认收货</button>
+        <div class="choose" v-if="waitSend.total">
+          <input type="checkbox"/><span>全选</span>
+          <button class="confirm-btn">批量确认收货</button>
+        </div>
         <div class="page" >
           <button class="page-btn">上一页</button>
           <button class="page-btn forbidden">下一页</button>
         </div>
       </div>
-      <div class="shop-list">
+      <div class="shop-list" v-for="list in waitSend.rows" :key="list.id">
         <div class="shop-info shopInfo-active">
           <input type="checkbox" />
-          <span class="date">2019-01-01</span>
-          <span class="order-num">定单号：<span>305932032817899066</span></span>
-          <span>创盛门控配件</span>
+          <span class="date">{{list.createTime}}</span>
+          <span class="order-num">定单号：<span>{{list.id}}</span></span>
+          <span>{{list.sellerName}}</span>
           <img src="static/img/user/user_part.png">
           <span class ="delete"><img src="static/img/user/user_delete.png"></span>
         </div>
         <div>
           <ul class="shop-item">
             <li class="first-item">
-              <div class="item-Top">
+              <div class="item-Top" v-for="item in list.orderItemList" :key="item.itemId">
                 <img src="static/img/user/user_telecontroller.png">
                 <div class="item-desc">
-                  <span class="item-title">大金属通用对拷电动伸缩门卷帘闸门车库门道闸遥控器<br>钥匙315/433 [交易快照]</span><br>
+                  <span class="item-title">{{item.title}}<br><span v-for="(tip, key, index) in JSON.parse(item.spec)" :key="index">{{key}}:{{tip}}</span>[交易快照]</span><br>
                   <div class="back">退</div>
                   <span class="text-red">7天无理由退货</span>
                 </div>
-                <span>￥28.00</span>
-                <span>1</span>
+                <span class="item-price">￥{{item.price}}</span>
+                <span class="item-num">{{item.num}}</span>
                 <span>
                 <a>退款</a>|<a>退货</a><br>
                 <span> <a>投诉卖家</a></span>
@@ -65,7 +67,7 @@
               </div>
             </li>
             <li class="list-item">
-              <span class="large-size">￥28.00</span>
+              <span class="large-size">￥{{list.payment}}</span>
               <span>(含运费：￥0.00)</span>
               <span>在线支付</span>
             </li>
@@ -83,8 +85,9 @@
           </ul>
         </div>
       </div>
+      <div v-if="!waitSend.total" class="shop-list not-data">没有符合条件的商品</div>
     </div>
-    <div class="shopPage">
+    <div class="shopPage" v-if="waitSend.row">
       <button>上一页</button>
       <span>1</span>
       <button>下一页</button>
@@ -110,28 +113,24 @@ export default {
         { label: '交易成功', index: 1 },
         { label: '交易关闭', index: 1 },
         { label: '退款中的订单', index: 1 }
-      ]
+      ],
+      pageNum: 1
     }
   },
-  props: {
-    scroll: {
-      type: Object
-    }
-  },
+  props: {},
   mounted () {
-    this.$nextTick(() => {
-      document.documentElement.scrollTop = this.scroll.scrollTop
-    })
     // 待支付
-    this.API.userOrder({ userName: this.$cookies.get('user-key'), status: 2 }).then(res => {
+    this.API.userOrder({ userName: this.$cookies.get('user-key'), status: 3, pageNum: this.pageNum, pageSize: 15 }).then(res => {
       this.waitSend = res
+      console.log('待fh', res)
     })
   },
   methods: {
     tab (command) {
       console.log(command.index)
       this.listSelectStaus = command.label
-      this.API.userOrder({ userName: this.$cookies.get('user-key'), status: command.index }).then(res => {
+      this.pageNum = 1
+      this.API.userOrder({ userName: this.$cookies.get('user-key'), status: command.index, pageNum: this.pageNum, pageSize: 15 }).then(res => {
         this.waitSend = res
       })
     }
@@ -139,6 +138,12 @@ export default {
 }
 </script>
 <style scoped>
+.not-data {
+  height: 130px;
+  line-height: 130px;
+  text-align: center;
+  border: none !important;
+}
 .content .shop .title-item.list-select-staus {
   width: 120px;
   margin-left: 6px;
@@ -193,7 +198,7 @@ export default {
     padding-top: 1px;
   }
   .content .shop {
-    margin-left: 12px;
+    margin: 0 14px;
     font-weight: 300;
   }
   .content .shop-title {
@@ -236,13 +241,16 @@ export default {
     font-size: 14px;
     color: rgba(98, 98, 98, 1);
   }
+  .shop-handle .choose {
+    float: left;
+  }
   .shop .shop-handle input {
     height: 15px;
     width: 15px;
     margin-right: 10px;
   }
   .shop .shop-handle .page {
-    display: inline-block;
+    float: right;
   }
   .shop .shop-handle .confirm-btn {
     width: 121px;
@@ -251,7 +259,7 @@ export default {
     border: 1px solid rgba(199, 199, 199, 1);
     border-radius: 3px;
     line-height: 24px;
-    margin: 0 750px 0 10px;
+    margin: 0 0px 0 10px;
     font-size: 14px;
     color: rgba(98, 98, 98, 1);
   }

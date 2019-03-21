@@ -60,7 +60,7 @@
         <div class="goodsList" v-show="focusGoods===true">
           <ul class="go-ul">
             <li class="goods-item"  v-for="(goods,i) in goodsList" :key='i' >
-              <img :src="goods.image">
+              <router-link :to="{path:'/detail', query:{goodsId: 149187842867963}}"><img :src="goods.image"></router-link>
               <p class="item-title">{{goods.title}} </p>
               <p class="item-price">¥{{goods.price}}</p>
               <p class="inform-operation">
@@ -145,20 +145,13 @@ export default {
       destination: '请选择'
     }
   },
-  props: {
-    scroll: {
-      type: Object
-    }
-  },
+  props: {},
   mounted () {
     let tem = this.$route.path.split('/')[2]
     tem === 'userCollectGoods' ? this.focusGoods = true : this.focusGoods = false
     this.username = this.$cookies.isKey('userInfo') ? this.$cookies.get('userInfo').username : ''
     this.requestGoods()
     this.requestStore()
-    this.$nextTick(() => {
-      document.documentElement.scrollTop = this.scroll.scrollTop
-    })
     // 配送至
     this.API.allProvince().then(res => {
       this.addrOptions = res
@@ -174,8 +167,6 @@ export default {
     changeActive (val, path) {
       this.focusGoods = val
       let queryList = this.$route.query
-      let scroll = { scrollTop: document.documentElement.scrollTop }
-      Object.assign(queryList, scroll)
       this.$router.push({path: path, query: queryList})
     },
     request: function (sellerId, shops) {
@@ -192,12 +183,14 @@ export default {
     requestGoods () {
       this.API.userCollectType({typeId: 1, userName: this.username, pageNum: this.currentPage, pageSize: this.pageSize}).then(res => {
         this.goodsList = res
+        console.log('gzshangp', res)
       })
     },
     requestStore () {
       this.temList = []
       this.API.userCollectType({typeId: 2, userName: this.username, pageNum: this.currentPage, pageSize: this.pageSize}).then(res => {
         this.storeList = res
+        console.log('gzdp', res)
         this.storeList.forEach(item => {
           this.request(item.sellerId, item)
         })
@@ -230,9 +223,6 @@ export default {
     '$route' () {
       let tem = this.$route.path.split('/')[2]
       tem === 'userCollectGoods' ? this.focusGoods = true : this.focusGoods = false
-      this.$nextTick(() => {
-        document.documentElement.scrollTop = this.$route.query.scrollTop
-      })
     }
   }
 }
@@ -418,7 +408,7 @@ export default {
     flex-wrap: wrap;
     padding-top: 23px;
   }
-  .go-ul .goods-item>img{
+  .go-ul .goods-item>a img{
     width:248px;
   }
   .go-ul .goods-item .item-title{

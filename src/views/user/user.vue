@@ -168,7 +168,7 @@
               </div>
             </div>
             <transition v-else>
-              <router-view :scroll='scroll'></router-view>
+              <router-view></router-view>
             </transition>
           </div>
           <!-- <el-tabs  :tab-position="tabPosition" style="background-color: #fff">
@@ -409,8 +409,7 @@ export default {
       userBirthday: '', // 用户生日
       userImageUrl: 'static/img/logo-200.png', // 用户头像
       goodsSellersNum: '', // 关注店铺和商品数量
-      isOrder: false,
-      scroll: {}
+      isOrder: false
     }
   },
   components: { shortcut, userNav, youLike },
@@ -471,8 +470,8 @@ export default {
           this.$refs.child[index].style.display === 'none' ? this.$refs.child[index].style.display = 'block' : this.$refs.child[index].style.display = 'none'
         } else {
           let queryList = this.$route.query
-          this.scroll = { scrollTop: document.documentElement.scrollTop }
-          Object.assign(queryList, this.scroll)
+          // this.scroll = { scrollTop: document.documentElement.scrollTop }
+          // Object.assign(queryList, this.scroll)
           this.$router.push({path: '/user/' + e.path, query: queryList})
           this.title = e.name
         }

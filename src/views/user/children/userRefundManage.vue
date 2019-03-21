@@ -146,16 +146,6 @@ export default {
         {value4: '选项4', label: '先行垫付，退款关闭'},
         {value4: '选项5', label: '先行垫付，商家拒绝退款'}]
     }
-  },
-  props: {
-    scroll: {
-      type: Object
-    }
-  },
-  mounted () {
-    this.$nextTick(() => {
-      document.documentElement.scrollTop = this.scroll.scrollTop
-    })
   }
 }
 </script>

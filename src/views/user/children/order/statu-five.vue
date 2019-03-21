@@ -103,15 +103,8 @@ export default {
       reviewBuy: '' // 常购清单
     }
   },
-  props: {
-    scroll: {
-      type: Object
-    }
-  },
+  props: {},
   mounted () {
-    this.$nextTick(() => {
-      document.documentElement.scrollTop = this.scroll.scrollTop
-    })
     // 常购清单
     this.API.userOrder({ userName: this.$cookies.get('user-key'), status: 5 }).then(res => {
       this.reviewBuy = res

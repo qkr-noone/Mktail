@@ -39,13 +39,12 @@
           <label>交易状态</label>
           <select v-model="select.tradeSelect">
             <option>全部</option>
-            <option>等待买家付款</option>
-            <option>付款确认中</option>
-            <option>买家已付款</option>
-            <option>卖家已发货</option>
-            <option>交易成功</option>
-            <option>交易关闭</option>
-            <option>退款中的订单</option>
+            <option>待付款</option>
+            <option>已取消</option>
+            <option>已付款</option>
+            <option>已发货</option>
+            <option>已完成</option>
+            <option>已退款</option>
           </select>
         </div>
         <div class="group">
@@ -62,185 +61,25 @@
       <a href="javascript:;" class="filter" @click="choose">搜索</a>
     </div>
     <div class="shop">
-      <div class="shop-title">
-        <ul>
-          <li class="title-item">宝贝</li>
-          <li class="title-item">单价</li>
-          <li class="title-item">数量</li>
-          <li class="title-item">商品操作</li>
-          <li class="title-item">实付款</li>
-          <li class="title-item list-select-staus">
-            <div class="group">
-              <el-dropdown trigger="click" @command="tab">
-                <span class="el-dropdown-link">
-                  {{listSelectStaus}}<i class="el-icon-arrow-down el-icon--right"></i>
-                </span>
-                <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item v-for="item in options"
-                  :key="item.label" :command="item">{{item.label}}</el-dropdown-item>
-                </el-dropdown-menu>
-              </el-dropdown>
-            </div>
-          </li>
-          <li class="title-item">交易操作</li>
-        </ul>
-      </div>
+      <orderListTitle></orderListTitle>
       <div class="shop-handle">
+        <div class="choose" v-if="all.total">
+          <input type="checkbox"/><span>全选</span>
+          <button class="confirm-btn">合并付款</button>
+          <button class="confirm-btn">批量确认收货</button>
+        </div>
         <div class="page">
           <button class="page-btn">上一页</button>
           <button class="page-btn forbidden">下一页</button>
         </div>
       </div>
       <div class="shop-list" v-for="list in all.rows" :key="list.id">
-        <div class="shop-info shopInfo-active">
-          <input type="checkbox" />
-          <span class="date">{{list.createTime}}</span>
-          <span class="order-num">订单号：<span>{{list.id}}</span></span>
-          <span class="name">{{list.sellerName}}</span>
-          <img src="static/img/user/user_part.png">
-          <span class="delete"><img src="static/img/user/user_delete.png"></span>
-        </div>
-        <div>
-          <ul class="shop-item" >
-            <li class="first-item">
-              <div class="item-Top" v-for="(item, num) in list.orderItemList" :key="item.itemId">
-                <img :src="item.picPath">
-                <div class="item-desc">
-                  <span class="item-title">{{item.title}}<br><span v-for="(tip, key, index) in JSON.parse(item.spec)" :key="index">{{key}}:{{tip}}</span>[交易快照]</span><br>
-                  <div class="back">退</div>
-                  <span class="text-red">7天无理由退货</span>
-                </div>
-                <span class="item-price">￥{{item.price}}</span>
-                <span class="item-num">{{item.num}}</span>
-                <span v-if="num === 0">
-                  <a>退款</a>|<a>退货</a><br>
-                  <span><a>投诉卖家</a></span>
-                </span>
-              </div>
-              <div class="item-Buttom">
-                <img src="static/img/user/user_car.png">
-                <span class="date">2019-01-01 16：00：37</span>
-                <span class="text-orange">您已选择在线支付，请等待确认审核</span>
-              </div>
-            </li>
-            <li class="list-item">
-              <span class="large-size">￥total</span>
-              <span>(含运费：￥0.00)</span>
-              <span>在线支付</span>
-            </li>
-            <li class="list-item">
-              <a>待发货</a>
-              <a>查看详情</a>
-              <a class="text-red">查看物流</a>
-            </li>
-            <li class="list-item">
-              <a>取消订单</a>
-              <a>修改订单</a>
-              <a>再次购买</a>
-              <a>发票详情</a>
-            </li>
-          </ul>
-        </div>
+        <orderListContentHead :list="list"></orderListContentHead>
+        <orderListContent :list="list"></orderListContent>
       </div>
-      <!-- <div class="shop-list">
-        <div class="shop-info shopInfo-active">
-          <input type="checkbox" />
-          <span class="date">2019-01-01</span>
-          <span class="order-num">订单号：<span>305932032817899066</span></span>
-          <span class="name">创盛门控配件</span>
-          <img src="static/img/user/user_part.png">
-          <span class="delete"><img src="static/img/user/user_delete.png"></span>
-        </div>
-        <div>
-          <ul class="shop-item">
-            <li class="first-item">
-              <div class="item-Top">
-                <img src="static/img/user/user_telecontroller.png">
-                <div>
-                  <span class="item-title">大金属通用对拷电动伸缩门卷帘闸门车库门道闸遥控器<br>钥匙315/433 [交易快照]</span><br>
-                  <div class="back">退</div>
-                  <span class="text-red">7天无理由退货</span>
-                </div>
-                <span>￥28.00</span>
-                <span>1</span>
-                <span>
-                  <a>退款</a>|<a>退货</a><br>
-                  <span> <a>投诉卖家</a></span>
-                </span>
-              </div>
-              <div class="item-Buttom ">
-                <img src="static/img/user/user_car.png">
-                <span class="date">2019-01-01 16：00：37</span>
-                <span class="text-orange">您已选择在线支付，请等待确认审核</span>
-              </div>
-            </li>
-            <li class="list-item">
-              <span class="large-size">￥28.00</span>
-              <span>(含运费：￥0.00)</span>
-              <span>在线支付</span>
-            </li>
-            <li class="list-item">
-              <a>待发货</a>
-              <a>查看详情</a>
-              <a class="text-red">查看物流</a>
-            </li>
-            <li class="list-item">
-              <a>取消订单</a>
-              <a>修改订单</a>
-              <a>再次购买</a>
-              <a>发票详情</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div class="shop-list">
-        <div class="shop-info">
-          <input type="checkbox" />
-          <span class="date">2019-01-01</span>
-          <span class="order-num">订单号：<span>305932032817899066</span></span>
-          <span class="name">创盛门控配件</span>
-          <img src="static/img/user/user_part.png">
-          <span class="delete"><img src="static/img/user/user_delete.png"></span>
-        </div>
-        <div>
-          <ul class="shop-item">
-            <li class="first-item">
-              <div class="item-Top">
-                <img src="static/img/user/user_telecontroller.png">
-                <div>
-                  <span class="item-title">大金属通用对拷电动伸缩门卷帘闸门车库门道闸遥控器<br>钥匙315/433 [交易快照]</span><br>
-                  <div class="back">退</div>
-                  <span class="text-red">7天无理由退货</span>
-                </div>
-                <span>￥28.00</span>
-                <span>1</span>
-                <span>
-                  <a>退款</a>|<a>退货</a><br>
-                  <span> <a>投诉卖家</a></span>
-                </span>
-              </div>
-            </li>
-            <li class="list-item">
-              <span class="large-size">￥28.00</span>
-              <span>(含运费：￥0.00)</span>
-              <span>在线支付</span>
-            </li>
-            <li class="list-item">
-              <a>待发货</a>
-              <a>查看详情</a>
-              <a class="text-red">查看物流</a>
-            </li>
-            <li class="list-item">
-              <a>取消订单</a>
-              <a>修改订单</a>
-              <a>再次购买</a>
-              <a>发票详情</a>
-            </li>
-          </ul>
-        </div>
-      </div> -->
+      <div v-if="!all.total" class="shop-list not-data">没有符合条件的商品</div>
     </div>
-    <div class="shopPage">
+   <div class="shopPage" v-if="all.total">
       <button>上一页</button>
       <span>1</span>
       <button>下一页</button>
@@ -251,6 +90,9 @@
   </div>
 </template>
 <script>
+import orderListTitle from '@/components/orderListTitle'
+import orderListContentHead from '@/components/orderListContentHead'
+import orderListContent from '@/components/orderListContent'
 export default {
   data () {
     return {
@@ -266,35 +108,18 @@ export default {
         tradeSelect: '全部',
         ensureSelect: '全部'
       },
-      listSelectStaus: '交易状态',
-      options: [
-        { label: '全部', index: 1 },
-        { label: '等待买家付款', index: 1 },
-        { label: '付款确认中', index: 1 },
-        { label: '买家已付款', index: 1 },
-        { label: '卖家已发货', index: 1 },
-        { label: '交易成功', index: 1 },
-        { label: '交易关闭', index: 1 },
-        { label: '退款中的订单', index: 1 }
-      ],
       all: '', // 所有订单
       pageNum: 1
     }
   },
-  props: {
-    scroll: {
-      type: Object
-    }
-  },
+  components: { orderListTitle, orderListContentHead, orderListContent },
+  props: {},
   computed: {
     bridge () {
       return Object.values(this.select)
     }
   },
   mounted () {
-    this.$nextTick(() => {
-      document.documentElement.scrollTop = this.scroll.scrollTop
-    })
     // 所有订单
     this.API.userOrder({userName: this.$cookies.get('user-key'), pageNum: this.pageNum, pageSize: 15}).then(res => {
       this.all = res
@@ -310,13 +135,9 @@ export default {
     submit () {
       console.log(this.goodsOrderNum)
     },
-    tab (command) {
-      console.log(command.index)
-      this.listSelectStaus = command.label
-      this.API.userOrder({userName: this.$cookies.get('user-key'), status: command.index}).then(res => {
-        // 选择的交易状态数据替换所有订单数据
-        this.all = res
-      })
+    changePageNum (index = 1) {
+      console.log(index, 'this pageNum')
+      this.pageNum = index
     },
     // 格式化时间 2019-01-22 17:24:08
     formatDate (date) {
@@ -342,45 +163,25 @@ export default {
 }
 </script>
 <style scoped>
-.filter{
-  width: 60px;
-  height: 30px;
-  text-align: center;
-  line-height: 30px;
-  background-color: red;
-  margin: 10px 24px;
-  color: #fff;
-}
-.content .shop .title-item.list-select-staus {
-  width: 120px;
-  margin-left: 6px;
-  margin-right: 6px;
-  text-align: center;
-}
-/*部分文字颜色*/
-  .text-orange{
-    color:#F79A26;
+/*查找条件*/
+  .not-data {
+    height: 130px;
+    line-height: 130px;
+    text-align: center;
+    border: none !important;
   }
-  .text-red{
-    color:#E71600 !important;
-  }
-  img{
-    display: inline-block;
-  }
-  .con-wrap{
-    background: #FFFFFF;
-    margin-top:6px;
-    width:1095px;
-    padding-bottom: 10px;
-    text-align: left;
-    font-size:13px;
-    font-family:SourceHanSansCN-Normal;
-    font-weight:400;
+  .filter{
+    width: 60px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    background-color: red;
+    margin: 10px 24px;
+    color: #fff;
   }
   input{
     padding-left: 8px;
   }
-/*页面特殊文字颜色*/
   .content .search {
     color: rgba(48, 48, 48, 1);
     margin: -10px 0 14px 0;
@@ -389,7 +190,7 @@ export default {
     outline: none;
     width: 259px;
     height: 26px;
-    margin-left: 24px;
+    margin-left: 14px;
     border: 1px solid rgba(225, 225, 225, 1);
     padding-top: 1px;
   }
@@ -440,54 +241,48 @@ export default {
     margin-left: -175px;
   }
   .content .shop {
-    margin-left: 12px;
+    margin: 0 14px;
     font-weight: 300;
-  }
-  .content .shop-title {
-    box-sizing: border-box;
-    width: 1065px;
-    height: 40px;
-    background: rgba(245, 245, 245, 1);
-    border: 1px solid rgba(231, 231, 231, 1);
-    margin-top: 10px;
-    line-height: 40px;
   }
   ul {
     display: inline-block;
-  }
-  .content .shop .title-item {
-    display: inline-block;
-    font-size: 14px;
-    color: rgba(126, 126, 126, 1);
-  }
-  .shop-title ul li:not(:first-child) {
-    margin-right: 28px;
-    margin-left: 30px;
-  }
-  .shop-title ul li:first-child {
-    margin: 0 170px 0 220px;
-  }
-  .shop-title ul li:last-child {
-    margin-right: 20px;
-    margin-left: 20px;
   }
   .shop .group select {
     border: 0;
     background-color: transparent;
     color: rgba(126, 126, 126, 1);
   }
+/* 选择 合并 上下页*/
   .shop .shop-handle {
-    display: flex;
-    justify-content: flex-end;
-    padding-right: 18px;
     height: 30px;
     line-height: 30px;
     margin-top: 10px;
     font-size: 14px;
     color: rgba(98, 98, 98, 1);
   }
+  .shop-handle .choose {
+    float: left;
+    display: flex;
+    align-items: center;
+  }
+  .shop .shop-handle input {
+    height: 15px;
+    width: 15px;
+    margin-right: 10px;
+  }
   .shop .shop-handle .page {
     display: inline-block;
+    float: right;
+  }
+  .shop .shop-handle .confirm-btn {
+    padding: 0 15px;
+    background: rgba(255, 255, 255, 1);
+    border: 1px solid rgba(199, 199, 199, 1);
+    border-radius: 3px;
+    line-height: 24px;
+    margin: 0 0px 0 10px;
+    font-size: 14px;
+    color: rgba(98, 98, 98, 1);
   }
   .shop .shop-handle .page-btn {
     width: 59px;
@@ -510,129 +305,10 @@ export default {
     color: #414141;
     font-size: 13px;
   }
-  .shop .shop-list .shop-info {
-    display: flex;
-    align-items: center;
-    height: 50px;
-    background: #F7F7F7;
-    line-height: 50px;
-    padding-left: 12px;
-    color: rgba(62, 62, 62, 1);
-  }
-  .shopInfo-active {
-    background: #FFF8B7 !important;
-  }
-  .shop .shop-list .shop-info input {
-    height: 13px;
-    width: 15px;
-  }
-  .shop .shop-list .shop-info .date {
-    font-weight: 500;
-    color: #180E0E;
-    margin: 0 19px 0 8px;
-  }
-  .shop .shop-list .shop-info .order-num {
-    margin-right: 174px;
-  }
-  .shop .shop-list .shop-info .name {
-    max-width: 400px;
-    margin-right: 10px;
-    overflow: hidden;
-    white-space: nowrap;
-  }
-  .shop .shop-list .shop-info .delete {
-    display: flex;
-    justify-content: flex-end;
-    flex-grow: 1;
-    margin-right: 20px;
-  }
-  .shop .shop-item {
-    min-height: 165px;
-    display: flex;
-  }
-  .shop .list-item {
-    display: inline-block;
-    /*height: 165px;*/
-    width: 109px;
-    border-left: 1px solid rgba(205, 205, 205, 1);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-size: 12px;
-    color: rgba(144, 144, 144, 1);
-  }
-  .shop .list-item a {
-    margin-bottom: 7px;
-  }
   .shop .shop-list li:first-child {
     width: 719px;
     border-left: none;
     display: flex;
-  }
-  .shop .first-item {
-    display: flex;
-    flex-direction: column !important;
-    justify-content: space-around;
-  }
-  div.shop-item:nth-child(n+1) > .first-item{
-    border-top: 1px solid red;
-  }
-  .shop .item-Top {
-    width: 719px;
-    height: 121px;
-    display: flex;
-    flex-direction: row !important;
-    align-items: center;
-  }
-  div.item-Top>:nth-child(n) {
-    margin-left: 28px;
-  }
-  .item-price, .item-num {
-    width: 50px;
-    height: 30px;
-    line-height: 30px;
-    text-align: center;
-  }
-  .item-Top >img {
-    width: 80px;
-    height: 80px;
-    overflow: hidden;
-  }
-  .item-desc {
-    width: 312px;
-  }
-  .item-title >span {
-    margin-right: 8px;
-  }
-  .first-item >div.item-Top:nth-child(n+2) {
-    border-top: 1px solid rgba(191, 191, 191, 1);
-  }
-  .shop .item-Buttom {
-    width: 718px;
-    height: 44px;
-    border-top: 1px solid rgba(210, 210, 210, 1);
-    margin-left: -8px;
-    line-height: 44px;
-    padding-left: 9px;
-  }
-  .shop .item-Buttom .date {
-    margin: 0 20px 0 15px;
-  }
-  .back {
-    display: inline-block;
-    color: #F79A26;
-    width: 15px;
-    height: 15px;
-    background: rgba(255, 255, 255, 1);
-    border: 1px solid rgba(247, 154, 38, 1);
-    line-height: 15px;
-    text-align: center;
-  }
-  .large-size {
-    font-size: 16px;
-    font-weight: 500;
-    color: rgba(62, 62, 62, 1);
   }
   .content .shopPage {
     text-align: right;
