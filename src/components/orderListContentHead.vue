@@ -37,7 +37,6 @@ export default {
     width: 15px;
   }
   .shop-info .date {
-    font-weight: 500;
     color: #180E0E;
     margin: 0 19px 0 8px;
   }

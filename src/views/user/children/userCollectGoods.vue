@@ -60,7 +60,7 @@
         <div class="goodsList" v-show="focusGoods===true">
           <ul class="go-ul">
             <li class="goods-item"  v-for="(goods,i) in goodsList" :key='i' >
-              <router-link :to="{path:'/detail', query:{goodsId: 149187842867963}}"><img :src="goods.image"></router-link>
+              <router-link :to="{path:'/detail', query:{goodsId: goods.goodsId}}"><img :src="goods.image"></router-link>
               <p class="item-title">{{goods.title}} </p>
               <p class="item-price">¥{{goods.price}}</p>
               <p class="inform-operation">

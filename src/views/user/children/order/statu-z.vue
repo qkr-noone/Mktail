@@ -61,7 +61,7 @@
       <a href="javascript:;" class="filter" @click="choose">搜索</a>
     </div>
     <div class="shop">
-      <orderListTitle></orderListTitle>
+      <orderListTitle @changePageNum="changeValue($event)"></orderListTitle>
       <div class="shop-handle">
         <div class="choose" v-if="all.total">
           <input type="checkbox"/><span>全选</span>
@@ -79,14 +79,14 @@
       </div>
       <div v-if="!all.total" class="shop-list not-data">没有符合条件的商品</div>
     </div>
-   <div class="shopPage" v-if="all.total">
-      <button>上一页</button>
-      <span>1</span>
-      <button>下一页</button>
-      <span>向第</span>
-      <input type="text" class="skip" />页
-      <button class="skip">跳转</button>
-    </div>
+    <el-pagination  v-if="all.total"
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page.sync="currentPage3"
+      :page-size="100"
+      layout="prev, pager, next, jumper"
+      :total="1000">
+    </el-pagination>
   </div>
 </template>
 <script>
@@ -99,6 +99,7 @@ export default {
       moreCondition: false,
       isSearch: false,
       goodsOrderNum: '',
+      currentPage3: 5,
       select: {
         orderSelect: '全部',
         datetime1: '',
@@ -135,9 +136,9 @@ export default {
     submit () {
       console.log(this.goodsOrderNum)
     },
-    changePageNum (index = 1) {
-      console.log(index, 'this pageNum')
+    changeValue (data, index = 1) {
       this.pageNum = index
+      this.all = this.data
     },
     // 格式化时间 2019-01-22 17:24:08
     formatDate (date) {
@@ -153,6 +154,12 @@ export default {
       let s = date.getSeconds()
       s = s < 10 ? ('0' + s) : s
       return y + '-' + m + '-' + d + ' ' + h + ':' + mi + ':' + s
+    },
+    handleSizeChange (val) {
+      console.log(`每页 ${val} 条`)
+    },
+    handleCurrentChange (val) {
+      console.log(`当前页: ${val}`)
     }
   },
   watch: {
@@ -163,7 +170,12 @@ export default {
 }
 </script>
 <style scoped>
-/*查找条件*/
+  .el-pagination {
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 30px;
+    margin-top: 30px;
+  }
   .not-data {
     height: 130px;
     line-height: 130px;
@@ -271,7 +283,6 @@ export default {
     margin-right: 10px;
   }
   .shop .shop-handle .page {
-    display: inline-block;
     float: right;
   }
   .shop .shop-handle .confirm-btn {
@@ -279,10 +290,9 @@ export default {
     background: rgba(255, 255, 255, 1);
     border: 1px solid rgba(199, 199, 199, 1);
     border-radius: 3px;
+    height: 24px;
     line-height: 24px;
-    margin: 0 0px 0 10px;
-    font-size: 14px;
-    color: rgba(98, 98, 98, 1);
+    margin-left: 10px;
   }
   .shop .shop-handle .page-btn {
     width: 59px;
@@ -309,31 +319,5 @@ export default {
     width: 719px;
     border-left: none;
     display: flex;
-  }
-  .content .shopPage {
-    text-align: right;
-    margin-top: 30px;
-    padding-right: 17px;
-  }
-  .content .shopPage button,
-  .content .shopPage input {
-    box-sizing: border-box;
-    width: 80px;
-    height: 32px;
-    background: rgba(255, 255, 255, 1);
-    border: 1px solid rgba(220, 220, 220, 1);
-    border-radius: 3px;
-    margin: 0 10px 0 10px;
-    text-align: center;
-    font-size: 14px;
-    font-weight: 300;
-    color: rgba(220, 220, 220, 1);
-  }
-  .content .shopPage .skip {
-    width: 60px;
-    font-size: 16px;
-    font-family: SourceHanSansCN-Normal;
-    font-weight: 400;
-    color: rgba(47, 47, 47, 1);
   }
 </style>

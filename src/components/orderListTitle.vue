@@ -45,12 +45,10 @@ export default {
     tab (command) {
       console.log(command, 'tab')
       this.listSelectStaus = command.label
-      // 修改父页面的pageNum
-      this.$emit('changePageNum', 1)
-      this.pageNum = 1
       this.API.userOrder({userName: this.$cookies.get('user-key'), status: command.index, pageNum: this.pageNum, pageSize: 15}).then(res => {
-        // 选择的交易状态数据替换所有订单数据
-        this.all = res
+        // 选择的交易状态数据替换所有订单数据、父页面的pageNum
+        this.pageNum = 1
+        this.$emit('changePageNum', res)
       })
     }
   }

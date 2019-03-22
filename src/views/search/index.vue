@@ -1,7 +1,7 @@
 <template>
   <div id="search-index">
     <shortcut id="headTop"></shortcut>
-    <headerNav :searchList="searchList" @showSearch="search($event, 4)"></headerNav>
+    <headerNav :searchList="searchList" @showSearch="search($event)"></headerNav>
     <homeNav></homeNav>
     <!--list-content-->
     <div class="main">
