@@ -7,8 +7,8 @@
           <span :class="{topTabActive:focusGoods===false}" @click="changeActive(false, '/user/userCollectShop')">店铺关注</span>
         </div>
         <div class="top_search">
-          <input type="text" placeholder="请输入店铺名称">
-          <button>搜索</button>
+          <input type="text" placeholder="请输入店铺名称" v-model="value">
+          <button @click="findShop()">搜索</button>
         </div>
       </div>
       <div class="content">
@@ -107,15 +107,25 @@
                 </div>
               </div>
             </li>
+            <li class="list-item not-data" v-if="!temList.length">
+              你的收藏中没有与“{{value}}”相关的店铺
+            </li>
           </ul>
         </div>
         <div class="block">
-          <el-pagination
+          <el-pagination v-if="focusGoods"
             @current-change="handleCurrentChange"
             :current-page.sync="currentPage"
             :page-size="2"
             layout="prev, pager, next, jumper"
-            :total="4">
+            :total="5">
+          </el-pagination>
+          <el-pagination v-else
+            @current-change="handleCurrentChange"
+            :current-page.sync="currentPage"
+            :page-size="2"
+            layout="prev, pager, next, jumper"
+            :total="5">
           </el-pagination>
         </div>
       </div>
@@ -142,7 +152,8 @@ export default {
       addressThreeId: '',
       cityList: [],
       countyList: [],
-      destination: '请选择'
+      destination: '请选择',
+      value: ''
     }
   },
   props: {},
@@ -196,6 +207,24 @@ export default {
         })
       })
     },
+    findShop () {
+      if (this.focusGoods) {
+        this.API.searchCollectGoods({userName: this.username, title: this.value}).then(res => {
+          this.goodsList = res
+          console.log(res, 'goods')
+        })
+      } else {
+        this.temList = []
+        this.API.searchCollectShops({userName: this.username, sellerName: this.value}).then(res => {
+          this.storeList = res
+          console.log(res, this.storeList, 'store')
+          this.storeList.forEach(item => {
+            console.log(item, 'bug')
+            this.request(item.sellerId, item)
+          })
+        })
+      }
+    },
     isAll () {
       console.log('isChange')
     },
@@ -231,6 +260,12 @@ export default {
 <style scoped>
   *{
     box-sizing: border-box;
+  }
+  .not-data {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
   }
   .con-wrap{
     padding-top: 5px;

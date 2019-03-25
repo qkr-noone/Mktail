@@ -2,7 +2,7 @@
   <div class="content" data-attr="second 待发货">
     <orderListSearch></orderListSearch>
     <div class="shop">
-      <orderListTitle></orderListTitle>
+      <orderListTitle @changePageNum="changeValue($event)"></orderListTitle>
       <div class="shop-handle">
         <div class="choose" v-if="waitSend.total">
           <input type="checkbox"/><span>全选</span>
@@ -19,9 +19,9 @@
       <div v-if="!waitSend.total" class="shop-list not-data">没有符合条件的商品</div>
     </div>
     <el-pagination  v-if="waitSend.total"
-      :page-size="100"
+      :page-size="15"
       layout="prev, pager, next, jumper"
-      :total="1000">
+      :total="waitSend.total">
     </el-pagination>
   </div>
 </template>
@@ -42,13 +42,12 @@ export default {
     // 待支付
     this.API.userOrder({ userName: this.$cookies.get('user-key'), status: 3, pageNum: this.pageNum, pageSize: 15 }).then(res => {
       this.waitSend = res
-      console.log('待fh', res)
     })
   },
   methods: {
-    changePageNum (index = 1) {
-      console.log(index, 'this pageNum')
+    changeValue (data, index = 1) {
       this.pageNum = index
+      this.waitSend = data
     }
   }
 }

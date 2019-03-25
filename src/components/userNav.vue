@@ -106,7 +106,7 @@ export default {
     margin: 0 auto;
   }
   .h-logo {
-    padding:29px 11px 29px 23px;
+    padding:29px 11px 29px 0px;
   }
   .mk-head{
     width: 1226px;
@@ -198,7 +198,7 @@ export default {
     height:35px;
     background:rgba(246,246,246,1);
     border:1px solid rgba(198,198,198,1);
-    margin-right: 68px;
+    margin-right: 1px;
     display: flex;
     justify-content: center;
     align-items: center;

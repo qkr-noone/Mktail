@@ -34,7 +34,7 @@
         <a v-else-if="list.status === 4">已发货</a>
         <a v-else-if="list.status === 5">已完成</a>
         <a v-else-if="list.status === 6">已退款</a>
-        <a>订单详情</a>
+        <router-link :to="{path: '/trace/orderDetail', query: {orderId: list.id}}">查看详情</router-link>
         <a class="text-red" v-if="list.status===4 || list.status ===5">查看物流</a>
       </li>
       <li class="list-item">
@@ -42,7 +42,7 @@
         <a v-if="list.status === 1">取消订单</a>
         <a v-if="list.status === 2">取消详情</a>
         <a v-if="list.status === 2">再次购买</a>
-        <a v-if="list.status === 3">查看详情</a>
+        <router-link :to="{path: '/trace/orderDetail', query: {orderId: list.id}}" v-if="list.status === 3">查看详情</router-link>
         <a v-if="list.status === 4" class="fast-pay">确认收货</a>
         <a v-if="list.status === 5">申请开票</a>
         <a v-if="list.status === 5">追加评论</a>

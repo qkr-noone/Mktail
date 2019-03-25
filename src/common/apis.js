@@ -102,10 +102,14 @@ export default {
   userGoodsShopNum: data => http.get('/userCollect/userCollect/getGoodsCollectCountAndSellersCollectCount', data),
   // 用户订单列表
   userOrder: data => http.get('/cart/order/findOrderByUsernameAndStatus', data),
-  // 用户关注类型
+  // 用户关注类型 (1: 关注商品，2: 关注店铺)
   userCollectType: data => http.get('/userCollect/userCollect/findUserCollectByTypeAndUserName', data),
-  // 收藏店铺商品
+  // 收藏店铺 店铺里的商品
   goodsBySeller: data => http.get('/userCollect/userCollect/findGoodsBySeller', data),
+  // 查询 用户关注的店铺
+  searchCollectShops: data => http.get('/userCollect/userCollect', data),
+  // 查询 用户关注的商品
+  searchCollectGoods: data => http.get('/userCollect/userCollect/searchGoodCollect', data),
   // 获取用户的详细信息
   userBaseInfo: data => http.get('/personData/personData/findUserInfoByUserName', data),
   // 修改用户的详细信息

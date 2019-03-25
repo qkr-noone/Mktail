@@ -64,17 +64,17 @@
       <orderListTitle @changePageNum="changeValue($event)"></orderListTitle>
       <div class="shop-handle">
         <div class="choose" v-if="all.total">
-          <input type="checkbox"/><span>全选</span>
+          <input type="checkbox" @click="selectAll"/><span>全选</span>
           <button class="confirm-btn">合并付款</button>
           <button class="confirm-btn">批量确认收货</button>
         </div>
         <div class="page">
-          <button class="page-btn">上一页</button>
-          <button class="page-btn forbidden">下一页</button>
+          <button class="page-btn" :class="{'forbidden':pageNum === 1}" @click="prevPage">上一页</button>
+          <button class="page-btn" :class="{'forbidden':pageNum * pageSize >= all.total}" @click="nextPage">下一页</button>
         </div>
       </div>
       <div class="shop-list" v-for="list in all.rows" :key="list.id">
-        <orderListContentHead :list="list"></orderListContentHead>
+        <orderListContentHead :list="list" :selectArr="selectArr"></orderListContentHead>
         <orderListContent :list="list"></orderListContent>
       </div>
       <div v-if="!all.total" class="shop-list not-data">没有符合条件的商品</div>
@@ -82,10 +82,10 @@
     <el-pagination  v-if="all.total"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
-      :current-page.sync="currentPage3"
-      :page-size="100"
+      :current-page.sync="pageNum"
+      :page-size="pageSize"
       layout="prev, pager, next, jumper"
-      :total="1000">
+      :total="all.total">
     </el-pagination>
   </div>
 </template>
@@ -99,7 +99,6 @@ export default {
       moreCondition: false,
       isSearch: false,
       goodsOrderNum: '',
-      currentPage3: 5,
       select: {
         orderSelect: '全部',
         datetime1: '',
@@ -110,7 +109,9 @@ export default {
         ensureSelect: '全部'
       },
       all: '', // 所有订单
-      pageNum: 1
+      pageNum: 1,
+      pageSize: 3, // 每页的数量
+      selectArr: [] // 选中的列表
     }
   },
   components: { orderListTitle, orderListContentHead, orderListContent },
@@ -122,9 +123,8 @@ export default {
   },
   mounted () {
     // 所有订单
-    this.API.userOrder({userName: this.$cookies.get('user-key'), pageNum: this.pageNum, pageSize: 15}).then(res => {
+    this.API.userOrder({userName: this.$cookies.get('user-key'), pageNum: this.pageNum, pageSize: this.pageSize}).then(res => {
       this.all = res
-      console.log(this.all)
     })
   },
   methods: {
@@ -138,7 +138,7 @@ export default {
     },
     changeValue (data, index = 1) {
       this.pageNum = index
-      this.all = this.data
+      this.all = data
     },
     // 格式化时间 2019-01-22 17:24:08
     formatDate (date) {
@@ -160,11 +160,38 @@ export default {
     },
     handleCurrentChange (val) {
       console.log(`当前页: ${val}`)
+    },
+    // 全选
+    selectAll (event) {
+      if (!event.currentTarget.checked) this.selectArr = []
+      else {
+        this.selectArr = []
+        this.all.rows.forEach(item => {
+          this.selectArr.push(item.id)
+        })
+      }
+    },
+    nextPage () {
+      if (this.pageNum * this.pageSize < this.all.total) {
+        this.pageNum++
+      }
+      console.log('nextPage')
+    },
+    prevPage () {
+      console.log('prevPage')
+      if (this.pageNum > 1) {
+        this.pageNum--
+      }
     }
   },
   watch: {
     bridge () {
       this.isSearch = true
+    },
+    pageNum (newPage) {
+      this.API.userOrder({userName: this.$cookies.get('user-key'), pageNum: this.pageNum, pageSize: this.pageSize}).then(res => {
+        this.all = res
+      })
     }
   }
 }
@@ -301,11 +328,11 @@ export default {
     border: 1px solid rgba(239, 239, 239, 1);
     border-radius: 3px;
     font-size: 13px;
-    color: rgba(206, 206, 206, 1);
+    cursor: pointer;
   }
   .shop .forbidden {
     background: rgba(244, 244, 244, 1) !important;
-    color: rgba(98, 98, 98, 1);
+    color: #c0c4cc;
   }
   .shop .shop-list {
     margin-top: 14px;

@@ -321,6 +321,13 @@ router = new Router({
     {
       path: '/live/factory',
       component: resolve => require(['@/views/live/factory'], resolve)
+    },
+    { // 订单详情
+      path: '/trace/orderDetail',
+      meta: {
+        isLogin: true
+      },
+      component: resolve => require(['@/views//trace/orderDetail'], resolve)
     }
   ]
 })

@@ -45,7 +45,11 @@ export default {
     tab (command) {
       console.log(command, 'tab')
       this.listSelectStaus = command.label
-      this.API.userOrder({userName: this.$cookies.get('user-key'), status: command.index, pageNum: this.pageNum, pageSize: 15}).then(res => {
+      let arg = {userName: this.$cookies.get('user-key'), pageNum: this.pageNum, pageSize: 15}
+      if (command.index) {
+        Object.assign(arg, {status: command.index})
+      }
+      this.API.userOrder(arg).then(res => {
         // 选择的交易状态数据替换所有订单数据、父页面的pageNum
         this.pageNum = 1
         this.$emit('changePageNum', res)
@@ -77,10 +81,13 @@ export default {
   .two, .three, .four {
     width: 85px;
   }
+  .five {
+    width: 120px;
+  }
   .six {
     width: 116px;
   }
-  .five, .seven {
+  .seven {
     flex-grow: 1
    }
 </style>

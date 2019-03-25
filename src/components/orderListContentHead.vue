@@ -1,6 +1,6 @@
 <template>
   <div class="shop-info">
-    <input type="checkbox" />
+    <input type="checkbox" :value="list.id" v-model="selectArr"/>
     <span class="date">{{list.createTime}}</span>
     <span class="order-num">订单号：<span>{{list.id}}</span></span>
     <span class="name">{{list.sellerName}}</span>
@@ -17,6 +17,9 @@ export default {
   props: {
     list: {
       type: [Object, Array]
+    },
+    selectArr: {
+      type: [Array]
     }
   }
 }

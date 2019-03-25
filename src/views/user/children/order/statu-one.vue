@@ -2,7 +2,7 @@
   <div class="content" data-attr="one 待支付">
     <orderListSearch></orderListSearch>
     <div class="shop">
-      <orderListTitle></orderListTitle>
+      <orderListTitle @changePageNum="changeValue($event)"></orderListTitle>
       <div class="shop-handle">
         <div class="choose" v-if="waitPay.total">
           <input type="checkbox"/><span>全选</span>
@@ -20,9 +20,9 @@
       <div v-if="!waitPay.total" class="shop-list not-data">没有符合条件的商品</div>
     </div>
     <el-pagination  v-if="waitPay.total"
-      :page-size="100"
+      :page-size="15"
       layout="prev, pager, next, jumper"
-      :total="1000">
+      :total="waitPay.total">
     </el-pagination>
   </div>
 </template>
@@ -46,9 +46,9 @@ export default {
     })
   },
   methods: {
-    changePageNum (index = 1) {
-      console.log(index, 'this pageNum')
+    changeValue (data, index = 1) {
       this.pageNum = index
+      this.waitPay = data
     }
   }
 }

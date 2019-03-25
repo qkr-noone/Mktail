@@ -2,7 +2,7 @@
   <div class="content" data-attr="four 待评价">
     <orderListSearch></orderListSearch>
     <div class="shop">
-      <orderListTitle></orderListTitle>
+      <orderListTitle @changePageNum="changeValue($event)"></orderListTitle>
       <div class="shop-handle">
         <div class="choose" v-if="waitRate.total">
           <input type="checkbox"/><span>全选</span>
@@ -45,9 +45,9 @@ export default {
     })
   },
   methods: {
-    changePageNum (index = 1) {
-      console.log(index, 'this pageNum')
+    changeValue (data, index = 1) {
       this.pageNum = index
+      this.waitRate = data
     }
   }
 }
