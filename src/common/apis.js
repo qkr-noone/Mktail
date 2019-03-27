@@ -102,6 +102,8 @@ export default {
   userGoodsShopNum: data => http.get('/userCollect/userCollect/getGoodsCollectCountAndSellersCollectCount', data),
   // 用户订单列表
   userOrder: data => http.get('/cart/order/findOrderByUsernameAndStatus', data),
+  // 订单查询过滤
+  orderFilter: data => http.post('/cart/order/searchOrderByMap', data),
   // 用户关注类型 (1: 关注商品，2: 关注店铺)
   userCollectType: data => http.get('/userCollect/userCollect/findUserCollectByTypeAndUserName', data),
   // 收藏店铺 店铺里的商品
@@ -110,6 +112,8 @@ export default {
   searchCollectShops: data => http.get('/userCollect/userCollect', data),
   // 查询 用户关注的商品
   searchCollectGoods: data => http.get('/userCollect/userCollect/searchGoodCollect', data),
+  // 删除用户关注信息
+  deleteCollect: data => http.get('/userCollect/userCollect/delUserCollectByDataId', data),
   // 获取用户的详细信息
   userBaseInfo: data => http.get('/personData/personData/findUserInfoByUserName', data),
   // 修改用户的详细信息

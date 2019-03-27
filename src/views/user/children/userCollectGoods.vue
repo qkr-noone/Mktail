@@ -37,8 +37,9 @@
               </ul>
             </div>
             <div class="content-item-right">
-              <el-checkbox v-model="checked" @change="isAll">全选</el-checkbox>
-              <button class="btn-select">批量操作</button>
+              <el-checkbox v-model="checked" @change="isAll" v-if="isShow">全选</el-checkbox>
+              <button class="btn-select has_pointer" v-if="isShow"  @click="delList()">取消关注</button>
+              <button class="btn-select has_pointer" ref="set" @click="task()">批量操作</button>
               <span class="select flow-addr">
                 <span>{{destination}}</span>
                 <i class="el-icon-arrow-down"></i>
@@ -67,11 +68,15 @@
                 <!-- <a>降价通知</a> -->
                 <a>加入购物车</a>
               </p>
-              <div class="mask">
-                <div class="mask-check select">
+              <div class="cancel" @click="negative(goods.goodsId)" v-if="!isShow">取消关注</div>
+              <div class="has_pointer mask" :class="{'show': isShow}" @click="toggle(goods.goodsId)">
+                <div class="has_pointer mask-check" :class="{'select': isChoose.indexOf(goods.goodsId) >= 0}">
                   <i class="el-icon-check"></i>
                 </div>
               </div>
+            </li>
+            <li class="goods-item not-data" v-if="!goodsList.length">
+              你的收藏中没有与“{{value}}”相关的商品
             </li>
           </ul>
         </div>
@@ -79,53 +84,55 @@
           <ul>
             <li class="list-item" v-for="(store,i) in temList" :key='i'>
               <div class="store-info">
-                <img :src="store.shops.logoPic">
+                <!-- <img :src="store.shops.logoPic"> -->
+                <a href="javascript:;"><img :src="store.shops.logoPic"></a>
                 <p class="store-title">{{store.shops.name}}</p>
                 <el-rate v-model="starValue" disabled text-color="#FF9900" :colors="['#FF9900', '#FF9900', '#FF9900']"  class="store-star"></el-rate>
                 <p class="etc">粉丝：<span class="ect-num">{{store.shops.sellerFans}}</span></p>
                 <p class="contact-enter">
-                  <a class="contact">联系店铺</a>
-                  <a class="enter">进入店铺</a>
+                  <a class="contact has_pointer">联系店铺</a>
+                  <a class="enter has_pointer">进入店铺</a>
                 </p>
+                <div class="cancel" @click="negative(store.shops.sellerId)">取消关注</div>
               </div>
               <ul class="sto-ul">
                 <div class="cell-product">
-                   <a class="cellProductActive">热销</a>
-                   <a >新品<span>(0)</span></a>
+                   <a class="has_pointer cellProductActive">热销</a>
+                   <a class="has_pointer">新品<span>(0)</span></a>
                  </div>
                 <div class="sto-li">
                   <li class="store-item " v-if="storeGoods && i < 5" v-for="(storeGoods,i) in store.child" :key='i'>
-                    <img :src="storeGoods.image">
+                    <img :src="storeGoods.image" class="has_pointer">
                     <p class="storeItem-title">{{storeGoods.title}}</p>
                     <p class="storeItem-price">¥{{storeGoods.price}}</p>
                   </li>
                 </div>
               </ul>
-              <div class="mask">
-                <div class="mask-check select">
+              <div class="has_pointer mask" :class="{'show': isShow}" @click="toggle(store.shops.sellerId)">
+                <div class="has_pointer mask-check" :class="{'select': isChoose.indexOf(store.shops.sellerId) >= 0}">
                   <i class="el-icon-check"></i>
                 </div>
               </div>
             </li>
-            <li class="list-item not-data" v-if="!temList.length">
+            <li class="list-item not-data" v-if="!storeList.length">
               你的收藏中没有与“{{value}}”相关的店铺
             </li>
           </ul>
         </div>
         <div class="block">
-          <el-pagination v-if="focusGoods"
-            @current-change="handleCurrentChange"
+          <el-pagination v-if="focusGoods && goodsList.length"
+            @current-change="handleCurrentChangeGoods"
             :current-page.sync="currentPage"
-            :page-size="2"
+            :page-size="pageSize"
             layout="prev, pager, next, jumper"
-            :total="5">
+            :total="goodsList.length">
           </el-pagination>
-          <el-pagination v-else
-            @current-change="handleCurrentChange"
+          <el-pagination v-else-if="!focusGoods && storeList.length"
+            @current-change="handleCurrentChangeShops"
             :current-page.sync="currentPage"
-            :page-size="2"
+            :page-size="pageSize"
             layout="prev, pager, next, jumper"
-            :total="5">
+            :total="storeList.length">
           </el-pagination>
         </div>
       </div>
@@ -142,8 +149,8 @@ export default {
       storeList: [],
       temList: [], // 临时列表
       starValue: 5, // 评价星
-      currentPage: 0, // 当前页码
-      pageSize: 2, // 每页数
+      currentPage: 1, // 当前页码
+      pageSize: 10, // 每页数
       checked: false,
       addrOptions: [],
       addressOne: '',
@@ -153,7 +160,9 @@ export default {
       cityList: [],
       countyList: [],
       destination: '请选择',
-      value: ''
+      value: '',
+      isShow: false,
+      isChoose: [] // 选中删除的列表
     }
   },
   props: {},
@@ -177,18 +186,32 @@ export default {
     // 切换
     changeActive (val, path) {
       this.focusGoods = val
+      // 初始化
+      this.currentPage = 1
+      this.value = ''
+      this.isShow = false
+      this.$refs.set.innerHTML = '批量操作'
+      this.checked = false
+      this.isChoose = []
+      this.requestGoods()
+      if (this.focusGoods) this.requestGoods()
+      else this.requestStore()
       let queryList = this.$route.query
       this.$router.push({path: path, query: queryList})
     },
-    request: function (sellerId, shops) {
+    request (sellerId, shops) {
       this.API.goodsBySeller({sellerId: sellerId}).then(res => {
         if (res.success === false) return false
         this.temList.push({child: res, shops: shops})
       })
+      console.log(this.temList, 'tem')
     },
-    handleCurrentChange (val) {
+    handleCurrentChangeGoods (val) {
       this.currentPage = val
       this.requestGoods()
+    },
+    handleCurrentChangeShops (val) {
+      this.currentPage = val
       this.requestStore()
     },
     requestGoods () {
@@ -201,12 +224,13 @@ export default {
       this.temList = []
       this.API.userCollectType({typeId: 2, userName: this.username, pageNum: this.currentPage, pageSize: this.pageSize}).then(res => {
         this.storeList = res
-        console.log('gzdp', res)
         this.storeList.forEach(item => {
           this.request(item.sellerId, item)
         })
+        console.log(this.storeList, 10)
       })
     },
+    // 查询
     findShop () {
       if (this.focusGoods) {
         this.API.searchCollectGoods({userName: this.username, title: this.value}).then(res => {
@@ -225,8 +249,62 @@ export default {
         })
       }
     },
+    // 删除 关注
+    negative (id) {
+      this.$confirm('不再关注该店铺, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.API.deleteCollect({userName: this.username, dataId: id}).then(res => {
+          if (res.success === false) {
+            this.$message({
+              type: 'fail',
+              message: '删除失败!'
+            })
+            return
+          }
+          if (this.focusGoods) this.requestGoods()
+          else this.requestStore()
+        })
+      }).catch(() => {})
+    },
+    // 批量操作
+    task (event) {
+      this.isShow = !this.isShow
+      this.checked = false
+      this.isChoose = []
+      if (this.isShow) this.$refs.set.innerHTML = '完成'
+      else this.$refs.set.innerHTML = '批量操作'
+    },
+    toggle (id) {
+      if (this.isChoose.indexOf(id) >= 0) {
+        this.$delete(this.isChoose, this.isChoose.indexOf(id))
+        this.checked = false
+      } else {
+        this.isChoose.push(id)
+        if (this.isChoose.length === this.storeList.length) this.checked = true
+      }
+      console.log(this.isChoose.length)
+    },
+    // 批量删除
+    delList () {
+      if (!this.isChoose.length) {
+        this.$message({
+          message: '请先勾选店铺哦'
+        })
+        return
+      }
+      let tem = this.isChoose.join('')
+      this.negative(tem)
+    },
     isAll () {
-      console.log('isChange')
+      if (this.checked) {
+        this.storeList.forEach(item => {
+          if (this.isChoose.indexOf(item.sellerId) === -1) this.isChoose.push(item.sellerId)
+        })
+      } else this.isChoose = []
+      console.log(this.isChoose.length)
     },
     tabAddr (provinceid, province) {
       this.addressOne = ''
@@ -261,11 +339,17 @@ export default {
   *{
     box-sizing: border-box;
   }
+  .has_pointer {
+    cursor: pointer;
+  }
   .not-data {
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 16px;
+  }
+  .goodsList .goods-item.not-data{
+    border: none;
   }
   .con-wrap{
     padding-top: 5px;
@@ -334,7 +418,7 @@ export default {
     align-items: center;
   }
   .content-item-right .btn-select{
-    width:85px;
+    padding: 0 12px;
     height:27px;
     background:rgba(247,247,247,1);
     border:1px solid rgba(183,183,183,1);
@@ -477,12 +561,15 @@ export default {
   }
   .mask{
     width: 100%;
-    /*height: 100%;*/
+    height: 100%;
     position: absolute;
     left: 0;
     top: 0;
     background-color: rgba(0, 0, 0, 0.3);
-    cursor: pointer;
+    display: none;
+  }
+  .goods-item .mask.show, .list-item .mask.show {
+    display: block;
   }
   .mask-check{
     display: flex;
@@ -495,7 +582,6 @@ export default {
     top: 0px;
     width: 40px;
     height: 40px;
-    cursor: pointer;
     background-color: rgba(0, 0, 0, 0.5);
   }
   .select.mask-check{
@@ -528,13 +614,33 @@ export default {
     border-right:1px solid rgba(232,232,232,1);
     position: relative;
   }
+  .cancel {
+    position: absolute;
+    display: none;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.4);
+    color: white;
+    cursor: pointer;
+  }
+  .goods-item:hover .cancel, .storeList .list-item .store-info:hover .cancel{
+    display: block;
+  }
   .storeList .list-item{
     display: flex;
   }
-  .storeList .list-item .store-info>img{
+  .storeList .list-item .store-info> a{
     margin: 23px 0 13px 0;
     width:112px;
     height:112px;
+  }
+  .storeList .list-item .store-info> a img {
+    width: 100%;
+    height: 100%;
   }
   .storeList .list-item .store-info .store-title{
     font-size:20px;

@@ -125,16 +125,51 @@ export default {
     // 所有订单
     this.API.userOrder({userName: this.$cookies.get('user-key'), pageNum: this.pageNum, pageSize: this.pageSize}).then(res => {
       this.all = res
+      console.log(res)
     })
   },
   methods: {
     choose () {
       let one = this.select.datetime1 ? this.formatDate(this.select.datetime1) : this.select.datetime1
       let two = this.select.datetime2 ? this.formatDate(this.select.datetime2) : this.select.datetime2
-      console.log(one, two, this.select.tradeSelect, this.select.orderSelect, this.select.seller, this.select.recomSelect, this.select.ensureSelect)
+      console.log(one, two, this.select.tradeSelect, this.select.orderSelect, this.select.seller, this.select.recomSelect, this.select.ensureSelect, this.$cookies.get('userInfo').username)
+      this.pageNum = 1
+      let map = {
+        keyword: '',
+        sellerName: this.select.seller,
+        status: '',
+        startTime: one,
+        endTime: two,
+        username: this.$cookies.get('userInfo').username,
+        pageNum: this.pageNum,
+        pageSize: this.pageSize
+      }
+      this.API.orderFilter(map).then(res => {
+        console.log(res)
+      })
     },
     submit () {
-      console.log(this.goodsOrderNum)
+      this.pageNum = 1
+      if (!this.goodsOrderNum) {
+        this.$notify.warning({
+          title: '提示',
+          message: '请输入搜索条件'
+        })
+        return
+      }
+      let map = {
+        keyword: this.goodsOrderNum,
+        sellerName: '',
+        status: '',
+        startTime: '',
+        endTime: '',
+        username: this.$cookies.get('userInfo').username,
+        pageNum: this.pageNum,
+        pageSize: this.pageSize
+      }
+      this.API.orderFilter(map).then(res => {
+        console.log(res)
+      })
     },
     changeValue (data, index = 1) {
       this.pageNum = index
@@ -336,7 +371,7 @@ export default {
   }
   .shop .shop-list {
     margin-top: 14px;
-    width: 1065px;
+    width: 1053px;
     background: rgba(255, 255, 255, 1);
     border: 1px solid rgba(191, 191, 191, 1);
     color: #414141;

@@ -171,126 +171,6 @@
               <router-view></router-view>
             </transition>
           </div>
-          <!-- <el-tabs  :tab-position="tabPosition" style="background-color: #fff">
-            <el-tab-pane label="个人信息">
-              <div class="con-wrap">
-                <el-tabs type="border-card">
-                  <el-tab-pane label="基本信息" class="user-info">
-                    <div class="user-info-wrap">
-                      <div class="user-info-list">
-                        <span class="label">用户名：</span>
-                        <div class="uname">
-                          <strong>1825513892</strong><a class="change" >修改</a>
-                        </div>
-                      </div>
-                      <div class="user-info-list">
-                        <span class="label">昵称：</span>
-                        <div>
-                          <input class="text" type="text" name=""><i class="el-icon-success"></i><i class="el-icon-error"></i>
-                        </div>
-                      </div>
-                      <div class="user-info-list">
-                        <span class="label">性别：</span>
-                        <div>
-                          <input type="radio" name="sex" class="mkradio" value="0"><label class="mr10">男</label>
-                          <input type="radio" name="sex" class="mkradio" value="1"><label class="mr10">女</label>
-                          <input type="radio" name="sex" class="mkradio" value="2"><label class="mr10">保密</label>
-                        </div>
-                      </div>
-                      <div class="user-info-list">
-                        <span class="label">生日：</span>
-                        <div>
-                          <el-date-picker v-model="userBirthday" type="date" placeholder="选择日期"> </el-date-picker>
-                        </div>
-                      </div>
-                      <div class="user-info-list">
-                        <span class="label">邮箱：</span>
-                        <div class="email">
-                          <strong>1222@qq.com</strong><a class="change" >修改</a><span>已验证</span>
-                        </div>
-                      </div>
-                      <div class="user-info-list">
-                        <span class="label"></span>
-                        <div class="submit">
-                          <a>提交</a>
-                        </div>
-                      </div>
-                    </div>
-                  </el-tab-pane>
-                  <el-tab-pane label="头像照片">
-                    <p class="user-pic-tip ">当前头像（点击头像可修改，头像只能是JPG格式，且不能超过2M 哦）</p>
-                    <el-upload
-                      class="avatar-uploader"
-                      action="https://jsonplaceholder.typicode.com/posts/"
-                      :show-file-list="false"
-                      :on-success="handleAvatarSuccess"
-                      :before-upload="beforeAvatarUpload">
-                      <img v-if="userImageUrl" :src="userImageUrl" class="avatar">
-                      <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                    </el-upload>
-                    <div class="user-info-list">
-                      <span class="label"></span>
-                      <div class="submit save">
-                        <a>保存</a>
-                      </div>
-                    </div>
-                  </el-tab-pane>
-                </el-tabs>
-              </div>
-            </el-tab-pane>
-            <el-tab-pane label="地址管理">
-              <div class="con-wrap">
-                <div class="address">
-                  <div>
-                    <a>新增收货地址</a>
-                    <P>您已创建8 个收货地址，最多可创建20个</P>
-                  </div>
-                </div>
-                <div class="address-wrap">
-                  <ul class="address-ul">
-                    <li class="address-li">
-                      <div class="address-name">
-                        <a>公司</a><i @click="addressName" class="el-icon-setting"></i>
-                      </div>
-                      <div class="add-box">
-                        <div class="add-info">
-                          <div><span>收货人：</span><span>柴丽奇</span></div>
-                          <div><span>所在地区：</span><span>湖南长沙市岳麓区城区</span></div>
-                          <div><span>地址：</span><span>咸嘉湖街道枫林二路139号湖南财政经济学院</span></div>
-                          <div><span>手机：</span><span>18804321999</span></div>
-                          <div><span>固定电话：</span><span>0731835555</span></div>
-                          <div><span>电子邮件：</span><span>1666275555@qq.com</span></div>
-                        </div>
-                        <div class="add-change">
-                          <span>设为默认</span>
-                          <span>编辑</span>
-                          <span>删除</span>
-                        </div>
-                      </div>
-                    </li>
-                    <li class="address-li">
-                      <div class="address-name"><a>公司</a><i class="el-icon-setting"></i></div>
-                      <div class="add-box">
-                        <div class="add-info">
-                          <div><span>收货人：</span><span>柴丽奇</span></div>
-                          <div><span>所在地区：</span><span>湖南长沙市岳麓区城区</span></div>
-                          <div><span>地址：</span><span>咸嘉湖街道枫林二路139号湖南财政经济学院</span></div>
-                          <div><span>手机：</span><span>18804321999</span></div>
-                          <div><span>固定电话：</span><span>0731835555</span></div>
-                          <div><span>电子邮件：</span><span>1666275555@qq.com</span></div>
-                        </div>
-                        <div class="add-change">
-                          <span>设为默认</span>
-                          <span>编辑</span>
-                          <span>删除</span>
-                        </div>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </el-tab-pane>
-          </el-tabs> -->
         </div>
         <div class="recommend" v-if="isOrder">
           <div class="recommend-top">
@@ -300,57 +180,8 @@
               <el-pagination small layout="prev, pager, next" :total="50"></el-pagination>
             </div>
           </div>
-          <div class="recommend-list">
-            <ul class="recommend-list">
-              <li class="list-item">
-                <img src="static/img/user/user_demo.png">
-                <p class="list-item-title">
-                  希箭HOROW 全铜冷热水龙头<br>
-                  单把双孔方形面盆龙头卫浴
-                </p>
-                <p class="price">￥549.00</p>
-              </li>
-              <li class="list-item">
-                <img src="static/img/user/user_demo.png">
-                <p class="list-item-title">
-                  希箭HOROW 全铜冷热水龙头<br>
-                  单把双孔方形面盆龙头卫浴
-                </p>
-                <p class="price">￥549.00</p>
-              </li>
-              <li class="list-item">
-                <img src="static/img/user/user_demo.png">
-                <p class="list-item-title">
-                  希箭HOROW 全铜冷热水龙头<br>
-                  单把双孔方形面盆龙头卫浴
-                </p>
-                <p class="price">￥549.00</p>
-              </li>
-              <li class="list-item">
-                <img src="static/img/user/user_demo.png">
-                <p class="list-item-title">
-                  希箭HOROW 全铜冷热水龙头<br>
-                  单把双孔方形面盆龙头卫浴
-                </p>
-                <p class="price">￥549.00</p>
-              </li>
-              <li class="list-item">
-                <img src="static/img/user/user_demo.png">
-                <p class="list-item-title">
-                  希箭HOROW 全铜冷热水龙头<br>
-                  单把双孔方形面盆龙头卫浴
-                </p>
-                <p class="price">￥549.00</p>
-              </li>
-              <li class="list-item">
-              <img src="static/img/user/user_demo.png">
-              <p class="list-item-title">
-                希箭HOROW 全铜冷热水龙头<br>
-                单把双孔方形面盆龙头卫浴
-              </p>
-              <p class="price">￥549.00</p>
-            </li>
-            </ul>
+          <div>
+            <youRecom></youRecom>
           </div>
         </div>
       </div>
@@ -361,6 +192,7 @@
 import shortcut from '@/components/shortcutHeader'
 import userNav from '@/components/userNav'
 import youLike from '@/components/youLike'
+import youRecom from '@/components/youRecom'
 export default {
   data () {
     return {
@@ -412,7 +244,7 @@ export default {
       isOrder: false
     }
   },
-  components: { shortcut, userNav, youLike },
+  components: { shortcut, userNav, youLike, youRecom },
   created () {
     this.$cookies.get('userInfo')
     let path = this.$route.path.split('/')[2]
@@ -589,7 +421,7 @@ export default {
   }
 /*为你推荐*/
   .recommend{
-    width:1200px;
+    width:1185px;
     height:312px;
     background:rgba(255,255,255,1);
     border:1px solid rgba(220,220,220,1);
@@ -597,39 +429,15 @@ export default {
     padding: 14px 16px 27px 23px;
   }
   .recommend .recommend-top{
-    display: inline;
     display: flex;
     align-items: center;
-    justify-content: left;
+    justify-content: space-between;
     margin-bottom: 37px;
   }
   .recommend hr{
-    width:903px;
+    flex-grow: 1;
     color:#D8D8D8;
     opacity: 0.4;
-    display: inline-block;
     margin-left:40px;
-  }
-  .recommend .recommend-list{
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    flex-wrap: wrap;
-  }
-  .recommend-list .list-item{
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    justify-content: space-around;
-    font-size:16px;
-    font-weight:500;
-    color:rgba(0,0,0,1);
-    margin-right: 30px;
-  }
-  .recommend-list .list-item-title{
-    font-size:14px;
-    font-weight:300;
-    color:rgba(143,143,143,1);
-    margin: 7px 0 7px 0;
   }
 </style>

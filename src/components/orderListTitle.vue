@@ -60,7 +60,7 @@ export default {
 </script>
 <style scoped>
   .shop-title {
-    width: 1065px;
+    width: 1053px;
     height: 40px;
     background: rgba(245, 245, 245, 1);
     border: 1px solid rgba(231, 231, 231, 1);
@@ -81,10 +81,7 @@ export default {
   .two, .three, .four {
     width: 85px;
   }
-  .five {
-    width: 120px;
-  }
-  .six {
+  .five, .six {
     width: 116px;
   }
   .seven {

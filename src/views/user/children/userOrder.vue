@@ -70,7 +70,7 @@ export default {
   .con-wrap{
     background: #FFFFFF;
     margin-top:6px;
-    width:1095px;
+    width:1083px;
     padding-bottom: 10px;
     text-align: left;
     font-size:13px;
