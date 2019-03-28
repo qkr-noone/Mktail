@@ -315,8 +315,12 @@ router = new Router({
       component: resolve => require(['@/views/shops/index'], resolve)
     },
     {
-      path: '/3DShow',
+      path: '/3D/3DShow',
       component: resolve => require(['@/views/3D/3DShow'], resolve)
+    },
+    {
+      path: '/3D/index',
+      component: resolve => require(['@/views/3D/index'], resolve)
     },
     {
       path: '/live/factory',
@@ -334,6 +338,7 @@ router = new Router({
 
 router.beforeEach((to, from, next) => {
   // 占坑 this.$cookies 获取不到 => router.app.$cookies
+  // 可直接使用 VueCookies？   VueCookies.get('token')
   // console.log(this, router.app.$cookies)
   // to.matched
   let login = router.app.$cookies.get('user-key')

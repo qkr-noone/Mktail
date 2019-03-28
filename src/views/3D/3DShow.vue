@@ -52,25 +52,25 @@
           </div>
           <ul class="threeD-ul">
             <li class="threeD-li">
-              <a class="threeD-li-a Center" href="javascript:;" @click="threeDUrl('http://192.168.0.33:8080/qn18/index.html?spuid=10111054')">
+              <a class="threeD-li-a Center" href="javascript:;" @click="threeDUrl(IP + '/index.html?spuid=10111054')">
                 <img src="/static/img/3D_show2.png">
               </a>
               <h5 class="threeD-li-h">4寸PU电泳旱冰轮</h5>
             </li>
             <li class="threeD-li">
-              <a class="threeD-li-a Center" href="javascript:;" @click="threeDUrl('http://192.168.0.33:8080/qn18/index.html?spuid=10112268')">
+              <a class="threeD-li-a Center" href="javascript:;" @click="threeDUrl(IP + '/index.html?spuid=10112268')">
                 <img src="/static/img/3D_show3.png">
               </a>
               <h5 class="threeD-li-h">2寸金钻活动轮</h5>
             </li>
             <li class="threeD-li">
-              <a class="threeD-li-a Center" href="javascript:;" @click="threeDUrl('http://192.168.0.33:8080/qn18/index.html?spuid=10112269')">
+              <a class="threeD-li-a Center" href="javascript:;" @click="threeDUrl(IP + '/index.html?spuid=10112269')">
                 <img src="/static/img/3D_show4.png">
               </a>
               <h5 class="threeD-li-h">2寸白PU大班轮</h5>
             </li>
             <li class="threeD-li">
-              <a class="threeD-li-a Center" href="javascript:;" @click="threeDUrl('http://192.168.0.33:8080/qn18/index.html?spuid=10113046')">
+              <a class="threeD-li-a Center" href="javascript:;" @click="threeDUrl(IP + '/index.html?spuid=10113046')">
                 <img src="/static/img/3D_show1.png">
               </a>
               <h5 class="threeD-li-h">重型铸铁PU绿双轴刹车轮</h5>
@@ -121,7 +121,8 @@ export default {
           { required: true, message: '请输入E-mail', trigger: 'blur' },
           { min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur' }
         ]
-      }
+      },
+      IP: 'http://192.168.1.34:8080/qn47'
     }
   },
   components: { shortcut, live3Dheader, pageFooter },
@@ -130,7 +131,7 @@ export default {
       document.documentElement.scrollTop = 133
       document.body.scrollTop = 133
     })
-    let threeDUrl = 'http://192.168.0.33:8080/qn30/index.html?spuid=10112269'
+    let threeDUrl = this.IP + '/index.html?spuid=10112267' // http://192.168.0.34:8080/qn30/index.html?spuid=10112267
     // http://192.168.0.33:8080/qn5/ http://192.168.0.33:8080/qn17/index.html?spuid=10112269 http://120.79.93.197/we5/
     this.$refs.threeDSrc.src = threeDUrl
     this.is3Ding = true

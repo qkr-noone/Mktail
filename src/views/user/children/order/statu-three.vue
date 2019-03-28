@@ -48,7 +48,7 @@ export default {
   methods: {
     changeValue (data, index = 1) {
       this.pageNum = index
-      this.waitSend = data
+      this.waitConfirm = data
     }
   }
 }

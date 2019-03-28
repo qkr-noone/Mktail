@@ -9,7 +9,7 @@
       <li class="title-item six">
         <div class="group">
           <el-dropdown trigger="click" @command="tab">
-            <span class="el-dropdown-link">
+            <span class="el-dropdown-link has_pointer">
               {{listSelectStaus}}<i class="el-icon-arrow-down el-icon--right"></i>
             </span>
             <el-dropdown-menu slot="dropdown">
@@ -59,6 +59,9 @@ export default {
 }
 </script>
 <style scoped>
+  .has_pointer {
+    cursor: pointer;
+  }
   .shop-title {
     width: 1053px;
     height: 40px;

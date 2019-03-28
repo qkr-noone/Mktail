@@ -7,7 +7,7 @@
         <div class="tab-nav">
           <span class="tab-text">我的订单：</span>
           <ul class="tab-title">
-            <li class="tab-item" :class="{tabActive:isActive===0}" @click="changeTab(0, '/statu-z')"><a >所有订单</a></li>
+            <li class="tab-item" :class="{tabActive:isActive===0}" @click="changeTab(0, '/statu-z')"><a>所有订单</a></li>
             <li class="tab-item" :class="{tabActive:isActive===1}" @click="changeTab(1, '/statu-one')"><a>待付款<span class="text-red num">{{status.pendingPaymentCount}}</span></a></li>
             <li class="tab-item" :class="{tabActive:isActive===2}" @click="changeTab(2, '/statu-second')"><a>待发货<span class="text-red num">{{status.toBeShippedCount}}</span></a></li>
             <li class="tab-item" :class="{tabActive:isActive===3}" @click="changeTab(3, '/statu-three')"><a>待收货<span class="text-red num">{{status.toBeEvaluatedCount}}</span></a></li>
@@ -56,7 +56,6 @@ export default {
 }
 </script>
 <style scoped>
-@import '../../../assets/css/user/user.css';
 /*部分文字颜色*/
   .text-orange{
     color:#F79A26;
@@ -110,6 +109,7 @@ export default {
     text-align: center;
     font-size:16px;
     color:#363636;
+    cursor: pointer;
   }
   .tabActive{
     color:#E71600 !important;

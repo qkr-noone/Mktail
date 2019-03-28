@@ -311,6 +311,7 @@ export default {
       this.previews = data
     },
     userHeadSave () {
+      console.log(this.$listeners, this.$attrs)
       // 获取截图的base64 数据
       this.$refs.cropper.getCropData((data) => {
         console.log(data)
@@ -320,6 +321,15 @@ export default {
         console.log('截图的blob:', data.type.split('/')[1])
         let fd = new FormData()
         fd.append('file', data)
+        // application/octet-stream
+        // axios({
+        //   method: 'post',
+        //   url: 'http://192.168.1.40:8083/personData/personData/uploadFile1',
+        //   data: fd,
+        //   params: {extName: data.type.split('/')[1]}
+        // }).then(res => {
+        //   console.log(res)
+        // })
         this.API.userUploadBlodFlow(fd, data.type.split('/')[1]).then(res => {
           console.log(res, 10000)
         })

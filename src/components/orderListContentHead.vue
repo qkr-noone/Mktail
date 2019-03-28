@@ -1,18 +1,20 @@
 <template>
   <div class="shop-info">
-    <input type="checkbox" :value="list.id" v-model="selectArr"/>
+    <input type="checkbox" :value="list.orderId" v-model="addData" @click="change(list.orderId)"/>
     <span class="date">{{list.createTime}}</span>
-    <span class="order-num">订单号：<span>{{list.id}}</span></span>
-    <span class="name">{{list.sellerName}}</span>
-    <img src="static/img/user/user_part.png">
+    <span class="order-num">订单号：<span>{{list.orderId}}</span></span>
+    <a href="javascript:;" class="name">{{list.sellerName}}</a>
+    <img class="has_pointer" src="static/img/user/user_part.png">
     <span v-if="list.status === 1" class="delete pay-time"><i class="el-icon-time"></i><span>自动取消:00时 00分 00秒</span></span>
-    <span v-else class="delete"><img src="static/img/user/user_delete.png"></span>
+    <span v-else class="delete has_pointer"><img src="static/img/user/user_delete.png"></span>
   </div>
 </template>
 <script>
 export default {
   data () {
-    return {}
+    return {
+      addData: []
+    }
   },
   props: {
     list: {
@@ -21,10 +23,30 @@ export default {
     selectArr: {
       type: [Array]
     }
+  },
+  mounted () {
+    console.log('child', this.selectArr)
+  },
+  methods: {
+    change (id) {
+      this.$emit('toggle', id)
+    }
+  },
+  watch: {
+    selectArr: {
+      handler (newVal, oldVal) {
+        this.addData = newVal
+        if (newVal.length === this.selectArr.length) {}
+      },
+      deep: true
+    }
   }
 }
 </script>
 <style scoped>
+  .has_pointer{
+    cursor: pointer;
+  }
   .shop-info {
     display: flex;
     align-items: center;
@@ -51,6 +73,7 @@ export default {
     margin-right: 10px;
     overflow: hidden;
     white-space: nowrap;
+    color: #3e3e3e;
   }
   .shop-info .delete {
     display: flex;

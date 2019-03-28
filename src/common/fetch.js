@@ -1,5 +1,6 @@
 import axios from 'axios'
 import qs from 'qs'
+import VueCookies from 'vue-cookies'
 import {Message} from 'element-ui' // Loading
 
 const service = axios.create({
@@ -7,7 +8,7 @@ const service = axios.create({
   responseType: 'json',
   withCredentials: true, // 是否允许带cookie这些
   headers: {
-    'Content-Type': 'application/json;charset=utf-8' // 'application/x-www-form-urlencoded;charset=utf-8'
+    'Content-Type': 'application/json;charset=utf-8' // 'application/x-www-form-urlencoded;charset=utf-8  application/octet-stream'
   }
 })
 /* 在地址请求中显示loading 地址失去焦点 无法一直显示 */
@@ -34,8 +35,9 @@ const service = axios.create({
 // 添加请求拦截器
 service.interceptors.request.use(request => {
   // 若有做鉴权token，需要请求头自动加上token
-  if (localStorage.getItem('token')) {
-    request.headers.token = localStorage.getItem('token')
+  console.log('request', VueCookies.get('token'))
+  if (VueCookies.get('token')) {
+    request.headers.Authorization = VueCookies.get('token')
   }
   // 显示loading
   // if (!request.hideLoading) {

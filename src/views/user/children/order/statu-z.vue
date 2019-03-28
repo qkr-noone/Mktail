@@ -2,14 +2,14 @@
   <div class="content" data-attr="zone 所有订单">
     <div class="search">
       <input type="text" placeholder="输入商品标题或订单号进行搜索" v-model="goodsOrderNum"/>
-      <button class="btn" @click="submit">订单搜索</button>
-      <span @click="moreCondition = !moreCondition">更多筛选条件 <i class="el-icon-arrow-down"></i></span>
+      <button class="btn has_pointer" @click="submit">订单搜索</button>
+      <span class="has_pointer" @click="moreCondition = !moreCondition">更多筛选条件 <i class="el-icon-arrow-down"></i></span>
     </div>
     <div class="condition" v-show="moreCondition">
       <div class="condition-item">
         <div class="group">
           <label>订单类型</label>
-          <select v-model="select.orderSelect">
+          <select v-model="select.orderSelect" class="has_pointer">
             <option>全部</option>
             <option>普通订单</option>
             <option>采购订单</option>
@@ -29,7 +29,7 @@
       <div class="condition-item">
         <div class="group">
           <label>评价状态</label>
-          <select v-model="select.recomSelect">
+          <select v-model="select.recomSelect" class="has_pointer">
             <option>全部</option>
             <option>待评价</option>
             <option>已评价</option>
@@ -37,7 +37,7 @@
         </div>
         <div class="group align" style="width:347px">
           <label>交易状态</label>
-          <select v-model="select.tradeSelect">
+          <select v-model="select.tradeSelect" class="has_pointer">
             <option>全部</option>
             <option>待付款</option>
             <option>已取消</option>
@@ -49,7 +49,7 @@
         </div>
         <div class="group">
           <label>售后服务</label>
-          <select v-model="select.ensureSelect">
+          <select v-model="select.ensureSelect" class="has_pointer">
             <option>全部</option>
             <option>已投诉</option>
             <option>退款中</option>
@@ -64,7 +64,7 @@
       <orderListTitle @changePageNum="changeValue($event)"></orderListTitle>
       <div class="shop-handle">
         <div class="choose" v-if="all.total">
-          <input type="checkbox" @click="selectAll"/><span>全选</span>
+          <input type="checkbox" @click="selectAll" v-model="isChecked" /><span>全选</span>
           <button class="confirm-btn">合并付款</button>
           <button class="confirm-btn">批量确认收货</button>
         </div>
@@ -74,7 +74,7 @@
         </div>
       </div>
       <div class="shop-list" v-for="list in all.rows" :key="list.id">
-        <orderListContentHead :list="list" :selectArr="selectArr"></orderListContentHead>
+        <orderListContentHead :list="list" :selectArr="selectArr" @toggle="toggle($event)"></orderListContentHead>
         <orderListContent :list="list"></orderListContent>
       </div>
       <div v-if="!all.total" class="shop-list not-data">没有符合条件的商品</div>
@@ -111,7 +111,8 @@ export default {
       all: '', // 所有订单
       pageNum: 1,
       pageSize: 3, // 每页的数量
-      selectArr: [] // 选中的列表
+      selectArr: [], // 选中的列表
+      isChecked: false
     }
   },
   components: { orderListTitle, orderListContentHead, orderListContent },
@@ -202,8 +203,17 @@ export default {
       else {
         this.selectArr = []
         this.all.rows.forEach(item => {
-          this.selectArr.push(item.id)
+          this.selectArr.push(item.orderId)
         })
+      }
+    },
+    toggle (id) {
+      if (this.selectArr.indexOf(id) >= 0) {
+        this.$delete(this.selectArr, this.selectArr.indexOf(id))
+        this.isChecked = false
+      } else {
+        this.selectArr.push(id)
+        if (this.selectArr.length === this.all.rows.length) this.isChecked = true
       }
     },
     nextPage () {
@@ -232,6 +242,9 @@ export default {
 }
 </script>
 <style scoped>
+  .has_pointer {
+    cursor: pointer;
+  }
   .el-pagination {
     display: flex;
     justify-content: flex-end;

@@ -25,8 +25,10 @@ export default {
   sendCode: data => http.get('/user/user/sendCode', data),
   // 注册用户
   register: (data, smscode) => http.post('/user/user/add?smscode=' + smscode, data),
-  // 登陆
+  // 获取用户信息
   login: data => http.get('/user/login/authenticateUser', data),
+  // 登陆 获取token
+  getToken: data => http.post('/user/login/login', data),
 
   /* ----购物车---- */
 

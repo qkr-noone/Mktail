@@ -372,6 +372,7 @@ export default {
   .account-sidebar {
     width: 135px;
     border-radius: 6px;
+    min-height: 100vh;
   }
   .gray-box {
     overflow: hidden;

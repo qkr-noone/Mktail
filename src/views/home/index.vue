@@ -414,7 +414,7 @@ export default {
       return false
     },
     threeDUrl (threeDUrl) { // http://192.168.0.33:8080/qn5/ http://120.79.93.197/we/
-      this.$router.push({path: '/3DShow'})
+      this.$router.push({path: '/3D/3DShow'})
       // this.is3Ding = true
       // this.$refs.threeDSrc.src = threeDUrl
       return false

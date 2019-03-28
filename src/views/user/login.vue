@@ -93,15 +93,20 @@ export default {
         this.$message.warning('请输入用户名和密码')
         return false
       }
-      this.API.login({name: this.username, password: this.password}).then(res => {
+      this.API.getToken({username: this.username, password: this.password}).then(res => {
+        let password = this.password
+        console.log(this.username, this.password)
         this.password = ''
         // 验证失败
         if (res.success === false) return false
         this.$message.success('登陆成功')
-        this.$cookies.set('user-key', this.username)
-        this.$cookies.set('userInfo', res)
-        this.setUserInfo(res)
-        this.cart()
+        this.$cookies.set('token', res.tokenStartHead + res.token)
+        this.API.login({name: this.username, password: password}).then(rtn => {
+          this.$cookies.set('user-key', this.username) // 用户名
+          sessionStorage.setItem('userInfo', rtn)
+          this.setUserInfo(res)
+          this.cart()
+        })
       })
     },
     cart () {
