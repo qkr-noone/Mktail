@@ -180,6 +180,7 @@
   .flow-con {
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
   }
   .flow-con b, .flow-con i{
     font-size:14px;

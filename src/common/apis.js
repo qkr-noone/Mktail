@@ -19,14 +19,14 @@ export default {
   // 主页分类
   homeClass: data => http.get('/portal/content/findByContentId', data),
 
-  /* ----注册---- */
+  /* ----注册登录---- */
 
   // 发送手机验证码
   sendCode: data => http.get('/user/user/sendCode', data),
   // 注册用户
   register: (data, smscode) => http.post('/user/user/add?smscode=' + smscode, data),
   // 获取用户信息
-  login: data => http.get('/user/login/authenticateUser', data),
+  getUserInfo: data => http.get('/user/login/authenticateUser', data),
   // 登陆 获取token
   getToken: data => http.post('/user/login/login', data),
 

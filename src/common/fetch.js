@@ -35,7 +35,6 @@ const service = axios.create({
 // 添加请求拦截器
 service.interceptors.request.use(request => {
   // 若有做鉴权token，需要请求头自动加上token
-  console.log('request', VueCookies.get('token'))
   if (VueCookies.get('token')) {
     request.headers.Authorization = VueCookies.get('token')
   }

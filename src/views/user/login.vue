@@ -93,7 +93,13 @@ export default {
         this.$message.warning('请输入用户名和密码')
         return false
       }
-      this.API.getToken({username: this.username, password: this.password}).then(res => {
+      let data = {
+        username: this.username,
+        password: this.password
+      }
+      console.log(this.$store)
+      this.$store.dispatch('USER_LOGIN', data)
+      /* this.API.getToken({username: this.username, password: this.password}).then(res => {
         let password = this.password
         console.log(this.username, this.password)
         this.password = ''
@@ -103,11 +109,11 @@ export default {
         this.$cookies.set('token', res.tokenStartHead + res.token)
         this.API.login({name: this.username, password: password}).then(rtn => {
           this.$cookies.set('user-key', this.username) // 用户名
-          sessionStorage.setItem('userInfo', rtn)
+          sessionStorage.setItem('userInfo', JSON.stringify(rtn))
           this.setUserInfo(res)
           this.cart()
         })
-      })
+      }) */
     },
     cart () {
       this.API.cartList({username: this.$cookies.get('user-key')}).then(res => {

@@ -52,7 +52,8 @@ export default {
     this.isHome = (curRoute === '/home' ? '' : '/home')
   },
   mounted () {
-    this.username = this.$cookies.isKey('userInfo') ? this.$cookies.get('userInfo').username : ''
+    let user = JSON.parse(sessionStorage.getItem('userInfo'))
+    this.username = user ? user.username : ''
   },
   methods: {
     home () {
@@ -61,8 +62,8 @@ export default {
   },
   watch: {
     userInfo () {
-      console.log('userInfo')
-      this.username = this.$cookies.isKey('userInfo') ? this.$cookies.get('userInfo').username : ''
+      let user = JSON.parse(sessionStorage.getItem('userInfo'))
+      this.username = user ? user.username : ''
     }
   }
 }
