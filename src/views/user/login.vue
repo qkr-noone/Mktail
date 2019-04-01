@@ -58,10 +58,8 @@
   </div>
 </template>
 <script>
-import { mapMutations, mapState } from 'vuex'
 import regFooter from '@/components/regFooter'
 import refHeader from '@/components/regHeader'
-import { setStore } from '@/common/utils'
 export default {
   data () {
     return {
@@ -71,13 +69,7 @@ export default {
     }
   },
   components: {regFooter, refHeader},
-  computed: {
-    ...mapState(['userInfo'])
-  },
-  created () {},
-  mounted () {},
   methods: {
-    ...mapMutations(['setCartList', 'setUserInfo']),
     accountNumber () {
       this.account = true
     },
@@ -97,34 +89,10 @@ export default {
         username: this.username,
         password: this.password
       }
-      console.log(this.$store)
-      this.$store.dispatch('USER_LOGIN', data)
-      /* this.API.getToken({username: this.username, password: this.password}).then(res => {
-        let password = this.password
-        console.log(this.username, this.password)
+      this.$store.dispatch('USER_LOGIN', data).then(async res => {
         this.password = ''
-        // 验证失败
-        if (res.success === false) return false
-        this.$message.success('登陆成功')
-        this.$cookies.set('token', res.tokenStartHead + res.token)
-        this.API.login({name: this.username, password: password}).then(rtn => {
-          this.$cookies.set('user-key', this.username) // 用户名
-          sessionStorage.setItem('userInfo', JSON.stringify(rtn))
-          this.setUserInfo(res)
-          this.cart()
-        })
-      }) */
-    },
-    cart () {
-      this.API.cartList({username: this.$cookies.get('user-key')}).then(res => {
-        if (res.success === false) {
-          this.setCartList(res.data)
-          setStore('cartList', res.data)
-          return false
-        }
-        this.setCartList(res)
-        setStore('cartList', res)
-      }).then(() => {
+        await this.$store.dispatch('USER_INFO', data.username)
+        await this.$store.dispatch('CART')
         this.$router.push(this.$route.query.back)
       })
     }

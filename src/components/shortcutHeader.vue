@@ -35,6 +35,7 @@
 
 <script>
 import { mapState } from 'vuex'
+import { getStore } from '@/common/utils'
 export default {
   name: 'shortcutHeader',
   data () {
@@ -51,8 +52,12 @@ export default {
     let curRoute = this.$route.path
     this.isHome = (curRoute === '/home' ? '' : '/home')
   },
+  activated () {
+    // localStorage.getItems('userInfo') ? localStorage.getItems('userInfo').username : ''
+    this.username = getStore('userInfo') ? JSON.parse(getStore('userInfo')).username : ''
+  },
   mounted () {
-    let user = JSON.parse(sessionStorage.getItem('userInfo'))
+    let user = getStore('userInfo')
     this.username = user ? user.username : ''
   },
   methods: {
@@ -62,7 +67,7 @@ export default {
   },
   watch: {
     userInfo () {
-      let user = JSON.parse(sessionStorage.getItem('userInfo'))
+      let user = JSON.parse(getStore('userInfo'))
       this.username = user ? user.username : ''
     }
   }

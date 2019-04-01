@@ -253,6 +253,7 @@ import homeNav from '@/components/homeNav'
 import absBox from '@/components/absBox'
 import youLike from '@/components/youLike'
 import pageFooter from '@/components/pageFooter'
+import { getStore } from '@/common/utils'
 export default {
   data () {
     return {
@@ -395,11 +396,12 @@ export default {
     })
   },
   activated () {
-    this.userInfo = this.$cookies.isKey('userInfo') ? this.$cookies.get('userInfo') : ''
+    let user = getStore('userInfo')
+    if (user) this.userInfo = JSON.parse(user)
   },
   mounted () {
-    this.userInfo = this.$cookies.isKey('userInfo') ? this.$cookies.get('userInfo') : ''
-    console.log(this.userInfo)
+    let user = getStore('userInfo')
+    if (user) this.userInfo = JSON.parse(user)
   },
   methods: {
     carouselChange (index, key) {

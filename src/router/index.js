@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import VueCookies from 'vue-cookies'
+// import VueCookies from 'vue-cookies'
+import { getStore } from '@/common/utils'
 
-Vue.use(VueCookies)
+// Vue.use(VueCookies)
 Vue.use(Router)
 
 let router
@@ -341,15 +342,19 @@ router.beforeEach((to, from, next) => {
   // 可直接使用 VueCookies？   VueCookies.get('token')
   // console.log(this, router.app.$cookies)
   // to.matched
-  let login = router.app.$cookies.get('user-key')
+  let login = getStore('userInfo')
   if (to.meta.isLogin) {
     login ? next() : next({ path: '/login', query: { back: to.fullPath } })
   } else {
     if (to.path === '/login') {
-      if (to.query.back) {
-        next()
+      if (login) {
+        next({ path: '/home' })
       } else {
-        next({ path: '/login', query: { back: from.fullPath } })
+        if (to.query.back) {
+          next()
+        } else {
+          next({ path: '/login', query: { back: from.fullPath } })
+        }
       }
     } else {
       next()
