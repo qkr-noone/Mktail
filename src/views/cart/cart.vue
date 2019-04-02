@@ -164,7 +164,9 @@ export default {
   },
   components: { shortcutHeader, buyNum, regFooter },
   computed: {
-    ...mapState(['cartList']),
+    ...mapState({
+      cartList: state => state.cart.cartList
+    }),
     // 商品总数量
     totalNum () {
       let num = 0
@@ -197,12 +199,12 @@ export default {
     // this.INIT_BUYCART()
     this.API.cartList({username: this.$cookies.get('user-key')}).then(rtn => {
       if (rtn.success === false) {
-        this.setCartList(rtn.data)
+        this.CART_LIST(rtn.data)
         this.$message.info('购物车为空')
         setStore('cartList', this.cartList)
         return false
       }
-      this.setCartList(rtn)
+      this.CART_LIST(rtn)
       // 附加店铺选择属性，用于判断全部商品店铺选择状态
       this.$set(this.cartList, 'allChecked', 0)
       for (let val of this.cartList) {
@@ -224,7 +226,7 @@ export default {
     })
   },
   methods: {
-    ...mapMutations(['setCartList']),
+    ...mapMutations(['CART_LIST']),
     count () {
       if (this.selectList.length) {
         this.$router.push({path: '/getOrderInfo', query: {list: this.selectList}})
@@ -376,7 +378,7 @@ export default {
         }
         this.isShopsChecked(cart)
         this.isAllShops(cart)
-        // this.setCartList(this.cartList)
+        // this.CART_LIST(this.cartList)
       } else { // 根据sku数据删除购物车
         for (let item of cart) {
           for (let index in item.orderItemList) {
@@ -394,7 +396,7 @@ export default {
           }
         }
       }
-      this.setCartList(cart)
+      this.CART_LIST(cart)
       // 存入localStorage
       setStore('cartList', cart)
     },

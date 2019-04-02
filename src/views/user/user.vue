@@ -246,7 +246,6 @@ export default {
   },
   components: { shortcut, userNav, youLike, youRecom },
   created () {
-    this.$cookies.get('userInfo')
     let path = this.$route.path.split('/')[2]
     for (let item of this.nav) {
       if (item.path === path) {

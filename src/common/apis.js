@@ -29,6 +29,8 @@ export default {
   getUserInfo: data => http.get('/user/login/authenticateUser', data),
   // 登陆 获取token
   getToken: data => http.post('/user/login/login', data),
+  // 用户退出登录
+  logout: data => http.get('/user/login/login', data),
 
   /* ----购物车---- */
 
@@ -105,7 +107,7 @@ export default {
   // 用户订单列表
   userOrder: data => http.get('/cart/order/findOrderByUsernameAndStatus', data),
   // 订单查询过滤
-  orderFilter: data => http.post('/cart/order/searchOrderByMap', data),
+  orderFilter: (data, pageNum, pageSize) => http.post('/cart/order/searchOrderByMap?pageNum=' + pageNum + '&pageSize=' + pageSize, data),
   // 用户关注类型 (1: 关注商品，2: 关注店铺)
   userCollectType: data => http.get('/userCollect/userCollect/findUserCollectByTypeAndUserName', data),
   // 收藏店铺 店铺里的商品

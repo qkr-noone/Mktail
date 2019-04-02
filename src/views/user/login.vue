@@ -77,10 +77,6 @@ export default {
       this.account = false
     },
     userLogin () {
-      if (this.$cookies.get('user-key')) {
-        this.$message.error('当前设备已登陆，切换用户需先退出当前用户')
-        return false
-      }
       if (!this.username || !this.password) {
         this.$message.warning('请输入用户名和密码')
         return false

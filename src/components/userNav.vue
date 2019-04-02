@@ -1,5 +1,5 @@
 <template>
-  <div ref='bgcolor'>
+  <div ref='bgcolor' data-component="userNav">
     <header class="mk-header">
       <div class="mk-head">
         <div class="h-logo" ref='logoIsCursor'>
@@ -39,6 +39,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   name: 'headerNav',
   data () {
@@ -54,8 +55,16 @@ export default {
     }
   },
   computed: {
+    ...mapState({
+      cartList: state => state.cart.cartList
+    }),
     cartNum () {
       let num = 0
+      this.cartList.length && this.cartList.forEach(item => {
+        item.orderItemList.forEach(list => {
+          num += Number(list.num)
+        })
+      })
       return num
     }
   },
@@ -202,6 +211,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
   }
   .addCart p{
     margin: 0 4px;

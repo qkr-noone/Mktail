@@ -55,7 +55,6 @@ export default {
   },
   components: { shortcut, userNav, regFooter },
   created () {
-    this.$cookies.get('userInfo')
     let path = this.$route.path.split('/')[2]
     this.nav.forEach(item => {
       if (item.path === path) {

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div data-component="headerNav">
     <header class="mk-header">
       <div class="mk-head">
         <div class="h-logo" ref='logoIsCursor'>
@@ -40,25 +40,29 @@
 </template>
 
 <script>
-import { getStore } from '@/common/utils'
+import { mapState } from 'vuex'
 export default {
   name: 'headerNav',
   data () {
     return {
-      isHome: '', // 判断logo 是否可触发home点击
+      isHome: '' // 判断logo 是否可触发home点击
       // isShops: false
-      cartNum: 0
     }
   },
   props: [],
-  activated () {
-    this.cartNum = 0
-    let cartList = JSON.parse(getStore('cartList')) || []
-    cartList.length && cartList.forEach(item => {
-      item.orderItemList.forEach(list => {
-        this.cartNum += Number(list.num)
+  computed: {
+    ...mapState({
+      cartList: state => state.cart.cartList
+    }),
+    cartNum () {
+      let num = 0
+      this.cartList.length && this.cartList.forEach(item => {
+        item.orderItemList.forEach(list => {
+          num += Number(list.num)
+        })
       })
-    })
+      return num
+    }
   },
   created () {
     let curRoute = this.$route.path
@@ -101,15 +105,6 @@ export default {
     toCart () {
       this.$router.push({path: '/cart'})
     }
-    // watchEnter (event) {
-    //   console.log('eenter')
-    //   if (event.keyCode === 13) return false
-    //   let SEARCH_VALUE = this.$refs.search_ipt.value
-    //   var keyCode = window.event ? event.keyCode : event.which
-    //   if (keyCode === 13 && SEARCH_VALUE) {
-    //     this.searchPro()
-    //   }
-    // }
   }
 }
 </script>

@@ -253,7 +253,8 @@ import homeNav from '@/components/homeNav'
 import absBox from '@/components/absBox'
 import youLike from '@/components/youLike'
 import pageFooter from '@/components/pageFooter'
-import { getStore } from '@/common/utils'
+import { mapState } from 'vuex'
+
 export default {
   data () {
     return {
@@ -287,12 +288,15 @@ export default {
       lightList7: [],
       lightList8: [],
       school: [], // 商学院
-      likeList: [], // 猜你喜欢
-      userInfo: ''
+      likeList: [] // 猜你喜欢
     }
   },
   components: { shortcut, headerNav, pageFooter, absBox, youLike, homeNav },
-  computed: {},
+  computed: {
+    ...mapState({
+      userInfo: state => state.user.userInfo
+    })
+  },
   created () {
     // 获取条目菜单
     this.API.homeMenu().then(rtn => {
@@ -395,14 +399,8 @@ export default {
       this.likeList = rtn.contentList
     })
   },
-  activated () {
-    let user = getStore('userInfo')
-    if (user) this.userInfo = JSON.parse(user)
-  },
-  mounted () {
-    let user = getStore('userInfo')
-    if (user) this.userInfo = JSON.parse(user)
-  },
+  activated () {},
+  mounted () {},
   methods: {
     carouselChange (index, key) {
       this.bgImg = this.bannerList[index].bgcolor

@@ -112,7 +112,8 @@ export default {
       pageNum: 1,
       pageSize: 3, // 每页的数量
       selectArr: [], // 选中的列表
-      isChecked: false
+      isChecked: false,
+      name: this.$cookies.get('user-key')
     }
   },
   components: { orderListTitle, orderListContentHead, orderListContent },
@@ -124,7 +125,7 @@ export default {
   },
   mounted () {
     // 所有订单
-    this.API.userOrder({userName: this.$cookies.get('user-key'), pageNum: this.pageNum, pageSize: this.pageSize}).then(res => {
+    this.API.userOrder({userName: this.name, pageNum: this.pageNum, pageSize: this.pageSize}).then(res => {
       this.all = res
       console.log(res)
     })
@@ -133,7 +134,7 @@ export default {
     choose () {
       let one = this.select.datetime1 ? this.formatDate(this.select.datetime1) : this.select.datetime1
       let two = this.select.datetime2 ? this.formatDate(this.select.datetime2) : this.select.datetime2
-      console.log(one, two, this.select.tradeSelect, this.select.orderSelect, this.select.seller, this.select.recomSelect, this.select.ensureSelect, this.$cookies.get('userInfo').username)
+      console.log(one, two, this.select.tradeSelect, this.select.orderSelect, this.select.seller, this.select.recomSelect, this.select.ensureSelect, this.name)
       this.pageNum = 1
       let map = {
         keyword: '',
@@ -141,7 +142,7 @@ export default {
         status: '',
         startTime: one,
         endTime: two,
-        username: this.$cookies.get('userInfo').username,
+        username: this.name,
         pageNum: this.pageNum,
         pageSize: this.pageSize
       }
@@ -164,12 +165,12 @@ export default {
         status: '',
         startTime: '',
         endTime: '',
-        username: this.$cookies.get('userInfo').username,
+        username: this.name,
         pageNum: this.pageNum,
         pageSize: this.pageSize
       }
-      this.API.orderFilter(map).then(res => {
-        console.log(res)
+      this.API.orderFilter(map, this.pageNum, this.pageSize).then(res => {
+        console.log(res, 1000)
       })
     },
     changeValue (data, index = 1) {
@@ -234,7 +235,7 @@ export default {
       this.isSearch = true
     },
     pageNum (newPage) {
-      this.API.userOrder({userName: this.$cookies.get('user-key'), pageNum: this.pageNum, pageSize: this.pageSize}).then(res => {
+      this.API.userOrder({userName: this.name, pageNum: this.pageNum, pageSize: this.pageSize}).then(res => {
         this.all = res
       })
     }

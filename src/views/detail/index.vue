@@ -282,7 +282,7 @@
   </div>
 </template>
 <script>
-import { mapState, mapMutations } from 'vuex'
+import { mapState } from 'vuex'
 import shortcut from '@/components/shortcutHeader'
 import headerNav from '@/components/headerNav'
 import absBox from '@/components/absBox'
@@ -410,9 +410,6 @@ export default {
     this.magnifier()
   },
   methods: {
-    ...mapMutations([
-      'setCartList', 'setUserInfo'
-    ]),
     // 切换主图
     scrollBig (imgUrl) {
       this.currentImg = imgUrl
@@ -458,14 +455,14 @@ export default {
     submit () {
       if (this.selectSku.id && this.addToCartSwicth) {
         this.addToCartSwicth = false
-        if (this.$cookies.get('user-key')) { // 判断是否登陆
+        if (this.$cookies.get('token')) { // 判断是否登陆
           this.API.addToCart({ itemId: this.selectSku.id, num: this.num, name: this.$cookies.get('user-key') }).then(rtn => {
             if (rtn.success === false) {
               this.$message.error('加入购物车失败')
               return false
             }
             this.$message.success('成功加入购物车')
-            this.cart()
+            this.$store.dispatch('CART')
             this.$router.push({path: '/addToCart', query: {skuId: this.selectSku.id, num: this.num}})
           })
         } else this.isMaskLogin = true
@@ -479,7 +476,7 @@ export default {
     buyShops () {
       if (this.selectSku.id && this.buyshopsSwicth) {
         this.buyshopsSwicth = false
-        if (this.$cookies.get('user-key')) { // 判断是否登陆
+        if (this.$cookies.get('token')) { // 判断是否登陆
           for (let val of this.skuList) {
             if (val.id === this.selectSku.id) {
               let lend = {}
@@ -510,23 +507,19 @@ export default {
     },
     // 用户登陆
     userLogin () {
-      if (this.$cookies.get('user-key')) {
-        this.$message.error('当前设备已登陆，切换用户需先退出当前用户')
-        return false
-      }
       if (!this.username || !this.password) {
         this.$message.warning('请输入用户名和密码')
         return false
       }
-      this.API.login({name: this.username, password: this.password}).then(rtn => {
+      let data = {
+        username: this.username,
+        password: this.password
+      }
+      this.$store.dispatch('USER_LOGIN', data).then(async res => {
         this.password = ''
-        if (rtn.success === false) return false
-        this.$message.success('登陆成功')
-        this.$cookies.set('user-key', this.username)
-        this.$cookies.set('userInfo', rtn)
-        this.setUserInfo(rtn)
+        await this.$store.dispatch('USER_INFO', data.username)
+        await this.$store.dispatch('CART')
         this.isMaskLogin = false
-        this.cart()
       })
     },
     // 根据规格查询sku
@@ -546,13 +539,6 @@ export default {
         }
       }
       return true
-    },
-    // 登陆初始化数据
-    cart () {
-      this.API.cartList({username: this.$cookies.get('user-key')}).then(rtn => {
-        this.setCartList(rtn)
-        setStore('cartList', rtn)
-      })
     },
     // 切换 商品规格、评价、售后保障
     tab (name, path) {

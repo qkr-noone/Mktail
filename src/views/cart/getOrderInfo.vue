@@ -301,7 +301,6 @@
   </div>
 </template>
 <script>
-import { mapMutations } from 'vuex'
 import shortcutHeader from '@/components/shortcutHeader'
 import pageFooter from '@/components/pageFooter'
 import { getStore, setStore } from '@/common/utils'
@@ -377,6 +376,7 @@ export default {
     let sellerName = this.$route.query.sellerName || ''
     if (this.skuId) { // 从立即购买进入提交
       this.goodSkuList = JSON.parse(getStore('selectList' + this.random))
+      console.log(getStore('selectList' + this.random), this.goodSkuList, '000')
       let objList = {
         orderItemList: [],
         sellerId: this.goodSkuList[0].sellerId,
@@ -433,7 +433,6 @@ export default {
     })
   },
   methods: {
-    ...mapMutations(['setCartList']),
     // 比较指定对象属性值大小 降序
     compare (property) {
       return (a, b) => {
