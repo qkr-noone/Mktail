@@ -40,7 +40,7 @@ export default {
   components: { orderListTitle, orderListContentHead, orderListContent, orderListSearch },
   mounted () {
     // 待评价
-    this.API.userOrder({ userName: this.$cookies.get('user-key'), status: 7, pageNum: this.pageNum, pageSize: 15 }).then(res => {
+    this.API.userOrder({ userName: this.$cookies.get('user-key'), status: 5, pageNum: this.pageNum, pageSize: 15 }).then(res => {
       this.waitRate = res
     })
   },

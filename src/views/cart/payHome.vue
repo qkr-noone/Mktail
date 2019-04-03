@@ -109,17 +109,9 @@ export default {
           if (this.password.length > 5) {
             this.API.payMkWallet({userName: this.$cookies.get('user-key'), paymentPassword: this.password, outTradeNo: this.orderInfo.outTradeNo}).then(res => {
               if (res.success === false) {
-                if (res.data === 4) {
-                  this.$notify.error({
-                    title: '失败',
-                    message: '密码错误，请重试'
-                  })
+                if (res.data === 4) { // 密码错误
                   this.password = ''
-                } else if (res.data === 3) {
-                  this.$notify.error({
-                    title: '错误',
-                    message: '该订单已提交，请勿重复提交'
-                  })
+                } else if (res.data === 3) { // 订单已提交(已支付？)
                 } else {
                   this.$notify.error({
                     title: '失败',

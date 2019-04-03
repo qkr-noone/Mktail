@@ -1,12 +1,12 @@
 <template>
   <div class="shop-info">
-    <input type="checkbox" :value="list.orderId" v-model="addData" @click="change(list.orderId)"/>
+    <input type="checkbox" :value="list" v-model="addData" @click="change(list)"/>
     <span class="date">{{list.createTime}}</span>
     <span class="order-num">订单号：<span>{{list.orderId}}</span></span>
     <a href="javascript:;" class="name">{{list.sellerName}}</a>
     <img class="has_pointer" src="static/img/user/user_part.png">
     <span v-if="list.status === 1" class="delete pay-time"><i class="el-icon-time"></i><span>自动取消:00时 00分 00秒</span></span>
-    <span v-else class="delete has_pointer"><img src="static/img/user/user_delete.png"></span>
+    <span v-else-if="list.status === 2 || list.status === 5 || list.status === 6" class="delete"><img class="has_pointer" @click="del(list.orderId)" src="static/img/user/user_delete.png"></span>
   </div>
 </template>
 <script>
@@ -24,19 +24,19 @@ export default {
       type: [Array]
     }
   },
-  mounted () {
-    console.log('child', this.selectArr)
-  },
+  mounted () {},
   methods: {
-    change (id) {
-      this.$emit('toggle', id)
+    change (item) {
+      this.$emit('toggle', item)
+    },
+    del (id) {
+      this.$emit('remove', id)
     }
   },
   watch: {
     selectArr: {
       handler (newVal, oldVal) {
         this.addData = newVal
-        if (newVal.length === this.selectArr.length) {}
       },
       deep: true
     }

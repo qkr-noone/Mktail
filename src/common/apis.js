@@ -108,6 +108,8 @@ export default {
   userOrder: data => http.get('/cart/order/findOrderByUsernameAndStatus', data),
   // 订单查询过滤
   orderFilter: (data, pageNum, pageSize) => http.post('/cart/order/searchOrderByMap?pageNum=' + pageNum + '&pageSize=' + pageSize, data),
+  // 订单删除
+  orderRemove: data => http.get('/cart/order/delete', data),
   // 用户关注类型 (1: 关注商品，2: 关注店铺)
   userCollectType: data => http.get('/userCollect/userCollect/findUserCollectByTypeAndUserName', data),
   // 收藏店铺 店铺里的商品

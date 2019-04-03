@@ -3,17 +3,22 @@
     <ul class="shop-item" >
       <li class="first-item">
         <div class="item-Top" v-for="item in list.orderItemList" :key="item.itemId">
-          <img :src="item.picPath">
+          <router-link :to="{path: '/detail', query: {goodsId: item.goodsId}}"><img :src="item.picPath" class="item-Top-img"></router-link>
           <div class="item-desc">
-            <span class="item-title">{{item.title}}<br><span v-for="(tip, key, index) in JSON.parse(item.spec)" :key="index">{{key}}:{{tip}}</span>[交易快照]</span><br/>
+            <span class="item-title">
+              <span class="desc-title has_pointer" @click="goDetail(item.goodsId)">{{item.title}}</span>
+              <br>
+              <span v-for="(tip, key, index) in JSON.parse(item.spec)" :key="index">{{key}}:{{tip}}</span>
+              <span class="desc-title has_pointer">[交易快照]</span>
+            </span><br/>
             <div class="back">退</div>
             <span class="text-red">7天无理由退货</span>
           </div>
           <span class="item-price">￥{{item.price}}</span>
           <span class="item-num">{{item.num}}</span>
           <span>
-            <a>退款</a>|<a>退货</a><br>
-            <span><a>投诉卖家</a></span>
+            <a href="javascript:;" style="color: #414141">退款</a>|<a href="javascript:;" style="color: #414141">退货</a><br>
+            <span><a href="javascript:;" style="color: #414141">投诉卖家</a></span>
           </span>
         </div>
         <div class="item-Buttom" v-if="list.status===3">
@@ -60,10 +65,18 @@ export default {
     list: {
       type: [Object, Array]
     }
+  },
+  methods: {
+    goDetail (id) {
+      this.$router.push({path: '/detail', query: {goodsId: id}})
+    }
   }
 }
 </script>
 <style scoped>
+  .has_pointer {
+    cursor: pointer;
+  }
   .shop-item {
     display: flex;
   }
@@ -122,7 +135,7 @@ export default {
     line-height: 30px;
     text-align: center;
   }
-  .item-Top >img {
+  .item-Top-img {
     width: 80px;
     height: 80px;
     overflow: hidden;
@@ -132,6 +145,9 @@ export default {
   }
   .item-title >span {
     margin-right: 8px;
+  }
+  .item-title >span.desc-title:hover {
+    color: #ff9900;
   }
   .first-item >div.item-Top:nth-child(n+2) {
     border-top: 1px solid rgba(191, 191, 191, 1);

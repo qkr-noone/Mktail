@@ -2,7 +2,7 @@
   <div class="content" data-attr="zone 所有订单">
     <div class="search">
       <input type="text" placeholder="输入商品标题或订单号进行搜索" v-model="goodsOrderNum"/>
-      <button class="btn has_pointer" @click="submit">订单搜索</button>
+      <button class="btn has_pointer" @click="submit(1)">订单搜索</button>
       <span class="has_pointer" @click="moreCondition = !moreCondition">更多筛选条件 <i class="el-icon-arrow-down"></i></span>
     </div>
     <div class="condition" v-show="moreCondition">
@@ -17,9 +17,9 @@
         </div>
         <div class="group">
           <label>成交时间</label>
-          <el-date-picker size="small" v-model="select.datetime1" type="datetime" placeholder="请选择时间范围起始"></el-date-picker>
+          <el-date-picker size="small" v-model="select.datetime1" type="datetime" default-time="00:00:00" placeholder="请选择时间范围起始"></el-date-picker>
           <span>-</span>
-          <el-date-picker v-model="select.datetime2" size="small" type="datetime" placeholder="请选择时间范围结束"></el-date-picker>
+          <el-date-picker v-model="select.datetime2" size="small" type="datetime" default-time="23:59:59" placeholder="请选择时间范围结束"></el-date-picker>
         </div>
         <div class="group">
           <label>卖家昵称</label>
@@ -38,13 +38,13 @@
         <div class="group align" style="width:347px">
           <label>交易状态</label>
           <select v-model="select.tradeSelect" class="has_pointer">
-            <option>全部</option>
-            <option>待付款</option>
-            <option>已取消</option>
-            <option>已付款</option>
-            <option>已发货</option>
-            <option>已完成</option>
-            <option>已退款</option>
+            <option attr="0">全部</option>
+            <option attr="1">待付款</option>
+            <option attr="2">已取消</option>
+            <option attr="3">已付款</option>
+            <option attr="4">已发货</option>
+            <option attr="5">已完成</option>
+            <option attr="6">已退款</option>
           </select>
         </div>
         <div class="group">
@@ -58,15 +58,15 @@
       </div>
     </div>
     <div v-show="moreCondition && isSearch">
-      <a href="javascript:;" class="filter" @click="choose">搜索</a>
+      <a href="javascript:;" class="filter" @click="submit(1)">搜索</a>
     </div>
     <div class="shop">
-      <orderListTitle @changePageNum="changeValue($event)"></orderListTitle>
+      <orderListTitle @changePageNum="changeValue($event)" :pageSize="pageSize"></orderListTitle>
       <div class="shop-handle">
         <div class="choose" v-if="all.total">
           <input type="checkbox" @click="selectAll" v-model="isChecked" /><span>全选</span>
-          <button class="confirm-btn">合并付款</button>
-          <button class="confirm-btn">批量确认收货</button>
+          <button class="confirm-btn" v-if="isWaitingPay" @click="togetherBtn(1, '合并付款')">合并付款</button>
+          <button class="confirm-btn" v-if="isWaitingReceipt" @click="togetherBtn(4, '批量确认收货')">批量确认收货</button>
         </div>
         <div class="page">
           <button class="page-btn" :class="{'forbidden':pageNum === 1}" @click="prevPage">上一页</button>
@@ -74,14 +74,12 @@
         </div>
       </div>
       <div class="shop-list" v-for="list in all.rows" :key="list.id">
-        <orderListContentHead :list="list" :selectArr="selectArr" @toggle="toggle($event)"></orderListContentHead>
+        <orderListContentHead :list="list" :selectArr="selectArr" @toggle="toggle($event)" @remove="remove($event)"></orderListContentHead>
         <orderListContent :list="list"></orderListContent>
       </div>
       <div v-if="!all.total" class="shop-list not-data">没有符合条件的商品</div>
     </div>
     <el-pagination  v-if="all.total"
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
       :current-page.sync="pageNum"
       :page-size="pageSize"
       layout="prev, pager, next, jumper"
@@ -112,8 +110,9 @@ export default {
       pageNum: 1,
       pageSize: 3, // 每页的数量
       selectArr: [], // 选中的列表
-      isChecked: false,
-      name: this.$cookies.get('user-key')
+      isChecked: false, // 全选
+      name: this.$cookies.get('user-key'),
+      status: 0
     }
   },
   components: { orderListTitle, orderListContentHead, orderListContent },
@@ -121,61 +120,55 @@ export default {
   computed: {
     bridge () {
       return Object.values(this.select)
+    },
+    isWaitingPay () {
+      let tem = this.all.rows.length && this.all.rows.some(item => {
+        return item.status === 1
+      })
+      return tem
+    },
+    isWaitingReceipt () {
+      let tem = this.all.rows.length && this.all.rows.some(item => {
+        return item.status === 4
+      })
+      return tem
     }
   },
   mounted () {
-    // 所有订单
+    // 所有订单(不传)  订单状态：1、待付款，2、已取消，3、已付款，4、已发货，5、已完成，6、已退款
+    // 条件过滤中评价状态： 待评价是已发货、已完成 ，已评价是已完成
+    // 条件过滤 还有四个状态没有给完全  修改map 中的数据条件
     this.API.userOrder({userName: this.name, pageNum: this.pageNum, pageSize: this.pageSize}).then(res => {
       this.all = res
       console.log(res)
     })
   },
   methods: {
-    choose () {
+    // 订单过滤
+    submit (page) {
+      this.status = -1
       let one = this.select.datetime1 ? this.formatDate(this.select.datetime1) : this.select.datetime1
       let two = this.select.datetime2 ? this.formatDate(this.select.datetime2) : this.select.datetime2
       console.log(one, two, this.select.tradeSelect, this.select.orderSelect, this.select.seller, this.select.recomSelect, this.select.ensureSelect, this.name)
-      this.pageNum = 1
+      this.pageNum = page
       let map = {
-        keyword: '',
+        keyword: this.goodsOrderNum,
         sellerName: this.select.seller,
         status: '',
         startTime: one,
         endTime: two,
-        username: this.name,
-        pageNum: this.pageNum,
-        pageSize: this.pageSize
+        username: this.name
       }
-      this.API.orderFilter(map).then(res => {
+      this.API.orderFilter(map, this.pageNum, this.pageSize).then(res => {
+        this.all = res
         console.log(res)
       })
     },
-    submit () {
+    // 子组件传值进来
+    changeValue (data) {
       this.pageNum = 1
-      if (!this.goodsOrderNum) {
-        this.$notify.warning({
-          title: '提示',
-          message: '请输入搜索条件'
-        })
-        return
-      }
-      let map = {
-        keyword: this.goodsOrderNum,
-        sellerName: '',
-        status: '',
-        startTime: '',
-        endTime: '',
-        username: this.name,
-        pageNum: this.pageNum,
-        pageSize: this.pageSize
-      }
-      this.API.orderFilter(map, this.pageNum, this.pageSize).then(res => {
-        console.log(res, 1000)
-      })
-    },
-    changeValue (data, index = 1) {
-      this.pageNum = index
-      this.all = data
+      this.all = data[0]
+      this.status = data[1]
     },
     // 格式化时间 2019-01-22 17:24:08
     formatDate (date) {
@@ -192,41 +185,72 @@ export default {
       s = s < 10 ? ('0' + s) : s
       return y + '-' + m + '-' + d + ' ' + h + ':' + mi + ':' + s
     },
-    handleSizeChange (val) {
-      console.log(`每页 ${val} 条`)
-    },
-    handleCurrentChange (val) {
-      console.log(`当前页: ${val}`)
-    },
     // 全选
     selectAll (event) {
       if (!event.currentTarget.checked) this.selectArr = []
       else {
         this.selectArr = []
         this.all.rows.forEach(item => {
-          this.selectArr.push(item.orderId)
+          this.selectArr.push(item)
         })
       }
     },
-    toggle (id) {
-      if (this.selectArr.indexOf(id) >= 0) {
-        this.$delete(this.selectArr, this.selectArr.indexOf(id))
+    // 选择、切换
+    toggle (item) {
+      if (this.selectArr.indexOf(item) >= 0) {
+        this.$delete(this.selectArr, this.selectArr.indexOf(item))
         this.isChecked = false
       } else {
-        this.selectArr.push(id)
+        this.selectArr.push(item)
         if (this.selectArr.length === this.all.rows.length) this.isChecked = true
       }
+    },
+    // 订单删除
+    remove (id) {
+      this.$confirm('确定删除该订单吗, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.API.orderRemove({ids: id}).then(res => {
+          if (res.success === false) return
+          this.$notify.success({
+            title: '删除成功'
+          })
+          // 删除之后初始化 重新请求( pageNum ====> watch)
+          this.status = 0
+          this.pageNum = 1
+        })
+      }).catch(() => {})
     },
     nextPage () {
       if (this.pageNum * this.pageSize < this.all.total) {
         this.pageNum++
       }
-      console.log('nextPage')
     },
     prevPage () {
-      console.log('prevPage')
       if (this.pageNum > 1) {
         this.pageNum--
+      }
+    },
+    // 批量操作(合并付款 status 1，批量收货 status 4)
+    togetherBtn (status, desc) {
+      if (!this.selectArr.length) return
+      let point = []
+      this.selectArr.forEach(item => {
+        if (item.status !== status) point.push(item)
+      })
+      if (point.length) {
+        this.$notify.warning({
+          title: '猴尾巴提示您',
+          message: `您${point.length}有笔订单不支持${desc},请重新选择`
+        })
+      } else {
+        if (status === 1) {
+          console.log(1)
+        } else if (status === 4) {
+          console.log(4)
+        }
       }
     }
   },
@@ -235,9 +259,21 @@ export default {
       this.isSearch = true
     },
     pageNum (newPage) {
-      this.API.userOrder({userName: this.name, pageNum: this.pageNum, pageSize: this.pageSize}).then(res => {
-        this.all = res
-      })
+      // 初始化
+      console.log(11000)
+      this.selectArr = []
+      this.isChecked = false
+      if (this.status >= 0) {
+        let arg = {userName: this.name, pageNum: this.pageNum, pageSize: this.pageSize}
+        if (this.status) {
+          Object.assign(arg, {status: this.status})
+        }
+        this.API.userOrder(arg).then(res => {
+          this.all = res
+        })
+      } else { // 通过条件查询
+        this.submit(newPage)
+      }
     }
   }
 }

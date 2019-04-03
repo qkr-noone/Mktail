@@ -36,23 +36,25 @@ export default {
         { label: '已发货', index: 4 },
         { label: '已完成', index: 5 },
         { label: '已退款', index: 6 }
-      ],
-      pageNum: 1
+      ]
     }
   },
-  props: [],
+  props: {
+    pageSize: {
+      type: [Number],
+      default: 1
+    }
+  },
   methods: {
     tab (command) {
-      console.log(command, 'tab')
       this.listSelectStaus = command.label
-      let arg = {userName: this.$cookies.get('user-key'), pageNum: this.pageNum, pageSize: 15}
+      let arg = {userName: this.$cookies.get('user-key'), pageNum: 1, pageSize: this.pageSize}
       if (command.index) {
         Object.assign(arg, {status: command.index})
       }
       this.API.userOrder(arg).then(res => {
         // 选择的交易状态数据替换所有订单数据、父页面的pageNum
-        this.pageNum = 1
-        this.$emit('changePageNum', res)
+        this.$emit('changePageNum', [res, command.index])
       })
     }
   }
