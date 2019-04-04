@@ -87,7 +87,7 @@ export default {
       }
       this.$store.dispatch('USER_LOGIN', data).then(async res => {
         this.password = ''
-        await this.$store.dispatch('USER_INFO', data.username)
+        await this.$store.dispatch('USER_INFO')
         await this.$store.dispatch('CART')
         this.$router.push(this.$route.query.back)
       })

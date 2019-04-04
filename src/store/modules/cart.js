@@ -5,7 +5,7 @@ import { setStore } from '@/common/utils'
 const cart = {
 
   state: {
-    cartList: [] // 购物车列表
+    cartList: []
   },
 
   mutations: {

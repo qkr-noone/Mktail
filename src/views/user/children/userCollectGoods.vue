@@ -8,7 +8,7 @@
         </div>
         <div class="top_search">
           <input type="text" placeholder="请输入店铺名称" v-model="value">
-          <button @click="findShop()">搜索</button>
+          <button class="has_pointer" @click="findShop()">搜索</button>
         </div>
       </div>
       <div class="content">
@@ -60,9 +60,9 @@
         </div>
         <div class="goodsList" v-show="focusGoods===true">
           <ul class="go-ul">
-            <li class="goods-item"  v-for="(goods,i) in goodsList" :key='i' >
-              <router-link :to="{path:'/detail', query:{goodsId: goods.goodsId}}"><img :src="goods.image"></router-link>
-              <p class="item-title">{{goods.title}} </p>
+            <li class="goods-item"  v-for="(goods, i) in goodsList.rows" :key='i' >
+              <router-link :to="{path:'/detail', query:{goodsId: goods.goodsId}}"><img :src="goods.smallPic"></router-link>
+              <p class="item-title">{{goods.goodsName}} </p>
               <p class="item-price">¥{{goods.price}}</p>
               <p class="inform-operation">
                 <!-- <a>降价通知</a> -->
@@ -75,14 +75,14 @@
                 </div>
               </div>
             </li>
-            <li class="goods-item not-data" v-if="!goodsList.length">
+            <li class="goods-item not-data" v-if="!goodsList.total">
               你的收藏中没有与“{{value}}”相关的商品
             </li>
           </ul>
         </div>
         <div class="storeList" v-show="focusGoods===false">
           <ul>
-            <li class="list-item" v-for="(store,i) in temList" :key='i'>
+            <li class="list-item" v-for="(store, i) in temList" :key='i'>
               <div class="store-info">
                 <!-- <img :src="store.shops.logoPic"> -->
                 <a href="javascript:;"><img :src="store.shops.logoPic"></a>
@@ -102,8 +102,8 @@
                  </div>
                 <div class="sto-li">
                   <li class="store-item " v-if="storeGoods && i < 5" v-for="(storeGoods,i) in store.child" :key='i'>
-                    <img :src="storeGoods.image" class="has_pointer">
-                    <p class="storeItem-title">{{storeGoods.title}}</p>
+                    <router-link :to="{path:'/detail', query:{goodsId: storeGoods.goodsId}}"><img :src="storeGoods.smallPic" class="has_pointer"></router-link>
+                    <p class="storeItem-title">{{storeGoods.goodsName}}</p>
                     <p class="storeItem-price">¥{{storeGoods.price}}</p>
                   </li>
                 </div>
@@ -114,25 +114,25 @@
                 </div>
               </div>
             </li>
-            <li class="list-item not-data" v-if="!storeList.length">
+            <li class="list-item not-data" v-if="!storeList.total">
               你的收藏中没有与“{{value}}”相关的店铺
             </li>
           </ul>
         </div>
         <div class="block">
-          <el-pagination v-if="focusGoods && goodsList.length"
+          <el-pagination v-if="focusGoods && isGoodsPN"
             @current-change="handleCurrentChangeGoods"
             :current-page.sync="currentPage"
             :page-size="pageSize"
             layout="prev, pager, next, jumper"
-            :total="goodsList.length">
+            :total="goodsList.total">
           </el-pagination>
-          <el-pagination v-else-if="!focusGoods && storeList.length"
+          <el-pagination v-else-if="!focusGoods && isStorePN"
             @current-change="handleCurrentChangeShops"
             :current-page.sync="currentPage"
             :page-size="pageSize"
             layout="prev, pager, next, jumper"
-            :total="storeList.length">
+            :total="storeList.total">
           </el-pagination>
         </div>
       </div>
@@ -143,10 +143,10 @@
 export default {
   data () {
     return {
-      username: '', // 用户名
+      username: this.$cookies.get('user-key'), // 用户名
       focusGoods: true, // 商品关注or店铺关注？
-      goodsList: [], // 收藏宝贝列表
-      storeList: [],
+      goodsList: {}, // 收藏宝贝列表
+      storeList: {},
       temList: [], // 临时列表
       starValue: 5, // 评价星
       currentPage: 1, // 当前页码
@@ -162,14 +162,31 @@ export default {
       destination: '请选择',
       value: '',
       isShow: false,
-      isChoose: [] // 选中删除的列表
+      isChoose: [], // 选中删除的列表
+      isSearch: false // 判断是否来源于搜索
     }
   },
   props: {},
+  computed: {
+    isGoodsPN () {
+      let tem = false
+      // 生命周期===> 是否获取到值了
+      if (this.goodsList.hasOwnProperty('rows') && this.goodsList.rows.length) {
+        tem = true
+      }
+      return tem
+    },
+    isStorePN () {
+      let tem = false
+      if (this.storeList.hasOwnProperty('rows') && this.storeList.rows.length) {
+        tem = true
+      }
+      return tem
+    }
+  },
   mounted () {
     let tem = this.$route.path.split('/')[2]
     tem === 'userCollectGoods' ? this.focusGoods = true : this.focusGoods = false
-    this.username = this.$cookies.isKey('userInfo') ? this.$cookies.get('userInfo').username : ''
     this.requestGoods()
     this.requestStore()
     // 配送至
@@ -190,6 +207,7 @@ export default {
       this.currentPage = 1
       this.value = ''
       this.isShow = false
+      this.isSearch = false
       this.$refs.set.innerHTML = '批量操作'
       this.checked = false
       this.isChoose = []
@@ -204,11 +222,13 @@ export default {
         if (res.success === false) return false
         this.temList.push({child: res, shops: shops})
       })
-      console.log(this.temList, 'tem')
+      console.log(this.temList)
     },
     handleCurrentChangeGoods (val) {
-      this.currentPage = val
-      this.requestGoods()
+      // 判断是否搜索
+      console.log(this.currentPage)
+      if (this.isSearch) this.findShop(val)
+      else this.requestGoods()
     },
     handleCurrentChangeShops (val) {
       this.currentPage = val
@@ -224,25 +244,26 @@ export default {
       this.temList = []
       this.API.userCollectType({typeId: 2, userName: this.username, pageNum: this.currentPage, pageSize: this.pageSize}).then(res => {
         this.storeList = res
-        this.storeList.forEach(item => {
+        console.log('gzdp', this.storeList)
+        this.storeList.rows.length && this.storeList.rows.forEach(item => {
           this.request(item.sellerId, item)
         })
-        console.log(this.storeList, 10)
       })
     },
     // 查询
-    findShop () {
+    findShop (page = 1) {
+      this.isSearch = true
       if (this.focusGoods) {
-        this.API.searchCollectGoods({userName: this.username, title: this.value}).then(res => {
+        this.API.searchCollectGoods({userName: this.username, keyword: this.value, pageNum: page, pageSize: this.pageSize}).then(res => {
           this.goodsList = res
           console.log(res, 'goods')
         })
       } else {
         this.temList = []
-        this.API.searchCollectShops({userName: this.username, sellerName: this.value}).then(res => {
+        this.API.searchCollectShops({userName: this.username, keyword: this.value, pageNum: page, pageSize: this.pageSize}).then(res => {
           this.storeList = res
           console.log(res, this.storeList, 'store')
-          this.storeList.forEach(item => {
+          this.storeList.rows.length && this.storeList.rows.forEach(item => {
             console.log(item, 'bug')
             this.request(item.sellerId, item)
           })
@@ -283,7 +304,7 @@ export default {
         this.checked = false
       } else {
         this.isChoose.push(id)
-        if (this.isChoose.length === this.storeList.length) this.checked = true
+        if (this.isChoose.length === this.storeList.rows.length) this.checked = true
       }
       console.log(this.isChoose.length)
     },
@@ -300,7 +321,7 @@ export default {
     },
     isAll () {
       if (this.checked) {
-        this.storeList.forEach(item => {
+        this.storeList.rows.length && this.storeList.rows.forEach(item => {
           if (this.isChoose.indexOf(item.sellerId) === -1) this.isChoose.push(item.sellerId)
         })
       } else this.isChoose = []
@@ -707,9 +728,10 @@ export default {
     line-height: 15px;
    overflow : hidden;
   }
-  .store-item>img{
+  .store-item> a>img{
     width:139px;
     height:139px;
+    overflow: hidden;
   }
   .storeList .storeItem-price{
     font-size:22px;

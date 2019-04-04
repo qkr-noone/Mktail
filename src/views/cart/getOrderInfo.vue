@@ -239,7 +239,7 @@
             <span>{{defaultAddress.mobile}}</span>
           </div>
         </div>
-        <div class="sum-order" @click="submitOrder">提交订单</div>
+        <div class="sum-order has_pointer" @click="submitOrder">提交订单</div>
       </div>
     </div>
     <div class="user-info Center" v-if="isForm">
@@ -717,6 +717,9 @@ export default {
 </script>
 <style scoped>
 @import "../../assets/css/cart/getOrderInfo.css";
+  .has_pointer {
+    cursor: pointer;
+  }
 /* 获取用户信息表格*/
   .user-info {
     position: fixed;

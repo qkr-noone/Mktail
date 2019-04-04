@@ -27,7 +27,7 @@
         </div>
         <div class="cart-main">
           <div class="cart-title cart-th">
-            <div class="cart-1 select-all-top"><input type="checkbox" :checked="cartList.length && cartList.allChecked === 1" @click="allCheck($event)"/> 全部</div>
+            <div class="cart-1 select-all-top"><input type="checkbox" :checked="cartList.length && cartList.allChecked === 1" @change="allCheck($event)"/> 全部</div>
             <div class="cart-2">商品信息</div>
             <div class="cart-3">规格</div>
             <div class="cart-4">单价(元)</div>
@@ -79,8 +79,8 @@
                   </buyNum>
                   <li class="cart-4"><span class="sum">{{(item.price * item.num).toFixed(2)}}</span></li>
                   <li class="cart-4 add-remove">
-                    <a class="remove">加入收藏</a>
-                    <a class="remove" @click="cartDel(item.itemId, item.sellerId)">删除</a>
+                    <a class="remove" href="javascript:;">加入收藏</a>
+                    <a class="remove" href="javascript:;" @click="cartDel(item.itemId, item.sellerId)">删除</a>
                   </li>
                 </ul>
               </div>
@@ -104,7 +104,7 @@
               <span><em>已节省：</em><em>-¥{{free}}</em></span>
             </div>
             <div class="sumbtn">
-              <a class="sum-btn" @click="count">去结算</a>
+              <a href="javascript:;" class="sum-btn" @click="count">去结算</a>
             </div>
           </div>
         </div>
@@ -292,30 +292,42 @@ export default {
     },
     // 删除单条购物车数据
     cartDel (productSkuId, sellerId) {
-      this._cartDel(productSkuId, sellerId)
+      this.$confirm('确定删除购物车商品吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this._cartDel(productSkuId, sellerId)
+      }).catch(() => {
+      })
     },
     // 删除多条、选中的购车数据 index: 0/1  删除选中/清空
     cartDeList (list, index) {
-      if (index) {
-        let tem = []
-        list.forEach(tip => {
-          tip.orderItemList.forEach(point => {
-            tem.push(point)
+      this.$confirm('确定删除购物车商品吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        if (index) {
+          let tem = []
+          list.forEach(tip => {
+            tip.orderItemList.forEach(point => {
+              tem.push(point)
+            })
           })
-        })
-        list = tem
-      } else {
-        if (!list.length) {
-          this.$message.info('未选中商品')
-          return false
+          list = tem
+        } else {
+          if (!list.length) {
+            this.$message.info('未选中商品')
+            return false
+          }
         }
-      }
-      let series = []
-      list.forEach(data => {
-        series.push({skuId: data.itemId, sellerId: data.sellerId})
-      })
-      console.log(series)
-      this._cartAllDel(series)
+        let series = []
+        list.forEach(data => {
+          series.push({skuId: data.itemId, sellerId: data.sellerId})
+        })
+        this._cartAllDel(series)
+      }).catch(() => {})
     },
     // 修改数量
     _cartEditNum (productSkuId, productNum, sellerId, checked) {

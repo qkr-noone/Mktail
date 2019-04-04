@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// import VueCookies from 'vue-cookies'
-import { getStore } from '@/common/utils'
+import store from '@/store'
+import vueCookies from 'vue-cookies'
 
-// Vue.use(VueCookies)
+Vue.use(vueCookies)
 Vue.use(Router)
 
 let router
@@ -339,16 +339,48 @@ router = new Router({
 
 router.beforeEach((to, from, next) => {
   // 占坑 this.$cookies 获取不到 => router.app.$cookies
-  // 可直接使用 VueCookies？   VueCookies.get('token')
+  // 可直接使用 vueCookies   vueCookies.get('token')
   // console.log(this, router.app.$cookies)
   // to.matched
-  let login = getStore('userInfo')
-  if (to.meta.isLogin) {
-    login ? next() : next({ path: '/login', query: { back: to.fullPath } })
+  let token = vueCookies.get('token')
+
+  let checkUser = (to, next) => {
+    if (!store.state.user.userInfo) {
+      store.dispatch('USER_INFO').then(res => { // 获取用户信息, 存下用户名
+        vueCookies.set('user-key', res.username)
+        next()
+      }).catch(() => {
+        // 登出
+        store.dispatch('USER_LOGOUT').then(() => {
+          next({ path: '/login', query: { back: to.fullPath } })
+        })
+      })
+    } else {
+      if (!vueCookies.get('user-key')) {
+        vueCookies.set('user-key', store.state.user.userInfo.username)
+      }
+      next()
+    }
+  }
+
+  if (to.meta.isLogin) { // 需要登陆
+    if (token) {
+      checkUser(to, next)
+    } else {
+      next({ path: '/login', query: { back: to.fullPath } })
+    }
   } else {
     if (to.path === '/login') {
-      if (login) {
-        next({ path: '/home' })
+      if (token) {
+        if (!store.state.user.userInfo) {
+          store.dispatch('USER_INFO').then(res => { // 获取用户信息, 存下用户名
+            vueCookies.set('user-key', res.username)
+          })
+          next({ path: '/home' })
+        } else {
+          vueCookies.set('user-key', store.state.user.userInfo.username)
+          next({ path: '/home' })
+        }
       } else {
         if (to.query.back) {
           next()
@@ -356,7 +388,7 @@ router.beforeEach((to, from, next) => {
           next({ path: '/login', query: { back: from.fullPath } })
         }
       }
-    } else {
+    } else { // 不需要登陆
       next()
     }
   }

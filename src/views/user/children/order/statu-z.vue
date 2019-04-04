@@ -10,9 +10,9 @@
         <div class="group">
           <label>订单类型</label>
           <select v-model="select.orderSelect" class="has_pointer">
-            <option>全部</option>
-            <option>普通订单</option>
-            <option>采购订单</option>
+            <option :value="0">全部</option>
+            <option :value="1">普通订单</option>
+            <option :value="2">采购订单</option>
           </select>
         </div>
         <div class="group">
@@ -30,29 +30,29 @@
         <div class="group">
           <label>评价状态</label>
           <select v-model="select.recomSelect" class="has_pointer">
-            <option>全部</option>
-            <option>待评价</option>
-            <option>已评价</option>
+            <option :value="0">全部</option>
+            <option :value="1">待评价</option>
+            <option :value="2">已评价</option>
           </select>
         </div>
         <div class="group align" style="width:347px">
           <label>交易状态</label>
           <select v-model="select.tradeSelect" class="has_pointer">
-            <option attr="0">全部</option>
-            <option attr="1">待付款</option>
-            <option attr="2">已取消</option>
-            <option attr="3">已付款</option>
-            <option attr="4">已发货</option>
-            <option attr="5">已完成</option>
-            <option attr="6">已退款</option>
+            <option :value="0">全部</option>
+            <option :value="1">待付款</option>
+            <option :value="2">已取消</option>
+            <option :value="3">已付款</option>
+            <option :value="4">已发货</option>
+            <option :value="5">已完成</option>
+            <option :value="6">已退款</option>
           </select>
         </div>
         <div class="group">
           <label>售后服务</label>
           <select v-model="select.ensureSelect" class="has_pointer">
-            <option>全部</option>
-            <option>已投诉</option>
-            <option>退款中</option>
+            <option :value="0">全部</option>
+            <option :value="1">已投诉</option>
+            <option :value="2">退款中</option>
           </select>
         </div>
       </div>
@@ -98,13 +98,13 @@ export default {
       isSearch: false,
       goodsOrderNum: '',
       select: {
-        orderSelect: '全部',
+        orderSelect: 0, // 订单类型 1，普通订单 2，采购订单
         datetime1: '',
         datetime2: '',
         seller: '',
-        recomSelect: '全部',
-        tradeSelect: '全部',
-        ensureSelect: '全部'
+        recomSelect: 0, // 评价状态：1、待评价，2、已评价
+        tradeSelect: 0, // 订单状态：1、待付款，2、已取消，3、已付款，4、已发货，5、已完成，6、已退款
+        ensureSelect: 0 // 售后服务：1、已投诉，2、退款中
       },
       all: '', // 所有订单
       pageNum: 1,
@@ -149,19 +149,20 @@ export default {
       this.status = -1
       let one = this.select.datetime1 ? this.formatDate(this.select.datetime1) : this.select.datetime1
       let two = this.select.datetime2 ? this.formatDate(this.select.datetime2) : this.select.datetime2
-      console.log(one, two, this.select.tradeSelect, this.select.orderSelect, this.select.seller, this.select.recomSelect, this.select.ensureSelect, this.name)
       this.pageNum = page
       let map = {
         keyword: this.goodsOrderNum,
+        orderType: this.select.orderSelect || '',
         sellerName: this.select.seller,
-        status: '',
+        evaluationStatus: this.select.recomSelect || '',
+        status: this.select.tradeSelect || '',
+        afterSaleStatus: this.select.ensureSelect || '',
         startTime: one,
         endTime: two,
         username: this.name
       }
       this.API.orderFilter(map, this.pageNum, this.pageSize).then(res => {
         this.all = res
-        console.log(res)
       })
     },
     // 子组件传值进来

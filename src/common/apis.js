@@ -26,7 +26,7 @@ export default {
   // 注册用户
   register: (data, smscode) => http.post('/user/user/add?smscode=' + smscode, data),
   // 获取用户信息
-  getUserInfo: data => http.get('/user/login/authenticateUser', data),
+  getUserInfo: data => http.get('/user/login/info', data),
   // 登陆 获取token
   getToken: data => http.post('/user/login/login', data),
   // 用户退出登录
