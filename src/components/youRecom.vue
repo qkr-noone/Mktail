@@ -1,52 +1,9 @@
 <template>
   <ul class="recommend-list">
-    <li class="list-item">
-      <img src="static/img/user/user_demo.png">
-      <p class="list-item-title">
-        希箭HOROW 全铜冷热水龙头<br>
-        单把双孔方形面盆龙头卫浴
-      </p>
-      <p class="price">￥549.00</p>
-    </li>
-    <li class="list-item">
-      <img src="static/img/user/user_demo.png">
-      <p class="list-item-title">
-        希箭HOROW 全铜冷热水龙头<br>
-        单把双孔方形面盆龙头卫浴
-      </p>
-      <p class="price">￥549.00</p>
-    </li>
-    <li class="list-item">
-      <img src="static/img/user/user_demo.png">
-      <p class="list-item-title">
-        希箭HOROW 全铜冷热水龙头<br>
-        单把双孔方形面盆龙头卫浴
-      </p>
-      <p class="price">￥549.00</p>
-    </li>
-    <li class="list-item">
-      <img src="static/img/user/user_demo.png">
-      <p class="list-item-title">
-        希箭HOROW 全铜冷热水龙头<br>
-        单把双孔方形面盆龙头卫浴
-      </p>
-      <p class="price">￥549.00</p>
-    </li>
-    <li class="list-item">
-      <img src="static/img/user/user_demo.png">
-      <p class="list-item-title">
-        希箭HOROW 全铜冷热水龙头<br>
-        单把双孔方形面盆龙头卫浴
-      </p>
-      <p class="price">￥549.00</p>
-    </li>
-    <li class="list-item">
-      <img src="static/img/user/user_demo.png">
-      <p class="list-item-title">
-        希箭HOROW 全铜冷热水龙头<br>
-        单把双孔方形面盆龙头卫浴
-      </p>
-      <p class="price">￥549.00</p>
+    <li class="list-item" v-for="(item, index) in list" :key="item.id" v-if="index < 6">
+      <img :src="item.pic" :data-id="item.goodsId">
+      <p class="list-item-title">{{item.title}}</p>
+      <p class="price">￥{{item.price}}</p>
     </li>
   </ul>
 </template>
@@ -55,7 +12,11 @@ export default {
   data () {
     return {}
   },
-  props: []
+  props: {
+    list: {
+      type: Array
+    }
+  }
 }
 
 </script>
@@ -76,6 +37,10 @@ export default {
     color:rgba(0,0,0,1);
   }
   .recommend-list .list-item-title{
+    width: 166px;
+    height: 32px;
+    line-height: 16px;
+    overflow: hidden;
     font-size:14px;
     font-weight:300;
     color:rgba(143,143,143,1);

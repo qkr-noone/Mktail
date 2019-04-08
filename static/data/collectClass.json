@@ -1,0 +1,15 @@
+{
+  "_comment": "店铺商品收藏关注 分类筛选数据",
+  "data": [
+    {"name": "name1", "ID": 123, "num": 1},
+    {"name": "name1", "ID": 124, "num": 2},
+    {"name": "name1", "ID": 125, "num": 1},
+    {"name": "name1", "ID": 126, "num": 1},
+    {"name": "name1", "ID": 127, "num": 2},
+    {"name": "name1", "ID": 128, "num": 1},
+    {"name": "name1", "ID": 129, "num": 1},
+    {"name": "name1", "ID": 1210, "num": 2}
+  ],
+  "success": true,
+  "message": "成功"
+}

@@ -91,6 +91,7 @@
 import orderListTitle from '@/components/orderListTitle'
 import orderListContentHead from '@/components/orderListContentHead'
 import orderListContent from '@/components/orderListContent'
+import { formatDate } from '@/common/utils'
 export default {
   data () {
     return {
@@ -135,9 +136,6 @@ export default {
     }
   },
   mounted () {
-    // 所有订单(不传)  订单状态：1、待付款，2、已取消，3、已付款，4、已发货，5、已完成，6、已退款
-    // 条件过滤中评价状态： 待评价是已发货、已完成 ，已评价是已完成
-    // 条件过滤 还有四个状态没有给完全  修改map 中的数据条件
     this.API.userOrder({userName: this.name, pageNum: this.pageNum, pageSize: this.pageSize}).then(res => {
       this.all = res
       console.log(res)
@@ -147,8 +145,8 @@ export default {
     // 订单过滤
     submit (page) {
       this.status = -1
-      let one = this.select.datetime1 ? this.formatDate(this.select.datetime1) : this.select.datetime1
-      let two = this.select.datetime2 ? this.formatDate(this.select.datetime2) : this.select.datetime2
+      let one = this.select.datetime1 ? formatDate(this.select.datetime1) : this.select.datetime1
+      let two = this.select.datetime2 ? formatDate(this.select.datetime2) : this.select.datetime2
       this.pageNum = page
       let map = {
         keyword: this.goodsOrderNum,
@@ -170,21 +168,6 @@ export default {
       this.pageNum = 1
       this.all = data[0]
       this.status = data[1]
-    },
-    // 格式化时间 2019-01-22 17:24:08
-    formatDate (date) {
-      let y = date.getFullYear()
-      let m = date.getMonth() + 1
-      m = m < 10 ? '0' + m : m
-      let d = date.getDate()
-      d = d < 10 ? ('0' + d) : d
-      let h = date.getHours()
-      h = h < 10 ? ('0' + h) : h
-      let mi = date.getMinutes()
-      mi = mi < 10 ? ('0' + mi) : mi
-      let s = date.getSeconds()
-      s = s < 10 ? ('0' + s) : s
-      return y + '-' + m + '-' + d + ' ' + h + ':' + mi + ':' + s
     },
     // 全选
     selectAll (event) {
@@ -261,7 +244,6 @@ export default {
     },
     pageNum (newPage) {
       // 初始化
-      console.log(11000)
       this.selectArr = []
       this.isChecked = false
       if (this.status >= 0) {

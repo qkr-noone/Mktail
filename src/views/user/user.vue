@@ -176,12 +176,12 @@
           <div class="recommend-top">
             <span>为您推荐</span>
             <hr>
-            <div class="page-turning">
+            <!-- <div class="page-turning">
               <el-pagination small layout="prev, pager, next" :total="50"></el-pagination>
-            </div>
+            </div> -->
           </div>
           <div>
-            <youRecom></youRecom>
+            <youRecom :list="recList"></youRecom>
           </div>
         </div>
       </div>
@@ -241,7 +241,8 @@ export default {
       userBirthday: '', // 用户生日
       userImageUrl: 'static/img/logo-200.png', // 用户头像
       goodsSellersNum: '', // 关注店铺和商品数量
-      isOrder: false
+      isOrder: false,
+      recList: []
     }
   },
   components: { shortcut, userNav, youLike, youRecom },
@@ -291,6 +292,10 @@ export default {
     // 关注店铺和商品
     this.API.userGoodsShopNum({userName: this.$cookies.get('user-key')}).then(res => {
       this.goodsSellersNum = res
+    })
+    // 订单 为你推荐
+    this.API.homeBanner({categoryId: 25}).then(res => {
+      this.recList = res.contentList
     })
   },
   methods: {

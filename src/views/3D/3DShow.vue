@@ -10,7 +10,11 @@
             <img src="static/img/mk_search_play.png">
           </a>
           <div class="menu-box">
-            <a href="javascript:;" class="set-menu"><img src="static/img/3D_menu.png"></a>
+            <a href="javascript:;" @click="btnUrl()" class="set-menu">
+              <img src="static/img/3D_menu.png">
+              <input type="" name="" ref="testDom" v-model="testValue" style="position: absolute; top: 60px; left: 20px">
+              <button @click="testHidden()" ref="testBtn" style="position: absolute; top: 90px; left: 20px; width: 40px;height: 20px;"></button>
+            </a>
             <h2 class="get-set-h">自定义产品</h2>
             <a href="javascript:;" class="get-user" @click="getForm()">获取</a>
           </div>
@@ -122,7 +126,8 @@ export default {
           { min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur' }
         ]
       },
-      IP: 'http://192.168.1.34:8080/50c'
+      IP: 'http://192.168.1.34:8080/50c',
+      testValue: ''
     }
   },
   components: { shortcut, live3Dheader, pageFooter },
@@ -174,6 +179,16 @@ export default {
     },
     closeForm () {
       this.isForm = false
+    },
+    // 为了U3D方便测试填入的 接口
+    btnUrl () {
+      this.IP = this.testValue
+      this.$refs.threeDSrc.src = this.IP + '/index.html?spuid=10112267'
+      console.log('THIS IS IP', this.IP)
+    },
+    testHidden () {
+      this.$refs.testDom.style.display = 'none'
+      this.$refs.testBtn.style.display = 'none'
     }
   }
 }
@@ -280,7 +295,9 @@ export default {
     display: flex;
     align-items: center;
   }
-  .set-menu {}
+  .set-menu {
+    position: relative;
+  }
   .get-set-h {
     font-size:28px;
     font-family:SourceHanSansCN-Normal;

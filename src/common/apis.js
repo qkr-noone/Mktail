@@ -110,6 +110,19 @@ export default {
   orderFilter: (data, pageNum, pageSize) => http.post('/cart/order/searchOrderByMap?pageNum=' + pageNum + '&pageSize=' + pageSize, data),
   // 订单删除
   orderRemove: data => http.get('/cart/order/delete', data),
+  // 获取用户的详细信息
+  userBaseInfo: data => http.get('/personData/personData/findUserInfoByUserName', data),
+  // 修改用户的详细信息
+  userUpdateInfo: data => http.post('/personData/personData/UpdateUser', data),
+  // 用户头像上传
+  userUpdateHead: data => http.post('/personData/personData/uploadFile', data),
+  // 字节流上传头像
+  userUploadBlodFlow: (data, extName) => http.post('/personData/personData/uploadFile1?extName=' + extName, data),
+
+  /* ---- 收藏关注 ---- */
+
+  // 添加收藏(商品、店铺)
+  addCollect: data => http.post('/userCollect/userCollect/addUserCollect', data),
   // 用户关注类型 (1: 关注商品，2: 关注店铺)
   userCollectType: data => http.get('/userCollect/userCollect/findUserCollectByTypeAndUserName', data),
   // 收藏店铺 店铺里的商品
@@ -119,13 +132,5 @@ export default {
   // 查询 用户关注的商品
   searchCollectGoods: data => http.get('/userCollect/userCollect/searchGoodCollect', data),
   // 删除用户关注信息
-  deleteCollect: data => http.get('/userCollect/userCollect/delUserCollectByDataId', data),
-  // 获取用户的详细信息
-  userBaseInfo: data => http.get('/personData/personData/findUserInfoByUserName', data),
-  // 修改用户的详细信息
-  userUpdateInfo: data => http.post('/personData/personData/UpdateUser', data),
-  // 用户头像上传
-  userUpdateHead: data => http.post('/personData/personData/uploadFile', data),
-  // 字节流上传头像
-  userUploadBlodFlow: (data, extName) => http.post('/personData/personData/uploadFile1?extName=' + extName, data)
+  deleteCollect: data => http.get('/userCollect/userCollect/delUserCollectByDataId', data)
 }

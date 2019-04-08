@@ -147,7 +147,8 @@ export default {
     display: none;
     border: 1px solid #ddd;
     border-top: none;
-    box-shadow: 1px 2px 1px rgba(0,0,0,.1)
+    box-shadow: 1px 2px 1px rgba(0,0,0,.1);
+    z-index: 22;
   }
   .sc-right >ul li:hover{
     background-color: #fff;

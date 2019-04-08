@@ -33,7 +33,7 @@
                 <!--左右按钮-->
                 <div class="items">
                   <ul ref="scroolUl">
-                    <li v-for= "(img, index) in scroolListImg" :key="index" @mouseover="scrollBig(img.url)"><img :class="{'man_choose': currentImg === img.url}" :src="img.url"/></li>
+                    <li class="has_pointer" v-for= "(img, index) in scroolListImg" :key="index" @mouseover="scrollBig(img.url)"><img :class="{'man_choose': currentImg === img.url}" :src="img.url"/></li>
                   </ul>
                 </div>
                 <a class="next" v-if="scroolListImg.length>5" href="javascript:;" @click="imgNext"><i class="el-icon-arrow-right"></i></a>
@@ -41,9 +41,9 @@
             </div>
             <div class="collect">
               <i class="el-icon-share"></i>
-              <span>分享</span>
+              <span class="has_pointer">分享</span>
               <i class="el-icon-star-on"></i>
-              <span>关注</span>
+              <span class="has_pointer" @click="toCollect($route.query.goodsId, 1)">关注</span>
             </div>
           </div>
           <div class="fr itemInfo-wrap">
@@ -100,10 +100,10 @@
             <div class="choose">
               <ul class="summary-wrap">
                 <li class="spec-list" v-for="(data, index) in spec" :key="data[index]">
-                  <div class="title"><i>{{data.attributeName}}</i></div>
+                  <div class="title"><i class="has_pointer">{{data.attributeName}}</i></div>
                   <ul>
                     <li v-for="list in data.attributeValue" :key="list" @click="selectSpec(data.attributeName, list)">
-                      <a :class="{selected: selectArr[data.attributeName] === list }">{{list}}</a>
+                      <a class="has_pointer" :class="{selected: selectArr[data.attributeName] === list }">{{list}}</a>
                     </li>
                   </ul>
                 </li>
@@ -112,8 +112,8 @@
                   <div class="control-group">
                     <div class="controls">
                       <input autocomplete="off" type="text" value="1" v-model="num" min="1" :max="num" class="itxt" />
-                      <a class="increment plus" @click="addNum(limitNum)"><i class="el-icon-plus"></i></a>
-                      <a class="increment mins" @click="delNum()"><i class="el-icon-minus"></i></a>
+                      <a class="increment plus" @click="addNum(limitNum)"><i class="el-icon-plus has_pointer"></i></a>
+                      <a class="increment mins" @click="delNum()"><i class="el-icon-minus has_pointer"></i></a>
                     </div>
                   </div>
                 </li>
@@ -176,20 +176,20 @@
         <div class=" product-detail">
           <div class="aside">
             <div class="shop-box">
-              <h4>{{sellerInfo.nickName}}</h4><img src="static/img/mk_search_link.png">
+              <h4 class="has_pointer">{{sellerInfo.nickName}}</h4><img src="static/img/mk_search_link.png">
             </div>
             <div class="shop-list">
               <div class="buy-word shops">
-                <a class="sui-btn  btn-danger"><img src="static/img/mk_search_comshop.png"><span>进店逛逛</span></a>
+                <a class="sui-btn  btn-danger"><img src="static/img/mk_search_comshop.png"><span class="has_pointer">进店逛逛</span></a>
               </div>
               <div class="buy-word shops">
-                 <a class="sui-btn  btn-danger"><img src="static/img/mk_search_addshop.png"><span>关注店铺</span></a>
+                 <a class="sui-btn  btn-danger"><img src="static/img/mk_search_addshop.png"><span class="has_pointer" @click="toCollect(sellerInfo.sellerId, 2)">关注店铺</span></a>
               </div>
             </div>
             <section class="sui-nav nav-tabs tab-wraped">
               <div class="nav-li">
-                <div class="nav-hot nav-shop" :class='{activity_show: changeShowType ==="navShop"}' @click="changeShowType='navShop'">店铺热销</div>
-                <div class="nav-hot nav-brand" :class='{activity_show: changeShowType ==="navBrand"}' @click="changeShowType='navBrand'">推荐品牌</div>
+                <div class="nav-hot nav-shop has_pointer" :class='{activity_show: changeShowType ==="navShop"}' @click="changeShowType='navShop'">店铺热销</div>
+                <div class="nav-hot nav-brand has_pointer" :class='{activity_show: changeShowType ==="navBrand"}' @click="changeShowType='navBrand'">推荐品牌</div>
               </div>
             </section>
             <transition>
@@ -219,10 +219,10 @@
             <div class="tab-main intro">
               <div class="tab-nav">
                 <ul>
-                  <li class="tab-nav-li"><a :class="{choosetab:'商品介绍'===tabNav}"  @click="tab('商品介绍', 'desciption')">商品介绍</a></li>
-                  <li class="tab-nav-li" v-if="show3dStatus"><a :class="{choosetab:'3D展示'===tabNav}"  @click="tab('3D展示', '3D')">3D展示</a></li>
-                  <li class="tab-nav-li"><a :class="{choosetab:'商品评价'===tabNav}"  @click="tab('商品评价', 'review')">商品评价</a></li>
-                  <li class="tab-nav-li"><a :class="{choosetab:'售后保障'===tabNav}"  @click="tab('售后保障', 'afterSale')">售后保障</a></li>
+                  <li class="tab-nav-li has_pointer"><a :class="{choosetab:'商品介绍'===tabNav}"  @click="tab('商品介绍', 'desciption')">商品介绍</a></li>
+                  <li class="tab-nav-li has_pointer" v-if="show3dStatus"><a :class="{choosetab:'3D展示'===tabNav}"  @click="tab('3D展示', '3D')">3D展示</a></li>
+                  <li class="tab-nav-li has_pointer"><a :class="{choosetab:'商品评价'===tabNav}"  @click="tab('商品评价', 'review')">商品评价</a></li>
+                  <li class="tab-nav-li has_pointer"><a :class="{choosetab:'售后保障'===tabNav}"  @click="tab('售后保障', 'afterSale')">售后保障</a></li>
                 </ul>
                 <div class="buy-word se-add-cart">
                   <a class="sui-btn  btn-danger addshopcar" @click="submit()">加入购物车</a>
@@ -250,30 +250,7 @@
     <!-- 登陆 -->
     <div class="mask mask-login" v-show="isMaskLogin">
       <div class="is-login">
-        <el-tabs type="border-card" class="sui-nav nav-tabs tab-wraped">
-          <el-tab-pane label="扫描登录" >
-            <div class="tab-pane">
-              <img src="static/img/erweima.png" />
-              <p>剩余事件60s</p>
-            </div>
-          </el-tab-pane>
-          <el-tab-pane label="账户登录">
-            <div class="tab-pane  active">
-              <form class="sui-form" @submit.prevent>
-                <div class="input-prepend">
-                  <span class="add-on loginname"></span>
-                  <input type="text" placeholder="邮箱/用户名/手机号" class="span2 input-xfat" v-model="username" @keyup.enter="userLogin">
-                </div>
-                <div class="input-prepend"><span class="add-on loginpwd"></span>
-                  <input type="password" placeholder="请输入密码" class="span2 input-xfat" v-model="password" @keyup.enter="userLogin">
-                </div>
-                <div class="logined">
-                  <a @click='userLogin' class="sui-btn btn-block btn-xlarge btn-danger">登&nbsp;&nbsp;录</a>
-                </div>
-              </form>
-            </div>
-          </el-tab-pane>
-        </el-tabs>
+        <loginBox style="width: 380px" @loginAfter="userLogin()"></loginBox>
         <div class="closeUser" @click="isMaskLogin = false">
           <i class="el-icon-error"></i>
         </div>
@@ -287,7 +264,8 @@ import shortcut from '@/components/shortcutHeader'
 import headerNav from '@/components/headerNav'
 import absBox from '@/components/absBox'
 import pageFooter from '@/components/pageFooter'
-import { setStore } from '@/common/utils'
+import loginBox from '@/components/loginBox'
+import { setStore, formatDate } from '@/common/utils'
 export default {
   data () {
     return {
@@ -309,8 +287,6 @@ export default {
       limitNum: 11, // 限购
       goodsIntroduc: '', // 商品介绍
       isMaskLogin: false,
-      username: '',
-      password: '',
       viewList: [], // 看了又看
       recomList: [], // 店长推荐
       absBottomList: [], // 底部广告
@@ -331,7 +307,7 @@ export default {
       buyshopsSwicth: true
     }
   },
-  components: { shortcut, headerNav, pageFooter, absBox },
+  components: { shortcut, headerNav, pageFooter, absBox, loginBox },
   computed: {
     ...mapState(['cartList'])
   },
@@ -353,6 +329,7 @@ export default {
       }
       this.goods = rtn.goodsAll.goods
       this.sellerInfo = rtn.sellerInfo
+      console.log(this.sellerInfo, 1000)
       this.show3dStatus = rtn.show3dStatus
       this.goodsDesc = rtn.goodsAll.goodsDesc
       this.attrItem = JSON.parse(this.goodsDesc.customAttributeItems) || []
@@ -507,20 +484,7 @@ export default {
     },
     // 用户登陆
     userLogin () {
-      if (!this.username || !this.password) {
-        this.$message.warning('请输入用户名和密码')
-        return false
-      }
-      let data = {
-        username: this.username,
-        password: this.password
-      }
-      this.$store.dispatch('USER_LOGIN', data).then(async res => {
-        this.password = ''
-        await this.$store.dispatch('USER_INFO', data.username)
-        await this.$store.dispatch('CART')
-        this.isMaskLogin = false
-      })
+      this.isMaskLogin = false
     },
     // 根据规格查询sku
     searchSku () {
@@ -615,6 +579,24 @@ export default {
         bigBoxImage.style.left = -percentX * (bigBoxImage.offsetWidth - bigBox.offsetWidth) + 'px'
         bigBoxImage.style.top = -percentY * (bigBoxImage.offsetHeight - bigBox.offsetHeight) + 'px'
       }
+    },
+    toCollect (id, type) {
+      let tip = type === 1 ? '商品' : '店铺'
+      if (this.$cookies.get('token') && id) {
+        let tem = {
+          userName: this.$cookies.get('user-key'),
+          dataId: id, // "商品ID或者店铺ID"
+          type: type, // 1商品关注、2店铺关注
+          addTime: formatDate(new Date())
+        }
+        this.API.addCollect(tem).then(res => {
+          if (res.success === false) {
+            this.$message.warning(res.message)
+            return
+          }
+          this.$message.success(`成功关注该${tip}`)
+        })
+      } else this.isMaskLogin = true
     }
   }
 }
@@ -629,5 +611,8 @@ export default {
   }
   #bottom {
     background-color: #f5f5f5;
+  }
+  .has_pointer {
+    cursor: pointer;
   }
 </style>

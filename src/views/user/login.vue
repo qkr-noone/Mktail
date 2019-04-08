@@ -18,39 +18,7 @@
           <div class="middle_left">
             <a href="javascript:;"></a>
           </div>
-          <div class="loginform">
-            <div class="title">
-              <p @click="accountNumber()" :class="{active:account === true }">账号登陆</p>
-              <p>|</p>
-              <p @click="sweepCode()" :class="{active:account === false }">扫码登陆</p>
-            </div>
-            <section v-show="account === true">
-              <input type="text" placeholder="邮箱/手机号码" v-model="username" />
-              <input type="password" placeholder="密码" v-model="password" />
-              <input type="button" value="登陆" class="btn" @click="userLogin" />
-              <p class="reg">
-                <span class="sort">
-                  <a>手机短信登陆</a>/
-                  <a>注册</a>
-                </span>
-                <router-link :to="{path:'/register'}">立即注册</router-link>&nbsp;|
-                <a>忘记密码</a>
-              </p>
-            </section>
-            <section v-show="account === false">
-              <img src="static/img/log/log_scan1.png">
-              <p class="openAPP">打开 <router-link :to="{}">猴尾巴商城APP</router-link>扫一扫登陆</p>
-            </section>
-            <div class="otherLogin">
-              <p>_____________<span class="text">其他登陆方式</span>_____________</p>
-              <span>
-                <a><img src="static/img/log/log_qq1.png"></a>
-                <a><img src="static/img/log/log_WeiBo1.png"></a>
-                <a><img src="static/img/log/log_WeChat1.png"></a>
-                <a><img src="static/img/log/log_pay1.png"></a>
-              </span>
-            </div>
-          </div>
+          <loginBox class="loginform" @loginAfter="toPage()"></loginBox>
         </div>
       </div>
     </div>
@@ -60,37 +28,15 @@
 <script>
 import regFooter from '@/components/regFooter'
 import refHeader from '@/components/regHeader'
+import loginBox from '@/components/loginBox'
 export default {
   data () {
-    return {
-      username: '',
-      password: '',
-      account: true
-    }
+    return {}
   },
-  components: {regFooter, refHeader},
+  components: { regFooter, refHeader, loginBox },
   methods: {
-    accountNumber () {
-      this.account = true
-    },
-    sweepCode () {
-      this.account = false
-    },
-    userLogin () {
-      if (!this.username || !this.password) {
-        this.$message.warning('请输入用户名和密码')
-        return false
-      }
-      let data = {
-        username: this.username,
-        password: this.password
-      }
-      this.$store.dispatch('USER_LOGIN', data).then(async res => {
-        this.password = ''
-        await this.$store.dispatch('USER_INFO')
-        await this.$store.dispatch('CART')
-        this.$router.push(this.$route.query.back)
-      })
+    toPage () {
+      this.$router.push(this.$route.query.back)
     }
   }
 }
@@ -177,90 +123,6 @@ export default {
   }
  .middle .loginform{
    position: absolute;
-   display: inline;
-   width:350px;
-   height:423px;
-   background:rgba(255,255,255,1);
-   right:70px;
+   right: 70px;
  }
- .loginform p{
-   font-size:16px;
-   font-family:SimHei;
-   font-weight:400;
-   color:rgba(135,135,135,1);
-   margin-top: 20px;
-   cursor:pointer;
-  }
-  .loginform .reg a{
-    font-size:16px;
-    font-family:SimHei;
-    font-weight:400;
-    color:rgba(135,135,135,1);
-  }
- .active{
-   color:#FFD704 !important
- }
- .loginform .title {
-   height:50px;
-   display: flex;
-   align-items: center;
-   justify-content: space-around;
- }
-  .loginform .title p{
-    display:inline;
-    font-size:25px;
-    font-family:SimHei;
-    font-weight:400;
-    color:rgba(135,135,135,1);
-  }
-  .otherLogin .text{
-    margin-top: 10px;
-  }
-  .loginform input{
-    width:319px;
-    height:44px;
-    background:rgba(255,255,255,1);
-    border:1px solid rgba(227,227,227,1);
-    margin-top: 23px;
-    font-size:16px;
-    font-family:SimHei;
-    font-weight:400;
-    color:rgba(192,192,192,1);
-  }
-  .loginform .sort {
-    color: #FFD704 !important;
-    margin: 0 10px 0 10px;
-  }
-  .sort a{
-    color: #FFD704 !important;
-  }
-  .loginform .btn{
-    font-size:19px;
-    color:rgba(53,53,53,1);
-    background:rgba(255,215,4,1);
-  }
-  .loginform .otherLogin p{
-    margin: 30px  0 0 15px;
-  }
-  .loginform .otherLogin a{
-    margin: 15px 10px 0 10px;
-  }
-  .loginform section img{
-    margin-top: 30px;
-  }
-  .loginform section .openAPP{
-    font-size:17px;
-    font-family:SimHei;
-    font-weight:400;
-    color:rgba(135,135,135,1);
-    text-align: center;
-  }
-  .loginform section .openAPP a{
-    color:#FF4606;
-    margin:0 5px  0 5px;
-  }
-  .bottom{
-    height:165px;
-    padding-top:55px;
-  }
 </style>

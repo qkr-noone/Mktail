@@ -3,37 +3,35 @@
     <div class="con-wrap">
       <div class="top">
         <div class="top_tab">
-          <span :class="{topTabActive:focusGoods===true}" @click="changeActive(true, '/user/userCollectGoods')">商品关注</span>
-          <span :class="{topTabActive:focusGoods===false}" @click="changeActive(false, '/user/userCollectShop')">店铺关注</span>
+          <span class="has_pointer" :class="{topTabActive:focusGoods===true}" @click="changeActive(true, '/user/userCollectGoods')">商品关注</span>
+          <span class="has_pointer" :class="{topTabActive:focusGoods===false}" @click="changeActive(false, '/user/userCollectShop')">店铺关注</span>
         </div>
         <div class="top_search">
-          <input type="text" placeholder="请输入店铺名称" v-model="value">
-          <button class="has_pointer" @click="findShop()">搜索</button>
+          <input type="text" placeholder="请输入店铺名称" ref="search_val" v-model="val">
+          <button class="has_pointer" @click="findShop(val)">搜索</button>
         </div>
       </div>
       <div class="content">
         <div class="content-top">
           <div class="content-top-item">
-            <div>
-              <span>分类：</span>
-              <ul>
-                <li class="topItemActive all-shops">全部店铺</li>
-                <li>休闲零食<span>(1)</span></li>
-                <li>女装<span>(1)</span></li>
-                <li>电动工具<span>(1)</span></li>
-                <li>厨卫大家电<span>(1)</span></li>
+            <div class="content-item-wrap">
+              <span class="wrap-title">分类：</span>
+              <ul class="wrap-ul">
+                <li class="topItemActive all-shops has_pointer">全部店铺</li>
+                <li class="has_pointer" v-for="item in goodsCats" :key="item.id" :data-parentId="item.parentId" :data-id="item.id" :data-typeId="item.typeId">{{item.name}}<span>({{item.leaf}})</span></li>
               </ul>
             </div>
           </div >
           <div  class="content-top-item">
             <div class="content-item-wrap">
-              <span>筛选条件：</span>
+              <span class="wrap-title">筛选条件：</span>
               <ul>
-                <li class="topItemActive">不限</li>
-                <li>降价<span>(1)</span></li>
-                <li>满减<span>(1)</span></li>
-                <li>优惠券<span>(1)</span></li>
-                <li>下架<span>(1)</span></li>
+                <li class="topItemActive has_pointer">不限</li>
+                <li class="has_pointer" v-for="item in series" :key="item.id">{{item.name}}<span>({{item.num}})</span></li>
+                <li class="has_pointer">降价<span>(1)</span></li>
+                <li class="has_pointer">满减<span>(1)</span></li>
+                <li class="has_pointer">优惠券<span>(1)</span></li>
+                <li class="has_pointer">下架<span>(1)</span></li>
               </ul>
             </div>
             <div class="content-item-right">
@@ -66,7 +64,7 @@
               <p class="item-price">¥{{goods.price}}</p>
               <p class="inform-operation">
                 <!-- <a>降价通知</a> -->
-                <a>加入购物车</a>
+                <a class="has_pointer" @click="addCart(goods.skuId)">加入购物车</a>
               </p>
               <div class="cancel" @click="negative(goods.goodsId)" v-if="!isShow">取消关注</div>
               <div class="has_pointer mask" :class="{'show': isShow}" @click="toggle(goods.goodsId)">
@@ -146,11 +144,12 @@ export default {
       username: this.$cookies.get('user-key'), // 用户名
       focusGoods: true, // 商品关注or店铺关注？
       goodsList: {}, // 收藏宝贝列表
+      goodsCats: [], // 收藏商品所属类
       storeList: {},
       temList: [], // 临时列表
       starValue: 5, // 评价星
       currentPage: 1, // 当前页码
-      pageSize: 10, // 每页数
+      pageSize: 5, // 每页数  商品-8 店铺-5
       checked: false,
       addrOptions: [],
       addressOne: '',
@@ -161,9 +160,11 @@ export default {
       countyList: [],
       destination: '请选择',
       value: '',
+      val: '',
       isShow: false,
       isChoose: [], // 选中删除的列表
-      isSearch: false // 判断是否来源于搜索
+      isSearch: false, // 判断是否来源于搜索
+      series: []
     }
   },
   props: {},
@@ -185,10 +186,21 @@ export default {
     }
   },
   mounted () {
-    let tem = this.$route.path.split('/')[2]
-    tem === 'userCollectGoods' ? this.focusGoods = true : this.focusGoods = false
+    this.pageSize = 8
     this.requestGoods()
+    this.pageSize = 5
     this.requestStore()
+    let tem = this.$route.path.split('/')[2]
+    if (tem === 'userCollectGoods') {
+      this.focusGoods = true
+      this.pageSize = 8
+    } else {
+      this.focusGoods = false
+      this.pageSize = 5
+    }
+    this.AJAX.get('/static/data/collectClass.json').then(res => {
+      this.series = res
+    })
     // 配送至
     this.API.allProvince().then(res => {
       this.addrOptions = res
@@ -206,53 +218,64 @@ export default {
       // 初始化
       this.currentPage = 1
       this.value = ''
+      this.val = ''
       this.isShow = false
       this.isSearch = false
       this.$refs.set.innerHTML = '批量操作'
       this.checked = false
       this.isChoose = []
-      this.requestGoods()
-      if (this.focusGoods) this.requestGoods()
-      else this.requestStore()
+      if (this.focusGoods) {
+        this.requestGoods()
+      } else {
+        this.requestStore()
+      }
       let queryList = this.$route.query
       this.$router.push({path: path, query: queryList})
+      this.AJAX.get('/static/data/collectClass.json').then(res => {
+        this.series = res
+      })
     },
     request (sellerId, shops) {
       this.API.goodsBySeller({sellerId: sellerId}).then(res => {
         if (res.success === false) return false
         this.temList.push({child: res, shops: shops})
       })
-      console.log(this.temList)
     },
-    handleCurrentChangeGoods (val) {
+    handleCurrentChangeGoods (page) {
       // 判断是否搜索
-      console.log(this.currentPage)
-      if (this.isSearch) this.findShop(val)
-      else this.requestGoods()
+      if (this.isSearch) this.findShop(this.value, page)
+      else {
+        this.requestGoods()
+      }
     },
-    handleCurrentChangeShops (val) {
-      this.currentPage = val
-      this.requestStore()
+    handleCurrentChangeShops (page) {
+      if (this.isSearch) this.findShop(this.value, page)
+      else {
+        this.requestStore()
+      }
     },
     requestGoods () {
-      this.API.userCollectType({typeId: 1, userName: this.username, pageNum: this.currentPage, pageSize: this.pageSize}).then(res => {
-        this.goodsList = res
+      this.API.userCollectType({typeId: 1, username: this.username, pageNum: this.currentPage, pageSize: this.pageSize}).then(res => {
+        this.goodsList = res.pageResult
+        this.goodsCats = res.itemCats
         console.log('gzshangp', res)
       })
     },
     requestStore () {
       this.temList = []
-      this.API.userCollectType({typeId: 2, userName: this.username, pageNum: this.currentPage, pageSize: this.pageSize}).then(res => {
+      this.API.userCollectType({typeId: 2, username: this.username, pageNum: this.currentPage, pageSize: this.pageSize}).then(res => {
         this.storeList = res
         console.log('gzdp', this.storeList)
-        this.storeList.rows.length && this.storeList.rows.forEach(item => {
+        this.storeList.rows && this.storeList.rows.length && this.storeList.rows.forEach(item => {
           this.request(item.sellerId, item)
         })
       })
     },
     // 查询
-    findShop (page = 1) {
+    findShop (value, page = 1) {
+      if (!value) return
       this.isSearch = true
+      this.value = value
       if (this.focusGoods) {
         this.API.searchCollectGoods({userName: this.username, keyword: this.value, pageNum: page, pageSize: this.pageSize}).then(res => {
           this.goodsList = res
@@ -277,7 +300,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.API.deleteCollect({userName: this.username, dataId: id}).then(res => {
+        this.API.deleteCollect({userName: this.username, dataIds: id}).then(res => {
           if (res.success === false) {
             this.$message({
               type: 'fail',
@@ -285,8 +308,13 @@ export default {
             })
             return
           }
-          if (this.focusGoods) this.requestGoods()
-          else this.requestStore()
+          this.isChoose = []
+          this.$message.success('成功取消关注')
+          if (this.focusGoods) {
+            this.requestGoods()
+          } else {
+            this.requestStore()
+          }
         })
       }).catch(() => {})
     },
@@ -316,7 +344,7 @@ export default {
         })
         return
       }
-      let tem = this.isChoose.join('')
+      let tem = this.isChoose.join(',')
       this.negative(tem)
     },
     isAll () {
@@ -326,6 +354,17 @@ export default {
         })
       } else this.isChoose = []
       console.log(this.isChoose.length)
+    },
+    // 加入购物车
+    addCart (skuId, num = 1) {
+      this.API.addToCart({itemId: skuId, num: num, name: this.username}).then(res => {
+        if (res.success === false) {
+          this.$message.error('加入购物车失败')
+          return
+        }
+        this.$message.success('成功加入购物车')
+        this.$store.dispatch('CART')
+      })
     },
     tabAddr (provinceid, province) {
       this.addressOne = ''
@@ -350,7 +389,13 @@ export default {
   watch: {
     '$route' () {
       let tem = this.$route.path.split('/')[2]
-      tem === 'userCollectGoods' ? this.focusGoods = true : this.focusGoods = false
+      if (tem === 'userCollectGoods') {
+        this.focusGoods = true
+        this.pageSize = 8
+      } else {
+        this.focusGoods = false
+        this.pageSize = 5
+      }
     }
   }
 }
@@ -424,7 +469,7 @@ export default {
     background: #FFFFFF;
   }
   .content .content-top-item{
-    height:47px;
+    /*height:47px;*/
     border-bottom: 1px solid #E3E3E3;
     line-height: 47px;
     color:rgba(98,98,98,1);
@@ -433,8 +478,18 @@ export default {
     justify-content: space-between;
   }
   .content-item-wrap {
+    display: flex;
+  }
+  .wrap-title{
+    flex-shrink: 0
+  }
+  .wrap-ul {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 10px 5px;
   }
   .content-item-right {
+    flex-shrink: 0;
     display: flex;
     align-items: center;
   }
@@ -501,7 +556,8 @@ export default {
   .content .content-top-item ul>li{
     height:22px;
     line-height: 22px;
-    padding: 0 5px 0 5px;
+    padding: 0 6px;
+    margin: 2px 0;
     color:rgba(105,105,105,1);
   }
   .content .content-top-item ul>li>span{
@@ -512,7 +568,6 @@ export default {
     background: #FF9900;
   }
   .all-shops{
-    margin-left: 27px;
   }
   .content-top-item>button{
     width:85px;
@@ -568,9 +623,9 @@ export default {
     margin: 10px 0 13px 5px;
   }
   .goodsList .goods-item .inform-operation{
-    height:35px;
+    height:30px;
     border-top:1px solid rgba(219,219,219,1);
-    line-height: 35px;
+    line-height: 30px;
     text-align: center;
   }
   .goodsList .goods-item .inform-operation>a{
