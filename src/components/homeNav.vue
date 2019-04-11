@@ -21,7 +21,7 @@ export default {
       nav: [
         {title: '首页', path: 'home'},
         {title: '品牌站', path: '3DShow'},
-        {title: '源工厂', path: 'javascript:;'},
+        {title: '源工厂', path: 'shops'},
         {title: '商学院', path: 'javascript:;'},
         {title: '服务', path: 'javascript:;'},
         {title: '直播', path: 'javascript:;'},

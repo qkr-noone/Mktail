@@ -64,7 +64,7 @@
       <orderListTitle @changePageNum="changeValue($event)" :pageSize="pageSize"></orderListTitle>
       <div class="shop-handle">
         <div class="choose" v-if="all.total">
-          <input type="checkbox" @click="selectAll" v-model="isChecked" /><span>全选</span>
+          <input type="checkbox" @click="selectAll" v-model="isChecked" class="has_pointer" /><span>全选</span>
           <button class="confirm-btn" v-if="isWaitingPay" @click="togetherBtn(1, '合并付款')">合并付款</button>
           <button class="confirm-btn" v-if="isWaitingReceipt" @click="togetherBtn(4, '批量确认收货')">批量确认收货</button>
         </div>
@@ -138,7 +138,6 @@ export default {
   mounted () {
     this.API.userOrder({userName: this.name, pageNum: this.pageNum, pageSize: this.pageSize}).then(res => {
       this.all = res
-      console.log(res)
     })
   },
   methods: {

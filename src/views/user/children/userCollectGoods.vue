@@ -17,8 +17,8 @@
             <div class="content-item-wrap">
               <span class="wrap-title">分类：</span>
               <ul class="wrap-ul">
-                <li class="topItemActive all-shops has_pointer">全部店铺</li>
-                <li class="has_pointer" v-for="item in goodsCats" :key="item.id" :data-parentId="item.parentId" :data-id="item.id" :data-typeId="item.typeId">{{item.name}}<span>({{item.leaf}})</span></li>
+                <li class="topItemActive all-shops has_pointer">全部{{focusGoods ? '商品' : '店铺'}}</li>
+                <li class="has_pointer" v-for="item in goodsCats" :key="item.id"  :data-typeId="item.typeId">{{item.name}}<span>({{item.icount}})</span></li>
               </ul>
             </div>
           </div >
@@ -199,7 +199,7 @@ export default {
       this.pageSize = 5
     }
     this.AJAX.get('/static/data/collectClass.json').then(res => {
-      this.series = res
+      this.series = res.data
     })
     // 配送至
     this.API.allProvince().then(res => {
@@ -212,10 +212,8 @@ export default {
     })
   },
   methods: {
-    // 切换
-    changeActive (val, path) {
-      this.focusGoods = val
-      // 初始化
+    // 初始化
+    init () {
       this.currentPage = 1
       this.value = ''
       this.val = ''
@@ -224,9 +222,17 @@ export default {
       this.$refs.set.innerHTML = '批量操作'
       this.checked = false
       this.isChoose = []
+    },
+    // 切换
+    changeActive (val, path) {
+      this.focusGoods = val
+      // 初始化
+      this.init()
       if (this.focusGoods) {
+        this.pageSize = 8
         this.requestGoods()
       } else {
+        this.pageSize = 5
         this.requestStore()
       }
       let queryList = this.$route.query
@@ -256,8 +262,8 @@ export default {
     },
     requestGoods () {
       this.API.userCollectType({typeId: 1, username: this.username, pageNum: this.currentPage, pageSize: this.pageSize}).then(res => {
-        this.goodsList = res.pageResult
-        this.goodsCats = res.itemCats
+        this.goodsList = res.pageResult || []
+        this.goodsCats = res.itemCats || {}
         console.log('gzshangp', res)
       })
     },
@@ -277,17 +283,15 @@ export default {
       this.isSearch = true
       this.value = value
       if (this.focusGoods) {
-        this.API.searchCollectGoods({userName: this.username, keyword: this.value, pageNum: page, pageSize: this.pageSize}).then(res => {
+        this.API.searchCollectGoods({username: this.username, keyword: this.value, pageNum: page, pageSize: this.pageSize}).then(res => {
           this.goodsList = res
           console.log(res, 'goods')
         })
       } else {
         this.temList = []
-        this.API.searchCollectShops({userName: this.username, keyword: this.value, pageNum: page, pageSize: this.pageSize}).then(res => {
+        this.API.searchCollectShops({username: this.username, keyword: this.value, pageNum: page, pageSize: this.pageSize}).then(res => {
           this.storeList = res
-          console.log(res, this.storeList, 'store')
           this.storeList.rows.length && this.storeList.rows.forEach(item => {
-            console.log(item, 'bug')
             this.request(item.sellerId, item)
           })
         })
@@ -308,8 +312,9 @@ export default {
             })
             return
           }
-          this.isChoose = []
           this.$message.success('成功取消关注')
+          // 初始化 部分数据
+          this.init()
           if (this.focusGoods) {
             this.requestGoods()
           } else {
@@ -326,6 +331,7 @@ export default {
       if (this.isShow) this.$refs.set.innerHTML = '完成'
       else this.$refs.set.innerHTML = '批量操作'
     },
+    // 单个切换选中
     toggle (id) {
       if (this.isChoose.indexOf(id) >= 0) {
         this.$delete(this.isChoose, this.isChoose.indexOf(id))
@@ -334,7 +340,6 @@ export default {
         this.isChoose.push(id)
         if (this.isChoose.length === this.storeList.rows.length) this.checked = true
       }
-      console.log(this.isChoose.length)
     },
     // 批量删除
     delList () {
@@ -347,13 +352,16 @@ export default {
       let tem = this.isChoose.join(',')
       this.negative(tem)
     },
+    // 全选
     isAll () {
+      let data = this.focusGoods ? 'goodsList' : 'storeList'
+      let id = this.focusGoods ? 'goodsId' : 'sellerId'
       if (this.checked) {
-        this.storeList.rows.length && this.storeList.rows.forEach(item => {
-          if (this.isChoose.indexOf(item.sellerId) === -1) this.isChoose.push(item.sellerId)
+        this[data].rows.length && this[data].rows.forEach(item => {
+          if (this.isChoose.indexOf(item[id]) === -1) this.isChoose.push(item[id])
         })
       } else this.isChoose = []
-      console.log(this.isChoose.length)
+      console.log(this.isChoose)
     },
     // 加入购物车
     addCart (skuId, num = 1) {
@@ -366,6 +374,7 @@ export default {
         this.$store.dispatch('CART')
       })
     },
+    // 地址
     tabAddr (provinceid, province) {
       this.addressOne = ''
       this.addressTwo = ''
@@ -396,6 +405,14 @@ export default {
         this.focusGoods = false
         this.pageSize = 5
       }
+    },
+    currentPage () {
+      this.isShow = false
+      this.checked = false
+      this.isChoose = []
+      this.$nextTick(() => {
+        this.$refs.set.innerHTML = '批量操作'
+      })
     }
   }
 }

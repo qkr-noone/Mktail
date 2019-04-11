@@ -48,7 +48,7 @@ export default {
     console.log(this.$route)
   },
   methods: {
-    changeTab (val, path) {
+    changeTab (val, path, status) {
       this.isActive = val
       this.$router.push({path: '/user/userOrder' + path})
     }

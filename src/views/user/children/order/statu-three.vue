@@ -1,11 +1,11 @@
 <template>
   <div class="content" data-attr="three 待收货">
-    <orderListSearch></orderListSearch>
+    <orderListSearch v-if="waitConfirm.total" :status="status" :pageNum="pageNum" @search="changeValue($event)"></orderListSearch>
     <div class="shop">
-      <orderListTitle @changePageNum="changeValue($event)"></orderListTitle>
+      <orderListTitle></orderListTitle>
       <div class="shop-handle">
         <div class="choose" v-if="waitConfirm.total">
-          <input type="checkbox"/><span>全选</span>
+          <input class="has_pointer" type="checkbox" @click="selectAll" v-model="isChecked"/><span>全选</span>
           <button class="confirm-btn">批量确认收货</button>
         </div>
         <div class="page">
@@ -14,7 +14,7 @@
         </div>
       </div>
       <div class="shop-list" v-for="list in waitConfirm.rows" :key="list.id">
-        <orderListContentHead :list="list"></orderListContentHead>
+        <orderListContentHead :list="list" :selectArr="selectArr" @toggle="toggle($event)"></orderListContentHead>
         <orderListContent :list="list"></orderListContent>
       </div>
       <div v-if="!waitConfirm.total" class="shop-list not-data">没有符合条件的商品</div>
@@ -35,25 +35,58 @@ export default {
   data () {
     return {
       waitConfirm: '', // 待收货
-      pageNum: 1
+      pageNum: 1,
+      status: 4,
+      selectArr: [],
+      isChecked: false
     }
   },
   components: { orderListTitle, orderListContentHead, orderListContent, orderListSearch },
   mounted () {
     // 待收货
-    this.API.userOrder({userName: this.$cookies.get('user-key'), status: 4, pageNum: this.pageNum, pageSize: 15}).then(res => {
+    this.API.userOrder({userName: this.$cookies.get('user-key'), status: this.status, pageNum: this.pageNum, pageSize: 15}).then(res => {
       this.waitConfirm = res
     })
   },
   methods: {
-    changeValue (data, index = 1) {
-      this.pageNum = index
-      this.waitConfirm = data
+    changeValue (data) {
+      this.pageNum = data[1]
+      this.waitConfirm = data[0]
+    },
+    // 全选
+    selectAll (event) {
+      if (!event.currentTarget.checked) this.selectArr = []
+      else {
+        this.selectArr = []
+        this.waitConfirm.rows.forEach(item => {
+          this.selectArr.push(item)
+        })
+      }
+    },
+    // 选择、切换
+    toggle (item) {
+      if (this.selectArr.indexOf(item) >= 0) {
+        this.$delete(this.selectArr, this.selectArr.indexOf(item))
+        this.isChecked = false
+      } else {
+        this.selectArr.push(item)
+        if (this.selectArr.length === this.waitConfirm.rows.length) this.isChecked = true
+      }
+    }
+  },
+  watch: {
+    pageNum (newPage) {
+      // 初始化
+      this.selectArr = []
+      this.isChecked = false
     }
   }
 }
 </script>
 <style scoped>
+  .has_pointer {
+    cursor: pointer;
+  }
   .not-data {
     height: 130px;
     line-height: 130px;

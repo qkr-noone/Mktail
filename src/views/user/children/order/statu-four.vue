@@ -1,11 +1,11 @@
 <template>
   <div class="content" data-attr="four 待评价">
-    <orderListSearch></orderListSearch>
+    <orderListSearch v-if="waitRate.total" :status="status" :pageNum="pageNum" @search="changeValue($event)"></orderListSearch>
     <div class="shop">
-      <orderListTitle @changePageNum="changeValue($event)"></orderListTitle>
+      <orderListTitle></orderListTitle>
       <div class="shop-handle">
         <div class="choose" v-if="waitRate.total">
-          <input type="checkbox"/><span>全选</span>
+          <input class="has_pointer" type="checkbox" @click="selectAll" v-model="isChecked"/><span>全选</span>
         </div>
         <div class="page">
           <button class="page-btn">上一页</button>
@@ -13,15 +13,15 @@
         </div>
       </div>
       <div class="shop-list" v-for="list in waitRate.rows" :key="list.id">
-        <orderListContentHead :list="list"></orderListContentHead>
+        <orderListContentHead :list="list" :selectArr="selectArr" @toggle="toggle($event)"></orderListContentHead>
         <orderListContent :list="list"></orderListContent>
       </div>
       <div v-if="!waitRate.total" class="shop-list not-data">没有符合条件的商品</div>
     </div>
     <el-pagination  v-if="waitRate.total"
-      :page-size="100"
+      :page-size="15"
       layout="prev, pager, next, jumper"
-      :total="1000">
+      :total="waitRate.total">
     </el-pagination>
   </div>
 </template>
@@ -34,25 +34,58 @@ export default {
   data () {
     return {
       waitRate: '', // 待评价
-      pageNum: 1
+      pageNum: 1,
+      status: 5,
+      selectArr: [],
+      isChecked: false
     }
   },
   components: { orderListTitle, orderListContentHead, orderListContent, orderListSearch },
   mounted () {
     // 待评价
-    this.API.userOrder({ userName: this.$cookies.get('user-key'), status: 5, pageNum: this.pageNum, pageSize: 15 }).then(res => {
+    this.API.userOrder({ userName: this.$cookies.get('user-key'), status: this.status, pageNum: this.pageNum, pageSize: 15 }).then(res => {
       this.waitRate = res
     })
   },
   methods: {
-    changeValue (data, index = 1) {
-      this.pageNum = index
-      this.waitRate = data
+    changeValue (data) {
+      this.pageNum = data[1]
+      this.waitRate = data[0]
+    },
+    // 全选
+    selectAll (event) {
+      if (!event.currentTarget.checked) this.selectArr = []
+      else {
+        this.selectArr = []
+        this.waitRate.rows.forEach(item => {
+          this.selectArr.push(item)
+        })
+      }
+    },
+    // 选择、切换
+    toggle (item) {
+      if (this.selectArr.indexOf(item) >= 0) {
+        this.$delete(this.selectArr, this.selectArr.indexOf(item))
+        this.isChecked = false
+      } else {
+        this.selectArr.push(item)
+        if (this.selectArr.length === this.waitRate.rows.length) this.isChecked = true
+      }
+    }
+  },
+  watch: {
+    pageNum (newPage) {
+      // 初始化
+      this.selectArr = []
+      this.isChecked = false
     }
   }
 }
 </script>
 <style scoped>
+  .has_pointer {
+    cursor: pointer;
+  }
   .not-data {
     height: 130px;
     line-height: 130px;

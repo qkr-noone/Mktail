@@ -303,7 +303,7 @@
 <script>
 import shortcutHeader from '@/components/shortcutHeader'
 import pageFooter from '@/components/pageFooter'
-import { getStore, setStore } from '@/common/utils'
+import { getStore, setStore, formatDate } from '@/common/utils'
 export default {
   data () {
     return {
@@ -441,21 +441,6 @@ export default {
         return value2 - value1
       }
     },
-    // 格式化时间 2019-01-22 17:24:08
-    formatDate (date) {
-      let y = date.getFullYear()
-      let m = date.getMonth() + 1
-      m = m < 10 ? '0' + m : m
-      let d = date.getDate()
-      d = d < 10 ? ('0' + d) : d
-      let h = date.getHours()
-      h = h < 10 ? ('0' + h) : h
-      let mi = date.getMinutes()
-      mi = mi < 10 ? ('0' + mi) : mi
-      let s = date.getSeconds()
-      s = s < 10 ? ('0' + s) : s
-      return y + '-' + m + '-' + d + ' ' + h + ':' + mi + ':' + s
-    },
     // 提交订单
     submitOrder () {
       let price = 0
@@ -463,7 +448,6 @@ export default {
       let cartList = []
       if (this.skuId) {
         // 从立即购买 过来
-        this.$message.error('获取用户订单信息失败')
         this.goodSkuList.forEach(item => {
           price += Number(item.totalFee)
         })
@@ -491,7 +475,7 @@ export default {
         })
         price = price.toFixed(2)
       }
-      let createTime = this.formatDate(new Date())
+      let createTime = formatDate(new Date())
       let order = {
         payment: price, // "实付金额",
         payment_type: 1, // "支付类型,1、在线支付，2、货到付款"
@@ -515,12 +499,16 @@ export default {
         receiver: this.defaultAddress.contact, // "收货人",
         expire: '', // "过期时间，定期清理",
         invoice_type: '', // "发票类型(1普通发票，2电子发票，3增值税发票)",
-        source_type: 2, // "订单来源：1:app端，2：pc端，3：M端，4：微信端，5：手机qq端",
-        seller_id: '' // "商家ID"
+        source_type: 2 // "订单来源：1:app端，2：pc端，3：M端，4：微信端，5：手机qq端",
+        // seller_id: '' // "商家ID" 立即购买需要
       }
-      let orderInfo = this.skuId ? 'directOrderInfo' : 'getOrderInfo'
+      let orderInfo = ''
+      if (this.skuId) {
+        orderInfo = 'directOrderInfo'
+        Object.assign(order, {seller_id: this.goodSkuList[0].sellerId})
+      } else orderInfo = 'getOrderInfo'
       console.log(orderInfo, 10)
-      this.API[orderInfo](order, this.$cookies.get('user-key')).then(rtn => {
+      this.API[orderInfo](order, this.skuId).then(rtn => {
         if (rtn.success === false) {
           this.$message.error('提交订单失败')
           return false
@@ -601,7 +589,7 @@ export default {
               })
               return
             }
-            Object.assign(address, {createDate: this.formatDate(new Date())})
+            Object.assign(address, {createDate: formatDate(new Date())})
           }
           address = this.isUpdate ? Object.assign(address, {id: this.isUpdate}) : address
           console.log(address, this.addressOneId, 0)

@@ -17,6 +17,19 @@
         <label>新增发票抬头:</label>
         <input/>
       </p>
+      <el-upload
+        class="upload-demo"
+        ref="upload"
+        action="http://192.168.1.37:8082/shop/upload/uploadFile"
+        :headers="header"
+        :on-preview="handlePreview"
+        :on-remove="handleRemove"
+        :file-list="fileList"
+        :auto-upload="false">
+        <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+        <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
+        <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+      </el-upload>
       <p class=" operate">
         <button class="btn-cancel" @click="cancle">取消</button>
         <button class="btn-ensure">确定</button>
@@ -63,10 +76,24 @@ export default {
     return {
       plainInvoice: true,
       panelShow1: false,
-      panelShow2: false
+      panelShow2: false,
+      fileList: [],
+      header: {
+        Authorization: 'MkTail-eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJiYWlkdTEyMyIsImV4cCI6MTU4NjQ3ODk0NiwiaWF0IjoxNTU0OTQyOTQ2fQ.Nk45AVRw9b2HZOP_FZGb8SJKda6PXFzWFzLFpGJikEDdGRK2VGyne4Bs3jsMeeKJAJu9S9nQa2vMxEldebePDg'
+      }
     }
   },
   methods: {
+    handleRemove (file) {
+      console.log(file, this.fileList)
+    },
+    handlePreview (file) {
+      console.log(file)
+    },
+    submitUpload () {
+      console.log(this.fileList)
+      this.$refs.upload.submit()
+    },
     changeTab (val) {
       this.plainInvoice = val
     },
@@ -213,5 +240,30 @@ export default {
     color: #878787;
     width:130px;
     text-align: right;
+  }
+</style>
+<style>
+  .avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+  }
+  .avatar {
+    width: 178px;
+    height: 178px;
+    display: block;
   }
 </style>

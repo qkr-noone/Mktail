@@ -329,7 +329,6 @@ export default {
       }
       this.goods = rtn.goodsAll.goods
       this.sellerInfo = rtn.sellerInfo
-      console.log(this.sellerInfo, 1000)
       this.show3dStatus = rtn.show3dStatus
       this.goodsDesc = rtn.goodsAll.goodsDesc
       this.attrItem = JSON.parse(this.goodsDesc.customAttributeItems) || []
@@ -580,9 +579,10 @@ export default {
         bigBoxImage.style.top = -percentY * (bigBoxImage.offsetHeight - bigBox.offsetHeight) + 'px'
       }
     },
+    // 收藏
     toCollect (id, type) {
       let tip = type === 1 ? '商品' : '店铺'
-      if (this.$cookies.get('token') && id) {
+      if (this.$cookies.get('token')) {
         let tem = {
           userName: this.$cookies.get('user-key'),
           dataId: id, // "商品ID或者店铺ID"
@@ -594,7 +594,11 @@ export default {
             this.$message.warning(res.message)
             return
           }
-          this.$message.success(`成功关注该${tip}`)
+          if (res === '请求成功，无返回值') {
+            this.$message.warning(`当前${tip}已经收藏了，请勿重复操作`)
+          } else if (res === true) {
+            this.$message.success(`成功关注该${tip}`)
+          }
         })
       } else this.isMaskLogin = true
     }

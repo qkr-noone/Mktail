@@ -11,10 +11,36 @@ export default {
       goodsOrderNum: ''
     }
   },
-  props: {},
+  props: {
+    status: {
+      type: [Number, String],
+      default: ''
+    },
+    pageNum: {
+      type: [Number]
+    },
+    pageSize: {
+      type: [Number],
+      default: 15
+    }
+  },
   methods: {
     submit () {
-      console.log(1, this.goodsOrderNum)
+      if (!this.goodsOrderNum) return
+      let map = {
+        keyword: this.goodsOrderNum,
+        orderType: '',
+        sellerName: '',
+        evaluationStatus: '',
+        status: this.status,
+        afterSaleStatus: '',
+        startTime: '',
+        endTime: '',
+        username: this.$cookies.get('user-key')
+      }
+      this.API.orderFilter(map, this.pageNum, this.pageSize).then(res => {
+        this.$emit('search', [res, this.pageNum])
+      })
     }
   }
 }

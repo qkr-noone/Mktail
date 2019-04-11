@@ -75,7 +75,7 @@ service.interceptors.response.use(res => {
   }
   return tem
 }, error => {
-  console.log(error, 0, 'error')
+  console.log(error, 'error')
   // hideLoading()
   // 返回 response 里的错误信息
   return Promise.reject(error)

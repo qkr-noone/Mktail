@@ -1,6 +1,6 @@
 <template>
   <div class="shop-info">
-    <input type="checkbox" :value="list" v-model="addData" @click="change(list)"/>
+    <input class="has_pointer" type="checkbox" :value="list" v-model="addData" @click="change(list)"/>
     <span class="date">{{list.createTime}}</span>
     <span class="order-num">订单号：<span>{{list.orderId}}</span></span>
     <a href="javascript:;" class="name">{{list.sellerName}}</a>

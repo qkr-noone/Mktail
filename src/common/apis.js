@@ -82,9 +82,9 @@ export default {
   // 根据用户获取返回收货地址集合
   addressListByUser: data => http.get('/cart/address/findListByLoginUser', data),
   // 从购物车进入 提交订单
-  getOrderInfo: (data, userName) => http.post('/cart/order/add?userName=' + userName, data),
+  getOrderInfo: (data) => http.post('/cart/order/add', data),
   // 从立即购买进入 提交订单
-  directOrderInfo: (data, userName) => http.post('/cart/order/directAdd?userName=' + userName, data),
+  directOrderInfo: (data, skuId) => http.post('/cart/order/directAdd?itemId=' + skuId, data),
   // 支付页面信息
   payPageInfo: data => http.get('/cart/order/searchPayLog', data),
   // 创建微信支付链接
@@ -121,7 +121,7 @@ export default {
 
   /* ---- 收藏关注 ---- */
 
-  // 添加收藏(商品、店铺)
+  // 添加收藏(商品、店铺) 返回判断是否已收藏
   addCollect: data => http.post('/userCollect/userCollect/addUserCollect', data),
   // 用户关注类型 (1: 关注商品，2: 关注店铺)
   userCollectType: data => http.get('/userCollect/userCollect/findUserCollectByTypeAndUserName', data),
