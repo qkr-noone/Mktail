@@ -460,6 +460,7 @@ export default {
     },
     // spec多选
     selectMore (event, index) {
+      console.log(this.$refs.specul, 10)
       let specul = this.$refs.specul[index].style
       if (specul.maxHeight === '120px') {
         specul.height = '30px'

@@ -12,13 +12,24 @@
     <nav class="m-body">
       <div class="m-nav-box">
         <div class="m-nav-content">
-          <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect" background-color="#98BACE" text-color="#ffffff">
-            <el-menu-item index="1">首页</el-menu-item>
+          <ul class="el-menu-demo">
+            <li class="menu-item">
+              <a href="javascript:;">show</a>
+              <a href="javascript:;">next<i class="el-icon-arrow-down"></i></a>
+              <ul class="menu-two">
+                <li>
+                  <a href="">two</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+          <!-- <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect" background-color="#98BACE" text-color="#ffffff">
+            <el-menu-item index=num v-for="(list, num) in menuList" :key="num">{{list.menuname}}</el-menu-item>
+            <el-menu-item index="4"><router-link :to="{path: '/search', query: {keywords: '脚轮'}}" target="_blank">脚轮</router-link></el-menu-item>
+            <el-menu-item index="1" v-else-if="index > 0">{{list.menuname}}</el-menu-item>
             <el-submenu index="2">
               <template slot="title">所有分类</template>
               <el-menu-item index="2-1">选项1</el-menu-item>
-              <el-menu-item index="2-2">选项2</el-menu-item>
-              <el-menu-item index="2-3">选项3</el-menu-item>
               <el-submenu index="2-4">
                 <template slot="title">选项4</template>
                 <el-menu-item index="2-4-1">选项1</el-menu-item>
@@ -26,17 +37,16 @@
                 <el-menu-item index="2-4-3">选项3</el-menu-item>
               </el-submenu>
             </el-submenu>
-            <el-menu-item index="4"><router-link :to="{path: '/search', query: {keywords: '脚轮'}}" target="_blank">脚轮</router-link></el-menu-item>
-          </el-menu>
+          </el-menu> -->
         </div>
       </div>
     </nav>
     <section class="m-body">
       <section class="m-banner-box">
         <el-carousel :interval="5000" arrow="always" height="100%">
-          <el-carousel-item v-for="item in 2" :key="item">
-            <a class="m-banner-con" href="javascript:;">
-              <img src="static/img/shop/shop3_05.jpg">
+          <el-carousel-item v-for="item in bannerList" :key="item.status">
+            <a class="m-banner-con" :href="item.url" :data-status="item.status">
+              <img :src="item.imgUrl">
             </a>
           </el-carousel-item>
         </el-carousel>
@@ -247,12 +257,15 @@ import pageFooter from '@/components/pageFooter'
 export default {
   data () {
     return {
-      activeIndex: '1'
+      activeIndex: '1',
+      shopData: {},
+      menuList: [],
+      bannerList: []
     }
   },
   components: { shortcutHeader, pageFooter },
   mounted () {
-    this.API.homeBanner({categoryId: 25}).then(res => {
+    this.API.shopPage().then(res => {
       console.log(res)
       this.$nextTick(() => {
         let array = document.querySelectorAll('.m-content-box')
@@ -266,6 +279,8 @@ export default {
           item.style.height = `${height}px`
         })
       })
+      this.menuList = res.menuResultList
+      this.bannerList = res.bannerResultList
     })
   },
   methods: {

@@ -19,6 +19,10 @@ export default {
   // 主页分类
   homeClass: data => http.get('/portal/content/findByContentId', data),
 
+  /* ----店铺首页---- */
+
+  shopPage: () => http.get('/seller/index/seller/getStaticResult'),
+
   /* ----注册登录---- */
 
   // 发送手机验证码
