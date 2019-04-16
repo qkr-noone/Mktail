@@ -12,32 +12,20 @@
     <nav class="m-body">
       <div class="m-nav-box">
         <div class="m-nav-content">
-          <ul class="el-menu-demo">
-            <li class="menu-item">
-              <a href="javascript:;">show</a>
-              <a href="javascript:;">next<i class="el-icon-arrow-down"></i></a>
-              <ul class="menu-two">
-                <li>
-                  <a href="">two</a>
-                </li>
-              </ul>
+          <ul class="menu-box">
+            <li class="menu-item menu-item-li" v-for="list in menuList" :key="list.menuname">
+              <a class="menu-a" href="javascript:;"><span>{{list.menuname}}</span><i class="el-icon-arrow-down menu-more" v-if="list.sonMenunameList.length"></i></a>
+              <div class="menu-two-box" v-if="list.sonMenunameList.length">
+                <div class="visible"></div>
+                <ul class="menu-two">
+                  <li class="menu-item menu-two-li" v-for="item in list.sonMenunameList" :key="item.menuname">
+                    <a class="menu-a menu-two-a" href="javascript:;"><span>{{item.menuname}}</span><i class="el-icon-caret-right menu-more" v-if="item.sonMenunameList.length"></i></a>
+                    <shopsNav v-if="item.sonMenunameList.length" :list="item.sonMenunameList"></shopsNav>
+                  </li>
+                </ul>
+              </div>
             </li>
           </ul>
-          <!-- <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect" background-color="#98BACE" text-color="#ffffff">
-            <el-menu-item index=num v-for="(list, num) in menuList" :key="num">{{list.menuname}}</el-menu-item>
-            <el-menu-item index="4"><router-link :to="{path: '/search', query: {keywords: '脚轮'}}" target="_blank">脚轮</router-link></el-menu-item>
-            <el-menu-item index="1" v-else-if="index > 0">{{list.menuname}}</el-menu-item>
-            <el-submenu index="2">
-              <template slot="title">所有分类</template>
-              <el-menu-item index="2-1">选项1</el-menu-item>
-              <el-submenu index="2-4">
-                <template slot="title">选项4</template>
-                <el-menu-item index="2-4-1">选项1</el-menu-item>
-                <el-menu-item index="2-4-2">选项2</el-menu-item>
-                <el-menu-item index="2-4-3">选项3</el-menu-item>
-              </el-submenu>
-            </el-submenu>
-          </el-menu> -->
         </div>
       </div>
     </nav>
@@ -52,29 +40,14 @@
         </el-carousel>
       </section>
     </section>
-    <section class="m-body">
-      <section class="m-content-box content-1">
+    <section class="m-body" v-for="list in temGoodsList" :key="list.posterImgUrl">
+      <section class="m-content-box content-1" :style="'background-image:'+ list.posterImgUrl + ''">
         <div class="m-content">
           <ul class="m-con-ul">
-            <li class="m-con-li">
-              <a href="" class="m-con-a">
-                <img src="/static/img/logo-243-300.png">
-              </a>
-            </li>
-            <li class="m-con-li">
-              <a href="" class="m-con-a">
-                <img src="/static/img/logo-243-300.png">
-              </a>
-            </li>
-            <li class="m-con-li">
-              <a href="" class="m-con-a">
-                <img src="/static/img/logo-243-300.png">
-              </a>
-            </li>
-            <li class="m-con-li">
-              <a href="" class="m-con-a">
-                <img src="/static/img/logo-243-300.png">
-              </a>
+            <li class="m-con-li" v-for="item in list.goodsResultList" :key="item.imgUrl">
+              <router-link :to="{path: '/detail', query: {goodsId: item.goodsid}}" class="m-con-a">
+                <img :src="item.imgUrl">
+              </router-link>
             </li>
           </ul>
         </div>
@@ -254,19 +227,24 @@
 <script>
 import shortcutHeader from '@/components/shortcutHeader'
 import pageFooter from '@/components/pageFooter'
+import shopsNav from '@/components/shopsNav'
 export default {
   data () {
     return {
       activeIndex: '1',
       shopData: {},
       menuList: [],
-      bannerList: []
+      bannerList: [],
+      temGoodsList: []
     }
   },
-  components: { shortcutHeader, pageFooter },
+  components: { shortcutHeader, pageFooter, shopsNav },
   mounted () {
     this.API.shopPage().then(res => {
-      console.log(res)
+      this.menuList = res.menuResultList
+      this.bannerList = res.bannerResultList
+      this.temGoodsList = res.postersResultList1
+      console.log(this.temGoodsList)
       this.$nextTick(() => {
         let array = document.querySelectorAll('.m-content-box')
         array.forEach(item => {
@@ -279,8 +257,6 @@ export default {
           item.style.height = `${height}px`
         })
       })
-      this.menuList = res.menuResultList
-      this.bannerList = res.bannerResultList
     })
   },
   methods: {
@@ -312,13 +288,69 @@ export default {
     width: 1226px;
     margin: 0 auto;
   }
-  .el-menu.el-menu--horizontal {
-    border-bottom: none;
-    height: 44px;
+  .menu-box {
+    display: flex;
   }
-  .el-menu--horizontal>.el-menu-item{
-    height: 44px;
-    line-height: 44px;
+  .menu-item {
+    position: relative;
+  }
+  .menu-item-li {
+    height: 40px;
+    line-height: 40px;
+  }
+  .menu-a {
+    height: 40px;
+    line-height: 40px;
+    padding: 0 20px;
+    color: #000;
+    font-size: 14px;
+    border-radius: 4px;
+  }
+  .menu-more {
+    padding-left: 5px;
+    transition: 0.2s;
+  }
+  .visible {
+    height: 4px;
+    width: 4px;
+    background: transparent;
+  }
+  .menu-two {
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 0px 0px 3px 1px #eee;
+    min-width: 150px;
+    padding: 4px 0 10px 0;
+  }
+  .menu-two-a {
+    padding: 0 16px;
+  }
+  .menu-two-li {
+    padding: 0 4px;
+  }
+  .menu-two-li .menu-a {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .menu-two-box {
+    position: absolute;
+    top: 100%;
+    display: none;
+    z-index: 20;
+  }
+  .menu-box>.menu-item:hover>.menu-a>.menu-more{
+    transform-origin: 62% 50%;
+    transform: rotate(0.5turn);
+  }
+  .menu-two-li>.menu-two-a:hover {
+    background-color: #ededef;
+  }
+  .menu-box>.menu-item:hover {
+    background-color: rgb(132, 166, 186);
+  }
+  .menu-item:hover>.menu-two-box {
+    display: block;
   }
 /* banner */
   .m-banner-box {
@@ -378,23 +410,6 @@ export default {
   }
 </style>
 <style>
-  /* 菜单>>  */
-  .el-menu--horizontal>.el-submenu .el-submenu__title {
-    height: 44px;
-    line-height: 44px;
-  }
-  .el-menu--horizontal>.el-menu-item.is-active, .el-menu--horizontal>.el-submenu.is-active .el-submenu__title {
-    border-bottom-color: transparent;
-    background-color: #84a6ba !important;
-    color: #ffffff;
-  }
-  .el-submenu__title i {
-    color: #000000;
-  }
-  li.el-menu-item >a {
-    height: 44px;
-    line-height: 40px;
-  }
   .el-carousel__arrow--left {
     left: calc((100% - 1226px)/2);
     background-color: rgba(0, 0, 0, 0.4);
