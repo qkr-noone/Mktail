@@ -168,6 +168,7 @@
             class="avatar-uploader"
             accept="image/png, image/jpeg, image/gif, image/jpg"
             action="http://192.168.1.40:8083/personData/personData/uploadFile"
+            :headers="header"
             :show-file-list="false"
             :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload">
@@ -226,7 +227,10 @@ export default {
       userImageUrl: '',
       isFullUserHead: false,
       newImageUrl: '',
-      previews: {}
+      previews: {},
+      header: {
+        Authorization: 'MkTail-eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMjM0NTY3IiwiZXhwIjoxNTg1Mjk4Nzc2LCJpYXQiOjE1NTM3NjI3NzZ9.xVq2MALQisfT1urVW7EfWrdL1FPzZrsF32guN1tCyC5z24h2B4ogjShxXIxTUyKoaiRkjuq0gJRxM9ikb3qQUw'
+      }
     }
   },
   components: { dragVerify },
