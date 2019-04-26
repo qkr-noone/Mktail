@@ -40,12 +40,10 @@ const user = {
 
     // 获取用户信息
     [USER_INFO] ({commit}) {
-      console.log('...')
       return new Promise((resolve, reject) => {
         API.getUserInfo().then(res => {
           setStore('userInfo', res)
           commit(USER_INFO, res)
-          console.log('vuex', res)
           resolve(res)
         }).catch(error => {
           reject(error)

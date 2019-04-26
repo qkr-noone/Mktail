@@ -42,7 +42,7 @@
             </div>
             <div class="Right">
               <div class="user-info">
-                <router-link :to="{path: '/user'}"><img :src="userInfo.headPic || 'static/img/mk_logo_login.png'"></router-link>
+                <router-link :to="{path: '/user'}"><img :src="userInfo.headPic || 'static/img/mk_logo_login.png'" class="user-head-img"></router-link>
                 <p class="user-tip">Hi，你好</p>
                 <div class="user-coming" v-if="!userInfo.username">
                   <router-link :to="{path: '/login'}">登陆</router-link>
@@ -433,5 +433,4 @@ export default {
 </script>
 <style scoped>
 @import "../../assets/css/app.css"
-/*@import "../static/css/app.css";*/
 </style>

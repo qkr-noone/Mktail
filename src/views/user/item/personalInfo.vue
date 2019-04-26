@@ -214,6 +214,8 @@
 </template>
 <script>
 import dragVerify from 'vue-drag-verify'
+import { getStore } from '@/common/utils'
+import axios from 'axios'
 export default {
   data () {
     return {
@@ -226,7 +228,6 @@ export default {
       currentAddress: [],
       userImageUrl: '',
       isFullUserHead: false,
-      newImageUrl: '',
       previews: {},
       header: {
         Authorization: 'MkTail-eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMjM0NTY3IiwiZXhwIjoxNTg1Mjk4Nzc2LCJpYXQiOjE1NTM3NjI3NzZ9.xVq2MALQisfT1urVW7EfWrdL1FPzZrsF32guN1tCyC5z24h2B4ogjShxXIxTUyKoaiRkjuq0gJRxM9ikb3qQUw'
@@ -315,35 +316,26 @@ export default {
       this.previews = data
     },
     userHeadSave () {
-      console.log(this.$listeners, this.$attrs)
-      // 获取截图的base64 数据
-      this.$refs.cropper.getCropData((data) => {
-        console.log(data)
-      })
       // 获取截图的blob数据
       this.$refs.cropper.getCropBlob((data) => {
-        console.log('截图的blob:', data.type.split('/')[1])
         let fd = new FormData()
-        fd.append('file', data)
-        // application/octet-stream
-        // axios({
-        //   method: 'post',
-        //   url: 'http://192.168.1.40:8083/personData/personData/uploadFile1',
-        //   data: fd,
-        //   params: {extName: data.type.split('/')[1]}
-        // }).then(res => {
-        //   console.log(res)
-        // })
-        this.API.userUploadBlodFlow(fd, data.type.split('/')[1]).then(res => {
-          console.log(res, 10000)
+        let temFile = new File([data], 'headerCanvas.' + data.type.split('/')[1], { type: data.type })
+        console.log(temFile, '1212')
+        fd.append('file', temFile)
+        axios({
+          method: 'post',
+          url: this.URLIP + '/personData/personData/uploadFile1',
+          data: fd,
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            'Authorization': this.header.Authorization
+          }
+        }).then(res => {
+          if (res.data.code === 200) {}
+          this.userInfo.headPic = res.data.message
+          this.isFullUserHead = false
         })
-        // Object.assign(data, {
-        //   preview: URL.createObjectURL(data)
-        // })
-        this.newImageUrl = data.preview
       })
-      this.userInfo.headPic = this.userImageUrl
-      this.isFullUserHead = false
     },
     // 切换省，显示市列表
     tabAddr (provinceid) {
@@ -460,7 +452,7 @@ export default {
       this.currentAddress.forEach(item => { val.push(item.addr) })
       let addressVal = val.join('-')
       let user = {
-        id: this.$cookies.get('userInfo').id,
+        id: JSON.parse(getStore('userInfo')).id,
         name: this.userInfo.realName,
         nickName: this.userInfo.nickName,
         headPic: this.userInfo.headPic,
@@ -474,21 +466,14 @@ export default {
       if (this.$refs.Verify.isPassing) {
         this.API.userUpdateInfo(user).then((res) => {
           this.resetVerify()
-          if (res.success === false) {
-            this.$notify.error({
-              title: '失败',
-              message: '个人资料修改有误'
-            })
-            return
-          }
+          if (res.success === false) return
           this.$notify.success({
             title: '成功',
             message: '个人资料修改成功'
           })
           this.infoInit()
           this.API.userBaseInfo({userName: this.$cookies.get('user-key')}).then(res => {
-            this.$cookies.set('userInfo', res)
-            this.setUserInfo(res)
+            this.$store.dispatch('USER_INFO')
           })
         })
       } else {

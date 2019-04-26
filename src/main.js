@@ -10,12 +10,11 @@ import API from './common/apis'
 import VueCookies from 'vue-cookies'
 import VueCropper from 'vue-cropper'
 import { getStore } from './common/utils'
-import stupidAjax from './common/stupidAjax'
 
 let VueScrollTo = require('vue-scrollto') // 滚动至指定位置
 
 Vue.prototype.API = API
-Vue.prototype.AJAX = stupidAjax
+Vue.prototype.URLIP = 'http://192.168.1.40:8083'
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 Vue.use(VueScrollTo)
