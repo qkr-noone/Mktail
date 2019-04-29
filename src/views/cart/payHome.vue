@@ -170,18 +170,6 @@ export default {
     color: #E50B0B;
     font-family:SourceHanSansCN-Light;
   }
-  .pay .paymark {
-    overflow: hidden;
-    line-height: 26px;
-    text-indent: 38px
-  }
-  .pay .success-icon {
-    width: 30px;
-    height: 30px;
-    display: inline-block;
-    background: url(/static/img/success-icon.png);
-    background-position: 0 0
-  }
   .pay .success-info {
     line-height: 30px;
     vertical-align: top;

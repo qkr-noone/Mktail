@@ -4,7 +4,7 @@ import VueCookies from 'vue-cookies'
 import {Message} from 'element-ui' // Loading
 
 const service = axios.create({
-  timeout: 15000, // 请求超时
+  timeout: 20000, // 请求超时
   responseType: 'json',
   withCredentials: true, // 是否允许带cookie这些
   headers: {

@@ -53,7 +53,7 @@ const user = {
 
     // 登出
     [USER_LOGOUT] ({commit}) {
-      return new Promise(resolve => {
+      return new Promise((resolve, reject) => {
         API.logout().then(() => {
           commit('USER_TOKEN', '')
           commit('USER_INFO', {})
@@ -62,13 +62,14 @@ const user = {
           vueCookies.remove('user-key')
           vueCookies.remove('token')
           resolve()
-        }).catch(() => {
+        }).catch(error => {
           commit('USER_TOKEN', '')
           commit('USER_INFO', {})
           removeStore('userInfo')
           removeStore('cartList')
           vueCookies.remove('user-key')
           vueCookies.remove('token')
+          reject(error)
         })
       })
     },

@@ -59,22 +59,22 @@
           <ul class="m-con-ul">
             <li class="m-con-li">
               <a href="" class="m-con-a">
-                <img src="/static/img/logo-243-300.png">
+                <img src="/static/img/logo-200.png">
               </a>
             </li>
             <li class="m-con-li">
               <a href="" class="m-con-a">
-                <img src="/static/img/logo-243-300.png">
+                <img src="/static/img/logo-200.png">
               </a>
             </li>
             <li class="m-con-li">
               <a href="" class="m-con-a">
-                <img src="/static/img/logo-243-300.png">
+                <img src="/static/img/logo-200.png">
               </a>
             </li>
             <li class="m-con-li">
               <a href="" class="m-con-a">
-                <img src="/static/img/logo-243-300.png">
+                <img src="/static/img/logo-200.png">
               </a>
             </li>
           </ul>
@@ -87,22 +87,22 @@
           <ul class="m-con-ul">
             <li class="m-con-li">
               <a href="" class="m-con-a">
-                <img src="/static/img/logo-243-300.png">
+                <img src="/static/img/logo-200.png">
               </a>
             </li>
             <li class="m-con-li">
               <a href="" class="m-con-a">
-                <img src="/static/img/logo-243-300.png">
+                <img src="/static/img/logo-200.png">
               </a>
             </li>
             <li class="m-con-li">
               <a href="" class="m-con-a">
-                <img src="/static/img/logo-243-300.png">
+                <img src="/static/img/logo-200.png">
               </a>
             </li>
             <li class="m-con-li">
               <a href="" class="m-con-a">
-                <img src="/static/img/logo-243-300.png">
+                <img src="/static/img/logo-200.png">
               </a>
             </li>
           </ul>
@@ -115,22 +115,22 @@
           <ul class="m-con-ul">
             <li class="m-con-li">
               <a href="" class="m-con-a">
-                <img src="/static/img/logo-243-300.png">
+                <img src="/static/img/logo-200.png">
               </a>
             </li>
             <li class="m-con-li">
               <a href="" class="m-con-a">
-                <img src="/static/img/logo-243-300.png">
+                <img src="/static/img/logo-200.png">
               </a>
             </li>
             <li class="m-con-li">
               <a href="" class="m-con-a">
-                <img src="/static/img/logo-243-300.png">
+                <img src="/static/img/logo-200.png">
               </a>
             </li>
             <li class="m-con-li">
               <a href="" class="m-con-a">
-                <img src="/static/img/logo-243-300.png">
+                <img src="/static/img/logo-200.png">
               </a>
             </li>
           </ul>
@@ -143,22 +143,22 @@
           <ul class="m-con-ul">
             <li class="m-con-li">
               <a href="" class="m-con-a">
-                <img src="/static/img/logo-243-300.png">
+                <img src="/static/img/logo-200.png">
               </a>
             </li>
             <li class="m-con-li">
               <a href="" class="m-con-a">
-                <img src="/static/img/logo-243-300.png">
+                <img src="/static/img/logo-200.png">
               </a>
             </li>
             <li class="m-con-li">
               <a href="" class="m-con-a">
-                <img src="/static/img/logo-243-300.png">
+                <img src="/static/img/logo-200.png">
               </a>
             </li>
             <li class="m-con-li">
               <a href="" class="m-con-a">
-                <img src="/static/img/logo-243-300.png">
+                <img src="/static/img/logo-200.png">
               </a>
             </li>
           </ul>
@@ -171,22 +171,22 @@
           <ul class="m-con-ul">
             <li class="m-con-li">
               <a href="" class="m-con-a">
-                <img src="/static/img/logo-243-300.png">
+                <img src="/static/img/logo-200.png">
               </a>
             </li>
             <li class="m-con-li">
               <a href="" class="m-con-a">
-                <img src="/static/img/logo-243-300.png">
+                <img src="/static/img/logo-200.png">
               </a>
             </li>
             <li class="m-con-li">
               <a href="" class="m-con-a">
-                <img src="/static/img/logo-243-300.png">
+                <img src="/static/img/logo-200.png">
               </a>
             </li>
             <li class="m-con-li">
               <a href="" class="m-con-a">
-                <img src="/static/img/logo-243-300.png">
+                <img src="/static/img/logo-200.png">
               </a>
             </li>
           </ul>
@@ -199,22 +199,22 @@
           <ul class="m-con-ul">
             <li class="m-con-li">
               <a href="" class="m-con-a">
-                <img src="/static/img/logo-243-300.png">
+                <img src="/static/img/logo-200.png">
               </a>
             </li>
             <li class="m-con-li">
               <a href="" class="m-con-a">
-                <img src="/static/img/logo-243-300.png">
+                <img src="/static/img/logo-200.png">
               </a>
             </li>
             <li class="m-con-li">
               <a href="" class="m-con-a">
-                <img src="/static/img/logo-243-300.png">
+                <img src="/static/img/logo-200.png">
               </a>
             </li>
             <li class="m-con-li">
               <a href="" class="m-con-a">
-                <img src="/static/img/logo-243-300.png">
+                <img src="/static/img/logo-200.png">
               </a>
             </li>
           </ul>

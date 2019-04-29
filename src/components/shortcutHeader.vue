@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div name='shortcutHeader'>
     <div class="mk-shortcut">
       <div class="shortcut">
         <div class="sc-left">
@@ -64,9 +64,10 @@ export default {
       this.$router.push({path: '/home'})
     },
     logout () {
-      this.$store.dispatch('USER_LOGOUT')
-      this.$store.commit('CART_LIST', [])
-      location.reload()
+      this.$store.dispatch('USER_LOGOUT').then(() => {
+        this.$store.commit('CART_LIST', [])
+        location.reload()
+      })
     }
   }
 }

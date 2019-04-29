@@ -167,7 +167,7 @@
           <el-upload
             class="avatar-uploader"
             accept="image/png, image/jpeg, image/gif, image/jpg"
-            action="http://192.168.1.40:8083/personData/personData/uploadFile"
+            :action="URLIP +'/personData/personData/uploadFile'"
             :headers="header"
             :show-file-list="false"
             :on-success="handleAvatarSuccess"
@@ -181,13 +181,15 @@
               :canScale="false"
               :autoCrop="true"
               :canMove="false"
-              :fixedBox="true"
-              :autoCropWidth="150"
-              :autoCropHeight="150"
+              :fixedBox="false"
+              :autoCropWidth="250"
+              :autoCropHeight="250"
               :fixed="true"
+              :full="true"
               mode="cover"
               @realTime="realTime"
               >
+              <div v-html="previews.html"></div>
             </vueCropper>
           </div>
           <!-- <img :src="userImageUrl"> -->
@@ -199,11 +201,11 @@
           <div class="hr-box"> <!-- v-bind:style="{backgroundImage:'url('+ newImageUrl +')'}" -->
             <div class="show-preview" :style="{'width': previews.w + 'px', 'height': previews.h + 'px',  'overflow': 'hidden'}">
               <div :style="previews.div">
-                <img :src="userImageUrl" :style="previews.img">
+                <img :src="previews.url" :style="previews.img">
               </div>
             </div>
           </div>
-          <p class="hc-tip hr-size">头像预览150*150像素</p>
+          <p class="hc-tip hr-size">头像预览{{previews.w || 250}}*{{previews.h || 250}}像素</p>
         </div>
         <div class="head-close">
           <i class="el-icon-close" @click="isFullUserHead = false"></i>
@@ -229,6 +231,7 @@ export default {
       userImageUrl: '',
       isFullUserHead: false,
       previews: {},
+      one: '',
       header: {
         Authorization: 'MkTail-eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMjM0NTY3IiwiZXhwIjoxNTg1Mjk4Nzc2LCJpYXQiOjE1NTM3NjI3NzZ9.xVq2MALQisfT1urVW7EfWrdL1FPzZrsF32guN1tCyC5z24h2B4ogjShxXIxTUyKoaiRkjuq0gJRxM9ikb3qQUw'
       }
@@ -314,6 +317,7 @@ export default {
     },
     realTime (data) {
       this.previews = data
+      console.log(data)
     },
     userHeadSave () {
       // 获取截图的blob数据
@@ -324,7 +328,7 @@ export default {
         fd.append('file', temFile)
         axios({
           method: 'post',
-          url: this.URLIP + '/personData/personData/uploadFile1',
+          url: this.URLIP + '/personData/personData/uploadFile',
           data: fd,
           headers: {
             'Content-Type': 'multipart/form-data',
@@ -332,7 +336,7 @@ export default {
           }
         }).then(res => {
           if (res.data.code === 200) {}
-          this.userInfo.headPic = res.data.message
+          this.userInfo.headPic = res.data.data
           this.isFullUserHead = false
         })
       })
@@ -668,8 +672,8 @@ export default {
     z-index: 20;
   }
   .full-box {
-    width:700px;
-    height:449px;
+    width:800px;
+    height:500px;
     background:rgba(255,255,255,1);
     box-shadow:0px 0px 6px 0px rgba(0, 0, 0, 0.35);
     display: flex;
@@ -723,9 +727,8 @@ export default {
     margin-top: 15px;
   }
   .head-right {
-    width: 230px;
+    width: 330px;
     display: flex;
-    justify-content: center;
     flex-direction: column;
     align-items: center;
     margin-right: 35px;
@@ -733,13 +736,12 @@ export default {
   .hr-title{
     color: #4B4B4B;
     font-size: 16px;
+    margin-top: 30px;
   }
   .hr-tip {
-    margin-bottom: 40px;
+    margin-bottom: 30px;
   }
   .hr-box {
-    width: 150px;
-    height: 150px;
     border:1px solid rgba(227,227,227,1);
     margin-bottom: 19px;
     background-position: center;

@@ -450,6 +450,5 @@ export default {
 
 </script>
 <style scoped>
-/*@import "../../assets/css/cart/webbase.css";*/
 @import "../../assets/css/cart/cart.css"
 </style>

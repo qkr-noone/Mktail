@@ -122,7 +122,7 @@
             <section v-show="changeShowType ==='person'">
               <span class="explain">无企业营业执照的个人用户请注册个人账户。权益如下：做个人实名认证；作为买家身份采购；</span>
               <div class="info">
-                <form class="sui-form form-horizontal">
+                <form class="sui-form form-horizontal" @submit.prevent>
                   <div class="control-group">
                     <label class="control-label">会员名：</label>
                     <div class="controls">
@@ -149,7 +149,7 @@
                         <option>中国香港</option>
                       </select>
                       <input type="text" class="input-xfat input-xlarge mobile" maxlength="16" v-model="phoneValue">
-                      <button class="getPhoneCode" @click="sendCode()" v-if="time===60">获取手机验证码</button>
+                      <button class="getPhoneCode sui-btn" @click="sendCode()" v-if="time===60">获取手机验证码</button>
                       <button class="getPhoneCode" v-else>{{this.time}}秒后可重新获取</button>
                     </div>
                   </div>
@@ -511,6 +511,9 @@ export default {
     font-weight:400;
     color:rgba(254,254,254,1);
     line-height:20px;margin-top: 10px;
+  }
+  .sui-btn{
+    cursor: pointer;
   }
 /*中部右边问题框*/
   .question{

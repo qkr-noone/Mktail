@@ -1,6 +1,6 @@
 import fetch from './fetch'
-
-let IP = 'http://192.168.1.40:8083' /* http://192.168.1.221:8083 https://easy-mock.com/mock/5bf6166bf9b2636f875b693c/test */
+/* http://192.168.1.100:8083 https://easy-mock.com/mock/5bf6166bf9b2636f875b693c/test http://192.168.1.40:8083 http://localhost:8084 */
+let IP = 'http://localhost:8084'
 const http = {
   get: (path, data) => fetch.get(IP + path, {
     params: data
@@ -34,7 +34,7 @@ export default {
   // 登陆 获取token
   getToken: data => http.post('/user/login/login', data),
   // 用户退出登录
-  logout: data => http.get('/user/login/login', data),
+  logout: () => http.post('/user/login/logout'),
 
   /* ----购物车---- */
 

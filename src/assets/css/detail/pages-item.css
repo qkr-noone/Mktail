@@ -293,18 +293,6 @@
     border-style: dotted
   }
   
-  .summary-wrap a span {
-    width: 13px;
-    height: 13px;
-    display: none;
-    position: absolute;
-    right: 0;
-    _right: -1px;
-    bottom: 0;
-    _bottom: -1px;
-    overflow: hidden;
-    background: url(/static/img/choosed.png) no-repeat
-  }
   
   .summary-wrap .selected span {
     display: block
