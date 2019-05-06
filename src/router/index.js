@@ -37,6 +37,11 @@ router = new Router({
       component: resolve => require(['@/views/search/index'], resolve)
     },
     {
+      path: '/feedback',
+      name: 'feedback',
+      component: resolve => require(['@/views/search/feedback'], resolve)
+    },
+    {
       path: '/detail',
       redirect: '/detail/desciption',
       component: resolve => require(['@/views/detail/index'], resolve),

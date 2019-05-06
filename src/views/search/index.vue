@@ -26,37 +26,47 @@
             <div class="brand" data-attr="品牌" data-attr-id="">品牌：</div>
             <div class="value logos">
               <div class="logos-list">
-                <ul class="logo-value-fixed" ref="brandul">
-                  <li v-for="(item, index) in brandList" :key="index" @click="selectStyle(item, index)" ref="brandli"><a>{{item.text}}</a><i v-if="!isSelectBrandMore" class="el-icon-circle-check-outline"></i></li>
+                <ul class="logo-value-fixed other-select"  :class="[isSelectBrandMore ? 'active-dom': '', isShowBrandMore ? 'active-brand-more':'']">
+                  <li v-for="(item, index) in brandList" :key="index" @click="selectStyle(item)">
+                    <a href="javascript:;" :class="temSelectList.indexOf(item.text)>=0 ? 'cur': ''">{{item.text}}</a>
+                    <i v-if="isSelectBrandMore" class="el-icon-circle-check-outline" :class="temSelectList.indexOf(item.text)>=0 ? 'cur': ''"></i>
+                  </li>
                 </ul>
-                <div class="brand-btn" v-if="!isSelectBrandMore">
-                  <a class="disabled" @click="btnComfirm(1)" :class="temSelectList.length > 0 ?'select':''">确定</a>
-                  <a @click="btnCancel">取消</a>
+                <div class="brand-btn" v-if="isSelectBrandMore">
+                  <a class="disabled has_pointer" @click="btnComfirm(1)" :class="temSelectList.length > 0 ?'select':''">确定</a>
+                  <a class="has_pointer" @click="btnCancel">取消</a>
                 </div>
               </div>
             </div>
-            <div class="logos-ext">
-              <a class="logos-e-multiple" @click="selectBrandMore($event)" ref="brandselMore"><i class="el-icon-plus"></i>多选</a>
-              <a class="logos-e-more" v-show="brandList.length > 7 && isSelectBrandMore" @click="more($event)" ref="brandMore"><p>更多</p><i class="el-icon-arrow-down"></i></a>
+            <div class="logos-ext" v-show="!isSelectBrandMore">
+              <a class="logos-e-multiple has_pointer" @click="isSelectBrandMore=true"><i class="el-icon-plus"></i>多选</a>
+              <a class="logos-e-more has_pointer" v-show="brandList.length > 7" @click="isShowBrandMore = !isShowBrandMore">
+                <p v-show="!isShowBrandMore">更多</p><p v-show="isShowBrandMore">收起</p>
+                <i :class="isShowBrandMore ? 'el-icon-arrow-up' :'el-icon-arrow-down'"></i>
+              </a>
             </div>
           </div>
-          <div class=" logo s-brand"  v-if="isSelectSpec.indexOf(index) === -1" v-for="(list, index) in specList" :key="list.id">
+          <div class=" logo s-brand"  v-show="isSelectSpec.indexOf(index) === -1" v-for="(list, index) in specList" :key="list.id">
             <div class="fl brand" :data-attr="list.text" :data-attr-id="list.id">{{list.text}}：</div>
             <div class="value logos">
               <div class="logos-list">
-                <ul class="logo-value-fixed" ref="specul">
-                  <li v-for="(info, tip) in list.options" :key="tip" @click="selectAttr(info, tip, index)"><a>{{info.optionName}}</a></li>
-                  <!-- <i class="el-icon-circle-check-outline"></i> -->
+                <ul class="logo-value-fixed other-select" ref="specul" :class="[isShowMore === index ? 'active-dom': '', isSelectSpecMore === list.id ? 'select-active-dom': '']">
+                  <li v-for="(info, tip) in list.options" :key="tip" @click="selectAttr(info, index)">
+                    <a href="javascript:;" :class="chooseSpec.indexOf(info.id)>=0 ? 'cur': ''">{{info.optionName}}</a>
+                    <i class="el-icon-circle-check-outline" v-if="isSelectSpecMore === list.id" :class="chooseSpec.indexOf(info.id)>=0 ? 'cur': ''"></i>
+                  </li>
                 </ul>
-                <!-- <div class="brand-btn">
-                  <a class="disabled" @click="btnComfirm(2)">确定</a>
-                  <a @click="btnCancel">取消</a>
-                </div> -->
+                <div class="brand-btn" v-if="isSelectSpecMore === list.id">
+                  <a class="disabled" @click="btnComfirm(2, index)" :class="temSelectSpec.length > 0 ?'select':''">确定</a>
+                  <a @click="btnSpecCancel()">取消</a>
+                </div>
               </div>
             </div>
-            <div class="logos-ext">
-              <a class="logos-e-multiple" @click="selectMore($event, index)"><i class="el-icon-plus"></i>多选</a>
-              <a class="logos-e-more" v-if="list.options.length > 7" @click="more($event, index)"><p>更多</p><i class="el-icon-arrow-down"></i></a>
+            <div class="logos-ext" v-show="isSelectSpecMore !== list.id">
+              <a class="logos-e-multiple has_pointer" @click="isSelectSpecMore=list.id"><i class="el-icon-plus"></i>多选</a>
+              <a class="logos-e-more has_pointer" v-if="list.options.length > 7" @click="isShowMore!==index ? isShowMore=index : isShowMore=''">
+                <p v-show="isShowMore===index">收起</p><p>更多</p><i :class="isShowMore === index ? 'el-icon-arrow-up' : 'el-icon-arrow-down'"></i>
+              </a>
             </div>
           </div>
         </div>
@@ -87,21 +97,21 @@
               <div class="wrap-filter">
                 <ul class="filter-list">
                   <li :class="{active: choose_sort === 'complex'}" @click="chooseSort('complex')">
-                    <a><h4>综合</h4></a>
+                    <a class="has_pointer"><h4>综合</h4></a>
                   </li>
                   <li :class="{active: choose_sort === 'salesNum'}" @click="chooseSort('salesNum')">
-                    <a><h4>销量</h4><span>↓</span></a>
+                    <a class="has_pointer"><h4>销量</h4><span>↓</span></a>
                   </li>
                   <li :class="{active: choose_sort === 'creditNum'}" @click="chooseSort('creditNum')">
-                    <a><h4>信用</h4><span :class="{cur: choose_sort === 'creditNum'}">↓</span></a>
+                    <a class="has_pointer"><h4>信用</h4><span :class="{cur: choose_sort === 'creditNum'}">↓</span></a>
                   </li>
                   <li :class="{active: choose_sort === 'salesPrice'}" @click="chooseSort('salesPrice')">
-                    <a><h4>价格</h4><span class="price-sort-tip" :class="isPriceSort ? 'cur' : ''"><i class="el-icon-arrow-up"></i><i class="el-icon-arrow-down"></i></span></a>
+                    <a class="has_pointer"><h4>价格</h4><span class="price-sort-tip" :class="isPriceSort ? 'cur' : ''"><i class="el-icon-arrow-up"></i><i class="el-icon-arrow-down"></i></span></a>
                   </li>
                   <input class="fil-price" type="text" name=""  maxlength="20" @input="handleOnePrice" :value="smallPrice" placeholder="￥">
                   <span class="fil-price-line"></span>
                   <input class="fil-price" @input="handleTwoPrice" :value="bigPrice" type="text" name=""  maxlength="20" placeholder="￥">
-                  <a class="fil-price-btn" @click="btnPrice">确定</a>
+                  <a class="fil-price-btn has_pointer" @click="btnPrice">确定</a>
                 </ul>
                 <div class="filter-num">
                   <span class="filter-text">
@@ -109,8 +119,8 @@
                     <em>/</em>
                     <i>{{totalPages}}</i>
                   </span>
-                  <a class="filter-prev" :class="currentPage===1?'disabled':''" @click="prevPage"><i class="el-icon-arrow-left"></i></a>
-                  <a class="filter-next" :class="currentPage===totalPages?'disabled':''" @click="nextPage"><i class="el-icon-arrow-right"></i></a>
+                  <a class="filter-prev has_pointer" :class="currentPage===1?'disabled':''" @click="prevPage"><i class="el-icon-arrow-left"></i></a>
+                  <a class="filter-next has_pointer" :class="currentPage===totalPages?'disabled':''" @click="nextPage"><i class="el-icon-arrow-right"></i></a>
                 </div>
               </div>
             </div>
@@ -140,8 +150,8 @@
                       <span class="J_im_icon"><a target="_blank">销量1000</a><b class="im-01" title="联系客服"><i class="el-icon-service"></i></b></span>
                     </div>
                     <div class="p-add">
-                      <a><img src="static/img/mk_search_addgoods.png"><span>收藏</span></a>
-                      <a><img src="static/img/mk_search_addcart.png"><span>加购物车</span></a>
+                      <a class="has_pointer" @click="toCollect(item.goodsId, 1)"><img src="static/img/mk_search_addgoods.png"><span>收藏</span></a>
+                      <a class="has_pointer" @click="toCart(item.id, 1)"><img src="static/img/mk_search_addcart.png"><span>加购物车</span></a>
                     </div>
                     <img>
                   </div>
@@ -149,9 +159,8 @@
               </ul>
             </div>
             <div class="block" v-if="totalPages > 1">
+              <router-link class="youthink" :to="{path:'/feedback'}">说说你的使用感受</router-link>
               <el-pagination
-                @size-change="handleSizeChange"
-                @current-change="handleCurrentChange"
                 :current-page.sync="currentPage"
                 :page-size="40"
                 layout="prev, pager, next, jumper"
@@ -161,7 +170,7 @@
           </div>
         </div>
         <div class="details" v-else>
-          <p><i class="el-icon-warning"></i>抱歉未找到与 <em>{{keywords}}</em>相关的商品</p>
+          <p><i class="el-icon-warning"></i>抱歉未找到与 <em>{{keywords}}</em><em v-for="val in selectSpec" :key="val.spec">/{{val.spec}}：<em v-for="item in val.childList" :key="item.id">{{item.attr}}、</em></em>相关的商品</p>
         </div>
         <!-- 底部商品精选 -->
         <div class="bestGoods">
@@ -216,6 +225,7 @@ import headerNav from '@/components/headerNav'
 import homeNav from '@/components/homeNav'
 import absBox from '@/components/absBox'
 import pageFooter from '@/components/pageFooter'
+import { formatDate } from '@/common/utils'
 export default {
   data () {
     return {
@@ -225,12 +235,16 @@ export default {
       brandList: '',
       selectBrand: [], // 选择的品牌查询
       isSelectBrand: true, // 是否显示品牌列表，即未选择品牌
-      isSelectBrandMore: true,
+      isSelectBrandMore: false, // 为false 品牌显示单选
+      isShowBrandMore: false, // 显示更多/收起
+      temSelectList: [], // 品牌多选时临时存取数据
       specList: '',
-      specNavList: [],
+      specNavList: [], // spec 属性名列表
       selectSpec: [],
-      isSelectSpec: [],
-      temSelectList: [], // 多选时临时存取数据
+      temSelectSpec: [], // spec 多选是临时存取数据
+      isSelectSpec: [], // spec 属性列表中选中的列表位置
+      isSelectSpecMore: '',
+      isShowMore: '', // 显示更多/收起
       priceRange: [],
       isPriceSort: false, // 判断价格升序和降序图标
       smallPrice: '',
@@ -252,6 +266,22 @@ export default {
     }
   },
   components: { pageFooter, shortcut, headerNav, absBox, homeNav },
+  computed: {
+    chooseSpec () {
+      let tem = []
+      this.temSelectSpec.length && this.temSelectSpec.forEach(item => {
+        item.childList.forEach(tip => {
+          tem.push(tip.id)
+        })
+      })
+      return tem
+    },
+    chooseBrand () {
+      let tem = []
+      console.log(this.temSelectList)
+      return tem
+    }
+  },
   created () {
     this.keywords = this.$route.query.keywords
     if (this.keywords) {
@@ -284,12 +314,6 @@ export default {
     handleTwoPrice (e) {
       this.bigPrice = e.target.value.replace(/[^\d]/g, '')
     },
-    handleSizeChange (val) {
-      console.log(`每页 ${val} 条`)
-    },
-    handleCurrentChange (val) {
-      console.log(`当前页: ${val}`)
-    },
     nextPage () {
       if (this.currentPage < this.totalPages && this.totalPages > 1) {
         this.currentPage++
@@ -309,8 +333,14 @@ export default {
         this.temSort.field = ''
         this.temSort.sort = ''
         this.currentPage = 1
+        this.isSelectSpec = []
+        this.isShowBrandMore = false
+        this.isSelectBrandMore = false
       }
       this.isSelectBrand = true
+      this.temSelectSpec = []
+      this.temSelectList = []
+      this.isSelectSpecMore = ''
       let priceRange = ''
       let userPrice = []
       if (this.smallPrice !== '' && this.smallPrice >= 0) userPrice.push(this.smallPrice)
@@ -368,52 +398,34 @@ export default {
         }
       })
     },
-    // 选择spec时 修改样式
-    selectStyle (item, index) {
-      if (this.isSelectBrandMore) { // 正常选择单个品牌
-        if (this.$refs.brandli[index].children[0].className.length <= 0) {
-          this.$refs.brandli[index].children[0].className = 'cur'
-          if (this.$refs.brandli[index].children[1]) { // 防止节点不存在 bug
-            this.$refs.brandli[index].children[1].className = 'el-icon-circle-check-outline cur'
-          }
-          this.selectBrand.push(item.text)
-          // 去重
-          this.selectBrand = [...new Set(this.selectBrand)]
-        } else {
-          this.$refs.brandli[index].children[0].className = ''
-          this.$refs.brandli[index].children[1].className = 'el-icon-circle-check-outline'
-          this.$delete(this.selectBrand, this.selectBrand.indexOf(item.text))
-        }
+    // 选择品牌时 修改样式
+    selectStyle (item) {
+      if (!this.isSelectBrandMore) { // 正常选择单个品牌
+        // 去重 this.selectBrand = [...new Set(this.selectBrand)]
+        this.selectBrand.push(item.text)
         this.search([this.keywords, false])
       } else { // 下拉多选
-        if (this.$refs.brandli[index].children[0].className.length <= 0) {
-          this.$refs.brandli[index].children[0].className = 'cur'
-          if (this.$refs.brandli[index].children[1]) { // 防止节点不存在 bug
-            this.$refs.brandli[index].children[1].className = 'el-icon-circle-check-outline cur'
-          }
-          this.temSelectList.push(item.text)
-          // 去重
-          this.temSelectList = [...new Set(this.temSelectList)]
-        } else {
-          this.$refs.brandli[index].children[0].className = ''
-          this.$refs.brandli[index].children[1].className = 'el-icon-circle-check-outline'
+        if (this.temSelectList.indexOf(item.text) >= 0) {
           this.$delete(this.temSelectList, this.temSelectList.indexOf(item.text))
+        } else {
+          this.temSelectList.push(item.text)
+          this.temSelectList = [...new Set(this.temSelectList)]
         }
       }
     },
     // 切换修改 spec
-    selectAttr (item, index, rollNum) {
+    selectAttr (item, rollNum) {
       let specIdList = this.specNavList.find(tip => {
         return tip.id === item.specId
       })
-      if (this.selectSpec.length) {
-        let isAll = this.selectSpec.every(list => {
+      if (this.isSelectSpecMore === item.specId) { // 当前是多选
+        let isAll = this.temSelectSpec.every(list => {
           return (list.spec !== specIdList.spec)
         })
         if (isAll) {
-          this.selectSpec.push({spec: specIdList.spec, childList: [{'attr': item.optionName, 'id': item.id}]})
+          this.temSelectSpec.push({spec: specIdList.spec, childList: [{'attr': item.optionName, 'id': item.id}]})
         } else {
-          for (let val of this.selectSpec) {
+          for (let val of this.temSelectSpec) {
             if (val.spec === specIdList.spec) {
               let isSelect = val.childList.every(box => {
                 return (box.id !== item.id)
@@ -434,94 +446,31 @@ export default {
         }
       } else {
         this.selectSpec.push({spec: specIdList.spec, childList: [{'attr': item.optionName, 'id': item.id}]})
+        this.search([this.keywords, false])
+        this.isSelectSpec.push(rollNum)
       }
-      console.log('over', this.selectSpec)
-      // this.isSelectBrandMore = true
-      this.search([this.keywords, false])
-      this.isSelectSpec.push(rollNum)
     },
-    // 品牌多选
-    selectBrandMore (event) {
-      let brandTag = this.$refs.brandul.style
-      brandTag.height = 'initial'
-      brandTag.maxHeight = '60px'
+    // 取消选择Brand
+    btnCancel () {
+      this.temSelectList = []
       this.isSelectBrandMore = false
-      this.$refs.brandselMore.style.display = 'none'
-      console.log(1, this.$refs.brandul.parentElement)
-      // 16+120+40(btn)  16 + 30 + 40
-      if (this.$refs.brandul.parentElement.offsetHeight > 86) {
-        brandTag.overflowX = 'hidden'
-        brandTag.overflowY = 'auto'
-      } else {
-        brandTag.overflowX = 'hidden'
-        brandTag.overflowY = 'hidden'
-      }
-      console.log(2, this.$refs.brandul.parentElement.offsetHeight)
-    },
-    // spec多选
-    selectMore (event, index) {
-      console.log(this.$refs.specul, 10)
-      let specul = this.$refs.specul[index].style
-      if (specul.maxHeight === '120px') {
-        specul.height = '30px'
-        specul.maxHeight = 'initial'
-      } else {
-        specul.height = 'initial'
-        specul.maxHeight = '120px'
-      }
-      if (this.$refs.specul[index].parentElement.offsetHeight > 136) {
-        specul.overflowX = 'hidden'
-        specul.overflowY = 'auto'
-      } else {
-        specul.overflowX = 'hidden'
-        specul.overflowY = 'hidden'
-      }
-    },
-    // 显示 更多
-    more (event, index) {
-      let specUl
-      if (index !== undefined) {
-        specUl = this.$refs.specul[index].style
-      } else {
-        specUl = this.$refs.brandul.style
-      }
-      let curTag = event.currentTarget
-      if (specUl.height === 'auto') {
-        (specUl.height = '30px')
-        curTag.children[0].textContent = '更多'
-        curTag.children[1].className = 'el-icon-arrow-down'
-      } else {
-        specUl.height = 'auto'
-        curTag.children[0].textContent = '收起'
-        curTag.children[1].className = 'el-icon-arrow-up'
-      }
     },
     // 取消选择spec
-    btnCancel () {
-      let brandTag = this.$refs.brandul.style
-      brandTag.height = '30px'
-      brandTag.maxHeight = 'initial'
-      this.isSelectBrandMore = true
-      this.$refs.brandselMore.style.display = 'block'
-      let brandIsMore = this.$refs.brandMore
-      brandIsMore.children[0].textContent = '更多'
-      brandIsMore.children[1].className = 'el-icon-arrow-down'
-      if (this.$refs.brandul.parentElement.offsetHeight > 86) {
-        brandTag.overflowX = 'hidden'
-        brandTag.overflowY = 'auto'
-      } else {
-        brandTag.overflowX = 'hidden'
-        brandTag.overflowY = 'hidden'
-      }
+    btnSpecCancel () {
+      this.isSelectSpecMore = ''
+      this.temSelectSpec = []
     },
     // 确定选择spec
-    btnComfirm (index) {
-      if (index === 1) { // 1 为品牌
+    btnComfirm (status, rollNum) {
+      if (status === 1) { // 1 为品牌
         this.selectBrand = this.temSelectList
-      } else if (index === 2) { // 2 为spec list
+      } else if (status === 2) { // 2 为spec list
+        this.temSelectSpec.forEach(item => {
+          this.selectSpec.push(item)
+        })
+        this.isSelectSpec.push(rollNum)
       }
       this.search([this.keywords, false])
-      // this.isSelectBrandMore = true
     },
     // 提交指定价格区间
     btnPrice () {
@@ -563,11 +512,102 @@ export default {
         }
       }
       this.search([this.keywords, false])
+    },
+    // 收藏
+    toCollect (id, type) {
+      let tip = type === 1 ? '商品' : '店铺'
+      if (this.$cookies.get('token')) {
+        let tem = {
+          userName: this.$cookies.get('user-key'),
+          dataId: id, // "商品ID或者店铺ID"
+          type: type, // 1商品关注、2店铺关注
+          addTime: formatDate(new Date())
+        }
+        this.API.addCollect(tem).then(res => {
+          if (res.success === false) {
+            this.$message.warning(res.message)
+            return
+          }
+          if (res === '请求成功，无返回值') {
+            this.$message.warning(`当前${tip}已经收藏了，请勿重复操作`)
+          } else if (res === true) {
+            this.$message.success(`成功关注该${tip}`)
+          }
+        })
+      } else {
+        this.$notify.warning({
+          title: '提示',
+          message: '请先登陆哦~'
+        })
+      }
+    },
+    // 加入购物车
+    toCart (skuId, num) {
+      if (this.$cookies.get('token')) {
+        this.API.addToCart({ itemId: skuId, num: num, name: this.$cookies.get('user-key') }).then(rtn => {
+          if (rtn.success === false) {
+            this.$message.error('加入购物车失败')
+            return false
+          }
+          this.$message.success('成功加入购物车')
+          this.$store.dispatch('CART')
+        })
+      } else {
+        this.$notify.warning({
+          title: '提示',
+          message: '请先登陆哦~'
+        })
+      }
     }
   },
   watch: {
     currentPage (newPage) {
       this.search([this.keywords, false])
+    },
+    // 操作spec更多 初始化其他
+    isShowMore (newStatus) {
+      if (newStatus !== '') {
+        this.isSelectSpecMore = ''
+        this.temSelectSpec = []
+        this.temSelectList = []
+        this.isShowBrandMore = false
+        this.isSelectBrandMore = false
+      }
+      this.$nextTick(() => {
+        this.$refs.specul.forEach((list, tip) => {
+          list.scrollTop = 0
+        })
+      })
+    },
+    // 操作spec多选 初始化其他
+    isSelectSpecMore (newStatus) {
+      if (newStatus) {
+        this.isShowMore = ''
+        this.temSelectSpec = []
+        this.temSelectList = []
+        this.isShowBrandMore = false
+        this.isSelectBrandMore = false
+      }
+    },
+    // 操作品牌多选 初始化其他
+    isSelectBrandMore (newStatus) {
+      if (newStatus) {
+        this.isShowMore = ''
+        this.isSelectSpecMore = ''
+        this.temSelectSpec = []
+        this.temSelectList = []
+        this.isShowBrandMore = false
+      }
+    },
+    // 操作品牌更多 初始化其他
+    isShowBrandMore (newStatus) {
+      if (newStatus) {
+        this.isShowMore = ''
+        this.isSelectSpecMore = ''
+        this.temSelectSpec = []
+        this.temSelectList = []
+        this.isSelectBrandMore = false
+      }
     }
   }
 }
@@ -583,5 +623,25 @@ export default {
 }
 #bottom {
   background-color: #f5f5f5;
+}
+.other-select {
+  height: 30px;
+  max-height: initial;
+  overflow-y: hidden;
+}
+.active-dom {
+  height: auto;
+  max-height: 60px;
+  overflow-y: auto;
+}
+.select-active-dom {
+  height: initial;
+  max-height: 120px;
+  overflow-y: auto;
+}
+.active-brand-more {
+  height: auto;
+  max-height: 60px;
+  overflow-y: auto;
 }
 </style>

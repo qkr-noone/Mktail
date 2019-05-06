@@ -131,8 +131,9 @@
                   </div>
                   <div class="control-group">
                     <label for="inputPassword" class="control-label">登录密码：</label>
-                    <div class="controls">
+                    <div class="controls password">
                       <input type="password" placeholder="设置你的登录密码" class="input-xfat input-xlarge" v-model="password">
+                      <span>密码由数字、字母和字符组成 且长度为6-18位</span>
                     </div>
                   </div>
                   <div class="control-group">
@@ -144,9 +145,9 @@
                   <div class="control-group">
                     <label class="control-label">手机号码：</label>
                     <div class="controls">
-                      <select>
-                        <option>中国大陆&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+86</option>
-                        <option>中国香港</option>
+                      <select v-model="isArea">
+                        <option value="0">中国大陆&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+86</option>
+                        <option value="1">中国香港</option>
                       </select>
                       <input type="text" class="input-xfat input-xlarge mobile" maxlength="16" v-model="phoneValue">
                       <button class="getPhoneCode sui-btn" @click="sendCode()" v-if="time===60">获取手机验证码</button>
@@ -201,6 +202,7 @@
 <script>
 import regFooter from '@/components/regFooter'
 import refHeader from '@/components/regHeader'
+import { isMobile, isHKMobile, isPassword } from '@/common/utils'
 export default {
   data () {
     return {
@@ -215,7 +217,8 @@ export default {
       smsCode: '',
       changeShowType: 'person', // 个人注册
       show: 1,
-      isAgree: false // 是否同意注册条款
+      isAgree: false, // 是否同意注册条款
+      isArea: 0 // 0 中国大陆 1 中国香港
     }
   },
   components: {regFooter, refHeader},
@@ -226,12 +229,19 @@ export default {
         return false
       }
       if (this.phoneValue === null || this.phoneValue === '') {
-        this.$message.warning('请输入填写手机号')
+        this.$message.warning('请输入手机号')
         return false
       }
-      if (this.phoneValue.length !== 11) {
-        this.$message.warning('请输入正确的手机号')
-        return false
+      if (this.isArea) {
+        if (!isHKMobile(this.phoneValue)) {
+          this.$message.warning('请输入正确的手机号')
+          return false
+        }
+      } else {
+        if (!isMobile(this.phoneValue)) {
+          this.$message.warning('请输入正确的手机号')
+          return false
+        }
       }
       this.API.sendCode({phone: this.phoneValue}).then(res => {
         this.$message.success('验证码已发送')
@@ -254,17 +264,28 @@ export default {
         this.$message.warning('请输入完整信息')
         return false
       }
+      if (!isPassword(this.password)) {
+        this.$message.warning('输入密码至少包含字符、数字、字母中的两种')
+        return false
+      }
       if (this.password !== this.REpassword) {
         this.$message.warning('两次输入密码不一致，请重新输入')
         return false
       }
       if (this.phoneValue === null || this.phoneValue === '') {
-        this.$message.warning('请输入填写手机号')
+        this.$message.warning('请输入手机号')
         return false
       }
-      if (this.phoneValue.length !== 11) {
-        this.$message.warning('请输入正确的手机号')
-        return false
+      if (this.isArea) {
+        if (!isHKMobile(this.phoneValue)) {
+          this.$message.warning('请输入正确的手机号')
+          return false
+        }
+      } else {
+        if (!isMobile(this.phoneValue)) {
+          this.$message.warning('请输入正确的手机号')
+          return false
+        }
       }
       if (!this.flag) {
         this.$message.warning('请先获取验证码，再输入')
@@ -405,6 +426,19 @@ export default {
   .middle{
     position: relative;
   }
+  .password {
+    position: relative;
+  }
+  .password span{
+    position: absolute;
+    top: 12px;
+    right: 0;
+    left: 100%;
+    width: 100%;
+    margin-left: 15px;
+    color: rgb(130, 130, 130);
+    font-size: 12px;
+  }
 /*中部内容区域*/
   .middle-title{
     display: flex;
@@ -415,6 +449,7 @@ export default {
    .middle .fixed-height{
      height:35px;
      overflow: hidden;
+     cursor: pointer;
    }
   .middle .fixed-height .reduce-height{
     margin-bottom: -20px;
@@ -623,6 +658,7 @@ export default {
    margin-left: 10px;
    border-right:none;
    margin-right: 0;
+   border: 1px solid rgb(153, 153, 153);
  }
   .control-group .el-checkbox{
     margin-left:110px;

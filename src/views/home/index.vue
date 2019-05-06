@@ -29,7 +29,7 @@
               <div id="myCarousel" data-ride="carousel" data-interval="4000" class="sui-carousel">
                 <el-carousel :interval="5000" arrow="always" height="100%" @change="carouselChange">
                   <el-carousel-item v-for="item in bannerList" :key="item.id">
-                    <router-link :to="{path: item.url}"><img :src="item.pic"></router-link>
+                    <router-link :to="{path:item.url}"><img :src="item.pic"></router-link>
                   </el-carousel-item>
                 </el-carousel>
               </div>

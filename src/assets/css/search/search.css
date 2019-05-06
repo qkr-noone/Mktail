@@ -23,6 +23,9 @@
     content: '、'
   }
   .tags-choose li:last-child { border: none; }
+  .has_pointer {
+    cursor: pointer;
+  }
 
 /*查找商品列表*/
   .goods-list {
@@ -51,7 +54,7 @@
   }
   .p-list:hover {
     outline: #ddd auto 5px;
-    box-shadow: 0 4px 6px 6px #ddd;
+    box-shadow: 0 0px 2px 2px #E9E9E9;
   }
   .p-img {
     margin-bottom: 5px; width: 204px; padding:0;position: relative;
@@ -283,6 +286,22 @@
   .p-add a:last-child{border-left: 1px solid #E9E9E9FF}
   .p-add a span{margin-left: 3px;}
   .p-add a img {margin-bottom: 2px;}
+  .block {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .youthink {
+    height: 45px;
+    line-height: 45px;
+    border-radius: 22px 20px 4px 22px;
+    background-color: #FFEB0E;
+    color: #8D8D8D;
+    font-size: 15px;
+    padding: 0 35px 0 18px;
+    margin-right: 10px;
+    cursor: pointer;
+  }
 
 /* 自定义 */
   .brand{ width: 90px; text-align: left; 
