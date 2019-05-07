@@ -298,6 +298,9 @@ export default {
     })
   },
   created () {
+  },
+  activated () {},
+  mounted () {
     // 获取条目菜单
     this.API.homeMenu().then(rtn => {
       this.menuData = rtn.children
@@ -399,8 +402,6 @@ export default {
       this.likeList = rtn.contentList
     })
   },
-  activated () {},
-  mounted () {},
   methods: {
     carouselChange (index, key) {
       this.bgImg = this.bannerList[index].bgcolor
