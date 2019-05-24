@@ -14,8 +14,8 @@ import { getStore } from './common/utils'
 let VueScrollTo = require('vue-scrollto') // 滚动至指定位置
 
 Vue.prototype.API = API
-Vue.prototype.URLIP = 'http://localhost:8084' // http://192.168.1.40:8083 http://192.168.1.33:8083 上传文件 http://192.168.1.100:8083
-Vue.prototype.U3DIP = 'http://192.168.1.100:9004/qnnc2c'
+Vue.prototype.URLIP = process.env.URL_IP // http://192.168.1.40:8083 http://192.168.1.33:8083 上传文件 http://192.168.1.100:8083
+Vue.prototype.U3DIP = process.env.U3D_IP
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 Vue.use(VueScrollTo)

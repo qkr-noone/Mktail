@@ -1,6 +1,6 @@
 import fetch from './fetch'
 /* http://192.168.1.100:8083 https://easy-mock.com/mock/5bf6166bf9b2636f875b693c/test http://192.168.1.40:8083 http://localhost:8084 */
-let IP = 'http://localhost:8084'
+let IP = process.env.BASE_API
 const http = {
   get: (path, data) => fetch.get(IP + path, {
     params: data
