@@ -257,10 +257,16 @@ export default {
       liveTitel: 'MKTail直播',
       writeDesc: '',
       // http://192.168.1.11/hls/test"+i+".m3u8  直播源
-      sourceList: ['http://192.168.1.11/hls/test.m3u8', 'http://192.168.1.11/hls/test.m3u8',
-        'http://192.168.1.11/hls/test.m3u8', 'http://192.168.1.11/hls/test.m3u8', 'http://192.168.1.11/hls/test.m3u8', 'http://192.168.1.11/hls/test.m3u8',
-        'http://192.168.1.11/hls/test.m3u8', 'http://192.168.1.11/hls/test.m3u8',
-        'http://192.168.1.11/hls/test.m3u8'
+      sourceList: [
+        'http://hls01open.ys7.com',
+        'http://hls01open.ys7.com',
+        'http://hls01open.ys7.com',
+        'http://hls01open.ys7.com',
+        'http://hls01open.ys7.com',
+        'http://hls01open.ys7.com',
+        'http://hls01open.ys7.com',
+        'http://hls01open.ys7.com',
+        'http://hls01open.ys7.com'
       ],
       randomObj: {
         select: 'select' // 先定义随机ID
@@ -279,6 +285,11 @@ export default {
     window[this.randomObj.select] = function (page) {
       this.activeChildPage(page)
     }.bind(this)
+    // 请求获取直播地址9个,必然是9个~ 需要传入SellerId
+    let sellerId = 'baidu123'
+    this.API.getNineLiveUrlBySellerId('', sellerId).then(res => {
+      this.sourceList = this.sourceList.map((item, index) => res[index].videoUrl)
+    })
   },
   methods: {
     sourcePlay (list, index) {

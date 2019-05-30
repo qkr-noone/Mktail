@@ -136,5 +136,8 @@ export default {
   // 查询 用户关注的商品
   searchCollectGoods: data => http.get('/userCollect/userCollect/searchGoodCollect', data),
   // 删除用户关注信息
-  deleteCollect: data => http.get('/userCollect/userCollect/delUserCollectByDataId', data)
+  deleteCollect: data => http.get('/userCollect/userCollect/delUserCollectByDataId', data),
+
+  /* ---- 直播 ---- */
+  getNineLiveUrlBySellerId: (data, sellerId) => http.get('/live/main/getNineLiveUrlBySellerId?sellerId=' + sellerId, data)
 }
