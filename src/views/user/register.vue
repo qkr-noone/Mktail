@@ -14,10 +14,11 @@
         <div class="middle">
           <section class="middle-title">
             <div class="title " :class="{active: show === 0}" @click="companyShow()">
-              <a class="fixed-height" @click="changeShowType='company'">
+              <!-- <a class="fixed-height" @click="changeShowType='company'">
                 <img :src="show ===0? 'static/img/reg/reg_rectangle_active1.png' :'./../../static/img/reg/reg_rectangle1.png'">
                 <p class="title-text ">企业账户注册</p>
-              </a>
+              </a> -->
+              <a :href="getURL('http://192.168.1.100:9002/#/register')">企业账户注册</a>
             </div>
             <div class="title" :class="{active: show === 1}" @click="personShow()">
               <a class="fixed-height" @click="changeShowType='person'">
@@ -329,7 +330,16 @@ export default {
       }
     },
     companyShow () {
-      this.show = 0
+      // this.show = 0
+    },
+    getURL (url) {
+      let strURL = ''
+      if (url.substr(0, 7).toLowerCase() === 'http://' || url.substr(0, 8).toLowerCase() === 'https://') {
+        strURL = url
+      } else {
+        strURL = 'http://' + url
+      }
+      return strURL
     },
     personShow () {
       this.show = 1
