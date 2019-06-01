@@ -13,14 +13,16 @@
 </head>
 
 <body>
-  <video muted id=example-video width=360 height=300 class="video-js vjs-default-skin vjs-big-play-centered" autoplay="true" controls onclick="touch()">
+  <video muted id="example-video" width=360 height=300 class="video-js vjs-default-skin vjs-big-play-centered" autoplay="true" playsInline webkit-playsinline  controls onclick="touch()">
     <source type="application/x-mpegURL">
   </video>
+
 </body>
+<script src="./videojs_package/ezuikit.js"></script>
 <script src="./videojs_package/jquery.min.js"></script>
-<script src="./videojs_package/videojs-ie8.min.js"></script>
-<script src="./videojs_package/video.min.js"></script>
-<script src="./videojs_package/videojs-contrib-hls.min.js"></script>
+<!--<script src="./videojs_package/videojs-ie8.min.js"></script>-->
+<!--<script src="./videojs_package/video.min.js"></script>-->
+<!--<script src="./videojs_package/videojs-contrib-hls.min.js"></script>-->
 <script>
   window.setURL = function () {
     var url = location.href;
@@ -38,7 +40,7 @@
   $(function() {
     $('.video-js').css('height', urlObj.height + 'px')
     $('#example-video').children('source').attr('src', urlObj.source);
-    var player = videojs('example-video');
+    var player = new EZuikit.EZUIPlayer('example-video');
   })
   function changeHeight () {
     console.log('height');
