@@ -19,9 +19,10 @@ const cart = {
     [CART] ({commit}) {
       return new Promise(resolve => {
         API.cartList({username: vueCookies.get('user-key')}).then(res => {
+          console.log(res, 'cartttt')
           if (res.success === false) {
-            commit(CART_LIST, res.data)
-            setStore('cartList', res.data)
+            commit(CART_LIST, [])
+            setStore('cartList', [])
             resolve(res)
             return false
           }

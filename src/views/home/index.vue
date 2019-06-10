@@ -261,8 +261,8 @@ export default {
       is3Ding: false,
       cateMenuItem: '',
       isShowNav: '', // 二级菜单显示状态
-      menuData: '', // 条目菜单
-      bannerList: '', // banner
+      menuData: [], // 条目菜单
+      bannerList: [], // banner
       bgImg: '#f4f4f4',
       absList: [], // 轮播广告
       tipHot: [], // 热门
@@ -297,114 +297,116 @@ export default {
       userInfo: state => state.user.userInfo
     })
   },
-  created () {
+  created () {},
+  activated () {},
+  mounted () {
   },
   activated () {},
   mounted () {
     // 获取条目菜单
     this.API.homeMenu().then(rtn => {
-      this.menuData = rtn.children
+      this.menuData = rtn.children || []
     })
     // 主页banner
     this.API.homeBanner({categoryId: 1}).then(rtn => {
-      this.bannerList = rtn.contentList
+      this.bannerList = rtn.contentList || []
     })
     // 热门
     this.API.homeBanner({categoryId: 22}).then(rtn => {
-      this.tipHot = rtn.contentList
+      this.tipHot = rtn.contentList || []
     })
     // 知识
     this.API.homeBanner({categoryId: 23}).then(rtn => {
-      this.tipKnown = rtn.contentList
+      this.tipKnown = rtn.contentList || []
     })
     // 公告
     this.API.homeBanner({categoryId: 24}).then(rtn => {
-      this.tipAbs = rtn.contentList
+      this.tipAbs = rtn.contentList || []
     })
     // 主页banner广告
     this.API.homeBanner({categoryId: 2}).then(rtn => {
-      this.absList = rtn.contentList
+      this.absList = rtn.contentList || []
     })
     // 会员3D
     this.API.homeBanner({categoryId: 3}).then(rtn => {
-      this.bsaleList = rtn.contentList
+      this.bsaleList = rtn.contentList || []
     })
     // 大类 分类
     this.API.homeBanner({categoryId: 4}).then(rtn => {
-      this.classList = rtn.contentList
+      this.classList = rtn.contentList || []
     })
     // 五金工具 内容
     this.API.homeClass({contentId: 19}).then(rtn => {
-      this.hardwareList = rtn
+      this.hardwareList = rtn || []
     })
     // 日用百货
     this.API.homeClass({contentId: 20}).then(rtn => {
-      this.lifeShops = rtn
+      this.lifeShops = rtn || []
     })
     // 机械
     this.API.homeClass({contentId: 21}).then(rtn => {
-      this.mechanicList = rtn
+      this.mechanicList = rtn || []
     })
     // 机电设备
     this.API.homeClass({contentId: 22}).then(rtn => {
-      this.elecList = rtn
+      this.elecList = rtn || []
     })
     // 3c数码
     this.API.homeClass({contentId: 23}).then(rtn => {
-      this.threeCList = rtn
+      this.threeCList = rtn || []
     })
     // 汽车用品
     this.API.homeClass({contentId: 24}).then(rtn => {
-      this.cartLife = rtn
+      this.cartLife = rtn || []
     })
     // 企业直播
     this.API.homeBanner({categoryId: 7}).then(rtn => {
-      this.companyLive = rtn.contentList
+      this.companyLive = rtn.contentList || []
     })
     // 主题货源
     this.API.homeBanner({categoryId: 5}).then(rtn => {
-      this.sourceList = rtn.contentList
+      this.sourceList = rtn.contentList || []
     })
     // 照明工具
     this.API.homeClass({contentId: 25}).then(rtn => {
-      this.lightList = rtn
+      this.lightList = rtn || []
     })
     this.API.homeClass({contentId: 26}).then(rtn => {
-      this.lightList1 = rtn
+      this.lightList1 = rtn || []
     })
     this.API.homeClass({contentId: 27}).then(rtn => {
-      this.lightList2 = rtn
+      this.lightList2 = rtn || []
     })
     this.API.homeClass({contentId: 28}).then(rtn => {
-      this.lightList3 = rtn
+      this.lightList3 = rtn || []
     })
     this.API.homeClass({contentId: 29}).then(rtn => {
-      this.lightList4 = rtn
+      this.lightList4 = rtn || []
     })
     this.API.homeClass({contentId: 30}).then(rtn => {
-      this.lightList5 = rtn
+      this.lightList5 = rtn || []
     })
     this.API.homeClass({contentId: 31}).then(rtn => {
-      this.lightList6 = rtn
+      this.lightList6 = rtn || []
     })
     this.API.homeClass({contentId: 32}).then(rtn => {
-      this.lightList7 = rtn
+      this.lightList7 = rtn || []
     })
     this.API.homeClass({contentId: 33}).then(rtn => {
-      this.lightList8 = rtn
+      this.lightList8 = rtn || []
     })
     // 商学院
     this.API.homeBanner({categoryId: 8}).then(rtn => {
-      this.school = rtn.contentList
+      this.school = rtn.contentList || []
     })
     // 猜你喜欢
     this.API.homeBanner({categoryId: 6}).then(rtn => {
-      this.likeList = rtn.contentList
+      this.likeList = rtn.contentList || []
     })
   },
   methods: {
     carouselChange (index, key) {
-      this.bgImg = this.bannerList[index].bgcolor
+      if (this.bannerList[index] && this.bannerList[index].bgcolor) this.bgImg = this.bannerList[index].bgcolor
     },
     livePage (url) { // http://192.168.1.11/
       this.$router.push({path: '/live/factory'})

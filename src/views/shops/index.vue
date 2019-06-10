@@ -295,8 +295,12 @@ export default {
     position: relative;
   }
   .menu-item-li {
-    height: 40px;
-    line-height: 40px;
+    height: 44px;
+    line-height: 44px;
+  }
+  .menu-item-li>a.menu-a {
+    height: 44px;
+    line-height: 44px;
   }
   .menu-a {
     height: 40px;

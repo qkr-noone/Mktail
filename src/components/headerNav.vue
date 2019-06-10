@@ -56,7 +56,8 @@ export default {
     }),
     cartNum () {
       let num = 0
-      this.cartList.length && this.cartList.forEach(item => {
+      console.log(typeof this.cartList)
+      this.cartList !== '[]' && this.cartList.length && this.cartList.forEach(item => {
         item.orderItemList.forEach(list => {
           num += Number(list.num)
         })
@@ -70,7 +71,7 @@ export default {
     // curRoute === '/shops' ? this.isShops = true : this.isShops = false
   },
   mounted () {
-    if (!this.isHome) {
+    if (!this.isHome && this.$refs.logoIsCursor) {
       this.$refs.logoIsCursor.children[0].style.cursor = 'default'
     }
   },

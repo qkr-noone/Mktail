@@ -315,9 +315,6 @@ router = new Router({
     },
     {
       path: '/shops',
-      meta: {
-        keepAlive: true
-      },
       component: resolve => require(['@/views/shops/index'], resolve)
     },
     {
