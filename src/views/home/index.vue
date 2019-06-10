@@ -300,9 +300,6 @@ export default {
   created () {},
   activated () {},
   mounted () {
-  },
-  activated () {},
-  mounted () {
     // 获取条目菜单
     this.API.homeMenu().then(rtn => {
       this.menuData = rtn.children || []
