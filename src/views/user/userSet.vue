@@ -36,19 +36,19 @@ export default {
     return {
       title: '安全设置',
       nav: [
-        {name: '账号管理', path: 'account'},
+        // {name: '账号管理', path: 'account'},
+        {name: '个人资料', path: 'personalInfo'},
         {name: '安全设置', path: 'secure'},
         {name: '手机绑定', path: 'bindingPhone'},
         {name: '密保问题设置', path: 'secretSet'},
-        {name: '个人资料', path: 'personalInfo'},
-        {name: '收货地址', path: 'address'},
-        {name: '消息提醒设置', path: 'message'},
-        {name: '支付宝绑定', path: 'alipay'},
-        {name: '微博绑定', path: 'weibo'},
-        {name: '微信绑定', path: 'WeChat'},
-        {name: '银联卡绑定', path: 'bankCard'},
-        {name: '分享绑定', path: 'share'},
-        {name: '应用绑定', path: 'app'}
+        {name: '收货地址', path: 'address'}
+        // {name: '消息提醒设置', path: 'message'},
+        // {name: '支付宝绑定', path: 'alipay'},
+        // {name: '微博绑定', path: 'weibo'},
+        // {name: '微信绑定', path: 'WeChat'},
+        // {name: '银联卡绑定', path: 'bankCard'},
+        // {name: '分享绑定', path: 'share'},
+        // {name: '应用绑定', path: 'app'}
       ],
       bgcolor: '#FFD704'
     }

@@ -52,11 +52,11 @@
                   <router-link :to="{path: '/user'}">{{userInfo.username}}</router-link>
                 </div>
                 <div class="user-out">
-                  <a>新人有礼</a>
+                  <!-- <a>新人有礼</a> -->
                   <router-link :to="{path: '/cart'}">购物车</router-link>
                 </div>
               </div>
-              <div class="news-info">
+              <!-- <div class="news-info">
                 <li v-for="(list, index) in tipHot" :key="list.id" v-if="index === 0"><a href="javascript:;"><span class="news-tip">【热门】</span>{{list.title}}</a></li>
                 <li v-for="(list, index) in tipKnown" :key="list.id" v-if="index === 0"><a href="javascript:;"><span class="news-tip">【知识】</span>{{list.title}}</a></li>
                 <li v-for="(list, index) in tipAbs" :key="list.id" v-if="index === 0"><a href="javascript:;"><span class="news-tip">【公告】</span>{{list.title}}</a></li>
@@ -66,7 +66,7 @@
                 <li><a><img src="static/img/mk_chongzhi.png"><h5>充值</h5></a></li>
                 <li><a><img src="static/img/mk_hongbao.png"><h5>红包</h5></a></li>
                 <li><a><img src="static/img/mk_gongyi.png"><h5>公益</h5></a></li>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
@@ -219,7 +219,7 @@
         </div>
       </div>
     </div>
-    <pageFooter></pageFooter>
+    <!-- <pageFooter></pageFooter> -->
     <div class="point">
       <a class="point-logo">
         <img src="static/img/mk_logo_tip.png">
@@ -406,7 +406,7 @@ export default {
       if (this.bannerList[index] && this.bannerList[index].bgcolor) this.bgImg = this.bannerList[index].bgcolor
     },
     livePage (url) { // http://192.168.1.11/
-      this.$router.push({path: '/live/factory'})
+      // this.$router.push({path: '/live/factory'})
       return false
     },
     threeDclose () {
@@ -414,7 +414,7 @@ export default {
       return false
     },
     threeDUrl (threeDUrl) { // http://192.168.0.33:8080/qn5/ http://120.79.93.197/we/
-      this.$router.push({path: '/3D/3DShow'})
+      // this.$router.push({path: '/3D/3DShow'})
       // this.is3Ding = true
       // this.$refs.threeDSrc.src = threeDUrl
       return false

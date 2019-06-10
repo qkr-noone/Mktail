@@ -238,6 +238,7 @@ router = new Router({
     },
     { // 用户中心账户设置
       path: '/userSet',
+      redirect: '/userSet/personalInfo',
       meta: { isLogin: true },
       component: resolve => require(['@/views/user/userSet'], resolve),
       children: [

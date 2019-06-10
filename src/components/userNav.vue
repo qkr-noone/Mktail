@@ -10,7 +10,7 @@
           <div class="title-con">
             <router-link :to="{path: '/user'}" class="title-li"><h2>首页</h2></router-link>
             <router-link :to="{path: '/userSet'}" class="title-li"><h2>账号设置</h2></router-link>
-            <router-link :to="{path: '/userInfo'}" class="title-li"><h2>消息</h2></router-link>
+            <!-- <router-link :to="{path: '/userInfo'}" class="title-li"><h2>消息</h2></router-link> -->
           </div>
         </div>
         <div class="h-search">

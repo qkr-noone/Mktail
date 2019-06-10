@@ -35,17 +35,7 @@ export default {
   data () {
     return {
       title: '1',
-      nav: [
-        {name: '购物车', path: 'userCart'},
-        {name: '我的订单', path: 'userOrder'},
-        {name: '我的收藏', path: 'userCollect'},
-        {name: '我的评价', path: 'userAssess'},
-        {name: '我的足迹', path: 'userHistory'},
-        {name: '我的优惠', path: 'userFee'},
-        {name: '我的发票', path: 'userTip'},
-        {name: '退款维权', path: 'userProtect'},
-        {name: '购买过的店铺', path: 'userBuyHistory'}
-      ]
+      nav: []
     }
   },
   components: { shortcut, userNav, pageFooter },

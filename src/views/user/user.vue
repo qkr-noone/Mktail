@@ -209,16 +209,16 @@ export default {
           ]
         },
         {name: '我的评价', path: 'userAssess'},
-        {name: '我的足迹', path: 'userHistory'},
-        {name: '我的优惠', path: 'userFee'},
-        {
-          name: '我的发票',
-          path: '',
-          child: [
-            {name: '开票信息', path: 'userInvoiceInfo'},
-            {name: '发票管理', path: 'userInvoiceManage'}
-          ]
-        },
+        // {name: '我的足迹', path: 'userHistory'},
+        // {name: '我的优惠', path: 'userFee'},
+        // {
+        //   name: '我的发票',
+        //   path: '',
+        //   child: [
+        //     {name: '开票信息', path: 'userInvoiceInfo'},
+        //     {name: '发票管理', path: 'userInvoiceManage'}
+        //   ]
+        // },
         {
           name: '退款维权',
           path: '',

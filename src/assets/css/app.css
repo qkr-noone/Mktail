@@ -377,7 +377,7 @@
   .Right {
     display: flex;
     flex-direction: column;
-    background-color: #FFFFFF;
+    /*background-color: #FFFFFF;*/
   }
   .user-info{
     display: flex;
@@ -388,7 +388,8 @@
     font-size: 14px;
     padding-top: 20px;
     padding-bottom: 12px;
-    border-bottom: 2px solid #F4F4F4
+    border-bottom: 2px solid #F4F4F4;
+    background-color: #FFFFFF;
   }
   .user-head-img {
     width: 80px;
@@ -634,7 +635,7 @@
   line-height: 40px;
   }
  .hot-title p{margin-left: 23px;margin-right: 7px;}
- .hot-title p+p{color: #878787;}
+ .hot-title p+p{color: #878787; cursor: pointer;}
  .hot-con-ul { display: flex;flex-wrap: wrap;justify-content: space-between; }
  .hot-con-ul li {
   padding: 13px 23px 15px 23px;

@@ -324,8 +324,8 @@ export default {
     }
     this.API.detailTest({ goodsId: this.$route.query.goodsId, skuId: this.$route.query.skuId || '' }).then(rtn => {
       if (rtn.success === false) {
-        this.$router.go(-1)
-        return false
+        // this.$router.go(-1)
+        // return false
       }
       this.goods = rtn.goodsAll.goods
       this.sellerInfo = rtn.sellerInfo

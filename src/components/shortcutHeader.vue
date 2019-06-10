@@ -4,19 +4,19 @@
       <div class="shortcut">
         <div class="sc-left">
           <p v-if="this.isHome" class="backHome child" @click="home">返回首页</p>
-          <p class="child">网站导航</p>
+          <!-- <p class="child">网站导航</p>
           <a class="child">商家服务</a>
           <a class="child">客户服务</a>
-          <a class="child"><i class="el-icon-location"></i>广州</a>
+          <a class="child"><i class="el-icon-location"></i>广州</a> -->
         </div>
         <div class="sc-right">
           <ul>
-            <li class="child" v-if="Object.keys(userInfo).length === 0">
-              <div><router-link :to="{path:'/login'}">登陆</router-link></div>
+            <li class="child" v-if="Object.keys(userInfo).length === 0" @click="goPage({path:'/login'})">
+              <div><a>登陆</a></div>
             </li>
             <li class="spacer"  v-if="Object.keys(userInfo).length === 0"></li>
-            <li class="child" v-if="Object.keys(userInfo).length === 0">
-              <div><router-link :to="{path:'/register'}">注册</router-link></div>
+            <li class="child" v-if="Object.keys(userInfo).length === 0" @click="goPage({path:'/register'})">
+              <div><a>注册</a></div>
             </li>
             <li class="spacer"  v-if="Object.keys(userInfo).length === 0"></li>
             <li class="child"  v-if="Object.keys(userInfo).length !== 0">
@@ -26,13 +26,13 @@
               </div>
             </li>
             <li class="spacer" v-if="Object.keys(userInfo).length !== 0"></li>
-            <li class="child">
+            <li class="child" @click="goPage({path:'/user'})">
               <div><router-link :to="{path:'/user'}">我的订单</router-link></div>
             </li>
-            <li class="spacer"></li>
+            <!-- <li class="spacer"></li>
             <li class="child">
               <div><router-link :to="{path:'/user'}">消息中心</router-link></div>
-            </li>
+            </li> -->
           </ul>
         </div>
       </div>
@@ -68,6 +68,9 @@ export default {
         this.$store.commit('CART_LIST', [])
         location.reload()
       })
+    },
+    goPage (router) {
+      this.$router.push({path: router.path})
     }
   }
 }
@@ -102,6 +105,7 @@ export default {
   .sc-right .child, .sc-left .child {
     height: 35px;
     line-height: 35px;
+    cursor: pointer;
   }
   .sc-left a{
     margin-left: 24px;
