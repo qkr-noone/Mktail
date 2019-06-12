@@ -1,292 +1,295 @@
 <template>
-  <div id="shops-index" data-attr="店铺首页-第一版">
-    <keep-alive></keep-alive>
-    <shortcutHeader></shortcutHeader>
-    <!-- 店铺头部海报 -->
-    <header class="m-body">
-      <div class="m-head-block m-head-one">
-        <a href="javascript:;">other</a>
-      </div>
-      <div class="m-head-block m-head-two"></div>
-    </header>
-    <nav class="m-body">
-      <div class="m-nav-box">
-        <div class="m-nav-content">
-          <ul class="menu-box">
-            <li class="menu-item menu-item-li" v-for="list in menuList" :key="list.menuname">
-              <a class="menu-a" href="javascript:;"><span>{{list.menuname}}</span><i class="el-icon-arrow-down menu-more" v-if="list.sonMenunameList.length"></i></a>
-              <div class="menu-two-box" v-if="list.sonMenunameList.length">
-                <div class="visible"></div>
-                <ul class="menu-two">
-                  <li class="menu-item menu-two-li" v-for="item in list.sonMenunameList" :key="item.menuname">
-                    <a class="menu-a menu-two-a" href="javascript:;"><span>{{item.menuname}}</span><i class="el-icon-caret-right menu-more" v-if="item.sonMenunameList.length"></i></a>
-                    <shopsNav v-if="item.sonMenunameList.length" :list="item.sonMenunameList"></shopsNav>
-                  </li>
-                </ul>
+  <div class="home_store_shops">
+    <shortcut></shortcut>
+    <headerNav></headerNav>
+    <div class="root_page" id="root">
+      <div class="layout_page" data-id="hc"></div>
+      <!-- 店铺头部 -->
+      <div class="layout_page" data-id="hd" id="store_header">
+        <div class="store_sign_nav_bg" data-title="店铺招牌导航栏背景" ref="bgStoreSign"></div>
+        <div class="layout_m" data-title="店铺招牌">
+          <div class="store_signature">
+            <!-- 店招 -->
+            <div class="pre_module store_sign_nav_box">
+              <!-- <span data-store_sign_top="店铺平台其他信息"></span> -->
+              <div class="store_sign_con">
+                <div class="store_sign_bg"></div>
               </div>
-            </li>
-          </ul>
+            </div>
+            <!-- 导航栏 -->
+            <div class="pre_module store_sign_nav_box shop_nav m-nav-content">
+              <ul class="menu-box" slot="reference">
+                <li class="menu-item menu-item-li" v-for="(list, tip) in menuNavBar" :key="list.id" ref="navBar" @mouseenter="tip===1 &&resetMenuPosition()"><router-link :to="{path: '/shops'}" target="_blank" class="menu-a"><span>{{list.navigationName}}</span><i class="el-icon-arrow-down menu-more" v-if="tip===1"></i></router-link>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
-    </nav>
-    <section class="m-body">
-      <section class="m-banner-box">
-        <el-carousel :interval="5000" arrow="always" height="100%">
-          <el-carousel-item v-for="item in bannerList" :key="item.status">
-            <a class="m-banner-con" :href="item.url" :data-status="item.status">
-              <img :src="item.imgUrl">
-            </a>
-          </el-carousel-item>
-        </el-carousel>
-      </section>
-    </section>
-    <section class="m-body" v-for="list in temGoodsList" :key="list.posterImgUrl">
-      <section class="m-content-box content-1" :style="'background-image:'+ list.posterImgUrl + ''">
-        <div class="m-content">
-          <ul class="m-con-ul">
-            <li class="m-con-li" v-for="item in list.goodsResultList" :key="item.imgUrl">
-              <router-link :to="{path: '/detail', query: {goodsId: item.goodsid}}" class="m-con-a">
-                <img :src="item.imgUrl">
-              </router-link>
-            </li>
-          </ul>
+      <div class="layout_page" data-id="page-main">
+        <div class="content_bg" data-title="内容主体背景"></div>
+        <div class="layout_m" v-for="(list, index) in tree" :key="index">
+          <div class="pre_item_wrap">
+            <!-- 组件内容...窄栏 -->
+            <div class="pre_module" style="z-index: 2;" v-if="!list.passModuleDataList.length">
+              <!-- 窄栏数据遍历 -->
+              <div class="pre_module_con" v-for="item in list.narrowModuleDataList" :key="item.id" :data-template="item.templateName">
+                <!-- 窄栏项模板>>组件 -->
+                <component :is="item.template" :list="item.dataList" :dataUrl="item.data" :menuCate="menuCate"></component>
+              </div>
+            </div>
+            <!-- 组件内容...宽栏 -->
+            <div class="pre_module" v-if="!list.passModuleDataList.length">
+              <!-- 宽栏数据遍历 -->
+              <div class="pre_module_con"  v-for="item in list.widthModuleDataList" :key="item.id" :data-template="item.templateName">
+                <!-- 宽栏项模板>>组件 -->
+                <component :is="item.template" :list="item.dataList" :dataUrl="item.data"></component>
+              </div>
+            </div>
+            <!-- 组件内容...通栏 -->
+            <div class="pre_module" style="width: 100%;" v-if="list.passModuleDataList.length">
+              <!-- 通栏数据遍历 -->
+              <div class="pre_module_con" v-for="item in list.passModuleDataList" :key="item.id" :data-template="item.templateName">
+                <!-- 通栏项模板=>>组件 -->
+                <component :is="item.template" :list="item.dataList" :dataUrl="item.data"></component>
+              </div>
+            </div>
+          </div>
         </div>
-      </section>
-    </section>
-    <section class="m-body">
-      <section class="m-content-box content-2">
-        <div class="m-content">
-          <ul class="m-con-ul">
-            <li class="m-con-li">
-              <a href="" class="m-con-a">
-                <img src="/static/img/logo-200.png">
-              </a>
-            </li>
-            <li class="m-con-li">
-              <a href="" class="m-con-a">
-                <img src="/static/img/logo-200.png">
-              </a>
-            </li>
-            <li class="m-con-li">
-              <a href="" class="m-con-a">
-                <img src="/static/img/logo-200.png">
-              </a>
-            </li>
-            <li class="m-con-li">
-              <a href="" class="m-con-a">
-                <img src="/static/img/logo-200.png">
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-    </section>
-    <section class="m-body">
-      <section class="m-content-box content-3">
-        <div class="m-content">
-          <ul class="m-con-ul">
-            <li class="m-con-li">
-              <a href="" class="m-con-a">
-                <img src="/static/img/logo-200.png">
-              </a>
-            </li>
-            <li class="m-con-li">
-              <a href="" class="m-con-a">
-                <img src="/static/img/logo-200.png">
-              </a>
-            </li>
-            <li class="m-con-li">
-              <a href="" class="m-con-a">
-                <img src="/static/img/logo-200.png">
-              </a>
-            </li>
-            <li class="m-con-li">
-              <a href="" class="m-con-a">
-                <img src="/static/img/logo-200.png">
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-    </section>
-    <section class="m-body">
-      <section class="m-content-box content-4">
-        <div class="m-content">
-          <ul class="m-con-ul">
-            <li class="m-con-li">
-              <a href="" class="m-con-a">
-                <img src="/static/img/logo-200.png">
-              </a>
-            </li>
-            <li class="m-con-li">
-              <a href="" class="m-con-a">
-                <img src="/static/img/logo-200.png">
-              </a>
-            </li>
-            <li class="m-con-li">
-              <a href="" class="m-con-a">
-                <img src="/static/img/logo-200.png">
-              </a>
-            </li>
-            <li class="m-con-li">
-              <a href="" class="m-con-a">
-                <img src="/static/img/logo-200.png">
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-    </section>
-    <section class="m-body">
-      <section class="m-content-box content-5">
-        <div class="m-content">
-          <ul class="m-con-ul">
-            <li class="m-con-li">
-              <a href="" class="m-con-a">
-                <img src="/static/img/logo-200.png">
-              </a>
-            </li>
-            <li class="m-con-li">
-              <a href="" class="m-con-a">
-                <img src="/static/img/logo-200.png">
-              </a>
-            </li>
-            <li class="m-con-li">
-              <a href="" class="m-con-a">
-                <img src="/static/img/logo-200.png">
-              </a>
-            </li>
-            <li class="m-con-li">
-              <a href="" class="m-con-a">
-                <img src="/static/img/logo-200.png">
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-    </section>
-    <section class="m-body">
-      <section class="m-content-box content-6">
-        <div class="m-content">
-          <ul class="m-con-ul">
-            <li class="m-con-li">
-              <a href="" class="m-con-a">
-                <img src="/static/img/logo-200.png">
-              </a>
-            </li>
-            <li class="m-con-li">
-              <a href="" class="m-con-a">
-                <img src="/static/img/logo-200.png">
-              </a>
-            </li>
-            <li class="m-con-li">
-              <a href="" class="m-con-a">
-                <img src="/static/img/logo-200.png">
-              </a>
-            </li>
-            <li class="m-con-li">
-              <a href="" class="m-con-a">
-                <img src="/static/img/logo-200.png">
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-    </section>
-    <section class="m-body">
-      <section class="m-content-box content-7">
-        <div class="m-content">
-          <ul class="m-con-ul">
-            <li class="m-con-li">
-              <a href="" class="m-con-a">
-                <img src="/static/img/logo-200.png">
-              </a>
-            </li>
-            <li class="m-con-li">
-              <a href="" class="m-con-a">
-                <img src="/static/img/logo-200.png">
-              </a>
-            </li>
-            <li class="m-con-li">
-              <a href="" class="m-con-a">
-                <img src="/static/img/logo-200.png">
-              </a>
-            </li>
-            <li class="m-con-li">
-              <a href="" class="m-con-a">
-                <img src="/static/img/logo-200.png">
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-    </section>
-    <pageFooter></pageFooter>
+      </div>
+      <div class="layout_page" data-id="ft"></div>
+      <div class="layout_page" data-id="fc"></div>
+    </div>
+    <!-- 导航栏菜单下拉 -->
+    <div class="m-nav-content menu_pupper" ref="storeMenuShow">
+      <ul class="menu-box">
+        <ul class="menu-two">
+          <li class="menu-item menu-two-li" v-for="item in menuCate" :key="item.id">
+            <router-link :to="{path: '/category', query:{cateId: item.id}}" class="menu-a menu-two-a"><span>{{item.name}}</span><i class="el-icon-arrow-right menu-more" v-if="item.children.length"></i></router-link>
+            <shopsNav v-if="item.children.length" :list="item.children"></shopsNav>
+          </li>
+        </ul>
+      </ul>
+    </div>
   </div>
 </template>
+
 <script>
-import shortcutHeader from '@/components/shortcutHeader'
-import pageFooter from '@/components/pageFooter'
-import shopsNav from '@/components/shopsNav'
 export default {
   data () {
     return {
-      activeIndex: '1',
-      shopData: {},
-      menuList: [],
-      bannerList: [],
-      temGoodsList: []
+      tree: [],
+      storeId: '',
+      menuCate: [],
+      storeSign: {},
+      menuNavBar: []
     }
   },
-  components: { shortcutHeader, pageFooter, shopsNav },
+  components: {
+    /* 本页面的组件 */
+    shortcut: () => import('@/components/shortcutHeader'),
+    headerNav: () => import('@/components/headerNav'),
+    /* 菜单和模板 */
+    shopsNav: () => import('@/components/goods/shopsNav'),
+    pingpuP: () => import('@/components/goods/pingpu_p'),
+    pingpuW: () => import('@/components/goods/pingpu_w'),
+    pingpuN: () => import('@/components/goods/pingpu_n'),
+    chuchuangP: () => import('@/components/goods/chuchuang_p'),
+    chuchuangW: () => import('@/components/goods/chuchuang_w'),
+    daileimuP: () => import('@/components/goods/daileimu_p'),
+    // 智能产品与重点推荐一样布局
+    zhongdiantuijianP: () => import('@/components/goods/zhongdiantuijian_p'),
+    danpinP: () => import('@/components/goods/danpin_p'),
+    zhuyingleimuP: () => import('@/components/goods/zhuyingleimu_p'),
+    smart: () => import('@/components/goods/zhongdiantuijian_p'),
+    chanpinfenleiN: () => import('@/components/goods/chanpinfenlei_n'),
+    industry: () => import('@/components/picWord/industry'),
+    fullScreen: () => import('@/components/picWord/fullScreen'),
+    banner: () => import('@/components/picWord/banner'),
+    dynamic: () => import('@/components/video/dynamic'),
+    live: () => import('@/components/video/live'),
+    threeD: () => import('@/components/video/3D'),
+    // 客服模块 通栏 宽栏一样布局
+    customer: () => import('@/components/office/customer'),
+    customerN: () => import('@/components/office/customer_n')
+  },
   mounted () {
-    this.API.shopPage().then(res => {
-      this.menuList = res.menuResultList
-      this.bannerList = res.bannerResultList
-      this.temGoodsList = res.postersResultList1
-      console.log(this.temGoodsList)
+    this.storeId = this.$route.query.homeShops
+    // dom树
+    this.API.initShops({ sellerId: this.storeId }).then(res => {
+      this.tree = res
+    })
+    // 店招
+    this.API.getStoreSign({ sellerId: this.storeId }).then(res => {
+      this.storeSign = res
       this.$nextTick(() => {
-        let array = document.querySelectorAll('.m-content-box')
-        array.forEach(item => {
-          // 获取背景图片的高度 => 设置容器的高度
-          let style = item.currentStyle || window.getComputedStyle(item, false)
-          let url = style.backgroundImage.slice(4, -1).split('"')[1]
-          let image = new Image()
-          image.src = url
-          let height = image.height
-          item.style.height = `${height}px`
-        })
+        this.$refs.bgStoreSign.style.backgroundImage = 'url(' + this.storeSign.image + ')'
       })
     })
+    // 导航栏
+    this.API.getStoreNavBar({ sellerId: this.storeId }).then(res => {
+      this.menuNavBar = res
+    })
+    // 下拉菜单
+    this.API.getStoreMenu({ sellerId: this.storeId }).then(res => {
+      this.menuCate = res
+    })
+    document.addEventListener('mousemove', this.handlePackNavBar)
+  },
+  destroyed () {
+    document.removeEventListener('mousemove', this.handlePackNavBar)
   },
   methods: {
-    handleSelect () {}
+    // 移入导航项时，重新定位
+    resetMenuPosition () {
+      this.$nextTick(() => {
+        let { left, bottom } = this.$refs.navBar[1].getBoundingClientRect()
+        this.$refs.storeMenuShow.style.position = 'absolute'
+        this.$refs.storeMenuShow.style.left = left + 'px'
+        this.$refs.storeMenuShow.style.top = bottom + 'px'
+        this.$refs.storeMenuShow.style.zoom = 1
+      })
+    },
+    // 店招导航栏 移入显示
+    handlePackNavBar (e) {
+      let navBar = this.$refs.navBar
+      if ((navBar && navBar[1].contains(e.target)) || this.$refs.storeMenuShow.contains(e.target)) {
+        this.$refs.storeMenuShow.style.visibility = 'visible'
+      } else {
+        this.$refs.storeMenuShow.style.visibility = 'hidden'
+      }
+    }
   }
 }
-
 </script>
-<style scoped>
-/* 头部>>> 海报 */
-  .m-body{
-    min-width: 1226px;
-    margin: 0 auto;
+
+<style lang="scss" scoped>
+$aside-theme-color: #ef7026;
+.home_store_shops {
+  overflow-x: hidden;
+}
+.root_page {
+  .layout_page {
+    width: 100%;
+    position: relative;
+
+    .layout_m {
+      width: 960px;
+      display: flex;
+      justify-content: space-between;
+      margin: 0 auto;
+      margin-bottom: 0px;
+
+      .pre_item_wrap {
+        position: relative;
+        width: 100%;
+        margin-top: 0;
+        min-height: 50px;
+        z-index: 1;
+        display: flex;
+        justify-content: space-between;
+
+        .pre_module {
+          height: auto;
+          z-index: 1;
+          position: relative;
+
+          .pre_module_con {
+            position: relative;
+            zoom: 1;
+            margin-bottom: 20px;
+            min-height: 50px;
+            &>:nth-child(n) {
+              background: #fff;
+            }
+          }
+        }
+      }
+    }
   }
-  .m-head-block {
+}
+.content_bg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  min-height: 100%;
+  z-index: 1;
+  background-color: rgb(253, 253, 253);
+  /* background-image: url(//sc01.alicdn.com/kf/HTB1z.roUOLaK1RjSZFxq6ymPFXaW.jpg); */
+  background-repeat: no-repeat;
+  background-position: center top;
+  zoom: 1;
+}
+/* 店铺招牌 */
+  #store_header {
+    max-height: 250px;
+    margin-bottom: 0px;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
   }
-  .m-head-one{
-    background-image: url('/static/img/shop/shop3_01.jpg');
+  .store_sign_nav_bg {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    min-height: 100%;
+    background-color: rgb(253, 253, 253);
     background-repeat: no-repeat;
-    height: 200px;
-    background-position: center 0;
+    background-position: center top;
+    zoom: 1;
   }
-  .m-head-two{}
-/* 菜单>>  */
-  .m-nav-box {
-    background-color: #98BACE;
+  .store_signature {
+    width: 100%;
+    max-height: 280px;
+    overflow: hidden;
+    zoom: 1;
   }
-  .m-nav-content {
+  .store_sign_nav_box {
+    position: relative;
+    min-height: 1px;
+  }
+  .handle_store_sign_box {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    border: 1px solid transparent;
+    .handle_com {
+      display: none;
+      position: absolute;
+      right: 0;
+    }
+  }
+  .handle_store_sign_box:hover{
+    border: 1px solid $aside-theme-color;
+    .handle_com {
+      display: block;
+    }
+  }
+  .store_sign_bg {
+    /* background: url(//gdp.alicdn.com/tps/TB1hYBhJXXXXXciXpXXXXXXXXXX-950-120.png) no-repeat 0 0 !important; */
+    height: 210px !important;
+  }
+  .store_sign_con {
+    position: relative;
+  }
+/* nav 导航栏菜单 */
+  .shop_nav {
+    position: relative;
+    height: 40px;
+    /* background-color: $aside-theme-color; */
+  }
+ .m-nav-content {
     width: 1226px;
     margin: 0 auto;
+  }
+  .menu_pupper {
+    visibility: hidden;
+    z-index: 10;
   }
   .menu-box {
     display: flex;
@@ -295,12 +298,12 @@ export default {
     position: relative;
   }
   .menu-item-li {
-    height: 44px;
-    line-height: 44px;
+    height: 40px;
+    line-height: 40px;
   }
   .menu-item-li>a.menu-a {
-    height: 44px;
-    line-height: 44px;
+    height: 40px;
+    line-height: 40px;
   }
   .menu-a {
     height: 40px;
@@ -351,83 +354,10 @@ export default {
     background-color: #ededef;
   }
   .menu-box>.menu-item:hover {
-    background-color: rgb(132, 166, 186);
+    background-color: rgba(0, 0, 0, 0.1);
   }
   .menu-item:hover>.menu-two-box {
     display: block;
   }
-/* banner */
-  .m-banner-box {
-    height: 600px;
-  }
-  .el-carousel{
-    height: 600px;
-  }
-  .el-carousel__item a.m-banner-con{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-/* 内容 */
-  .m-content-box {
-    background-position: center 0;
-    background-repeat: no-repeat;
-    height: 775px;
-    position: relative;
-  }
-  .content-1{
-    background-image: url('/static/img/shop/shop3_05.jpg');
-  }
-  .content-2{
-    background-image: url('/static/img/shop/shop3_06.jpg');
-  }
-  .content-3{
-    background-image: url('/static/img/shop/shop3_07.jpg');
-  }
-  .content-4{
-    background-image: url('/static/img/shop/shop3_08.jpg');
-  }
-  .content-5{
-    background-image: url('/static/img/shop/shop3_09.jpg');
-  }
-  .content-6{
-    background-image: url('/static/img/shop/shop3_10.jpg');
-  }
-  .content-6{
-    background-image: url('/static/img/shop/shop3_11.jpg');
-  }
-  .content-7{
-    background-image: url('/static/img/shop/shop3_12.jpg');
-  }
-  .m-content {
-    position: absolute;
-    bottom: 20px;
-    left: calc((100% - 1226px)/2);
-    min-width: 1226px;
-  }
-  .m-con-ul {
-    display: flex;
-    justify-content: space-between;
-  }
-  .m-con-li {
-    border:1px solid rgba(236,27,26,0.19);
-  }
-</style>
-<style>
-  .el-carousel__arrow--left {
-    left: calc((100% - 1226px)/2);
-    background-color: rgba(0, 0, 0, 0.4);
-    font-size: 28px;
-    height: 60px;
-    width: 30px;
-    border-radius: 5px;
-  }
-  .el-carousel__arrow--right {
-    right: calc((100% - 1226px)/2);
-    background-color: rgba(0, 0, 0, 0.4);
-    font-size: 28px;
-    height: 60px;
-    width: 30px;
-    border-radius: 5px;
-  }
+
 </style>

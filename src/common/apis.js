@@ -20,7 +20,16 @@ export default {
 
   /* ----店铺首页---- */
 
+  // 作废
   shopPage: () => http.get('/seller/index/seller/getStaticResult'),
+  // 获取首页树
+  initShops: data => http.get('/shop/home/initializeHome', data),
+  // 获取店招
+  getStoreSign: data => http.get('/shop/home/getHomeTrick', data),
+  // 获取导航栏
+  getStoreNavBar: data => http.get('/shop/home/getNavigationBar', data),
+  // 获取下拉菜单
+  getStoreMenu: data => http.get('/seller/productType/findProductTypeComboList', data),
 
   /* ----注册登录---- */
 
