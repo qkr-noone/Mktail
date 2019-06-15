@@ -76,11 +76,13 @@
   }
   
   .aside {
-    width: 210px;
+    width: 220px;
+    flex-shrink: 0;
   }
   
   .detail {
-    width: 1010px
+    width: 986px;
+    /*flex-grow: 1;*/
   }
   
   i,em {
@@ -122,7 +124,7 @@
     margin: 30px 0;
     display: flex;
     justify-content: space-between;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
   }
   
   .red-bg {
@@ -247,11 +249,11 @@
     font-size: 14px;
   }
   ul.summary-wrap>li:first-child {margin-top: 12px;}
-  ul.summary-wrap>li.spec-list+li{ margin-top: -14px; }
   ul.summary-wrap>li.spec-list .title i { text-align: justify; width: 60px;height: 28px;color: #000}
   ul.summary-wrap>li.spec-list .title i:after {content: " "; display: inline-block;width: 100%;}
   ul.summary-wrap>li.spec-list>ul {
     display: flex;
+    flex-wrap: wrap;
   }
   .summary-wrap {
     /*overflow: hidden;*/
@@ -265,6 +267,7 @@
   }
   
   .summary-wrap dl a, ul.summary-wrap>li.spec-list>ul li a {
+    margin-bottom: 10px; 
     font-family:SourceHanSansCN-Regular;
     color: #000;
     font-size: 14px;
@@ -501,7 +504,7 @@
   
   .sui-btn:active{
     background-color: #c81623;
-    color: #fff
+    color: #fff;
   }
   
   ul.part-list {
@@ -730,6 +733,7 @@
       border: 1px solid #e1e1e1;
       border-radius: 2px;
       user-select: none;
+      border-radius: 4px;
   }
   .operate:hover{
     background: #8c8c8c;
@@ -879,6 +883,7 @@
     font-size: 14px;
     width: calc(50% - 2px);
     font-size:14px;
+    width: 100%;
   }
   .nav-tabs {
     border-top: 1px solid #E3E3E3;
@@ -917,7 +922,7 @@
   }
   .se-recom-item {
     display: flex;
-    justify-content: space-between;
+    /*justify-content: space-between;*/
     align-items: center;
     font-size: 12px;
     color: #878787;
@@ -939,6 +944,8 @@
   .se-recom-item p:nth-child(2){
     font-size: 16px;
     color: #FF4606;
+    padding-left: 10px;
+    line-height: 33px;
   }
   .shop-box {
     display: flex;
@@ -947,6 +954,7 @@
     height:40px;
     background:rgba(245,247,250,1);
     border:1px solid rgba(227,227,227,1);
+    color: #333;
   }
   .shop-list {
     display: flex;
@@ -967,7 +975,8 @@
   }
   .shops a{
     height: 30px;
-    background-color: #CFCFCF;
+    background-color: rgba(255, 59, 59, 0);
+    border-radius: 4px;
     display: flex;
     align-items: center;
     color: #878787;

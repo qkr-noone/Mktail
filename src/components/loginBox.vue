@@ -6,30 +6,30 @@
       <p @click="sweepCode()" :class="{active:account === false }">扫码登陆</p> -->
     </div>
     <section v-show="account === true">
-      <input type="text" placeholder="邮箱/手机号码" v-model="username" @keyup.enter="userLogin()"/>
+      <input type="text" placeholder="用户名" v-model="username" @keyup.enter="userLogin()"/>
       <input type="password" placeholder="密码" v-model="password" @keyup.enter="userLogin()" />
       <input type="button" value="登陆" class="btn" @click="userLogin()" />
       <p class="reg">
-        <span class="sort">
+        <!-- <span class="sort">
           <a>手机短信登陆</a>/
           <a>注册</a>
-        </span>
-        <router-link :to="{path:'/register'}">立即注册</router-link>&nbsp;|
+        </span> -->
+        <router-link :to="{path:'/register'}">立即注册</router-link>&nbsp;|&nbsp;
         <a>忘记密码</a>
       </p>
     </section>
-    <section v-show="account === false">
+    <!-- <section v-show="account === false">
       <img src="static/img/log/log_scan1.png" style="height: 174px; width: 174px;">
       <p class="openAPP">打开 <router-link :to="{}">猴尾巴商城APP</router-link>扫一扫登陆</p>
-    </section>
+    </section> -->
     <div class="otherLogin">
-      <p>_____________<span class="text">其他登陆方式</span>_____________</p>
+      <!-- <p>_____________<span class="text">其他登陆方式</span>_____________</p>
       <span>
         <a><img src="static/img/log/log_qq1.png"></a>
         <a><img src="static/img/log/log_WeiBo1.png"></a>
         <a><img src="static/img/log/log_WeChat1.png"></a>
         <a><img src="static/img/log/log_pay1.png"></a>
-      </span>
+      </span> -->
     </div>
   </div>
 </template>
@@ -70,6 +70,15 @@ export default {
 
 </script>
 <style scoped>
+  input[type="button"]{
+    -webkit-appearance: none;
+  }
+  section, div, a, p, input:focus {
+    outline: none;
+  }
+  input:hover {
+    outline: none;
+  }
  .loginform{
    display: inline;
    width:350px;
@@ -84,11 +93,17 @@ export default {
    margin-top: 20px;
    cursor:pointer;
   }
+  .reg {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0 16px;
+  }
   .loginform .reg a{
-    font-size:16px;
+    font-size:12px;
     font-family:SimHei;
     font-weight:400;
-    color:rgba(135,135,135,1);
+    /*color:rgba(135,135,135,1);*/
+    color: #6b6b6b;
   }
  .active{
    color:#FFD704 !important
@@ -132,6 +147,7 @@ export default {
     font-size:19px;
     color:rgba(53,53,53,1);
     background:rgba(255,215,4,1);
+    cursor: pointer;
   }
   .loginform .otherLogin p{
     margin: 30px  0 0 15px;

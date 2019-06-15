@@ -44,9 +44,8 @@ export default {
   },
   methods: {
     threeDUrl (threeDUrl) {
-      console.log(threeDUrl)
-      this.is3Ding = true
       this.$refs.threeDSrc.src = threeDUrl
+      this.is3Ding = true
       return false
     },
     threeDclose () {

@@ -1,9 +1,9 @@
 <template>
   <div id="banner">
     <div class="full_box">
-      <el-carousel :interval="4000" arrow="always" indicator-position="" height="100%" style="width: 100%; height: 100%;">
+      <el-carousel :interval="4000" arrow="always" indicator-position="" height="100%" style="width: 100%; height: 100%;" v-if="hack">
         <el-carousel-item v-for="item in list" :key="item.id" class="full_item">
-          <a class="full_link" :href="item.link" target="_blank">
+          <a class="full_link" :href="item.link || null" target="_blank">
             <img :src="item.url">
           </a>
         </el-carousel-item>
@@ -21,15 +21,52 @@ export default {
   },
   data () {
     return {
+      hack: true
     }
   },
   methods: {},
   watch: {
+    list: {
+      handler (val, oldV) {
+        this.hack = false
+        this.$nextTick(() => {
+          this.hack = true
+        })
+      },
+      deep: true
+    }
   }
 }
 
 </script>
 <style lang="scss" scoped>
+body, div, span, header, footer, nav, section, aside, article, ul, dl, dt, dd, li, a, p, h1, h2, h3, h4, h5, h6, i, b, textarea, button, input, select, figure, figcaption {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  font-style: normal;
+  text-decoration: none;
+  border: none;
+  font-family: "Microsoft Yahei";
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-font-smoothing: antialiased;
+  &:hover {
+    outline: none;
+  }
+  &:focus {
+    outline: none;
+  }
+}
+input[type="button"], input[type="submit"], input[type="search"], input[type="reset"] {
+  -webkit-appearance: none;
+}
+table, tr, td {
+  border-spacing: 0;
+}
+textarea {
+  -webkit-appearance: none;
+}
   #banner {
     max-width: 1226px;
     width: 100%;

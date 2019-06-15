@@ -23,13 +23,17 @@ export default {
   // 作废
   shopPage: () => http.get('/seller/index/seller/getStaticResult'),
   // 获取首页树
-  initShops: data => http.get('/shop/home/initializeHome', data),
+  initShops: data => http.get('/seller/home/initializeHome', data),
   // 获取店招
-  getStoreSign: data => http.get('/shop/home/getHomeTrick', data),
+  getStoreSign: data => http.get('/seller/home/getHomeTrick', data),
   // 获取导航栏
-  getStoreNavBar: data => http.get('/shop/home/getNavigationBar', data),
+  getStoreNavBar: data => http.get('/seller/home/getNavigationBar', data),
   // 获取下拉菜单
   getStoreMenu: data => http.get('/seller/productType/findProductTypeComboList', data),
+  // 获取店铺查询集
+  getShopCate: data => http.get('/seller/goods/search', data),
+  // 获取最新商品 (分类左侧)
+  getShopNew: data => http.get('/seller/goods/findNewGoods', data),
 
   /* ----注册登录---- */
 
@@ -82,6 +86,10 @@ export default {
   allCity: data => http.get('/cart/address/getAllCity', data),
   // 根据市id获取区、县
   allAreas: data => http.get('/cart/address/getAllAreas', data),
+  // 计算运费
+  getFlowprice: data => http.get('/page/goods/calculateShipping', data),
+  // 评价列表
+  getEvaluate: data => http.get('/page/goodsEvaluate/findBySpuId', data),
 
   /* ----提交订单---- */
 

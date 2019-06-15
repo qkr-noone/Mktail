@@ -123,7 +123,7 @@ export default {
     box-shadow:0px 0px 11px 2px rgba(83,83,83,0.22);
   }
   .mk-head{
-    max-width: 1226px;
+    width: 1226px;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;

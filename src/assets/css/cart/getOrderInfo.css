@@ -478,7 +478,7 @@
   }
 /* 结算信息*/
   .count-con{
-    min-height:160px;
+    /*min-height:160px;*/
     border:1px solid rgba(226,226,226,1);
     padding: 14px;
   }

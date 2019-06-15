@@ -4,7 +4,9 @@
       <h4>商品介绍</h4>
     </div>
     <ul class="goods-intro unstyled">
-      <li v-for="item in attrItem" :key="item.text">{{item.text}}：{{item.value}}</li>
+      <li v-for="item in attrItem" :key="item.attribute">{{item.attribute}}：{{item.value}}</li>
+      <li v-if="articleNumber">货号:{{articleNumber}}</li>
+      <li v-if="series">系列:{{series}}</li>
     </ul>
     <div class="intro-detail" v-html="goodsIntroduc">
       {{goodsIntroduc}}
@@ -25,6 +27,12 @@ export default {
     },
     scroll: {
       type: Object
+    },
+    articleNumber: {
+      type: String
+    },
+    series: {
+      type: String
     }
   },
   mounted () {
@@ -67,6 +75,8 @@ ul.goods-intro li {
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow: hidden;
+    margin: 0 25px;
   }
   .intro-detail>img{
     max-width: 100%;

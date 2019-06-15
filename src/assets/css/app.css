@@ -1,5 +1,5 @@
   #app {
-    font-family: "SimHei", "Arial",'MicrosoftYaHeiLight', 'Avenir', Helvetica, sans-serif;
+    font-family: "Microsoft Yahei", "SimHei", "Arial", 'Avenir', Helvetica, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
@@ -169,6 +169,9 @@
     font-size: 16px;
     color: #fff;
     text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .sort .all-sort-list2 .item i {
     color: #fff;
@@ -391,11 +394,16 @@
     border-bottom: 2px solid #F4F4F4;
     background-color: #FFFFFF;
   }
-  .user-head-img {
+  .user-info>a {
     width: 80px;
     height: 80px;
+    overflow: hidden;
     border-radius: 50%;
     box-shadow: 0px 7px 18px 0px rgba(35,34,34,0.34);
+  }
+  .user-head-img {
+    max-height: 100%;
+    max-width: 100%;    
   }
   .user-coming {
     color: #878787;

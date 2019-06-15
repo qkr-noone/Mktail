@@ -44,6 +44,15 @@ export const formatDate = date => {
 }
 
 /**
+ * 函数防抖
+ */
+let timeout = null
+export function debounce (fn, wait) {
+  if (timeout !== null) clearTimeout(timeout)
+  timeout = setTimeout(fn, wait)
+}
+
+/**
  * 判断有效手机号码
  * @method isMobile
  * @param {Number} mobile 手机号码

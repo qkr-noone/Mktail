@@ -35,6 +35,33 @@ export default {
 
 </script>
 <style lang="scss" scoped>
+body, div, span, header, footer, nav, section, aside, article, ul, dl, dt, dd, li, a, p, h1, h2, h3, h4, h5, h6, i, b, textarea, button, input, select, figure, figcaption {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  font-style: normal;
+  text-decoration: none;
+  border: none;
+  font-family: "Microsoft Yahei";
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-font-smoothing: antialiased;
+  &:hover {
+    outline: none;
+  }
+  &:focus {
+    outline: none;
+  }
+}
+input[type="button"], input[type="submit"], input[type="search"], input[type="reset"] {
+  -webkit-appearance: none;
+}
+table, tr, td {
+  border-spacing: 0;
+}
+textarea {
+  -webkit-appearance: none;
+}
   #pingpu_w {
     display: flex;
     flex-wrap: wrap;

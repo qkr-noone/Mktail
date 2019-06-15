@@ -316,7 +316,21 @@ router = new Router({
     },
     {
       path: '/shops',
-      component: resolve => require(['@/views/shops/index'], resolve)
+      redirect: '/shops/home',
+      component: resolve => require(['@/views/shops/index'], resolve),
+      children: [{
+        path: 'home',
+        component: resolve => require(['@/views/shops/children/home'], resolve)
+      }, {
+        path: 'category',
+        component: resolve => require(['@/views/shops/children/category'], resolve)
+      }, {
+        path: 'company',
+        component: resolve => require(['@/views/shops/children/company'], resolve)
+      }, {
+        path: 'contact',
+        component: resolve => require(['@/views/shops/children/contact'], resolve)
+      }]
     },
     {
       path: '/3D/3DShow',

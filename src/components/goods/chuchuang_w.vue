@@ -2,7 +2,7 @@
   <div id="chuchuang_w">
     <div class="chuchuang_head">
       <p class="chuchuang_title">产品展示</p>
-      <a class="chuchuang_more" href="" title="更多产品">更多产品 <i class="el-icon-d-arrow-right"></i></a>
+      <!-- <a class="chuchuang_more" href="" title="更多产品">更多产品 <i class="el-icon-d-arrow-right"></i></a> -->
     </div>
     <div class="chuchuang_con">
       <div class="product_item" :class="{has_bottom: length>5 && length%5>0 && (length - length%5 >= index) || (length>5 && length%5===0 && length-5>index-1)}"  v-for="index in length" :key="index">
@@ -35,6 +35,33 @@ export default {
 
 </script>
 <style lang="scss" scoped>
+body, div, span, header, footer, nav, section, aside, article, ul, dl, dt, dd, li, a, p, h1, h2, h3, h4, h5, h6, i, b, textarea, button, input, select, figure, figcaption {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  font-style: normal;
+  text-decoration: none;
+  border: none;
+  font-family: "Microsoft Yahei";
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-font-smoothing: antialiased;
+  &:hover {
+    outline: none;
+  }
+  &:focus {
+    outline: none;
+  }
+}
+input[type="button"], input[type="submit"], input[type="search"], input[type="reset"] {
+  -webkit-appearance: none;
+}
+table, tr, td {
+  border-spacing: 0;
+}
+textarea {
+  -webkit-appearance: none;
+}
 /* 主题颜色 #141414 */
   #chuchuang_w {
     width: 986px;

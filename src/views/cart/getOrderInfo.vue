@@ -165,7 +165,7 @@
           </ul>
         </div>
       </div>
-      <div class="add">
+      <!-- <div class="add">
         <div class="add-title invoice-box">
           <h2>发票信息</h2>
           <a href="javascript:;" class="add-address-btn">修改</a>
@@ -181,17 +181,17 @@
           <div class="invoice-info-1">
             <span>发票抬头：</span>
             <div class="invoice-type">
-              <span>张三</span>
+              <span>name</span>
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
       <div class="add">
         <div class="add-title">
           <h2>结算信息</h2>
         </div>
         <div class="count-con">
-          <div class="count-ticket">
+          <!-- <div class="count-ticket">
             <div class="count-tick-tit">
               <span class="tick-tip"><i class="el-icon-plus"></i></span>
               <span>使用优惠券</span>
@@ -202,7 +202,7 @@
               <span class="tick-tip"><i class="el-icon-plus"></i></span>
               <span>使用红包</span>
             </div>
-          </div>
+          </div> -->
           <div class="count-price">
             <div class="count-price-li">
               <span><strong>{{totalNum}}</strong>件商品 总计：</span>
@@ -212,14 +212,14 @@
               <span>运费：</span>
               <span class="count-price-item">¥0.00</span>
             </div>
-            <div class="count-price-li">
+            <!-- <div class="count-price-li">
               <span>优惠：</span>
               <span class="count-price-item">¥0.00</span>
             </div>
             <div class="count-price-li">
               <span>优惠券/卡：</span>
               <span class="count-price-item">¥0.00</span>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -356,7 +356,6 @@ export default {
         ]
       },
       skuId: '',
-      random: '',
       addrOptions: [],
       addressOneId: '',
       addressTwoId: '',
@@ -371,12 +370,11 @@ export default {
   components: { shortcutHeader, pageFooter },
   created () {
     this.skuId = this.$route.query.skuId
-    this.random = this.$route.query.random
     // Q. 店铺名字 （需在detail 取到并且传入）
     let sellerName = this.$route.query.sellerName || ''
     if (this.skuId) { // 从立即购买进入提交
-      this.goodSkuList = JSON.parse(getStore('selectList' + this.random))
-      console.log(getStore('selectList' + this.random), this.goodSkuList, '000')
+      this.goodSkuList = JSON.parse(sessionStorage.getItem('selectList'))
+      console.log(this.goodSkuList, '000')
       let objList = {
         orderItemList: [],
         sellerId: this.goodSkuList[0].sellerId,
@@ -384,7 +382,6 @@ export default {
       }
       objList.orderItemList.push(this.goodSkuList[0])
       this.orderList.push(objList)
-      console.log(this.orderList, this.goodSkuList, 99)
     } else { // 从购物车进入提交
       let cartList = JSON.parse(getStore('cartList'))
       for (let val of cartList) {
@@ -415,6 +412,7 @@ export default {
         }
       }
     }
+    console.log(this.goodSkuList, this.orderList)
     if (!this.goodSkuList.length) {
       this.$message.warning('信息有误')
       this.$router.go(-1)
@@ -478,28 +476,30 @@ export default {
       let createTime = formatDate(new Date())
       let order = {
         payment: price, // "实付金额",
-        payment_type: 1, // "支付类型,1、在线支付，2、货到付款"
-        post_fee: '', // "邮费",
+        paymentType: 1, // "支付类型,1、在线支付，2、货到付款"
+        postFee: '', // "邮费",
         status: 1, // "状态：1未付款.2已付款.3未发货.4已发货.5交易成功.6交易关闭.7待评价",
-        create_time: createTime, // "订单创建时间",
-        update_time: '', // "订单更新时间",
-        payment_time: '', // "付款时间",
-        consign_time: '', // "发货时间",
-        end_time: '', // "交易完成时间",
-        close_time: '', // "交易关闭时间",
-        shipping_name: '', // "物流名称",
-        shipping_code: '', // "物流单号",
-        user_id: this.$cookies.get('user-key'), // "用户id",
-        buyer_message: '', // "买家留言",
-        buyer_nick: '', // "买家昵称",
-        buyer_rate: '', // "买家是否已经评价",
-        receiver_area_name: this.defaultAddress.province + this.defaultAddress.city + this.defaultAddress.alias + this.defaultAddress.address, // "收货人地区名称(省，市，县)街道",
-        receiver_mobile: this.defaultAddress.mobile, // "收货人手机",
-        receiver_zip_code: '', // "收货人邮编",
+        createTime: createTime, // "订单创建时间",
+        updateTime: '', // "订单更新时间",
+        paymentTime: '', // "付款时间",
+        consignTime: '', // "发货时间",
+        endTime: '', // "交易完成时间",
+        closeTime: '', // "交易关闭时间",
+        shippingPrice: null,
+        shippingName: '', // "物流名称",
+        shippingCode: '', // "物流单号",
+        userId: this.$cookies.get('user-key'), // "用户id",
+        buyerMessage: '', // "买家留言",
+        buyerNick: '', // "买家昵称",
+        buyMobile: '', // 买家手机号
+        buyerRate: '', // "买家是否已经评价",
+        receiverAreaAame: this.defaultAddress.province + this.defaultAddress.city + this.defaultAddress.alias + this.defaultAddress.address, // "收货人地区名称(省，市，县)街道",
+        receiverMobile: this.defaultAddress.mobile, // "收货人手机",
+        receiverZipCode: '', // "收货人邮编",
         receiver: this.defaultAddress.contact, // "收货人",
         expire: '', // "过期时间，定期清理",
-        invoice_type: '', // "发票类型(1普通发票，2电子发票，3增值税发票)",
-        source_type: 2 // "订单来源：1:app端，2：pc端，3：M端，4：微信端，5：手机qq端",
+        invoiceType: '', // "发票类型(1普通发票，2电子发票，3增值税发票)",
+        sourceType: 2 // "订单来源：1:app端，2：pc端，3：M端，4：微信端，5：手机qq端",
         // seller_id: '' // "商家ID" 立即购买需要
       }
       let orderInfo = ''
@@ -683,6 +683,12 @@ export default {
       this.ruleForm.tag = ''
       this.ruleForm.otherTag = ''
       this.isUpdate = 0
+    },
+    // 改变地址 切换运费
+    changeFlowPrice () {
+      this.API.getFlowprice({ address: this.addressOne, goodsId: this.$route.query.goodsId, num: this.num }).then(res => {
+        this.flowPrice = res || 8
+      })
     }
   },
   watch: {

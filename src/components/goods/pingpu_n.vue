@@ -5,7 +5,7 @@
         <div class="pro_n_limit">
           <div class="pro_n_ul" ref="sroll">
             <div class="pro_n_item" v-for="item in list" :key="item.id">
-              <a href="" class="pro_n_img" target="_blank"><img class="pro_n_img_con" :src="item.smallPic"></a>
+              <router-link :to="{path: '/detail', query: { goodsId: item.id }}" class="pro_n_img" target="_blank"><img class="pro_n_img_con" :src="item.smallPic"></router-link>
               <div class="pro_n_info">
                 <router-link :to="{path: '/detail', query: { goodsId: item.id }}" class="pro_n_title"  :title="item.goodsName" target="_blank"><span>{{item.goodsName}}</span></router-link>
                 <div class="pro_n_price" :title="item.priceShow"><span>{{item.priceShow}}元</span></div>
@@ -40,6 +40,9 @@ export default {
       isBottom: this.length > 4 ? 0 : 1
     }
   },
+  mounted () {
+    console.log(this.list)
+  },
   methods: {
     next () {
       if (this.length <= 4) return
@@ -60,6 +63,33 @@ export default {
 
 </script>
 <style lang="scss" scoped>
+body, div, span, header, footer, nav, section, aside, article, ul, dl, dt, dd, li, a, p, h1, h2, h3, h4, h5, h6, i, b, textarea, button, input, select, figure, figcaption {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  font-style: normal;
+  text-decoration: none;
+  border: none;
+  font-family: "Microsoft Yahei";
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-font-smoothing: antialiased;
+  &:hover {
+    outline: none;
+  }
+  &:focus {
+    outline: none;
+  }
+}
+input[type="button"], input[type="submit"], input[type="search"], input[type="reset"] {
+  -webkit-appearance: none;
+}
+table, tr, td {
+  border-spacing: 0;
+}
+textarea {
+  -webkit-appearance: none;
+}
   #pingpu_n {
     width: 220px;
     border: 1px solid #dbe3ef;
@@ -110,6 +140,7 @@ export default {
               flex-grow: 1;
               color: #666;
               overflow: hidden;
+              text-align: left;
               .pro_n_title {
                 line-height: 16px;
                 max-height: 32px;

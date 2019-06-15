@@ -40,15 +40,15 @@
               </div>
             </div>
             <div class="collect">
-              <i class="el-icon-share"></i>
-              <span class="has_pointer">分享</span>
+              <!-- <i class="el-icon-share"></i>
+              <span class="has_pointer">分享</span> -->
               <i class="el-icon-star-on"></i>
               <span class="has_pointer" @click="toCollect($route.query.goodsId, 1)">关注</span>
             </div>
           </div>
           <div class="fr itemInfo-wrap">
             <div class="sku-name">
-              <h4>{{selectSku.title}}</h4>
+              <h4>{{goods.goodsName}}</h4>
             </div>
             <div class="news" v-if="goods.caption"><span>{{goods.caption}}</span></div>
             <div class="summary">
@@ -68,8 +68,8 @@
                   <i>物流</i>
                 </div>
                 <div class="flow-box">
-                  <div class="flow-con">
-                    广东广州<b>至</b>
+                  <div class="flow-con" v-if="Object.keys(storeFlow).length">
+                    {{storeFlow.sendAddress}}<b>至</b>
                     <span class="flow-addr">
                       <span>{{destination}}</span>
                       <i class="el-icon-arrow-down"></i>
@@ -77,12 +77,15 @@
                         <ul class="pro-box">
                           <li v-for="list in addrOptions" :key="list.id" :class="{'choose': addressOne === list.province}" @click="tabAddr(list.provinceid, list.province)">{{list.province}}</li>
                         </ul>
-                        <ul class="city-box" v-if="addressOne">
+                        <!-- <ul class="city-box" v-if="addressOne">
                           <li v-for="data in cityList" :key="data.id" :class="{'choose': addressTwoId === data.cityid}" @click="tabCity(data.city, data.cityid)">{{data.city}}</li>
-                        </ul>
+                        </ul> -->
                       </div>
                     </span>
-                    <span class="flow-item">快递<span>¥6</span></span>发货速度：<span  class="flow-send-date">次日</span>
+                    <span class="flow-item">快递<span>¥{{flowPrice}}</span></span><!-- 发货速度：<span  class="flow-send-date">次日</span> -->
+                  </div>
+                  <div class="flow-con" v-else>
+                    <span>免运费</span>
                   </div>
                 </div>
               </div>
@@ -92,18 +95,18 @@
                 </div>
                 <div class="success-order">
                   <el-rate v-model="starValue" disabled text-color="#FF4606" :colors="['#FF4606', '#FF4606', '#FF4606']" score-template="{value}"></el-rate>
-                  <span class="time-suc">30天内<b>1212</b>个成交</span>
-                  <span class="time-reco"><b>250</b>条评价</span>
+                  <!-- <span class="time-suc time-suc">30天内<b>1212</b>个成交</span> -->
+                  <span class="time-reco"><b>{{storeEvaluation.total}}</b>条评价</span>
                 </div>
               </div>
             </div>
             <div class="choose">
               <ul class="summary-wrap">
-                <li class="spec-list" v-for="(data, index) in spec" :key="data[index]">
-                  <div class="title"><i class="has_pointer">{{data.attributeName}}</i></div>
+                <li class="spec-list">
+                  <div class="title"><i class="has_pointer">规格</i></div>
                   <ul>
-                    <li v-for="list in data.attributeValue" :key="list" @click="selectSpec(data.attributeName, list)">
-                      <a class="has_pointer" :class="{selected: selectArr[data.attributeName] === list }">{{list}}</a>
+                    <li v-for="list in skuList" :key="list.id" @click="selectSku=list; num=1; limitNum=list.num">
+                      <a class="has_pointer" :class="{selected: selectSku === list }">{{list.title}}</a>
                     </li>
                   </ul>
                 </li>
@@ -125,9 +128,9 @@
                 <div class="buy-word">
                   <a class="sui-btn  btn-danger buyshops" @click="buyShops()">立即购买</a>
                 </div>
-                <div class="buy-word">
+                <!-- <div class="buy-word">
                   <a class="sui-btn  btn-danger buyma"><img src="static/img/二维码.svg"><span>扫一扫购买</span><i class="el-icon-arrow-down"></i></a>
-                </div>
+                </div> -->
               </div>
             </div>
             <div class="box-tip">
@@ -143,19 +146,19 @@
             <ul class="look-box">
               <li class="lo-box-li" v-for="list in viewList" :key="list.id">
                 <div class="lo-box-con">
-                  <router-link :to="{path: '/detail', query: {goodsId: list.goodsId}}" class="lo-box-wrap"><img :src="list.pic" class="wrap"></router-link>
+                  <router-link :to="{path: '/detail', query: {goodsId: list.goodsId}}" target="_blank" class="lo-box-wrap"><img :src="list.pic" class="wrap"></router-link>
                   <h5>{{list.title}}</h5>
                   <span>￥{{list.price}}</span>
                 </div>
               </li>
             </ul>
-            <div>
+            <!-- <div>
               <i class="el-icon-arrow-up"></i>
               <i class="el-icon-arrow-down"></i>
-            </div>
+            </div> -->
           </div>
         </div>
-        <div class="recom">
+        <!-- <div class="recom">
           <div class="recom-title">
             <h3>店长推荐</h3>
           </div>
@@ -171,16 +174,14 @@
               </li>
             </ul>
           </div>
-        </div>
+        </div> -->
         <!--product-detail-->
         <div class=" product-detail">
           <div class="aside">
-            <div class="shop-box">
-              <h4 class="has_pointer">{{sellerInfo.nickName}}</h4><img src="static/img/mk_search_link.png">
-            </div>
+            <router-link class="shop-box" :to="{path: '/shops', query: {homeShops: sellerInfo.sellerId}}"><h4 class="has_pointer">{{sellerInfo.name}}</h4><img src="static/img/mk_search_link.png"></router-link>
             <div class="shop-list">
               <div class="buy-word shops">
-                <a class="sui-btn  btn-danger"><img src="static/img/mk_search_comshop.png"><span class="has_pointer">进店逛逛</span></a>
+                <router-link :to="{path: '/shops', query: {homeShops: sellerInfo.sellerId}}" class="sui-btn  btn-danger"><img src="static/img/mk_search_comshop.png"><span class="has_pointer">进店逛逛</span></router-link>
               </div>
               <div class="buy-word shops">
                  <a class="sui-btn  btn-danger"><img src="static/img/mk_search_addshop.png"><span class="has_pointer" @click="toCollect(sellerInfo.sellerId, 2)">关注店铺</span></a>
@@ -189,7 +190,7 @@
             <section class="sui-nav nav-tabs tab-wraped">
               <div class="nav-li">
                 <div class="nav-hot nav-shop has_pointer" :class='{activity_show: changeShowType ==="navShop"}' @click="changeShowType='navShop'">店铺热销</div>
-                <div class="nav-hot nav-brand has_pointer" :class='{activity_show: changeShowType ==="navBrand"}' @click="changeShowType='navBrand'">推荐品牌</div>
+                <!-- <div class="nav-hot nav-brand has_pointer" :class='{activity_show: changeShowType ==="navBrand"}' @click="changeShowType='navBrand'">推荐品牌</div> -->
               </div>
             </section>
             <transition>
@@ -197,12 +198,12 @@
                 <ul class="se-recom">
                   <li v-for="(list, index) in shopHotList" :key="list.id">
                     <div class="se-recom-box">
-                      <router-link class="se-recom-a" :to="{path: '/detail', query: {goodsId: list.goodsId}}">
-                        <img :src="list.pic">
+                      <router-link class="se-recom-a" :to="{path: '/detail', query: {goodsId: list.id}}" target="_blank">
+                        <img :src="list.smallPic">
                       </router-link>
                       <div class="se-recom-item">
-                        <p><span>{{index+1}}</span>热销144255件</p>
-                        <p>¥{{list.price}}</p>
+                        <p><span>{{index+1}}</span></p>
+                        <p>¥{{list.priceShow}}</p>
                       </div>
                     </div>
                   </li>
@@ -222,14 +223,14 @@
                   <li class="tab-nav-li has_pointer"><a :class="{choosetab:'商品介绍'===tabNav}"  @click="tab('商品介绍', 'desciption')">商品介绍</a></li>
                   <li class="tab-nav-li has_pointer" v-if="show3dStatus"><a :class="{choosetab:'3D展示'===tabNav}"  @click="tab('3D展示', '3D')">3D展示</a></li>
                   <li class="tab-nav-li has_pointer"><a :class="{choosetab:'商品评价'===tabNav}"  @click="tab('商品评价', 'review')">商品评价</a></li>
-                  <li class="tab-nav-li has_pointer"><a :class="{choosetab:'售后保障'===tabNav}"  @click="tab('售后保障', 'afterSale')">售后保障</a></li>
+                  <!-- <li class="tab-nav-li has_pointer"><a :class="{choosetab:'售后保障'===tabNav}"  @click="tab('售后保障', 'afterSale')">售后保障</a></li> -->
                 </ul>
                 <div class="buy-word se-add-cart">
                   <a class="sui-btn  btn-danger addshopcar" @click="submit()">加入购物车</a>
                 </div>
               </div>
               <transition>
-                <router-view :attrItem="attrItem" :goodsIntroduc="goodsIntroduc" :show3d="goodsDesc.show3d" :saleService="goodsDesc.saleService" :scroll='scroll'></router-view>
+                <router-view :attrItem="attrItem" :goodsIntroduc="goodsIntroduc" :articleNumber="goodsDesc.articleNumber" :series="goodsDesc.series" :show3d="goodsDesc.show3d" :saleService="goodsDesc.saleService" :evaluationObj="evaluationObj" :scroll='scroll'></router-view>
               </transition>
             </div>
           </div>
@@ -265,7 +266,7 @@ import headerNav from '@/components/headerNav'
 import absBox from '@/components/absBox'
 import pageFooter from '@/components/pageFooter'
 import loginBox from '@/components/loginBox'
-import { setStore, formatDate } from '@/common/utils'
+import { formatDate, debounce } from '@/common/utils'
 export default {
   data () {
     return {
@@ -280,9 +281,12 @@ export default {
       cateList: [],
       spec: [],
       selectSku: '', // 选择的sku
-      selectArr: '', // 被选中的sku属性、默认sku属性
       submitSelect: [], // 提交选中的sku属性
       skuList: [], // 该商品的所有sku
+      storeFlow: {}, // 运费信息
+      flowPrice: 8, // 快递价格
+      storeEvaluation: {}, // 评价信息
+      evaluationObj: {}, // 评价列表
       num: 1,
       limitNum: 11, // 限购
       goodsIntroduc: '', // 商品介绍
@@ -295,7 +299,7 @@ export default {
       attrItem: [], // 商品介绍属性列表
       tabNav: '商品介绍',
       changeShowType: 'navShop',
-      destination: '请选择',
+      destination: '广东',
       addressOne: '',
       addressTwo: '',
       addressTwoId: '',
@@ -312,9 +316,11 @@ export default {
     ...mapState(['cartList'])
   },
   mounted () {
+    // (?<city>[^市]+自治州|.*?地区|.*?行政单位|.+盟|市辖区|.*?市|.*?县)
     let routerChild = this.$route.path.split('/')[2]
     if (routerChild === 'review') {
       this.tabNav = '商品评价'
+      this.getEvaList()
     } else if (routerChild === 'afterSale') {
       this.tabNav = '售后保障'
     } else if (routerChild === '3D') {
@@ -339,24 +345,15 @@ export default {
       this.cateList = rtn.itemCatList || []
       this.goodsIntroduc = this.goodsDesc.introduction || ''
       this.spec = JSON.parse(this.goodsDesc.specificationItems) || []
+      this.storeFlow = rtn.goodsAll.tbSellerLogistics || {}
+      this.storeEvaluation = rtn.goodsAll.goodsShowEvaluation || {}
+      this.starValue = this.storeEvaluation.star / 2 || 5
       this.skuList = rtn.goodsAll.itemList || []
-      if (this.$route.query.skuId) {
-        for (let value of this.skuList) {
-          if (String(this.$route.query.skuId) === String(value.id)) {
-            this.selectArr = JSON.parse(value.spec)
-            this.selectSku = value
-            break
-          }
-        }
-      } else {
-        for (let value of this.skuList) {
-          if (rtn.goodsAll.goods.defaultItemId === value.id) {
-            this.selectArr = JSON.parse(value.spec)
-            this.selectSku = value
-            break
-          }
-        }
-      }
+      this.selectSku = this.skuList[0]
+      this.limitNum = this.selectSku.num
+      this.API.getShopNew({ sellerId: this.sellerInfo.sellerId }).then(res => {
+        this.shopHotList = res
+      })
     })
     // 看了又看
     this.API.detailLook({ categoryId: 17 }).then(res => {
@@ -367,9 +364,9 @@ export default {
       this.recomList = res.contentList
     })
     // 店铺热销
-    this.API.detailLook({ categoryId: 19 }).then(res => {
-      this.shopHotList = res.contentList
-    })
+    // this.API.detailLook({ categoryId: 19 }).then(res => {
+    //   this.shopHotList = res.contentList
+    // })
     // 底部广告
     this.API.detailLook({ categoryId: 20 }).then(res => {
       this.absBottomList = res.contentList
@@ -409,16 +406,14 @@ export default {
       this.$refs.threeDSrc.src = threeDUrl
       return false
     },
-    selectSpec (attr, val) {
-      this.selectArr[attr] = val
-      this.$set(this.selectArr, attr, val)
-      this.searchSku()
-    },
     addNum (limitNum) {
       if (limitNum) {
         if (limitNum === this.num) return false
       }
       this.num++
+      debounce(() => {
+        this.changeFlowPrice()
+      }, 1000)
     },
     delNum () {
       if (this.num === 1) { // 限制最小数量
@@ -426,21 +421,26 @@ export default {
         return false
       }
       this.num--
+      debounce(() => {
+        this.changeFlowPrice()
+      }, 1000)
     },
     // 加入购物车
     submit () {
       if (this.selectSku.id && this.addToCartSwicth) {
         this.addToCartSwicth = false
         if (this.$cookies.get('token')) { // 判断是否登陆
-          this.API.addToCart({ itemId: this.selectSku.id, num: this.num, name: this.$cookies.get('user-key') }).then(rtn => {
-            if (rtn.success === false) {
-              this.$message.error('加入购物车失败')
-              return false
-            }
-            this.$message.success('成功加入购物车')
-            this.$store.dispatch('CART')
-            this.$router.push({path: '/addToCart', query: {skuId: this.selectSku.id, num: this.num}})
-          })
+          if (this.num <= this.selectSku.num && this.num >= 1) {
+            this.API.addToCart({ itemId: this.selectSku.id, num: this.num, name: this.$cookies.get('user-key') }).then(rtn => {
+              if (rtn.success === false) {
+                this.$message.error('加入购物车失败')
+                return false
+              }
+              this.$message.success('成功加入购物车')
+              this.$store.dispatch('CART')
+              this.$router.push({path: '/addToCart', query: {skuId: this.selectSku.id, num: this.num}})
+            })
+          } else this.$message.warning('核对购买数量，商品限购：' + this.selectSku.num)
         } else this.isMaskLogin = true
         this.addToCartSwicth = true
       } else {
@@ -453,27 +453,23 @@ export default {
       if (this.selectSku.id && this.buyshopsSwicth) {
         this.buyshopsSwicth = false
         if (this.$cookies.get('token')) { // 判断是否登陆
-          for (let val of this.skuList) {
-            if (val.id === this.selectSku.id) {
-              let lend = {}
-              let lendArr = []
-              let timestamp = new Date().getTime()
-              lend.checked = 1
-              lend.goodsId = val.goodsId
-              lend.itemId = val.id
-              lend.num = this.num
-              lend.picPath = val.image
-              lend.price = val.price
-              lend.sellerId = val.sellerId
-              lend.spec = val.spec
-              lend.title = val.title
-              lend.totalFee = (this.num * val.price).toFixed(2)
-              lendArr.push(lend)
-              setStore('selectList' + timestamp, lendArr)
-              this.$router.push({path: '/getOrderInfo', query: {skuId: this.selectSku.id, num: this.num, random: timestamp, sellerName: 'sellerName'}})
-              break
-            }
-          }
+          if (this.num <= this.selectSku.num && this.num >= 1) {
+            let lend = {}
+            let lendArr = []
+            lend.checked = 1
+            lend.goodsId = this.selectSku.goodsId
+            lend.itemId = this.selectSku.id
+            lend.num = this.num
+            lend.picPath = this.selectSku.image
+            lend.price = this.selectSku.price
+            lend.sellerId = this.selectSku.sellerId
+            lend.spec = this.selectSku.spec
+            lend.title = this.selectSku.title
+            lend.totalFee = (this.num * this.selectSku.price).toFixed(2)
+            lendArr.push(lend)
+            sessionStorage.setItem('selectList', JSON.stringify(lendArr))
+            this.$router.push({path: '/getOrderInfo', query: {skuId: this.selectSku.id, num: this.num, sellerName: this.sellerInfo.name}})
+          } else this.$message.warning('核对购买数量，商品限购：' + this.selectSku.num)
         } else this.isMaskLogin = true
         this.buyshopsSwicth = true
       } else {
@@ -484,15 +480,6 @@ export default {
     // 用户登陆
     userLogin () {
       this.isMaskLogin = false
-    },
-    // 根据规格查询sku
-    searchSku () {
-      for (let i = 0; i < this.skuList.length; i++) {
-        if (this.matchObject(JSON.parse(this.skuList[i].spec), this.selectArr)) {
-          this.selectSku = this.skuList[i]
-          return false
-        }
-      }
     },
     // 匹配两个对象是否相等
     matchObject (map1, map2) {
@@ -510,20 +497,31 @@ export default {
       Object.assign(queryList, this.scroll)
       this.$router.push({path: '/detail/' + path, query: queryList})
       this.tabNav = name
+      // 评价列表
+      if (name === '商品评价') {
+        this.getEvaList()
+      }
     },
     // 切换省，显示市列表
     tabAddr (provinceid, province) {
       // this.addressOne = ''
       this.addressOne = province
-      this.API.allCity({proviceId: provinceid}).then(res => {
-        this.cityList = res
-      })
+      this.destination = province
+      this.changeFlowPrice()
+      // this.API.allCity({proviceId: provinceid}).then(res => {
+      //   this.cityList = res
+      // })
     },
     // 切换市
-    tabCity (city, cityid) {
-      this.addressTwo = city
-      this.addressTwoId = cityid
-      this.destination = this.addressOne + this.addressTwo
+    // tabCity (city, cityid) {
+    //   this.addressTwo = city
+    //   this.addressTwoId = cityid
+    //   this.destination = this.addressOne + this.addressTwo
+    // },
+    changeFlowPrice () {
+      this.API.getFlowprice({ address: this.addressOne, goodsId: this.$route.query.goodsId, num: this.num }).then(res => {
+        this.flowPrice = res || 8
+      })
     },
     // 纯js 放大镜
     magnifier () {
@@ -601,8 +599,15 @@ export default {
           }
         })
       } else this.isMaskLogin = true
+    },
+    // 商品列表
+    getEvaList () {
+      this.API.getEvaluate({ page: 1, rows: 10000, spuId: this.$route.query.goodsId }).then(res => {
+        this.evaluationObj = res
+      })
     }
-  }
+  },
+  watch: {}
 }
 </script>
 <style scoped>

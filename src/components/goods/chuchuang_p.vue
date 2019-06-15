@@ -14,7 +14,7 @@
           </router-link>
           <div class="product_info">
             <div class="product_title">
-              <a class="product_word" href=""><span>{{item.goodsName}}</span></a>
+              <a class="product_word"><span>{{item.goodsName}}</span></a>
             </div>
           </div>
         </div>
@@ -40,6 +40,33 @@ export default {
 </script>
 <style lang="scss" scoped>
 /* 主题颜色 #141414 */
+body, div, span, header, footer, nav, section, aside, article, ul, dl, dt, dd, li, a, p, h1, h2, h3, h4, h5, h6, i, b, textarea, button, input, select, figure, figcaption {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  font-style: normal;
+  text-decoration: none;
+  border: none;
+  font-family: "Microsoft Yahei";
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-font-smoothing: antialiased;
+  &:hover {
+    outline: none;
+  }
+  &:focus {
+    outline: none;
+  }
+}
+input[type="button"], input[type="submit"], input[type="search"], input[type="reset"] {
+  -webkit-appearance: none;
+}
+table, tr, td {
+  border-spacing: 0;
+}
+textarea {
+  -webkit-appearance: none;
+}
   #chuchuang_p {
     width: 1226px;
   }
