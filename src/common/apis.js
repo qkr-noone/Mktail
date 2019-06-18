@@ -102,9 +102,9 @@ export default {
   // 根据用户获取返回收货地址集合
   addressListByUser: data => http.get('/cart/address/findListByLoginUser', data),
   // 从购物车进入 提交订单
-  getOrderInfo: (data) => http.post('/cart/order/add', data),
+  getOrderInfo: data => http.post('/cart/order/add', data),
   // 从立即购买进入 提交订单
-  directOrderInfo: (data, skuId) => http.post('/cart/order/directAdd?itemId=' + skuId, data),
+  directOrderInfo: (data, skuId, num, onlyValue) => http.post('/cart/order/directAdd?itemId=' + skuId + '&num=' + num + '&onlyValue=' + onlyValue, data),
   // 支付页面信息
   payPageInfo: data => http.get('/cart/order/searchPayLog', data),
   // 创建微信支付链接
@@ -130,6 +130,10 @@ export default {
   orderFilter: (data, pageNum, pageSize) => http.post('/cart/order/searchOrderByMap?pageNum=' + pageNum + '&pageSize=' + pageSize, data),
   // 订单删除
   orderRemove: data => http.get('/cart/order/delete', data),
+  // 订单详情信息
+  orderDetail: data => http.get('/order/orderManager/findOrderDetail', data),
+  // 物流查询
+  findFlow: data => http.get('/order/kd/getKdInfoByShipperCodeAndLogisticCode', data),
   // 获取用户的详细信息
   userBaseInfo: data => http.get('/personData/personData/findUserInfoByUserName', data),
   // 修改用户的详细信息

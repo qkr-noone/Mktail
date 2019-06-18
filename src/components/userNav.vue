@@ -23,16 +23,16 @@
             </div>
           </form>
         </div>
-        <div class="addCart">
+        <div class="addCart" @click="goCart()">
           <img src="static/img/mk_search_cart.png">
           <p>我的购物车</p>
           <span v-if="isOver">99</span>
           <span v-else>{{cartNum}}</span>
         </div>
-        <div class="switch" v-if="isUser">
+        <!-- <div class="switch" v-if="isUser">
           <div class="switch-line"></div>
           <div class="switch-p"><a>切换卖家版</a></div>
-        </div>
+        </div> -->
       </div>
     </header>
   </div>
@@ -103,6 +103,9 @@ export default {
           this.$router.push({path: '/search', query: {keywords: SEARCH_VALUE}})
         }
       }
+    },
+    goCart () {
+      this.$router.push({path: 'cart'})
     }
   }
 }

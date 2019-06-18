@@ -9,7 +9,7 @@
               <span class="desc-title has_pointer" @click="goDetail(item.goodsId)">{{item.title}}</span>
               <br>
               <span v-for="(tip, key, index) in JSON.parse(item.spec)" :key="index">{{key}}:{{tip}}</span>
-              <span class="desc-title has_pointer">[交易快照]</span>
+              <!-- <span class="desc-title has_pointer">[交易快照]</span> -->
             </span><br/>
             <div class="back">退</div>
             <span class="text-red">7天无理由退货</span>
@@ -39,7 +39,7 @@
         <a v-else-if="list.status === 4">已发货</a>
         <a v-else-if="list.status === 5">已完成</a>
         <a v-else-if="list.status === 6">已退款</a>
-        <router-link :to="{path: '/trace/orderDetail', query: {orderId: list.id}}">查看详情</router-link>
+        <router-link :to="{path: '/trace/orderDetail', query: {orderId: list.orderId}}" :data-id="list.orderId">查看详情</router-link>
         <a class="text-red" v-if="list.status===4 || list.status ===5">查看物流</a>
       </li>
       <li class="list-item">
@@ -47,7 +47,7 @@
         <a v-if="list.status === 1">取消订单</a>
         <a v-if="list.status === 2">取消详情</a>
         <router-link :to="{path: '/detail', query: {goodsId: list.goodsId, skuId: list.itemId}}" v-if="list.status === 2 || list.status > 4">再次购买</router-link>
-        <router-link :to="{path: '/trace/orderDetail', query: {orderId: list.id}}" v-if="list.status === 3">查看详情</router-link>
+        <router-link :to="{path: '/trace/orderDetail', query: {orderId: list.orderId}}" v-if="list.status === 3" :data-id="list.orderId">查看详情</router-link>
         <a v-if="list.status === 4" class="fast-pay">确认收货</a>
         <a v-if="list.status === 5">申请开票</a>
         <a v-if="list.status === 5">追加评论</a>

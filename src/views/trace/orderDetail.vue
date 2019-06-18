@@ -105,11 +105,11 @@
               <span class="label">发票内容：</span><div class="item-info">商品明细</div>
             </div>
             <span class="ticket">电子发票与纸质发票具有同等法律效力，可作为用户维权、保修的有效凭据</span>
-            <div class="load-ticket">下载电子发票</div>
+            <!-- <div class="load-ticket">下载电子发票</div> -->
           </li>
         </ul>
       </section>
-      <section class="goods">
+      <!-- <section class="goods">
         <h5 class="seller">胜天门业</h5>
         <el-row class="row">
           <el-col :span="10">商品</el-col>
@@ -158,8 +158,8 @@
             <a class="btn" href="javascript:;">确认收货</a>
           </el-col>
         </el-row>
-      </section>
-      <div class="recommend">
+      </section> -->
+      <!-- <div class="recommend">
         <div class="recommend-top">
           <span>为您推荐</span>
           <hr>
@@ -170,7 +170,7 @@
         <div>
           <youRecom></youRecom>
         </div>
-      </div>
+      </div> -->
     </section>
     <pageFooter class="footer"></pageFooter>
   </div>
@@ -185,6 +185,14 @@ export default {
     return {}
   },
   components: { shortcut, userNav, youRecom, pageFooter },
+  mounted () {
+    this.API.orderDetail({ orderId: this.$route.query.orderId }).then(res => {
+      console.log(res)
+    })
+    // this.API.findFlow({ LogisticCode: this.$route.query.orderNum, shipperCode: this.$route.query.orderNum }).then(res => {
+    //   console.log(res, 0)
+    // })
+  },
   methods: {
     goOrder () {
       this.$router.push('/user/userOrder/statu-z')

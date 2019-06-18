@@ -41,7 +41,7 @@
               <span class="shopname">{{list.sellerName}}</span>
             </div>
             <div class="cart-tip">
-              <div>
+              <!-- <div>
                 <ul class="cart-title cart-tip-box">
                   <li class="cart-20"></li>
                   <li class="cart-21">
@@ -53,7 +53,7 @@
                   <li class="cart-4"><span class="tip-sum"></span></li>
                   <li class="cart-4"></li>
                 </ul>
-              </div>
+              </div> -->
             </div>
             <div class="cart-body">
               <div class="cart-list" v-for="item in list.orderItemList" :key="item.itemId">
@@ -98,7 +98,7 @@
             <a href="javascript:;" @click="cartDeList(cartList, 1)">清除购物车</a>
           </div>
           <div class="toolbar">
-            <div class="chosed">已选择<span>{{selectNum}}</span>件商品<i class="el-icon-arrow-up"></i></div>
+            <div class="chosed">已选择<span>{{selectNum}}</span>件商品</div>
             <div class="sumprice">
               <span><em>总价（不含运费）：</em><i class="summoney">¥{{totalPrice}}</i></span>
               <span><em>已节省：</em><em>-¥{{free}}</em></span>

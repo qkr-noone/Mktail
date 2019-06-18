@@ -18,7 +18,7 @@
         <form @submit.prevent>
           <div class="group">
             <div class="group-lable">
-              <label class="start">真实姓名:</label>
+              <label class="start">真实姓名：</label>
             </div>
             <div class="group-item">
               <input v-model="userInfo.realName"/>
@@ -26,7 +26,7 @@
           </div>
           <div class="group">
             <div class="group-lable " >
-              <label class="start">昵称:</label>
+              <label class="start">昵称：</label>
             </div>
             <div class="group-item">
               <input v-model="userInfo.nickName"/>
@@ -605,7 +605,6 @@ export default {
     text-align: left;
     margin-top: 10px;
     position: relative;
-    font-family:SimSun;
     font-weight:400;
     color:rgba(98,98,98,1);
     font-size:14px;

@@ -220,6 +220,7 @@
   }
   .pay-con-li {
     position: relative;
+    cursor: pointer;
   }
   li.pay-con-li + li{
     margin-left: 19px;

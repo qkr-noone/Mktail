@@ -227,8 +227,8 @@ export default {
             {name: '投诉管理', path: 'userComplaintManage'},
             {name: '举报管理', path: 'userReportManage'}
           ]
-        },
-        {name: '购买过的店铺', path: 'userBuyHistory'}
+        }
+        // {name: '购买过的店铺', path: 'userBuyHistory'}
       ],
       orderStatesNum: '', // 用户订单状态数量
       likeList: [],

@@ -12,7 +12,7 @@
             <li class="tab-item" :class="{tabActive:isActive===2}" @click="changeTab(2, '/statu-second')"><a>待发货<span class="text-red num">{{status.toBeShippedCount}}</span></a></li>
             <li class="tab-item" :class="{tabActive:isActive===3}" @click="changeTab(3, '/statu-three')"><a>待收货<span class="text-red num">{{status.goodsReceivedCount}}</span></a></li>
             <li class="tab-item" :class="{tabActive:isActive===4}" @click="changeTab(4, '/statu-four')"><a>待评价<span class="text-red num">{{status.toBeEvaluatedCount}}</span></a></li>
-            <li class="tab-item" :class="{tabActive:isActive===5}" @click="changeTab(5, '/statu-five')"><a>常购清单</a></li>
+            <!-- <li class="tab-item" :class="{tabActive:isActive===5}" @click="changeTab(5, '/statu-five')"><a>常购清单</a></li> -->
           </ul>
         </div>
       </div>

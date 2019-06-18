@@ -1,4 +1,10 @@
 /*购物车*/
+  #cart {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 100vh;
+  }
   .cart-th {
     display: flex;
     background: #F2F2F2;
@@ -81,7 +87,9 @@
   }
   
   .chosed {
-    line-height: 26px
+    line-height: 26px;
+    display: flex;
+    align-items: center;
   }
   
   .sumprice {
@@ -323,6 +331,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
   }
   .item-img img{
     max-width: 100%;

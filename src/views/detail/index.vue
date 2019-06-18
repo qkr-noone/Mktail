@@ -244,9 +244,9 @@
         </div> -->
       </div>
     </div>
-    <div class="bottom-abs">
-        <absBox :data="absBottomList" :indicator="'none'" :arrow="'never'" :interval="5000"></absBox>
-      </div>
+    <!-- <div class="bottom-abs">
+      <absBox :data="absBottomList" :indicator="'none'" :arrow="'never'" :interval="5000"></absBox>
+    </div> -->
     <pageFooter id="bottom"></pageFooter>
     <!-- 登陆 -->
     <div class="mask mask-login" v-show="isMaskLogin">
@@ -266,7 +266,7 @@ import headerNav from '@/components/headerNav'
 import absBox from '@/components/absBox'
 import pageFooter from '@/components/pageFooter'
 import loginBox from '@/components/loginBox'
-import { formatDate, debounce } from '@/common/utils'
+import { formatDate, debounce, guid } from '@/common/utils'
 export default {
   data () {
     return {
@@ -284,7 +284,7 @@ export default {
       submitSelect: [], // 提交选中的sku属性
       skuList: [], // 该商品的所有sku
       storeFlow: {}, // 运费信息
-      flowPrice: 8, // 快递价格
+      flowPrice: 0, // 快递价格
       storeEvaluation: {}, // 评价信息
       evaluationObj: {}, // 评价列表
       num: 1,
@@ -468,7 +468,7 @@ export default {
             lend.totalFee = (this.num * this.selectSku.price).toFixed(2)
             lendArr.push(lend)
             sessionStorage.setItem('selectList', JSON.stringify(lendArr))
-            this.$router.push({path: '/getOrderInfo', query: {skuId: this.selectSku.id, num: this.num, sellerName: this.sellerInfo.name}})
+            this.$router.push({path: '/getOrderInfo', query: {skuId: this.selectSku.id, num: this.num, ranGuNum: guid(), sellerName: this.sellerInfo.name}})
           } else this.$message.warning('核对购买数量，商品限购：' + this.selectSku.num)
         } else this.isMaskLogin = true
         this.buyshopsSwicth = true
@@ -518,9 +518,14 @@ export default {
     //   this.addressTwoId = cityid
     //   this.destination = this.addressOne + this.addressTwo
     // },
+    // 运费
     changeFlowPrice () {
       this.API.getFlowprice({ address: this.addressOne, goodsId: this.$route.query.goodsId, num: this.num }).then(res => {
-        this.flowPrice = res || 8
+        if (res === '请求成功，无返回值') {
+          this.flowPrice = 0
+          return false
+        }
+        this.flowPrice = res
       })
     },
     // 纯js 放大镜

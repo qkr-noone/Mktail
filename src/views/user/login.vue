@@ -102,8 +102,8 @@ export default {
     background: #F4F4F4;
   }
   .log-middle{
-    background: url(/static/img/mk_logo_bg.png) center no-repeat;
-    background-size: cover;
+    background: url(/static/img/log/log_christmas1.jpg) center no-repeat;
+    background-color: #F03E3E;
   }
   .log-bottom{
     background: #F4F4F4;
@@ -119,7 +119,7 @@ export default {
   }
   .middle .middle_left a{
     width:600px;
-    height:423px;
+    height:421px;
   }
  .middle .loginform{
    position: absolute;

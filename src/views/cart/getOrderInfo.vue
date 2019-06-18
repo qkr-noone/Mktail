@@ -43,6 +43,7 @@
         </div>
       </div>
     </div>
+
     <div class="py-container">
       <div class="add">
         <div class="add-title">
@@ -96,25 +97,25 @@
         </div>
         <div class="pay-con">
           <ul class="pay-con-ul">
-            <li class="pay-con-li" :class="{'select-pay': choosePay ==='onlinePay'}" @click="choosePay = 'onlinePay'">
-              <div class="pay-con-box">在线支付</div>
-              <div class="select-tip" v-show="choosePay ==='onlinePay'"><span><i class="el-icon-check"></i></span></div>
+            <li class="pay-con-li" :class="{'select-pay': choosePay ==='weChat'}" @click="choosePay = 'weChat'">
+              <div class="pay-con-box">微信支付</div>
+              <div class="select-tip" v-show="choosePay ==='weChat'"><span><i class="el-icon-check"></i></span></div>
             </li>
-            <!-- <li class="pay-con-li" :class="{'select-pay': choosePay ==='offlinePay'}" @click="choosePay = 'offlinePay'">
-              <div class="pay-con-box">货到付款</div>
-              <div class="select-tip" v-show="choosePay ==='offlinePay'"><span><i class="el-icon-check"></i></span></div>
-            </li> -->
+            <li class="pay-con-li" :class="{'select-pay': choosePay ==='alipay'}" @click="choosePay = 'alipay'">
+              <div class="pay-con-box">支付宝支付</div>
+              <div class="select-tip" v-show="choosePay ==='alipay'"><span><i class="el-icon-check"></i></span></div>
+            </li>
           </ul>
         </div>
       </div>
       <div class="add">
         <div class="add-title">
           <h2>商品及服务信息</h2>
-            <a href="javascript:;" class="add-address-btn">返回我的购物车修改</a>
+            <router-link :to="{path: '/cart'}" class="add-address-btn">返回我的购物车修改</router-link>
         </div>
         <div class="goods">
           <ul>
-            <li class="goods-li" v-for="data in orderList" :key="data.sellerId">
+            <li class="goods-li" v-for="(data, numIndex) in orderList" :key="data.sellerId">
               <div class="goods-box">
                 <div class="goods-head">
                   <div class="goods-h1"><h4>{{data.sellerName}}</h4><img src="static/img/mk_addorder-service.png"></div>
@@ -149,15 +150,15 @@
                 <div class="goods-tip">
                   <div class="goods-h6">
                     <label>给卖家留言：</label>
-                    <textarea  class="form-info" type="textarea" maxlength="85" name="" v-model="formDesc" placeholder="选填：对本次交易的补充说明(所填内容建议已经和卖家达成一致意见)"></textarea>
-                    <span class="form-font">{{formDesc.length}}/85</span>
+                    <textarea  class="form-info" type="textarea" maxlength="85" v-model="formDesc[numIndex]"  placeholder="选填：对本次交易的补充说明(所填内容建议已经和卖家达成一致意见)"></textarea>
+                    <span class="form-font">{{ (!formDesc[numIndex] && '0') || formDesc[numIndex].length }}/85</span>
                   </div>
                   <div class="goods-h7">
-                    <h4>免运费</h4>
-                    <div class="flow">
+                    <h4 v-if="sellerPostFee[numIndex]">运费：￥{{sellerPostFee[numIndex].val.reduce(reducer, 0)}}</h4>
+                    <!-- <div class="flow">
                       <input type="checkbox" name=""><span class="flow-tip">免运费</span><span>以下商品  参加小件运费险,退货可赔6元</span>
                       <h4 class="flow-price">¥ 0.85</h4>
-                    </div>
+                    </div> -->
                   </div>
                 </div>
               </div>
@@ -210,7 +211,7 @@
             </div>
             <div class="count-price-li">
               <span>运费：</span>
-              <span class="count-price-item">¥0.00</span>
+              <span class="count-price-item">¥{{totalPostFee}}</span>
             </div>
             <!-- <div class="count-price-li">
               <span>优惠：</span>
@@ -312,12 +313,11 @@ export default {
       orderList: [],
       totalNum: 0,
       totalPrice: 0,
-      submitPrice: '',
       defaultAddress: '',
       chooseAddress: '',
-      choosePay: 'onlinePay',
+      choosePay: 'weChat',
       sellerId: 0,
-      formDesc: '',
+      formDesc: [],
       isForm: false,
       ruleForm: {
         username: '',
@@ -364,17 +364,32 @@ export default {
       countyList: [],
       over: false,
       isUpdate: 0,
-      tem: []
+      tem: [],
+      sellerPostFee: [],
+      GUID: ''
     }
   },
   components: { shortcutHeader, pageFooter },
+  computed: {
+    totalPostFee () {
+      let tem = 0
+      this.sellerPostFee.forEach(data => {
+        tem = Number(data.val.reduce(this.reducer, 0)) + tem
+      })
+      return tem.toFixed(2)
+    },
+    submitPrice () {
+      let fee = 0
+      fee = (this.totalPrice - 0) + (this.totalPostFee - 0)
+      return fee.toFixed(2)
+    }
+  },
   created () {
     this.skuId = this.$route.query.skuId
-    // Q. 店铺名字 （需在detail 取到并且传入）
+    this.GUID = this.$route.query.ranGuNum
     let sellerName = this.$route.query.sellerName || ''
     if (this.skuId) { // 从立即购买进入提交
       this.goodSkuList = JSON.parse(sessionStorage.getItem('selectList'))
-      console.log(this.goodSkuList, '000')
       let objList = {
         orderItemList: [],
         sellerId: this.goodSkuList[0].sellerId,
@@ -412,20 +427,28 @@ export default {
         }
       }
     }
-    console.log(this.goodSkuList, this.orderList)
     if (!this.goodSkuList.length) {
       this.$message.warning('信息有误')
       this.$router.go(-1)
     }
   },
   mounted () {
+    this.orderList.forEach((dot, zero) => {
+      this.sellerPostFee.push({ seller: dot.sellerName, val: [] })
+      for (let item of dot.orderItemList) {
+        let tag = this.sellerPostFee[zero].val.findIndex(tip => tip.id === item.goodsId)
+        if (tag >= 0) this.sellerPostFee[zero].val[tag].num = this.sellerPostFee[zero].val[tag].num + item.num
+        else this.sellerPostFee[zero].val.push({ id: item.goodsId, num: item.num })
+      }
+    })
+
     this.requstAdd()
     this.goodSkuList.forEach(item => {
       this.totalNum += Number(item.num)
       this.totalPrice += Number(item.totalFee)
     })
+
     this.totalPrice = (this.totalPrice).toFixed(2)
-    this.submitPrice = this.totalPrice
     this.API.allProvince().then(res => {
       this.addrOptions = res
     })
@@ -441,6 +464,14 @@ export default {
     },
     // 提交订单
     submitOrder () {
+      let messageList = []
+      // if (this.formDesc.length) {
+      //   for (let val of this.orderList) {
+      //   }
+      //   this.formDesc.forEach(item => {
+      //     messageList.push({ buyerMessage: item || '', sellerId: item })
+      //   })
+      // }
       let price = 0
       let selectList = []
       let cartList = []
@@ -473,11 +504,13 @@ export default {
         })
         price = price.toFixed(2)
       }
+      let userInfo = JSON.parse(getStore('userInfo'))
       let createTime = formatDate(new Date())
+      // if (postPri) return false
       let order = {
-        payment: price, // "实付金额",
+        payment: (price - 0) + (this.totalPostFee - 0), // "实付金额",
         paymentType: 1, // "支付类型,1、在线支付，2、货到付款"
-        postFee: '', // "邮费",
+        postFee: this.totalPostFee, // "邮费",
         status: 1, // "状态：1未付款.2已付款.3未发货.4已发货.5交易成功.6交易关闭.7待评价",
         createTime: createTime, // "订单创建时间",
         updateTime: '', // "订单更新时间",
@@ -489,11 +522,11 @@ export default {
         shippingName: '', // "物流名称",
         shippingCode: '', // "物流单号",
         userId: this.$cookies.get('user-key'), // "用户id",
-        buyerMessage: '', // "买家留言",
-        buyerNick: '', // "买家昵称",
-        buyMobile: '', // 买家手机号
+        buyerMessageList: messageList, // "买家留言", buyerMessageList: [{buyerMessage, sellerId}]
+        buyerNick: userInfo.username, // "买家昵称",
+        buyMobile: userInfo.phone, // 买家手机号
         buyerRate: '', // "买家是否已经评价",
-        receiverAreaAame: this.defaultAddress.province + this.defaultAddress.city + this.defaultAddress.alias + this.defaultAddress.address, // "收货人地区名称(省，市，县)街道",
+        receiverAreaName: this.defaultAddress.province + this.defaultAddress.city + this.defaultAddress.alias + this.defaultAddress.address, // "收货人地区名称(省，市，县)街道",
         receiverMobile: this.defaultAddress.mobile, // "收货人手机",
         receiverZipCode: '', // "收货人邮编",
         receiver: this.defaultAddress.contact, // "收货人",
@@ -507,10 +540,9 @@ export default {
         orderInfo = 'directOrderInfo'
         Object.assign(order, {seller_id: this.goodSkuList[0].sellerId})
       } else orderInfo = 'getOrderInfo'
-      console.log(orderInfo, 10)
-      this.API[orderInfo](order, this.skuId).then(rtn => {
+      this.API[orderInfo](order, this.skuId, this.goodSkuList[0].num, this.GUID).then(rtn => {
         if (rtn.success === false) {
-          this.$message.error('提交订单失败')
+          this.$message.error(rtn.message)
           return false
         }
         this.$message.success('提交订单成功')
@@ -522,7 +554,6 @@ export default {
                   this.$delete(item.orderItemList, index)
                   if (!item.orderItemList.length) {
                     this.$delete(cartList, cartList.indexOf(item))
-                    console.log('成功删除购物车对应数据')
                   }
                   break
                 }
@@ -592,7 +623,6 @@ export default {
             Object.assign(address, {createDate: formatDate(new Date())})
           }
           address = this.isUpdate ? Object.assign(address, {id: this.isUpdate}) : address
-          console.log(address, this.addressOneId, 0)
           this.API[addApi](address).then(res => {
             if (res.success === false) {
               this.$notify.error({
@@ -664,6 +694,11 @@ export default {
           if (val.isDefault === '1') {
             this.defaultAddress = val
             this.chooseAddress = val.id
+            this.sellerPostFee.forEach((other, index) => {
+              for (let data of other.val) {
+                this.changeFlowPrice(this.defaultAddress.province, data, index)
+              }
+            })
             break
           }
         }
@@ -685,10 +720,27 @@ export default {
       this.isUpdate = 0
     },
     // 改变地址 切换运费
-    changeFlowPrice () {
-      this.API.getFlowprice({ address: this.addressOne, goodsId: this.$route.query.goodsId, num: this.num }).then(res => {
-        this.flowPrice = res || 8
+    changeFlowPrice (province, data, index) {
+      this.API.getFlowprice({ address: province, goodsId: data.id, num: data.num }).then(res => {
+        if (res === '请求成功，无返回值') {
+          for (let dot of this.sellerPostFee[index].val) {
+            if (dot.id === data.id) {
+              this.$set(dot, 'fee', 0)
+              break
+            }
+          }
+          return false
+        }
+        for (let dot of this.sellerPostFee[index].val) {
+          if (dot.id === data.id) {
+            this.$set(dot, 'fee', res)
+            break
+          }
+        }
       })
+    },
+    reducer (pre, cur) {
+      return cur.fee + pre
     }
   },
   watch: {
@@ -696,6 +748,11 @@ export default {
       for (let item of this.addressList) {
         if (item.id === addrID) {
           this.defaultAddress = item
+          this.sellerPostFee.forEach((other, index) => {
+            for (let data of other.val) {
+              this.changeFlowPrice(this.defaultAddress.province, data, index)
+            }
+          })
           break
         }
       }

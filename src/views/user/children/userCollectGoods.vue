@@ -28,10 +28,10 @@
               <ul>
                 <li class="topItemActive has_pointer">不限</li>
                 <li class="has_pointer" v-for="item in series" :key="item.id">{{item.name}}<span>({{item.num}})</span></li>
-                <li class="has_pointer">降价<span>(1)</span></li>
+                <!-- <li class="has_pointer">降价<span>(1)</span></li>
                 <li class="has_pointer">满减<span>(1)</span></li>
                 <li class="has_pointer">优惠券<span>(1)</span></li>
-                <li class="has_pointer">下架<span>(1)</span></li>
+                <li class="has_pointer">下架<span>(1)</span></li> -->
               </ul>
             </div>
             <div class="content-item-right">
