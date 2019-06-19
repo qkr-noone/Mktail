@@ -12,8 +12,6 @@
           <div class="menu-box">
             <a href="javascript:;" @click="btnUrl()" class="set-menu">
               <img src="static/img/3D_menu.png">
-              <input type="" name="" ref="testDom" v-model="testValue" style="position: absolute; top: 60px; left: 20px">
-              <button @click="testHidden()" ref="testBtn" style="position: absolute; top: 90px; left: 20px; width: 40px;height: 20px;"></button>
             </a>
             <h2 class="get-set-h">自定义产品</h2>
             <a href="javascript:;" class="get-user" @click="getForm()">获取</a>
@@ -56,25 +54,25 @@
           </div>
           <ul class="threeD-ul">
             <li class="threeD-li">
-              <a class="threeD-li-a Center" href="javascript:;" @click="threeDUrl(U3DIP + '/index.html?spuid=10111054')">
+              <a class="threeD-li-a Center" href="javascript:;" @click="threeDUrl(U3DIP + '/index.html?id=24')">
                 <img src="/static/img/3D_show2.png">
               </a>
               <h5 class="threeD-li-h">4寸PU电泳旱冰轮</h5>
             </li>
             <li class="threeD-li">
-              <a class="threeD-li-a Center" href="javascript:;" @click="threeDUrl(U3DIP + '/index.html?spuid=10112268')">
+              <a class="threeD-li-a Center" href="javascript:;" @click="threeDUrl(U3DIP + '/index.html?id=24')">
                 <img src="/static/img/3D_show3.png">
               </a>
               <h5 class="threeD-li-h">2寸金钻活动轮</h5>
             </li>
             <li class="threeD-li">
-              <a class="threeD-li-a Center" href="javascript:;" @click="threeDUrl(U3DIP + '/index.html?spuid=10112269')">
+              <a class="threeD-li-a Center" href="javascript:;" @click="threeDUrl(U3DIP + '/index.html?id=24')">
                 <img src="/static/img/3D_show4.png">
               </a>
               <h5 class="threeD-li-h">2寸白PU大班轮</h5>
             </li>
             <li class="threeD-li">
-              <a class="threeD-li-a Center" href="javascript:;" @click="threeDUrl(U3DIP + '/index.html?spuid=10113046')">
+              <a class="threeD-li-a Center" href="javascript:;" @click="threeDUrl(U3DIP + '/index.html?id=24')">
                 <img src="/static/img/3D_show1.png">
               </a>
               <h5 class="threeD-li-h">重型铸铁PU绿双轴刹车轮</h5>
@@ -125,8 +123,7 @@ export default {
           { required: true, message: '请输入E-mail', trigger: 'blur' },
           { min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur' }
         ]
-      },
-      testValue: ''
+      }
     }
   },
   components: { shortcut, live3Dheader, pageFooter },
@@ -135,7 +132,7 @@ export default {
       document.documentElement.scrollTop = 133
       document.body.scrollTop = 133
     })
-    let threeDUrl = this.U3DIP + '/index.html?spuid=10112267' // http://192.168.0.34:8080/qn30/index.html?spuid=10112267
+    let threeDUrl = this.U3DIP + '/index.html?id=24' // http://192.168.0.34:8080/qn30/index.html?spuid=10112267
     // http://192.168.0.33:8080/qn5/ http://192.168.0.33:8080/qn17/index.html?spuid=10112269 http://120.79.93.197/we5/
     this.$refs.threeDSrc.src = threeDUrl
     this.is3Ding = true
@@ -178,16 +175,6 @@ export default {
     },
     closeForm () {
       this.isForm = false
-    },
-    // 为了U3D方便测试填入的 接口
-    btnUrl () {
-      let newIP = this.testValue
-      this.$refs.threeDSrc.src = newIP + '/index.html?spuid=10112267'
-      console.log('THIS IS newIP', newIP)
-    },
-    testHidden () {
-      this.$refs.testDom.style.display = 'none'
-      this.$refs.testBtn.style.display = 'none'
     }
   }
 }

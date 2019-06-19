@@ -69,13 +69,13 @@
           <li class="order-li">
             <h5 class="item-title">收货人信息</h5>
             <div class="item Left">
-              <span class="label">收货人：</span><div class="item-info">李先生</div>
+              <span class="label">收货人：</span><div class="item-info">{{orderReceiverInfo.receiver}}</div>
             </div>
             <div class="item Left">
-              <span class="label">地址：</span><div class="item-info">广州市从化区明珠工业园丽峰路1号新兴脚轮</div>
+              <span class="label">地址：</span><div class="item-info">{{orderReceiverInfo.receiverAreaName}}</div>
             </div>
             <div class="item Left">
-              <span class="label">手机号码：</span><div class="item-info">123****432</div>
+              <span class="label">手机号码：</span><div class="item-info" v-if="orderReceiverInfo.reciverMobile">{{orderReceiverInfo.reciverMobile.replace(/(\d{3})(\d{4})/, '$1****')}}</div>
             </div>
           </li>
           <li class="order-li">
@@ -84,13 +84,13 @@
               <span class="label">配送方式：</span><div class="item-info">普通快递</div>
             </div>
             <div class="item Left">
-              <span class="label">运费：</span><div class="item-info">￥6.00</div>
+              <span class="label">运费：</span><div class="item-info">￥{{shippingInfo.shippingPrice}}</div>
             </div>
             <div class="item Left">
-              <span class="label">运单号码：</span><div class="item-info">123165843214185</div>
+              <span class="label">运单号码：</span><div class="item-info">{{shippingInfo.shippingCode}}</div>
             </div>
             <div class="item Left">
-              <span class="label">物流公司：</span><div class="item-info">中通快递</div>
+              <span class="label">物流公司：</span><div class="item-info">{{shippingInfo.shippingName}}</div>
             </div>
           </li>
           <li class="order-li">
@@ -109,56 +109,42 @@
           </li>
         </ul>
       </section>
-      <!-- <section class="goods">
-        <h5 class="seller">胜天门业</h5>
+      <section class="goods">
+        <!-- <h5 class="seller">胜天门业</h5> -->
         <el-row class="row">
           <el-col :span="10">商品</el-col>
           <el-col :span="4">商品编号</el-col>
-          <el-col :span="3">销售价</el-col>
+          <el-col :span="3">单价</el-col>
           <el-col :span="3">商品数量</el-col>
           <el-col :span="4">操作</el-col>
         </el-row>
-        <el-row class="nest">
+        <el-row class="nest" v-for="list in orderItemList" :key="list.id">
           <el-col :span="3">
-            <a href="javascript:;">
-              <i class="el-icon-picture img"></i>
-            </a>
+            <router-link :to="{path: '/detail', query:{goodsId: list.goodsId}}" href="javascript:;" class="a_box">
+              <img class="img" :src="list.picPath">
+            </router-link>
           </el-col>
           <el-col :span="7">
             <div class="nest-desc">
-              <span class="nest-desc-one">健仕宝烟盒打火机一体充电多功能香烟盒点烟器 魔力黑</span>
-              <span>魔力黑</span>
+              <router-link :to="{path: '/detail', query:{goodsId: list.goodsId}}" href="javascript:;">
+                <span class="nest-desc-one">{{list.title}}</span>
+              </router-link>
+              <span>规格: {{list.spec}}</span>
             </div>
           </el-col>
-          <el-col :span="4"><span>30167880332</span></el-col>
-          <el-col :span="3"><span>¥ 68.00</span></el-col>
-          <el-col :span="3"><span>12</span></el-col>
+          <el-col :span="4"><span>{{list.goodsId}}</span></el-col>
+          <el-col :span="3"><span>¥ {{list.price}}</span></el-col>
+          <el-col :span="3"><span>{{list.num}}</span></el-col>
           <el-col :span="4" class="Top">
-            <a class="btn" href="javascript:;">再次购买</a>
-            <a class="btn" href="javascript:;">确认收货</a>
+            <!-- <a class="btn" href="javascript:;">再次购买</a>
+            <a class="btn" href="javascript:;">确认收货</a> -->
           </el-col>
         </el-row>
-        <el-row class="nest">
-          <el-col :span="3">
-            <a href="javascript:;">
-              <i class="el-icon-picture img"></i>
-            </a>
-          </el-col>
-          <el-col :span="7">
-            <div class="nest-desc">
-              <span class="nest-desc-one">健仕宝烟盒打火机一体充电多功能香烟盒点烟器 魔力黑</span>
-              <span>魔力黑</span>
-            </div>
-          </el-col>
-          <el-col :span="4"><span>30167880332</span></el-col>
-          <el-col :span="3"><span>¥ 68.00</span></el-col>
-          <el-col :span="3"><span>12</span></el-col>
-          <el-col :span="4" class="Top">
-            <a class="btn" href="javascript:;">再次购买</a>
-            <a class="btn" href="javascript:;">确认收货</a>
-          </el-col>
-        </el-row>
-      </section> -->
+        <div class="replace_btn Top">
+          <a class="btn" href="javascript:;">再次购买</a>
+          <a class="btn" href="javascript:;">确认收货</a>
+        </div>
+      </section>
       <!-- <div class="recommend">
         <div class="recommend-top">
           <span>为您推荐</span>
@@ -182,12 +168,18 @@ import youRecom from '@/components/youRecom'
 import pageFooter from '@/components/pageFooter'
 export default {
   data () {
-    return {}
+    return {
+      orderReceiverInfo: {},
+      shippingInfo: {},
+      orderItemList: []
+    }
   },
   components: { shortcut, userNav, youRecom, pageFooter },
   mounted () {
     this.API.orderDetail({ orderId: this.$route.query.orderId }).then(res => {
-      console.log(res)
+      this.orderReceiverInfo = res.orderReceiverInfo
+      this.shippingInfo = res.shippingInfo
+      this.orderItemList = res.orderItemList
     })
     // this.API.findFlow({ LogisticCode: this.$route.query.orderNum, shipperCode: this.$route.query.orderNum }).then(res => {
     //   console.log(res, 0)
@@ -419,6 +411,8 @@ export default {
 /* 商品信息 */
   .goods {
     font-size: 13px;
+    margin-top: 20px;
+    position: relative;
   }
   .seller {
     color: #737373;
@@ -438,9 +432,14 @@ export default {
     border-bottom: 1px solid #F4F4F4;
     padding: 28px 0 22px 0;
   }
-  .nest .img {
+  .nest .a_box {
     width: 81px;
     height: 81px;
+    overflow: hidden;
+  }
+  .nest .img {
+    max-width: 81px;
+    max-height: 81px;
     font-size: 81px;
   }
   .el-col{
@@ -459,7 +458,19 @@ export default {
     text-align: left;
     overflow: hidden;
     text-overflow: ellipsis;
+    color: rgb(53, 53, 53);
     height: 35px;
+  }
+  .replace_btn {
+    box-sizing: border-box;
+    position: absolute;
+    background-color: #fff;
+    border-left: 1px solid #F4F4F4;
+    top: 32px;
+    right: 0;
+    height: calc(100% - 33px);
+    width: calc(100% * 1/6);
+    justify-content: center;
   }
   .btn {
     width: 100px;

@@ -106,7 +106,7 @@
                   <div class="title"><i class="has_pointer">规格</i></div>
                   <ul>
                     <li v-for="list in skuList" :key="list.id" @click="selectSku=list; num=1; limitNum=list.num">
-                      <a class="has_pointer" :class="{selected: selectSku === list }">{{list.title}}</a>
+                      <a class="has_pointer" :class="{selected: selectSku === list }">{{list.model}}</a>
                     </li>
                   </ul>
                 </li>

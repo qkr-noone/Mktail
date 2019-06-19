@@ -8,7 +8,7 @@
             <span class="item-title">
               <span class="desc-title has_pointer" @click="goDetail(item.goodsId)">{{item.title}}</span>
               <br>
-              <span v-for="(tip, key, index) in JSON.parse(item.spec)" :key="index">{{key}}:{{tip}}</span>
+              <span>规格: {{item.spec}}</span>
               <!-- <span class="desc-title has_pointer">[交易快照]</span> -->
             </span><br/>
             <div class="back">退</div>
@@ -44,7 +44,7 @@
       </li>
       <li class="list-item">
         <a v-if="list.status === 1" class="fast-pay">立即付款</a>
-        <a v-if="list.status === 1">取消订单</a>
+        <a v-if="list.status === 1" @click="cancleOrder()">取消订单</a>
         <a v-if="list.status === 2">取消详情</a>
         <router-link :to="{path: '/detail', query: {goodsId: list.goodsId, skuId: list.itemId}}" v-if="list.status === 2 || list.status > 4">再次购买</router-link>
         <router-link :to="{path: '/trace/orderDetail', query: {orderId: list.orderId}}" v-if="list.status === 3" :data-id="list.orderId">查看详情</router-link>
@@ -69,7 +69,8 @@ export default {
   methods: {
     goDetail (id) {
       this.$router.push({path: '/detail', query: {goodsId: id}})
-    }
+    },
+    cancleOrder () {}
   }
 }
 </script>
