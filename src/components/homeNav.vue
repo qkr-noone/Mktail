@@ -3,7 +3,7 @@
     <div class="sort nav-top">
       <div class="py-container">
         <div class="navitem">
-          <h2 class="nav-all">全部商品分类</h2>
+          <h2 class="nav-all">{{cateTitle}}</h2>
           <ul class="nav-ul">
             <li v-for="item in nav" :key="item.title">
               <router-link :to="{path: '/'+item.path}" :class="{active: chooseNav === item.path}">{{item.title}}</router-link>
@@ -28,6 +28,12 @@ export default {
         // {title: '社区', path: 'javascript:;'}
       ],
       chooseNav: ''
+    }
+  },
+  props: {
+    cateTitle: {
+      type: String,
+      default: '全部商品分类'
     }
   },
   mounted () {
