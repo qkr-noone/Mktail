@@ -3,9 +3,9 @@
     <input class="has_pointer" type="checkbox" :value="list" v-model="addData" @click="change(list)"/>
     <span class="date">{{list.createTime}}</span>
     <span class="order-num">订单号：<span>{{list.orderId}}</span></span>
-    <a href="javascript:;" class="name">{{list.sellerName}}</a>
-    <img class="has_pointer" src="static/img/user/user_part.png">
-    <span v-if="list.status === 1" class="delete pay-time"><i class="el-icon-time"></i><span>自动取消:00时 00分 00秒</span></span>
+    <router-link :to="{path:'/shops', query: {homeShops: list.sellerId}}" target="_blank" class="name">{{list.sellerName}}</router-link>
+    <!-- <img class="has_pointer" src="static/img/user/user_part.png"> -->
+    <span v-if="list.status === 1" class="delete pay-time"><!-- <i class="el-icon-time"></i><span>自动取消:00时 00分 00秒</span> --></span>
     <span v-else-if="list.status === 2 || list.status === 5 || list.status === 6" class="delete"><img class="has_pointer" @click="del(list.orderId)" src="static/img/user/user_delete.png"></span>
   </div>
 </template>

@@ -131,7 +131,7 @@ export default {
     margin-left: 28px;
   }
   .item-price, .item-num {
-    width: 50px;
+    width: 55px;
     height: 30px;
     line-height: 30px;
     text-align: center;

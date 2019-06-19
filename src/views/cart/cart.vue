@@ -67,7 +67,7 @@
                       <div class="item-msg" @click="toDetail(item.goodsId, item.itemId)">{{item.title}}</div>
                     </div>
                   </li>
-                  <li class="cart-3"><span class="attr"><strong v-for="(tip, key, value) in JSON.parse(item.spec)" :key="value">{{key}}:{{tip}}</strong></span></li>
+                  <!-- <li class="cart-3"><span class="attr"><strong v-for="(tip, key, value) in JSON.parse(item.spec)" :key="value">{{key}}:{{tip}}</strong></span></li> -->
                   <li class="cart-4"><span class="price">￥{{item.price}}</span></li>
                   <buyNum class="cart-4"
                           :num="item.num"
