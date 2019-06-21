@@ -1,4 +1,10 @@
 .py-container{width:1226px;margin:0 auto; overflow: hidden;}
+  input:focus {
+    outline: none;
+  }
+  input:hover {
+    outline: none;
+  }
 .wrap {
   width: 100%;
   overflow: hidden;
@@ -330,7 +336,7 @@
   }
   
   .controls {
-    width: 48px;
+    width: auto;
     position: relative
   }
   
@@ -340,7 +346,8 @@
   
   .controls .itxt {
     display: block;
-    width: 38px;
+    width: 50px;
+    padding: 0 10px;
     height: 34px;
     line-height: 42px;
     border: 1px solid #ddd;
@@ -349,7 +356,6 @@
     float: left;
     border-right: 0
   }
-  
   .controls .plus {
     display: block;
     width: 15px;
@@ -378,6 +384,17 @@
     border: 1px solid #ccc;
     top: 18px;
     border-top: 0
+  }
+  .control-group {
+    position: relative;
+  }
+  .goodsANum{
+    position: absolute;
+    display: block;
+    white-space: nowrap;
+    top: 10px;
+    left: 95px;
+    color: #795548;
   }
   
   .red-bg {
@@ -951,7 +968,7 @@
     display: flex;
     align-items: center;
     justify-content: space-around;
-    height:40px;
+    padding: 8px 5px;
     background:rgba(245,247,250,1);
     border:1px solid rgba(227,227,227,1);
     color: #333;

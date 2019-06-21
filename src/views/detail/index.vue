@@ -21,9 +21,13 @@
                     <div id="m_mark"></div>
                     <div id="m_float-box"></div>
                     <img :src="currentImg">
+                    <div class="video_play"><i class="el-icon-caret-right"></i></div>
                   </div>
                   <div id="m_big-box">
                     <img :src="currentImg">
+                  </div>
+                  <div class="video_box" ref="videoBox">
+                    <video preload="metadata" muted width="100%" height="100%" loop="false" autoplay="true" style="background-color: #fff;" :src="goodsDesc.itemVedio" controls></video>
                   </div>
                 </section>
               </div>
@@ -105,8 +109,16 @@
                 <li class="spec-list">
                   <div class="title"><i class="has_pointer">规格</i></div>
                   <ul>
-                    <li v-for="list in skuList" :key="list.id" @click="selectSku=list; num=1; limitNum=list.num">
+                    <li v-for="list in skuList" :key="list.id" @click="selectSku=list; num=minNum; limitNum=list.num">
                       <a class="has_pointer" :class="{selected: selectSku === list }">{{list.model}}</a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="spec-list" v-if="priceInterval.length">
+                  <div class="title"><i class="has_pointer">起购量</i></div>
+                  <ul>
+                    <li v-for="list in priceInterval" :key="list.price">
+                      <a class="limit_num">≥{{list.num}}{{unit}}&nbsp;&nbsp;单价:￥{{list.price}}</a>
                     </li>
                   </ul>
                 </li>
@@ -114,10 +126,11 @@
                   <div class="title"><i>数量</i></div>
                   <div class="control-group">
                     <div class="controls">
-                      <input autocomplete="off" type="text" value="1" v-model="num" min="1" :max="num" class="itxt" />
-                      <a class="increment plus" @click="addNum(limitNum)"><i class="el-icon-plus has_pointer"></i></a>
+                      <input autocomplete="off" type="text" value="1" v-model="num" min="1" :max="num" class="itxt" @blur="NumBlur()"/>
+                      <a class="increment plus" @click="addNum()"><i class="el-icon-plus has_pointer"></i></a>
                       <a class="increment mins" @click="delNum()"><i class="el-icon-minus has_pointer"></i></a>
                     </div>
+                    <sub class="goodsANum">库存:{{limitNum}}</sub>
                   </div>
                 </li>
               </ul>
@@ -178,7 +191,9 @@
         <!--product-detail-->
         <div class=" product-detail">
           <div class="aside">
-            <router-link class="shop-box" :to="{path: '/shops', query: {homeShops: sellerInfo.sellerId}}"><h4 class="has_pointer">{{sellerInfo.name}}</h4><img src="static/img/mk_search_link.png"></router-link>
+            <a class="shop-box">
+              <router-link :to="{path: '/shops', query: {homeShops: sellerInfo.sellerId}}" class="has_pointer">{{sellerInfo.name}}</router-link><a :href="(sellerInfo.linkmanQq && 'http://wpa.qq.com/msgrd?v=3&uin='+ sellerInfo.linkmanQq +'&site=qq&menu=yes') || 'javascript:;'" target="_blank" title="点此可以直接和卖家交流选好的宝贝，或相互交流网购体验。"><img class="has_pointer has_customer" src="static/img/mk_search_link.png"></a>
+            </a>
             <div class="shop-list">
               <div class="buy-word shops">
                 <router-link :to="{path: '/shops', query: {homeShops: sellerInfo.sellerId}}" class="sui-btn  btn-danger"><img src="static/img/mk_search_comshop.png"><span class="has_pointer">进店逛逛</span></router-link>
@@ -230,7 +245,7 @@
                 </div>
               </div>
               <transition>
-                <router-view :attrItem="attrItem" :goodsIntroduc="goodsIntroduc" :articleNumber="goodsDesc.articleNumber" :series="goodsDesc.series" :show3d="goodsDesc.show3d" :saleService="goodsDesc.saleService" :evaluationObj="evaluationObj" :scroll='scroll'></router-view>
+                <router-view :attrItem="attrItem" :goodsIntroduc="goodsIntroduc" :shopsVideo="goodsDesc.detailsVedio" :articleNumber="goodsDesc.articleNumber" :series="goodsDesc.series" :show3d="goodsDesc.show3d" :saleService="goodsDesc.saleService" :evaluationObj="evaluationObj" :scroll='scroll'></router-view>
               </transition>
             </div>
           </div>
@@ -279,7 +294,6 @@ export default {
       goodsDesc: '',
       chooseAttr: '', // 选择属性
       cateList: [],
-      spec: [],
       selectSku: '', // 选择的sku
       submitSelect: [], // 提交选中的sku属性
       skuList: [], // 该商品的所有sku
@@ -288,7 +302,8 @@ export default {
       storeEvaluation: {}, // 评价信息
       evaluationObj: {}, // 评价列表
       num: 1,
-      limitNum: 11, // 限购
+      minNum: 1,
+      limitNum: 0, // 限购
       goodsIntroduc: '', // 商品介绍
       isMaskLogin: false,
       viewList: [], // 看了又看
@@ -308,7 +323,9 @@ export default {
       starValue: 5,
       scroll: {},
       addToCartSwicth: true,
-      buyshopsSwicth: true
+      buyshopsSwicth: true,
+      priceInterval: [], // 起售量价格区间
+      unit: '个'
     }
   },
   components: { shortcut, headerNav, pageFooter, absBox, loginBox },
@@ -344,13 +361,26 @@ export default {
       }
       this.cateList = rtn.itemCatList || []
       this.goodsIntroduc = this.goodsDesc.introduction || ''
-      this.spec = JSON.parse(this.goodsDesc.specificationItems) || []
       this.storeFlow = rtn.goodsAll.tbSellerLogistics || {}
       this.storeEvaluation = rtn.goodsAll.goodsShowEvaluation || {}
       this.starValue = this.storeEvaluation.star / 2 || 5
       this.skuList = rtn.goodsAll.itemList || []
       this.selectSku = this.skuList[0]
       this.limitNum = this.selectSku.num
+      // 单价随起售量变化
+      if (this.goodsDesc.quoteType === '1') {
+        this.priceInterval = JSON.parse(this.goodsDesc.priceInterval)
+        // 计量单位 1套 2盒 3组 4件 5箱
+        if (this.goods.unit === '1') this.unit = '套'
+        else if (this.goods.unit === '2') this.unit = '盒'
+        else if (this.goods.unit === '3') this.unit = '组'
+        else if (this.goods.unit === '4') this.unit = '件'
+        else if (this.goods.unit === '5') this.unit = '箱'
+        else this.unit = '个'
+        this.$set(this.selectSku, 'price', this.priceInterval[0].price)
+        this.num = parseInt(this.priceInterval[0].num)
+        this.minNum = parseInt(this.priceInterval[0].num)
+      }
       this.API.getShopNew({ sellerId: this.sellerInfo.sellerId }).then(res => {
         this.shopHotList = res
       })
@@ -406,9 +436,10 @@ export default {
       this.$refs.threeDSrc.src = threeDUrl
       return false
     },
-    addNum (limitNum) {
-      if (limitNum) {
-        if (limitNum === this.num) return false
+    addNum () {
+      if (this.num >= this.limitNum) {
+        this.num = this.limitNum
+        return false
       }
       this.num++
       debounce(() => {
@@ -416,14 +447,17 @@ export default {
       }, 1000)
     },
     delNum () {
-      if (this.num === 1) { // 限制最小数量
-        // 弹框
+      if (this.num <= this.minNum) {
+        this.num = this.minNum
         return false
       }
       this.num--
       debounce(() => {
         this.changeFlowPrice()
       }, 1000)
+    },
+    NumBlur () {
+      if (this.num < this.minNum) this.num = this.minNum
     },
     // 加入购物车
     submit () {
@@ -463,7 +497,6 @@ export default {
             lend.picPath = this.selectSku.image
             lend.price = this.selectSku.price
             lend.sellerId = this.selectSku.sellerId
-            lend.spec = this.selectSku.spec
             lend.title = this.selectSku.title
             lend.totalFee = (this.num * this.selectSku.price).toFixed(2)
             lendArr.push(lend)
@@ -476,6 +509,10 @@ export default {
         if (!this.buyshopsSwicth) return false
         this.$message.info('请核对信息, 重新购买')
       }
+    },
+    // 唤醒客服
+    customer () {
+      console.log(10)
     },
     // 用户登陆
     userLogin () {
@@ -612,7 +649,16 @@ export default {
       })
     }
   },
-  watch: {}
+  watch: {
+    num (newNum) {
+      for (let i = this.priceInterval.length - 1; i >= 0; i--) {
+        if (newNum >= parseInt(this.priceInterval[i].num)) {
+          this.$set(this.selectSku, 'price', this.priceInterval[i].price)
+          break
+        }
+      }
+    }
+  }
 }
 </script>
 <style scoped>
@@ -628,5 +674,40 @@ export default {
   }
   .has_pointer {
     cursor: pointer;
+  }
+  .shop-box .has_pointer {
+    color: #333;
+    text-align: left;
+  }
+  .has_customer {
+    margin-left: 5px;
+  }
+  .limit_num {
+    border: none !important;
+  }
+  .video_box {
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    bottom: -1px;
+    right: -1px;
+    z-index: 10;
+  }
+  video:focus {
+    outline: none;
+  }
+  .video_play {
+    position: absolute;
+    left: 10px;
+    bottom: 10px;
+    z-index: 100;
+    font-size: 36px;
+    cursor: pointer;
+    color: #404040;
+    border: 2px solid #404040;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    line-height: 35px;
   }
 </style>

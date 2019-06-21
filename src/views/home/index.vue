@@ -11,7 +11,7 @@
             <div class=" Left all-sort-list">
               <div class="all-sort-list2">
                 <!-- 截取15条类目 -->
-                <div class="item bo" v-for="item in menuData.slice(0,14)"  :key="item.id" >
+                <div class="item bo" v-for="item in menuData.slice(0,15)"  :key="item.id" >
                   <h3><a href="">{{ item.name }}</a><i class="el-icon-arrow-right"></i></h3>
                   <div class="item-list clearfix">
                     <div class="subitem">

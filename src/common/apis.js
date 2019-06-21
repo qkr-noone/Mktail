@@ -34,6 +34,8 @@ export default {
   getShopCate: data => http.get('/seller/goods/search', data),
   // 获取最新商品 (分类左侧)
   getShopNew: data => http.get('/seller/goods/findNewGoods', data),
+  // 店铺信息
+  getStoreInfo: data => http.get('/seller/index/getSellerInfo', data),
 
   /* ----注册登录---- */
 

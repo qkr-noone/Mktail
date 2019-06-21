@@ -8,6 +8,11 @@
       <li v-if="articleNumber">货号:{{articleNumber}}</li>
       <li v-if="series">系列:{{series}}</li>
     </ul>
+    <div class="goods-intro">
+      <div class="video_box">
+        <video preload="metadata" muted width="100%" height="100%" loop="false" autoplay="true" style="background-color: none;" :src="shopsVideo" controls></video>
+      </div>
+    </div>
     <div class="intro-detail" v-html="goodsIntroduc">
       {{goodsIntroduc}}
     </div>
@@ -32,6 +37,9 @@ export default {
       type: String
     },
     series: {
+      type: String
+    },
+    shopsVideo: {
       type: String
     }
   },
@@ -92,5 +100,9 @@ ul.goods-intro li {
     font-size:14px;
     color:rgba(135,135,135,1);
     margin-left: 20px;
+  }
+  .video_box {
+    padding: 20px;
+    margin: 0 auto;
   }
 </style>

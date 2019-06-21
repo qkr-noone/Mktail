@@ -13,114 +13,18 @@
       <div class="py-container">
         <div class="middle">
           <section class="middle-title">
-            <div class="title " :class="{active: show === 0}" @click="companyShow()">
-              <!-- <a class="fixed-height" @click="changeShowType='company'">
-                <img :src="show ===0? 'static/img/reg/reg_rectangle_active1.png' :'./../../static/img/reg/reg_rectangle1.png'">
-                <p class="title-text ">企业账户注册</p>
-              </a> -->
-              <a :href="getURL('http://192.168.1.100:9002/#/register')">企业账户注册</a>
+            <div class="title">
+              <a class="title_com" :href="AFTERIP + '/#/register'" target="_blank">企业账户注册</a>
             </div>
-            <div class="title" :class="{active: show === 1}" @click="personShow()">
-              <a class="fixed-height" @click="changeShowType='person'">
-                <img :src=" show===1? 'static/img/reg/reg_slice_active1.png' :'static/img/reg/reg_slice1.png'" class="reduce-height">
+            <div class="title active">
+              <a class="fixed-height">
+                <img src="static/img/reg/reg_slice_active1.png" class="reduce-height">
                 <p class="title-text">个人账户注册</p>
               </a>
             </div>
           </section>
           <transition>
-            <section class="middle-contaiber " v-show="changeShowType ==='company'" :class="{ back: isAgree===false}">
-              <span class="explain">有企业营业执照（含个体工商户）的用户请注册。权益如下：做企业实名认证；作为卖家身份开店；作为买家身份采购。</span>
-              <div class="agreement" v-show="isAgree === false">
-                <div class="regagreement">注册协议</div>
-                <hr>
-                <div class="agreement-detail">
-                  <p>
-                    <strong>【审慎阅读】</strong>您在申请注册流程中点击同意前，应当认真阅读以下协议。请您务必 <strong>审慎阅读、充分理解协议中相关条款内容，
-                      其中包括：</strong>
-                  </p>
-                  <p> <strong>1、与您约定免除或限制责任的条款；</strong></p>
-                  <p><strong>2、与您约定法律适用和管辖的条款；</strong></p>
-                  <p><strong>3、其他以粗体下划线标识的重要条款</strong></p>
-                  <p><strong>如您对协议有任何疑问，可向服务中心（请点击）咨询</strong></p>
-                  <p>
-                    <strong>
-                      【特别提示】
-                      您已充分理解，猴尾巴中国站是一个商业贸易采购平台内容 ，而并非面向消费者的消费购买市场，当您按照注册页面提示填写信息、阅读并同意协议且完成全部注册程序后，
-                      即表示您已充分阅读、理解并接受协议的全部内容，并将基于您的真实贸易需求而使用平台服务。</strong>如您因平台服务与猴尾巴发生争议应适用《平台服务条款》处理;
-                    如您在使用平台服务中与其他用户发生争议，依您与其他用户达成的协议处理。
-                  </p>
-                  <p><strong>阅读协议的过程中，如果您不同意相关协议或其中任何条款约定，您应立即停止注册程序。</strong></p>
-                  <p><router-link :to="{path:'/register/paas', query:{company: true}}">《平台服务条款》</router-link><p>
-                  <p><router-link :to="{path: '/register/privacy', query:{company: true}}">《隐私权政策》</router-link></p>
-                  <p><router-link :to="{path:'/register/legal', query:{company: true}}">《法律声明》</router-link></p>
-                  <p><router-link :to="{path: '/register/pay', query:{company: true}}">《支付交易协议》</router-link></p>
-                </div>
-                <button class="btn_agree" @click="agree()">同意并继续</button>
-              </div>
-              <div class="info" v-show="isAgree === true">
-                <form class="sui-form form-horizontal">
-                  <div class="control-group">
-                    <label class="control-label">会员名：</label>
-                    <div class="controls">
-                      <input type="text" placeholder="设置会员名" class="input-xfat input-xlarge" v-model="userName">
-                    </div>
-                  </div>
-                  <div class="control-group">
-                    <label for="inputPassword" class="control-label">登录密码：</label>
-                    <div class="controls">
-                      <input type="password" placeholder="设置你的登录密码" class="input-xfat input-xlarge" v-model="password">
-                    </div>
-                  </div>
-                  <div class="control-group">
-                    <label for="inputPassword" class="control-label">确认密码：</label>
-                    <div class="controls">
-                      <input type="password" placeholder="请再次输入你的登录密码" class="input-xfat input-xlarge" v-model="REpassword">
-                    </div>
-                  </div>
-                  <div class="control-group">
-                    <label class="control-label">联系人姓名：</label>
-                    <div class="controls">
-                      <input type="text" placeholder="请输入真实名字" class="input-xfat input-xlarge">
-                    </div>
-                  </div>
-                  <div class="control-group">
-                    <label class="control-label">企业名称：</label>
-                    <div class="controls">
-                      <input type="text" placeholder="请输入营业执照上的企业名称" class="input-xfat input-xlarge">
-                    </div>
-                  </div>
-                  <div class="control-group">
-                    <label class="control-label">手机号码：</label>
-                    <div class="controls">
-                      <select>
-                        <option>中国大陆&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+86</option>
-                        <option>中国香港</option>
-                      </select>
-                      <input type="text" class="input-xfat input-xlarge mobile" maxlength="16" v-model="phoneValue">
-                    </div>
-                  </div>
-                  <div class="control-group">
-                    <label class="control-label">验证码：</label>
-                    <div class="controls">
-                      <input type="text" placeholder="请输入验证码" class="input-xfat input-xlarge">
-                    </div>
-                  </div>
-                  <div class="control-group">
-                    <div class="controls checkbox">
-                      <input type="checkbox" name="" v-model="checked"><span>创建网站账号的同时，我同意遵守：</span><router-link :to="{path: '/register/paas'}" style="color: #FF4606">《平台服务条款》</router-link>及 <router-link :to="{path: '/register/legal'}" style="color: #FF4606">《隐私声明》</router-link>
-                    </div>
-                  </div>
-                  <div class="control-group">
-                    <div class="controls btn-reg">
-                      <a class="sui-btn btn-block btn-xlarge btn-danger" @click="register">同意并注册</a>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </section>
-          </transition>
-          <transition>
-            <section v-show="changeShowType ==='person'">
+            <section>
               <span class="explain">无企业营业执照的个人用户请注册个人账户。权益如下：做个人实名认证；作为买家身份采购；</span>
               <div class="info">
                 <form class="sui-form form-horizontal" @submit.prevent>
@@ -146,12 +50,9 @@
                   <div class="control-group">
                     <label class="control-label">手机号码：</label>
                     <div class="controls">
-                      <select v-model="isArea">
-                        <option value="0">中国大陆&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+86</option>
-                        <option value="1">中国香港</option>
-                      </select>
+                      <span class="select">中国大陆&nbsp;+86</span>
                       <input type="text" class="input-xfat input-xlarge mobile" maxlength="16" v-model="phoneValue">
-                      <button class="getPhoneCode sui-btn" @click="sendCode()" v-if="time===60">获取手机验证码</button>
+                      <button class="getPhoneCode sui-btn" @click="sendCode()" v-if="time===60">获取验证码</button>
                       <button class="getPhoneCode" v-else>{{this.time}}秒后可重新获取</button>
                     </div>
                   </div>
@@ -203,7 +104,7 @@
 <script>
 import regFooter from '@/components/regFooter'
 import refHeader from '@/components/regHeader'
-import { isMobile, isHKMobile, isPassword } from '@/common/utils'
+import { isMobile, isPassword } from '@/common/utils'
 export default {
   data () {
     return {
@@ -215,11 +116,7 @@ export default {
       flag: false, // 是否已发送验证码
       time: 60, // 验证码限制时间
       newsTip: '获取短信验证码',
-      smsCode: '',
-      changeShowType: 'person', // 个人注册
-      show: 1,
-      isAgree: false, // 是否同意注册条款
-      isArea: 0 // 0 中国大陆 1 中国香港
+      smsCode: ''
     }
   },
   components: {regFooter, refHeader},
@@ -233,16 +130,10 @@ export default {
         this.$message.warning('请输入手机号')
         return false
       }
-      if (this.isArea) {
-        if (!isHKMobile(this.phoneValue)) {
-          this.$message.warning('请输入正确的手机号')
-          return false
-        }
-      } else {
-        if (!isMobile(this.phoneValue)) {
-          this.$message.warning('请输入正确的手机号')
-          return false
-        }
+      if (!isMobile(this.phoneValue)) {
+        console.log(2)
+        this.$message.warning('请输入正确的手机号')
+        return false
       }
       this.API.sendCode({phone: this.phoneValue}).then(res => {
         this.$message.success('验证码已发送')
@@ -251,13 +142,6 @@ export default {
         this.newsTip = this.time + '秒后可重新获取'
         this.setTime()
       })
-    },
-    change () {
-      if (this.isActive === true) {
-        this.isActive = false
-      } else {
-        this.isActive = true
-      }
     },
     register () {
       // 比较两次输入的密码是否一致
@@ -277,16 +161,10 @@ export default {
         this.$message.warning('请输入手机号')
         return false
       }
-      if (this.isArea) {
-        if (!isHKMobile(this.phoneValue)) {
-          this.$message.warning('请输入正确的手机号')
-          return false
-        }
-      } else {
-        if (!isMobile(this.phoneValue)) {
-          this.$message.warning('请输入正确的手机号')
-          return false
-        }
+      if (!isMobile(this.phoneValue)) {
+        console.log(2)
+        this.$message.warning('请输入正确的手机号')
+        return false
       }
       if (!this.flag) {
         this.$message.warning('请先获取验证码，再输入')
@@ -328,24 +206,6 @@ export default {
         this.time--
         setTimeout(() => { this.setTime() }, 1000)
       }
-    },
-    companyShow () {
-      // this.show = 0
-    },
-    getURL (url) {
-      let strURL = ''
-      if (url.substr(0, 7).toLowerCase() === 'http://' || url.substr(0, 8).toLowerCase() === 'https://') {
-        strURL = url
-      } else {
-        strURL = 'http://' + url
-      }
-      return strURL
-    },
-    personShow () {
-      this.show = 1
-    },
-    agree () {
-      this.isAgree = true
     }
   },
   watch: {
@@ -362,17 +222,19 @@ export default {
     if (this.$cookies.get('user-key')) { // 已登录
       this.$router.push({path: '/home'})
     }
-    if (this.$route.query.company) {
-      this.changeShowType = 'company'
-      this.show = 0
-    } else if (this.$route.query.person) {
-      this.changeShowType = 'person'
-      this.show = 1
-    }
   }
 }
 </script>
 <style scoped>
+  input:focus {
+    outline: none;
+  }
+  button:focus {
+    outline: none;
+  }
+  button:hover {
+    outline: none;
+  }
   /* 注册页面*/
   #register{
     min-height: 100vh;
@@ -392,9 +254,6 @@ export default {
   }
   .reg-middle {
     flex-grow: 1;
-  }
-  .reg-bottom{
-    background: #ececec;
   }
   .top{
     height:90px;
@@ -416,15 +275,16 @@ export default {
   .top .title{
     height:31px;
     font-size:32px;
-    font-family:SourceHanSansCN-Regular;
     font-weight:400;
     color:rgba(74,74,74,1);
     line-height:25px;
     margin-left:8px;
   }
+  .title_com {
+    color: #333;
+  }
   .top .go {
     font-size:14px;
-    font-family:SourceHanSansCN-Regular;
     font-weight:400;
     color:rgba(53,53,53,1);
     line-height:20px;
@@ -475,7 +335,6 @@ export default {
     width:200px;
     margin-top: 28px;
     font-size:20px;
-    font-family:SimHei;
     font-weight:400;
     color:rgba(53,53,53,1);
   }
@@ -499,7 +358,6 @@ export default {
     margin-top: 10px;
     height:15px;
     font-size:14px;
-    font-family:SimHei;
     font-weight:400;
     color:rgba(53,53,53,1);
     line-height:20px;
@@ -516,7 +374,6 @@ export default {
     width:85px;
     height:18px;
     font-size:19px;
-    font-family:SourceHanSansCN-Regular;
     font-weight:400;
     color:rgba(53,53,53,1);
     line-height:23px;
@@ -530,7 +387,6 @@ export default {
     margin:0 auto;
     width:721px;
     font-size:14px;
-    font-family:SimSun;
     font-weight:400;
     color:rgba(9,9,9,1);
     line-height:24px;
@@ -552,7 +408,6 @@ export default {
     height:30px;
     background:rgba(255,70,6,1);
     font-size:14px;
-    font-family:SimHei;
     font-weight:400;
     color:rgba(254,254,254,1);
     line-height:20px;margin-top: 10px;
@@ -578,7 +433,6 @@ export default {
   }
   .question .know-more P {
     margin:10px 0 5px 5px;
-    font-family: SimHei;
     font-weight: 400;
     color: rgba(53, 53, 53, 1);
     line-height: 20px;
@@ -589,7 +443,6 @@ export default {
   }
   .question .know-more ul>li a{
     font-size:12px;
-    font-family:SourceHanSansCN-Light;
     font-weight:300;
     color:rgba(58,58,58,1);
   }
@@ -604,7 +457,6 @@ export default {
     height: 34px;
     background: #F4AC00;
     font-size:16px;
-    font-family:SourceHanSansCN-Light;
     font-weight:300;
     color:rgba(255,255,255,1);
     line-height:32px;
@@ -648,9 +500,6 @@ export default {
     color:#FF4606;
     margin-right:10px;
   }
- .el-checkbox a{
-    color:#FF4606
-  }
   .checkbox {
     margin-left: 113px;
     flex-wrap: wrap;
@@ -662,24 +511,25 @@ export default {
   .checkbox input {
     margin-right: 10px;
   }
- .controls select{
-   height:40px;
-   width:140px;
+ .controls .select{
+   height: 40px;
+   box-sizing: border-box;
+   line-height: 38px;
+   padding: 0 10px;
+   font-size: 12px;
+   width: 100px;
    margin-left: 10px;
    border-right:none;
    margin-right: 0;
    border: 1px solid rgb(153, 153, 153);
  }
-  .control-group .el-checkbox{
-    margin-left:110px;
-  }
   .controls {
     display: flex;
     align-items: center;
   }
   .controls .mobile{
     margin-left: -5px !important;
-    width:145px!important;
+    width: 185px!important;
   }
   .controls .agree{
     color: orangered;
@@ -696,46 +546,25 @@ export default {
     height: 38px;
     margin-left:10px;
   }
-  #submit {
-    padding: 5px 80px;
-    font-family: "微软雅黑";
-    background-color: #c81523;
-  }
-
-  .zhuce {
-    *width: 221px;
-    float: right
-  }
   .btn-danger {
     background-color: orangered;
     padding: 4px;
     border-radius: 0;
-    font-size: 16px;
-    font-family: 微软雅黑;
+    font-size: 15px;
     word-spacing: 4px;
     width: 90px;
     height: 30px ;
     line-height: 30px;
     text-align: center;
     color: white;
-  }
-  .copyright ul li {
-    list-style-type: none;
-    display: inline-block;
-    *display: inline;
-    *zoom: 1;
-    border-right: 1px solid #e4e4e4;
-    padding: 0 20px;
-    margin: 15px 0
-  }
-  .copyright ul li:last-child {
-    border-right: 0
+    border-radius: 4px;
   }
   .getPhoneCode{
     margin-left: 10px;
-    width: 120px;
-    height: 40px;
-    background-color: #FFD704;
-    color: green;
+    padding: 0 20px;
+    height: 30px;
+    border-radius: 8px;
+    background-color: #FF9800;
+    color: white;
   }
 </style>
