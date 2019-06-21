@@ -47,7 +47,8 @@ export default {
   getToken: data => http.post('/user/login/login', data),
   // 用户退出登录
   logout: () => http.post('/user/login/logout'),
-
+  // 展示登录用户的名称
+  getUsername: data => http.get('/user/login/name', data),
   /* ----购物车---- */
 
   // 购物车列表
@@ -159,5 +160,11 @@ export default {
   deleteCollect: data => http.get('/userCollect/userCollect/delUserCollectByDataId', data),
 
   /* ---- 直播 ---- */
-  getNineLiveUrlBySellerId: (data, sellerId) => http.get('/live/main/getNineLiveUrlBySellerId?sellerId=' + sellerId, data)
+  getNineLiveUrlBySellerId: (data, sellerId) => http.get('/live/main/getNineLiveUrlBySellerId?sellerId=' + sellerId, data),
+
+  /* ---- 商品评价 ---- */
+  // 根据用户名查询未评价的订单
+  Unevaluatedorders: data => http.get('/page/goodsEvaluate/findListByUserName', data),
+  // 根据用户名查询已评价的订单
+  Evaluatedorders: data => http.get('/page/goodsEvaluate/findListByName', data)
 }
