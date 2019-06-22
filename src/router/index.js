@@ -316,7 +316,6 @@ router = new Router({
     },
     {
       path: '/shops',
-      component: resolve => require(['@/views/shops/index'], resolve),
       redirect: '/shops/home',
       component: resolve => require(['@/views/shops/index'], resolve),
       children: [{

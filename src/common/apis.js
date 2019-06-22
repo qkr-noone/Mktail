@@ -1,4 +1,5 @@
-import fetch from './fetch'const http = {
+import fetch from './fetch'
+const http = {
   get: (path, data) => fetch.get(process.env.BASE_API + path, {
     params: data
   }),
