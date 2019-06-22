@@ -57,8 +57,7 @@ export default {
     }),
     cartNum () {
       let num = 0
-      this.cartList !== '[]' && this.cartList.length && this.cartList.forEach(item => {
-        item.orderItemList.forEach(list => {
+      this.cartList !== '[]' && this.cartList.length && this.cartList.forEach(item => {        item.orderItemList.forEach(list => {
           num += Number(list.num)
         })
       })

@@ -1,6 +1,4 @@
-import fetch from './fetch'
-/* http://192.168.1.100:8083 https://easy-mock.com/mock/5bf6166bf9b2636f875b693c/test http://192.168.1.40:8083 http://localhost:8084 */
-const http = {
+import fetch from './fetch'const http = {
   get: (path, data) => fetch.get(process.env.BASE_API + path, {
     params: data
   }),
@@ -49,7 +47,8 @@ export default {
   getToken: data => http.post('/user/login/login', data),
   // 用户退出登录
   logout: () => http.post('/user/login/logout'),
-
+  // 展示登录用户的名称
+  getUsername: data => http.get('/user/login/name', data),
   /* ----购物车---- */
 
   // 购物车列表
@@ -161,5 +160,11 @@ export default {
   deleteCollect: data => http.get('/userCollect/userCollect/delUserCollectByDataId', data),
 
   /* ---- 直播 ---- */
-  getNineLiveUrlBySellerId: (data, sellerId) => http.get('/live/main/getNineLiveUrlBySellerId?sellerId=' + sellerId, data)
+  getNineLiveUrlBySellerId: (data, sellerId) => http.get('/live/main/getNineLiveUrlBySellerId?sellerId=' + sellerId, data),
+
+  /* ---- 商品评价 ---- */
+  // 根据用户名查询未评价的订单
+  Unevaluatedorders: data => http.get('/page/goodsEvaluate/findListByUserName', data),
+  // 根据用户名查询已评价的订单
+  Evaluatedorders: data => http.get('/page/goodsEvaluate/findListByName', data)
 }

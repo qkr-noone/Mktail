@@ -18,7 +18,7 @@
           <p class="tip">评价小贴士</p>
           <span>发表评价就有机会获得云钻云钻详细规则带图或者被评为精华的图片有机会获得更多的云钻手机发表评价更方便</span>
         </li>
-       </ul>
+      </ul>
     </div>
     <div class="tab">
       <div class="tab-title" :class="{tabTitleActive:assessCommodity===false}" @click="tabTitleChange(false)">待评商品</div>
@@ -39,11 +39,8 @@
         <span>回收订单</span>
       </div>
     </div>
-    <div class="no-order" v-show="assessCommodity===false">
-      <p>您现在还没有待评价订单</p>
-    </div>
     <div class="assess-wares" v-show="assessCommodity===true">
-      <ul class="wares-list">
+      <ul  v-for="item in unevaluatedorders" :key="item.skuId" class="wares-list">
         <li class="wares-item">
           <div class="item-title">
             <ul>
@@ -55,38 +52,59 @@
           <div>
             <ul class="item-info">
               <img src="static/img/user/user_demo1.png">
-              <li class="info-title">博世（BOSCH）家用电钻 TSB 1300家居冲击钻手电钻调速正反转 TSB1300 </li>
+              <li class="info-title">{item.title}}</li>
               <li class="info-num">X1</li>
-              <li><span>2019-01-07&nbsp;</span><span>21:32:09 &nbsp;</span>初评积分<span>+30</span></li>
+              <li>未评价</li>
               <li>
                 <a>订单详情</a><br>
-                <a class="textBlue">查看评价</a>
-              </li>
-            </ul>
-          </div>
-        </li>
-        <li class="wares-item">
-          <div class="item-title">
-            <ul>
-              <li>订单详情</li>
-              <li>状态</li>
-              <li>操作</li>
-            </ul>
-          </div>
-          <div>
-            <ul class="item-info">
-              <img src="static/img/user/user_demo1.png">
-              <li class="info-title">博世（BOSCH）家用电钻 TSB 1300家居冲击钻手电钻调速正反转 TSB1300 </li>
-              <li class="info-num">X1</li>
-              <li><span>2019-01-07&nbsp;</span><span>21:32:09 &nbsp;</span>初评积分<span>+30</span></li>
-              <li>
-                <a>订单详情</a><br>
-                <a class="textBlue">查看评价</a>
+                <a  @click="dialogTableVisible = true" class="textBlue">添加评价</a>
               </li>
             </ul>
           </div>
         </li>
       </ul>
+    </div>
+    <div class="no-order" v-show="noorder===true">
+      <p>您现在还没有未评价订单</p>
+    </div>
+    <div  class="assess-wares" v-show="assessCommodity1===true">
+      <ul class="wares-list">
+        <li v-for="item in evaluatedorders" :key="item.skuId" class="wares-item">
+          <div class="item-title">
+            <ul>
+              <li>订单详情</li>
+              <li>状态</li>
+              <li>操作</li>
+            </ul>
+          </div>
+          <div>
+            <ul class="item-info">
+              <img src="static/img/user/user_demo1.png">
+              <li class="info-title">{{item.title}}</li>
+              <li class="info-num">X1</li>
+              <li><i class="el-icon-warning"></i></li>
+              <li>
+                <a>订单详情</a><br>
+                <a @click="amendcomment" class="textBlue">修改评价</a>
+              </li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="no-order" v-show="order===true">
+      <p>您现在还没有已评价订单</p>
+    </div>
+    <div class="dialog">
+    <el-button type="text" @click="dialogTableVisible = true">打开嵌套表格的 Dialog</el-button>
+
+    <el-dialog title="收货地址" :visible.sync="dialogTableVisible">
+      <el-table :data="gridData">
+        <el-table-column property="date" label="日期" width="150"></el-table-column>
+        <el-table-column property="name" label="姓名" width="200"></el-table-column>
+        <el-table-column property="address" label="地址"></el-table-column>
+      </el-table>
+    </el-dialog>
     </div>
   </div>
 </template>
@@ -94,12 +112,73 @@
 export default {
   data () {
     return {
-      assessCommodity: false
+      assessCommodity: false, // 未评价商品显示
+      assessCommodity1: false, // 已评价商品显示
+      order: false, // 没有已评价订单
+      noorder: true, // 没有未评价订单
+      loginName: '',
+      unevaluatedorders: [], // 未评价商品列表
+      evaluatedorders: [], // 已评价商品列表
+      dialogTableVisible: false
     }
+  },
+  mounted () {
+    // 获取登录用户名称
+    this.API.getUsername().then(rtn => {
+      this.loginName = rtn.loginName
+      // 查询未评价商品列表
+      this.API.Unevaluatedorders({userName: rtn.loginName}).then(rtn => {
+        if (rtn.code === 2000) {
+          console.log(rtn.code)
+          this.unevaluatedorders = rtn.data
+          this.noorder = false
+          this.assessCommodity = true
+        } else {
+          this.noorder = true
+          this.assessCommodity = false
+        }
+        console.log(rtn)
+      })
+      // 查询评价商品列表
+      // this.API.Evaluatedorders({userName: rtn.loginName}).then(res => {
+      //   console.log(res)
+      // })
+    })
   },
   methods: {
     tabTitleChange (val) {
-      this.assessCommodity = val
+      if (val === false) {
+        // 查询评价商品列表
+        this.API.Evaluatedorders({userName: this.loginName}).then(rtn => {
+          if (rtn.code === 2000) {
+            this.evaluatedorders = rtn.data
+            this.noorder = false
+            this.order = false
+            this.assessCommodity1 = true
+            alert('查询已评价商品列表')
+          } else if (rtn.code === 5000) {
+            this.noorder = true
+            this.order = false
+            this.assessCommodity1 = false
+          }
+        })
+      } else {
+        // 查询未评价商品列表
+        this.API.Unevaluatedorders({userName: this.loginName}).then(rtn => {
+          if (rtn.code === 2000) {
+            this.unevaluatedorders = rtn.data
+            this.noorder = false
+            this.order = false
+            alert('查询未评价商品列表')
+          } else {
+            this.noorder = true
+            this.assessCommodity = false
+          }
+          console.log(rtn)
+        })
+      }
+    },
+    amendcomment () {
     }
   }
 }

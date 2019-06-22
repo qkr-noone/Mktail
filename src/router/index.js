@@ -316,6 +316,7 @@ router = new Router({
     },
     {
       path: '/shops',
+      component: resolve => require(['@/views/shops/index'], resolve),
       redirect: '/shops/home',
       component: resolve => require(['@/views/shops/index'], resolve),
       children: [{
@@ -350,6 +351,18 @@ router = new Router({
         isLogin: true
       },
       component: resolve => require(['@/views//trace/orderDetail'], resolve)
+    },
+    { // 行业类别
+      path: '/category',
+      name: 'category',
+      component: resolve => import('@/views/category/index'),
+      redirect: '/category/3cdigital',
+      children: [
+        {
+          path: '3cdigital',
+          component: resolve => require(['@/views/category/children/3cdigital'], resolve)
+        }
+      ]
     }
   ]
 })

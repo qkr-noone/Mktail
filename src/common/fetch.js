@@ -7,7 +7,7 @@ const service = axios.create({
   timeout: 20000, // 请求超时
   responseType: 'json',
   // withCredentials: true, // 是否允许带cookie这些
-  withCredentials: false, // 是否允许带cookie这些
+  withCredentials: false,
   headers: {
     'Content-Type': 'application/json;charset=utf-8' // 'application/x-www-form-urlencoded;charset=utf-8  application/octet-stream'
   }
