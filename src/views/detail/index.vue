@@ -21,13 +21,14 @@
                     <div id="m_mark"></div>
                     <div id="m_float-box"></div>
                     <img :src="currentImg">
-                    <div class="video_play"><i class="el-icon-caret-right"></i></div>
+                    <div class="video_play" v-if="goodsDesc.itemVedio" @click="playItemVideo()"><i class="el-icon-caret-right"></i></div>
                   </div>
                   <div id="m_big-box">
                     <img :src="currentImg">
                   </div>
-                  <div class="video_box" ref="videoBox">
-                    <video preload="metadata" muted width="100%" height="100%" loop="false" autoplay="true" style="background-color: #fff;" :src="goodsDesc.itemVedio" controls></video>
+                  <div class="video_box" v-if="goodsDesc.itemVedio" ref="videoBox">
+                    <video preload="metadata" ref="mainVideo" @ended="videoEnd()" muted width="100%" height="100%" style="background-color: #fff;" :src="goodsDesc.itemVedio" controls></video>
+                    <div class="video_close" @click="closeVideo()"><i class="el-icon-close"></i></div>
                   </div>
                 </section>
               </div>
@@ -647,6 +648,17 @@ export default {
       this.API.getEvaluate({ page: 1, rows: 10000, spuId: this.$route.query.goodsId }).then(res => {
         this.evaluationObj = res
       })
+    },
+    playItemVideo () {
+      this.$refs.mainVideo.play()
+      this.$refs.videoBox.style.visibility = 'visible'
+    },
+    closeVideo () {
+      this.$refs.mainVideo.currentTime = 0
+      this.$refs.videoBox.style.visibility = 'hidden'
+    },
+    videoEnd () {
+      this.$refs.videoBox.style.visibility = 'hidden'
     }
   },
   watch: {
@@ -692,11 +704,12 @@ export default {
     bottom: -1px;
     right: -1px;
     z-index: 10;
+    visibility: hidden;
   }
   video:focus {
     outline: none;
   }
-  .video_play {
+  .video_play, .video_close {
     position: absolute;
     left: 10px;
     bottom: 10px;
@@ -709,5 +722,18 @@ export default {
     width: 35px;
     height: 35px;
     line-height: 35px;
+  }
+  .video_close {
+    left: initial;
+    bottom: initial;
+    font-size: 20px;
+    top: 6px;
+    right: 6px;
+    color: #f5f5f5;
+    background-color: #a0a0a0;
+    width: 28px;
+    height: 28px;
+    line-height: 28px;
+    border: none;
   }
 </style>

@@ -8,7 +8,7 @@
       <li v-if="articleNumber">货号:{{articleNumber}}</li>
       <li v-if="series">系列:{{series}}</li>
     </ul>
-    <div class="goods-intro">
+    <div class="goods-intro"  v-if="shopsVideo">
       <div class="video_box">
         <video preload="metadata" muted width="100%" height="100%" loop="false" autoplay="true" style="background-color: none;" :src="shopsVideo" controls></video>
       </div>

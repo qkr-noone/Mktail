@@ -27,6 +27,7 @@
     "vue-cropper": "^0.4.8",
     "vue-drag-verify": "^1.0.6",
     "vue-piczoom": "^1.0.6",
+    "vue-qr": "^2.1.0",
     "vue-router": "^3.0.1",
     "vue-scrollto": "^2.13.0",
     "vuex": "^3.0.1"

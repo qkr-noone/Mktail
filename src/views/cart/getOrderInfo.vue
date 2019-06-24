@@ -563,8 +563,9 @@ export default {
           })
           setStore('cartList', cartList)
         }
-        let temOutTradeNo = rtn
-        this.$router.push({path: '/payHome', query: {outTradeNo: temOutTradeNo}})
+        // let temOutTradeNo = rtn
+        // this.$router.push({path: '/payHome', query: {outTradeNo: temOutTradeNo}})
+        this.$router.push({ path: '/pay', query: {payStyle: this.choosePay, upsval: rtn.url} })
       })
     },
     getForm () {
@@ -807,7 +808,6 @@ export default {
     color: rgba(231,22,0,1);
     text-align: center;
     line-height: 40px;
-    background-color: rgba(238, 238, 238, 0.7);
     cursor: pointer;
   }
   .user-inf-push {

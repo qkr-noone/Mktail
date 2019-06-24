@@ -67,7 +67,7 @@
                       <div class="item-msg" @click="toDetail(item.goodsId, item.itemId)">{{item.title}}</div>
                     </div>
                   </li>
-                  <!-- <li class="cart-3"><span class="attr"><strong v-for="(tip, key, value) in JSON.parse(item.spec)" :key="value">{{key}}:{{tip}}</strong></span></li> -->
+                  <li class="cart-3"><span class="attr"><strong>规格：{{item.spec}}</strong></span></li>
                   <li class="cart-4"><span class="price">￥{{item.price}}</span></li>
                   <buyNum class="cart-4"
                           :num="item.num"
@@ -79,7 +79,7 @@
                   </buyNum>
                   <li class="cart-4"><span class="sum">{{item.totalFee}}</span></li>
                   <li class="cart-4 add-remove">
-                    <a class="remove" href="javascript:;">加入收藏</a>
+                    <a class="remove" href="javascript:;" @click="toCollect(item.goodsId, 1)">加入收藏</a>
                     <a class="remove" href="javascript:;" @click="cartDel(item.itemId, item.sellerId)">删除</a>
                   </li>
                 </ul>
@@ -94,7 +94,7 @@
           </div>
           <div class="option">
             <a href="javascript:;" @click="cartDeList(selectList, 0)">删除选中的商品</a>
-            <a href="javascript:;">加入我的收藏</a>
+            <!-- <a href="javascript:;">加入我的收藏</a> -->
             <a href="javascript:;" @click="cartDeList(cartList, 1)">清除购物车</a>
           </div>
           <div class="toolbar">
@@ -147,7 +147,7 @@ import { mapMutations, mapState } from 'vuex'
 import shortcutHeader from '@/components/shortcutHeader'
 import regFooter from '@/components/regFooter'
 import buyNum from '@/components/buyNum'
-import { setStore, debounce } from '@/common/utils'
+import { setStore, debounce, formatDate } from '@/common/utils'
 export default {
   data () {
     return {
@@ -460,6 +460,29 @@ export default {
       this.addressTwo = city
       this.addressTwoId = cityid
       this.destination = this.addressOne + this.addressTwo
+    },
+    // 收藏
+    toCollect (id, type) {
+      let tip = type === 1 ? '商品' : '店铺'
+      if (this.$cookies.get('token')) {
+        let tem = {
+          userName: this.$cookies.get('user-key'),
+          dataId: id, // "商品ID或者店铺ID"
+          type: type, // 1商品关注、2店铺关注
+          addTime: formatDate(new Date())
+        }
+        this.API.addCollect(tem).then(res => {
+          if (res.success === false) {
+            this.$message.warning(res.message)
+            return
+          }
+          if (res === '请求成功，无返回值') {
+            this.$message.warning(`当前${tip}已经收藏了，请勿重复操作`)
+          } else if (res === true) {
+            this.$message.success(`成功关注该${tip}`)
+          }
+        })
+      } else this.isMaskLogin = true
     }
   }
 }

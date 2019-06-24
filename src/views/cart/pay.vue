@@ -10,7 +10,7 @@
           <span>返回首页</span>
         </router-link>
         <a href="javascript:;">
-          <span>90835991</span>
+          <span>{{$cookies.get('user-key')}}</span>
         </a>
         <a href="javascript:;">
           <span>我的订单</span>
@@ -24,20 +24,21 @@
       <!--主内容-->
       <div class="checkout py-container  pay">
         <div class="checkout-tit">
-          <h4 class="tit-txt"><span  class="success-info">订单提交成功，请尽快付款！订单号：82786356759</span></h4>
+          <h4 class="tit-txt"><span  class="success-info">订单提交成功，请尽快付款！订单号：{{orderInfo.outTradeNo}}</span></h4>
           <span class="pay-price"><em>应付金额</em><em  class="money">{{totalFee}}</em>元</span>
         </div>
         <div class="checkout-steps">
-          <div class="weixin" @click="payOrder">
+          <div class="weixin">
             <span v-if="payStyle === 'weChat'">微信支付</span>
             <span v-else-if="payStyle === 'alipay'">支付宝</span>
             <span v-else>支付</span>
-            <p class="red" v-if="true">距离二维码过期还剩<em class="second">49</em>秒，过期后请刷新页面重新获取二维码。</p>
-            <p class="red over" v-else>二维码已过期，刷新页面重新获取二维码。</p>
+            <p class="red" v-if="TIME">距离二维码过期还剩<em class="second">{{TIME}}</em>秒，过期后请刷新页面重新获取二维码。</p>
+            <p class="red over" v-else>二维码已过期，<span class="reload" @click="reCode()">刷新</span>页面重新获取二维码。</p>
           </div>
           <div class="sao">
             <div class="code">
-              <div class="code-wrap"><img src="static/img/mk_pay_erweima.png"></div>
+              <!-- <div class="code-wrap" ref="qrcode"><img src="static/img/mk_pay_erweima.png"></div> -->
+              <vue-qr class="code-wrap" ref="qrcode" :dotScale="1" logoSrc="static/img/mk_qr_logo2.jpg" :text="code" :size="333"></vue-qr>
               <div class="saosao">
                 <p v-if="payStyle === 'weChat'">请使用微信扫一扫</p>
                 <p v-else-if="payStyle === 'alipay'">请使用支付宝扫一扫</p>
@@ -62,37 +63,57 @@
 </template>
 <script>
 import pageFooter from '@/components/pageFooter'
+import VueQr from 'vue-qr'
 export default {
   data () {
     return {
       orderInfo: '',
       totalFee: '',
       payStyle: '',
-      paySuccess: false
+      paySuccess: false,
+      TIME: 60,
+      code: '',
+      myInterval: ''
     }
   },
-  components: { pageFooter },
+  components: { pageFooter, VueQr },
   mounted () {
     this.payStyle = this.$route.query.payStyle || ''
+    this.code = this.$route.query.upsval || ''
+    this.reduceTime()
     this.API.payPageInfo({userName: this.$cookies.get('user-key')}).then(rtn => {
       if (rtn.success === false) return false
       this.orderInfo = rtn
+      console.log(rtn)
       this.totalFee = (rtn.totalFee / 100).toFixed(2)
     })
     // 创建支付链接
-    this.API.payCreate({userName: this.$cookies.get('user-key')}).then(rtn => {
-      console.log(rtn)
-    })
+    // this.API.payCreate({userName: this.$cookies.get('user-key')}).then(rtn => {
+    //   console.log(rtn, 'create')
+    // })
   },
+  destroyed () { clearInterval(this.myInterval) },
   methods: {
     payOrder () {
-      this.API.payOrder().then(rtn => {
-        console.log(rtn)
-      })
+      // this.API.payOrder().then(rtn => {
+      //   console.log(rtn)
+      // })
     },
     changePay () {
       this.$router.go(-1)
-    }
+    },
+    reduceTime () {
+      this.TIME = 60
+      this.myInterval = window.setInterval(() => {
+        this.TIME--
+        if (this.TIME === 0) window.clearInterval(this.myInterval)
+        setTimeout(() => {
+          // this.API.polling().then(res => {})
+          console.log(10)
+        }, 0)
+      }, 1000)
+    },
+    reCode () {}
   },
   watch: {
     paySuccess (newState) {
