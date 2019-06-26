@@ -107,12 +107,10 @@ export default {
   getOrderInfo: data => http.post('/cart/order/add', data),
   // 从立即购买进入 提交订单
   directOrderInfo: (data, skuId, num, onlyValue) => http.post('/cart/order/directAdd?itemId=' + skuId + '&num=' + num + '&onlyValue=' + onlyValue, data),
-  // 支付页面信息
-  payPageInfo: data => http.get('/cart/order/searchPayLog', data),
-  // 创建微信支付链接
-  payCreate: data => http.get('/cart/pay/createNative', data),
+  // 获取微信支付码
+  getPayCode: params => http.post('/weixinpay/userPayOrder?orderList=' + params),
   // 支付订单状态查询
-  payOrder: data => http.get('/cart/pay/queryPayStatus', data),
+  payOrderPolling: data => http.get('/weixinpay/orderquery', data),
   // 用户的账户余额
   payUserCash: data => http.get('/cart/pay/findAccountBalanceByUserName', data),
   // 使用MKTail零钱买单
@@ -130,6 +128,8 @@ export default {
   userOrder: data => http.get('/cart/order/findOrderByUsernameAndStatus', data),
   // 订单查询过滤
   orderFilter: (data, pageNum, pageSize) => http.post('/cart/order/searchOrderByMap?pageNum=' + pageNum + '&pageSize=' + pageSize, data),
+  // 取消订单
+  orderCancle: data => http.get('/order/orderManager/updateStatus', data),
   // 订单删除
   orderRemove: data => http.get('/cart/order/delete', data),
   // 订单详情信息

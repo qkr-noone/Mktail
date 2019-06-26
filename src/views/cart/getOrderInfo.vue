@@ -563,9 +563,8 @@ export default {
           })
           setStore('cartList', cartList)
         }
-        // let temOutTradeNo = rtn
-        // this.$router.push({path: '/payHome', query: {outTradeNo: temOutTradeNo}})
-        this.$router.push({ path: '/pay', query: {payStyle: this.choosePay, upsval: rtn.url} })
+        console.log(rtn)
+        this.$router.push({ path: '/pay', query: {payStyle: this.choosePay, orderIdList: rtn.orderIdList} })
       })
     },
     getForm () {

@@ -10,7 +10,7 @@
           <p>重要提示：平台及销售商不会以订单异常、系统升级为由，要求您点击任何链接进行退款。</p>
         </div>
       </div>
-      <payRecom></payRecom>
+      <!-- <payRecom></payRecom> -->
     </div>
     <regFooter class="footer"></regFooter>
   </div>
@@ -32,6 +32,9 @@ export default {
     background-image: url(/static/img/mk_success_bg.jpg);
     background-size: cover;
     background-repeat: no-repeat;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
   }
   .py-container{
     width: 1125px;
@@ -43,6 +46,7 @@ export default {
   .footer {
     padding-top: 40px;
     border-top: 1px solid #919293;
+    margin-top: auto;
   }
 /* 成功*/
   .paysuccess {

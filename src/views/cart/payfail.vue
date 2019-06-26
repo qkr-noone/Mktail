@@ -5,16 +5,26 @@
       <div class="paysuccess">
         <i class="el-icon-circle-close"></i>
         <p>无法完成付款</p>
-        <p>余额不足，请选择其他方式付款。</p>
+        <!-- <p>余额不足，请选择其他方式付款。</p> -->
         <div class="other-pay">
-          <router-link :to="{path: '/payHome'}">选择其他方式付款</router-link>
-          <a href="javascript:;">找他人代付</a>
+          <!-- <router-link :to="{path: '/payHome'}">选择其他方式付款</router-link> -->
+          <!-- <a href="javascript:;">找他人代付</a> -->
+          <el-popover
+            placement="right"
+            title=""
+            width="150"
+            trigger="hover">
+            <div class="pay_title" @click="changePay('alipay')">支付宝支付</div>
+            <div class="pay_title" @click="changePay('weChat')">微信支付</div>
+            <!-- <div class="pay_title" @click="changePay('bank')">银行卡支付</div> -->
+            <el-button slot="reference" class="other_pay">选择其他支付方式</el-button>
+          </el-popover>
         </div>
         <div class="pay-suc-tip">
           <p><em>重要提示：</em>平台及销售商不会以订单异常、系统升级为由，要求您点击任何链接进行退款。</p>
         </div>
       </div>
-      <payRecom></payRecom>
+      <!-- <payRecom></payRecom> -->
     </div>
     <regFooter class="footer"></regFooter>
   </div>
@@ -36,6 +46,9 @@ export default {
     background-image: url(/static/img/mk_success_bg.jpg);
     background-size: cover;
     background-repeat: no-repeat;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
   }
   .py-container{
     width: 1125px;
@@ -47,6 +60,7 @@ export default {
   .footer {
     padding-top: 40px;
     border-top: 1px solid #919293;
+    margin-top: auto;
   }
 /* 成功*/
   .paysuccess {
@@ -97,5 +111,16 @@ export default {
   .pay-suc-tip p em {
     color: #FF4D4D;
     font-style: normal;
+  }
+  .pay_title {
+    cursor: pointer;
+    color: #0f7fed;
+  }
+  .pay_title:hover {
+    text-decoration: underline;
+  }
+  .other_pay {
+    border: none;
+    color: #2237ad;
   }
 </style>

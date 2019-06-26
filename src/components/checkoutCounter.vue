@@ -10,7 +10,7 @@
           <span>返回首页</span>
         </router-link>
         <a href="javascript:;">
-          <span>90835991</span>
+          <span>{{$cookies.get('user-key')}}</span>
         </a>
         <router-link :to="{path: '/user/userOrder'}">
           <span>我的订单</span>

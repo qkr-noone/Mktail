@@ -105,7 +105,7 @@ export default {
       }
     },
     goCart () {
-      this.$router.push({path: 'cart'})
+      this.$router.push({path: '/cart'})
     }
   }
 }
