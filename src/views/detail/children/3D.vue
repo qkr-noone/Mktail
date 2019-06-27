@@ -7,7 +7,7 @@
       <div class="tab-box">
         <div class="threeD-box">
           <iframe ref="threeDSrc" style="width: 100%; height: 100%;" frameborder="0" scrolling="no"></iframe>
-          <a class="threeD-btn" v-show="!is3Ding" @click="threeDUrl(show3d)">
+          <a class="threeD-btn" href="javascript:;" v-show="!is3Ding" @click="threeDUrl(show3d)">
             <img src="static/img/mk_search_play.png">
           </a>
         </div>
@@ -43,13 +43,14 @@ export default {
     })
   },
   methods: {
-    threeDUrl (threeDUrl) {
-      this.$refs.threeDSrc.src = threeDUrl
-      this.is3Ding = true
+    threeDUrl (U3DID) {
+      // this.$refs.threeDSrc.src = threeDUrl
+      this.$router.push({ path: '/3D/3Dshow', query: { id: U3DID } })
+      // this.is3Ding = true
       return false
     },
     threeDclose () {
-      this.is3Ding = false
+      // this.is3Ding = false
       return false
     }
   }
