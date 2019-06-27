@@ -13,7 +13,7 @@
         </div>
       </div>
       <div class="shop-list" v-for="list in waitRate.rows" :key="list.id">
-        <orderListContentHead :list="list" :selectArr="selectArr" @toggle="toggle($event)"></orderListContentHead>
+        <orderListContentHead :list="list" :selectArr="selectArr" @toggle="toggle($event)" @remove="remove($event)"></orderListContentHead>
         <orderListContent :list="list"></orderListContent>
       </div>
       <div v-if="!waitRate.total" class="shop-list not-data">没有符合条件的商品</div>
@@ -43,11 +43,14 @@ export default {
   components: { orderListTitle, orderListContentHead, orderListContent, orderListSearch },
   mounted () {
     // 待评价
-    this.API.userOrder({ userName: this.$cookies.get('user-key'), status: this.status, pageNum: this.pageNum, pageSize: 15 }).then(res => {
-      this.waitRate = res
-    })
+    this.getOrder()
   },
   methods: {
+    getOrder () {
+      this.API.userOrder({ userName: this.$cookies.get('user-key'), status: this.status, pageNum: this.pageNum, pageSize: 15 }).then(res => {
+        this.waitRate = res
+      })
+    },
     changeValue (data) {
       this.pageNum = data[1]
       this.waitRate = data[0]
@@ -71,6 +74,24 @@ export default {
         this.selectArr.push(item)
         if (this.selectArr.length === this.waitRate.rows.length) this.isChecked = true
       }
+    },
+    // 订单删除
+    remove (id) {
+      this.$confirm('确定删除该订单吗, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.API.orderRemove({ids: id}).then(res => {
+          if (res.success === false) return
+          this.$notify.success({
+            title: '删除成功'
+          })
+          this.status = 5
+          this.pageNum = 1
+          this.getOrder()
+        })
+      }).catch(() => {})
     }
   },
   watch: {

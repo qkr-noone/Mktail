@@ -48,7 +48,7 @@
         <a v-if="list.status === 2">取消详情</a>
         <router-link :to="{path: '/detail', query: {goodsId: list.goodsId, skuId: list.itemId}}" v-if="list.status === 2 || list.status > 4">再次购买</router-link>
         <router-link :to="{path: '/trace/orderDetail', query: {orderId: list.orderId}}" v-if="list.status === 3" :data-id="list.orderId">查看详情</router-link>
-        <a v-if="list.status === 4" class="fast-pay">确认收货</a>
+        <a v-if="list.status === 4" class="fast-pay" @click="orderBtn=list.orderId">确认收货</a>
         <a v-if="list.status === 5">申请开票</a>
         <a v-if="list.status === 5">追加评论</a>
         <a v-if="list.status === 6">查看退款</a>
@@ -80,10 +80,29 @@
           </div>
           <div class="init can_pick">
             <button class="init can_btn btn_sub_set" @click="cancleOrder()">确定</button>
-            <button class="init can_btn btn_set">取消</button>
+            <button class="init can_btn btn_set" @click="orderBox=''">取消</button>
           </div>
         </div>
-        <div class="can_close"><i class="el-icon-close"></i></div>
+        <div class="can_close" @click="orderBox=''"><i class="el-icon-close"></i></div>
+      </div>
+    </div>
+    <div class="can_order_box" data-attr="确认收货" v-if="orderBtn">
+      <div class="init can_order btn_order">
+        <div class="init can_con">
+          <div class="init can_title">
+            <img class="can_title_logo" src="static/img/mk_logo_login.png">
+            <p class="can_title_head">确认订单</p>
+          </div>
+          <div class="init can_item">
+            <p class="can_tip btn_tip">请收到货后，再确认收货！否则您可能钱货两空！</p>
+            <p class="btn_tip_back">如果您想申请退款，请返回到“已买到的货品”页申请退款</p>
+          </div>
+          <div class="init can_pick">
+            <button class="init can_btn btn_sub_set" @click="btnOrder()">确定</button>
+            <button class="init can_btn btn_set" @click="orderBtn=''">取消</button>
+          </div>
+        </div>
+        <div class="can_close" @click="orderBtn=''"><i class="el-icon-close"></i></div>
       </div>
     </div>
   </div>
@@ -92,7 +111,8 @@
 export default {
   data () {
     return {
-      orderBox: ''
+      orderBox: '',
+      orderBtn: ''
     }
   },
   props: {
@@ -107,6 +127,17 @@ export default {
     cancleOrder () {
       this.API.orderCancle({ orderId: this.orderBox }).then(res => {
         console.log(res)
+      })
+    },
+    btnOrder () {
+      this.API.orderBtn({ orderIds: this.orderBtn }).then(res => {
+        this.orderBtn = ''
+        if (res.success === false) {
+          this.$message.warning('提交异常')
+          return false
+        }
+        this.$message.success('交易已经成功')
+        this.$emit('getOrder')
       })
     }
   }
@@ -247,7 +278,7 @@ export default {
     width:660px;
     height:437px;
     background:rgba(255,255,255,1);
-    border:10px solid rgba(142, 142, 142, 0.26);
+    border:10px solid rgba(142, 142, 142, 0.35);
     border-radius: 10px;
   }
   .init{
@@ -327,6 +358,7 @@ export default {
     right: 8px;
     font-size: 20px;
     color: #4E4E4E;
+    cursor: pointer;
   }
   .can_pick {
     display: flex;
@@ -338,10 +370,17 @@ export default {
   .can_btn{
     padding: 6px 15px;
     border-radius: 4px;
+    cursor: pointer;
   }
   .btn_sub_set {
     background-color: #D73331;
     color: #FFFFFF;
     margin-right: 10px;
   }
+/* 确认收货 */
+  .btn_order {
+    height: 258px;
+  }
+  .btn_tip { font-size: 24px; }
+  .btn_tip_back { color: #4E4E4E; font-size: 14px; }
 </style>

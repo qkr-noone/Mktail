@@ -109,7 +109,7 @@ export default {
       },
       all: '', // 所有订单
       pageNum: 1,
-      pageSize: 10, // 每页的数量
+      pageSize: 15, // 每页的数量
       selectArr: [], // 选中的列表
       isChecked: false, // 全选
       name: this.$cookies.get('user-key'),
