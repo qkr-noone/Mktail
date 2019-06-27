@@ -29,7 +29,7 @@
       </li>
       <li class="list-item">
         <span class="large-size">￥{{list.payment}}</span>
-        <span>(含运费：￥0.00)</span>
+        <span>(含运费：￥{{list.shippingPrice}})</span>
         <span>在线支付</span>
       </li>
       <li class="list-item">
@@ -43,7 +43,7 @@
         <a class="text-red" v-if="list.status===4 || list.status ===5">查看物流</a>
       </li>
       <li class="list-item">
-        <router-link v-if="list.status === 1" class="fast-pay" :to="{path:'/pay', query: {payStyle: 'weChat'}}">立即付款</router-link>
+        <router-link v-if="list.status === 1" class="fast-pay" :to="{path:'/pay', query: {payStyle: 'weChat', orderIdList:list.orderId, from: Date.parse(new Date())}}">立即付款</router-link>
         <a v-if="list.status === 1" @click="orderBox=list.orderId">取消订单</a>
         <a v-if="list.status === 2">取消详情</a>
         <router-link :to="{path: '/detail', query: {goodsId: list.goodsId, skuId: list.itemId}}" v-if="list.status === 2 || list.status > 4">再次购买</router-link>

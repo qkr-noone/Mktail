@@ -109,6 +109,8 @@ export default {
   directOrderInfo: (data, skuId, num, onlyValue) => http.post('/cart/order/directAdd?itemId=' + skuId + '&num=' + num + '&onlyValue=' + onlyValue, data),
   // 获取微信支付码
   getPayCode: params => http.post('/weixinpay/userPayOrder?orderList=' + params),
+  // 从我的订单跳转支付
+  getPayCodeOtherWay: params => http.post('/weixinpay/userPayFromOrderPage?orderList=' + params),
   // 支付订单状态查询
   payOrderPolling: data => http.get('/weixinpay/orderquery', data),
   // 用户的账户余额

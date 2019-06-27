@@ -101,6 +101,9 @@ export default {
   input{
     padding-left: 8px;
   }
+  button:focus, button:hover {
+    outline: none;
+  }
   .content .shop {
     margin: 0 14px;
     font-weight: 300;

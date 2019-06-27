@@ -37,7 +37,12 @@ export default {
   data () {
     return {}
   },
-  components: { regFooter, checkoutCounter, payRecom }
+  components: { regFooter, checkoutCounter, payRecom },
+  methods: {
+    changePay (style) {
+      this.$router.push({ path: '/pay', query: Object.assign(this.$route.query, { payStyle: style }) })
+    }
+  }
 }
 
 </script>
@@ -72,7 +77,8 @@ export default {
     color: #454545;
     box-shadow:0px 4px 10px 0px rgba(83,83,83,0.22);
     background-color: #fff;
-    padding-top: 30px;
+    padding: 30px 0;
+    border-radius: 8px;
   }
   .paysuccess  i {
     color: #DD4343;
@@ -98,7 +104,7 @@ export default {
   }
   .pay-suc-tip {
     border-top: 1px solid #000;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 400;
     color: #5C5C5C;
     height: 40px;
@@ -114,13 +120,14 @@ export default {
   }
   .pay_title {
     cursor: pointer;
-    color: #0f7fed;
+    color: #FF4D4D;
   }
   .pay_title:hover {
     text-decoration: underline;
   }
   .other_pay {
+    font-size: 16px;
     border: none;
-    color: #2237ad;
+    color: #FF4D4D;
   }
 </style>

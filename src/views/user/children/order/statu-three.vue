@@ -134,6 +134,7 @@ export default {
     margin: 0 0px 0 10px;
     font-size: 14px;
     color: rgba(98, 98, 98, 1);
+    cursor: pointer;
   }
   .shop .shop-handle .page-btn {
     width: 59px;

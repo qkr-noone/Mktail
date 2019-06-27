@@ -82,7 +82,6 @@
 <script>
 import pageFooter from '@/components/pageFooter'
 import VueQr from 'vue-qr'
-import { debounce } from '@/common/utils'
 export default {
   data () {
     return {
@@ -94,13 +93,15 @@ export default {
       code: '',
       myInterval: '',
       pollingTradeNo: '',
-      orderIdList: ''
+      orderIdList: '',
+      fromOrder: false
     }
   },
   components: { pageFooter, VueQr },
   mounted () {
     this.payStyle = this.$route.query.payStyle || ''
     this.orderIdList = this.$route.query.orderIdList
+    this.$route.query.from ? this.fromOrder = true : this.fromOrder = false
     if (!this.orderIdList) this.running = false
     this.getCode()
   },
@@ -116,7 +117,7 @@ export default {
       setTimeout(() => {
         loading.close()
       }, 1000)
-      this.$router.push({ path: '/pay', query: {payStyle: style, upsval: this.code, outTradeNo: this.orderPollingNo} })
+      this.$router.push({ path: '/pay', query: Object.assign(this.$route.query, { payStyle: this.payStyle }) })
     },
     // 倒计时
     reduceTime () {
@@ -141,29 +142,29 @@ export default {
             else if (res === 'CLOSED') {
               this.$message.warning('订单在规定时间内未支付, 已关闭')
               clearInterval(this.myInterval)
-            } else if (res === 'PAYERROR') {
-              this.$message.warning('订单支付失败')
-              clearInterval(this.myInterval)
+            } else if (res === 'PAYERROR') { // 订单支付失败
+              this.$router.push({ path: '/payfail', query: this.$route.query })
             }
           })
         }, 0)
       }, 2000)
     },
     getCode () {
-      debounce(() => {
-        this.API.getPayCode(this.orderIdList).then(res => {
-          if (res.success === false) {
-            this.running = false
-            this.errorDesc = res.message
-            return false
-          }
-          this.totalFee = (res.totalFee / 100).toFixed(2)
-          this.pollingTradeNo = res.outTradeNo
-          this.code = res.url
-          this.reduceTime()
-          this.polling()
-        })
-      }, 400)
+      clearInterval(this.myInterval)
+      let pickLink = 'getPayCode'
+      if (this.fromOrder) pickLink = 'getPayCodeOtherWay'
+      this.API[pickLink](this.orderIdList).then(res => {
+        if (res.success === false) {
+          this.running = false
+          this.errorDesc = res.message
+          return false
+        }
+        this.totalFee = (res.totalFee / 100).toFixed(2)
+        this.pollingTradeNo = res.outTradeNo
+        this.code = res.url
+        this.reduceTime()
+        this.polling()
+      })
     }
   }
 }

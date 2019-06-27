@@ -230,7 +230,11 @@ export default {
         })
       } else {
         if (status === 1) {
-          console.log(1)
+          let orderIdlist = []
+          this.selectArr.forEach(item => {
+            orderIdlist.push(item.orderId)
+          })
+          this.$router.push({ path: '/pay', query: { payStyle: 'weChat', orderIdList: orderIdlist.join(','), from: Date.parse(new Date()) } })
         } else if (status === 4) {
           console.log(4)
         }
@@ -287,6 +291,9 @@ export default {
   }
   input{
     padding-left: 8px;
+  }
+  button:focus, button:hover {
+    outline: none;
   }
   .content .search {
     color: rgba(48, 48, 48, 1);
@@ -387,6 +394,7 @@ export default {
     height: 24px;
     line-height: 24px;
     margin-left: 10px;
+    cursor: pointer;
   }
   .shop .shop-handle .page-btn {
     width: 59px;
