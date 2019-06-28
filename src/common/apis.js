@@ -133,7 +133,7 @@ export default {
   // 取消订单
   orderCancle: data => http.get('/order/orderManager/updateStatus', data),
   // 确认收货
-  orderBtn: data => http.get('/order/orderManager/batchConfirmReceipt', data),
+  orderBtnObtain: data => http.get('/order/orderManager/batchConfirmReceipt', data),
   // 订单删除
   orderRemove: data => http.get('/cart/order/delete', data),
   // 订单详情信息

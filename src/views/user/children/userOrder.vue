@@ -31,7 +31,6 @@ export default {
       status: {}
     }
   },
-  props: {},
   mounted () {
     let routerChild = this.$route.path.split('/')[3]
     if (routerChild === 'statu-one') this.isActive = 1
@@ -44,9 +43,7 @@ export default {
       this.status = res
     })
   },
-  activated () {
-    console.log(this.$route)
-  },
+  activated () {},
   methods: {
     changeTab (val, path, status) {
       this.isActive = val

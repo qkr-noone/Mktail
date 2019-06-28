@@ -114,10 +114,11 @@ export default {
         spinner: 'el-icon-loading',
         background: 'rgba(255, 255, 255, 1)'
       })
+      let obj = JSON.parse(JSON.stringify(this.$route.query))
+      this.$router.replace({ query: Object.assign(obj, { payStyle: this.payStyle }) })
       setTimeout(() => {
         loading.close()
       }, 1000)
-      this.$router.push({ path: '/pay', query: Object.assign(this.$route.query, { payStyle: this.payStyle }) })
     },
     // 倒计时
     reduceTime () {
