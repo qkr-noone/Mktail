@@ -85,63 +85,14 @@
       layout="prev, pager, next, jumper"
       :total="all.total">
     </el-pagination>
-    <div class="can_order_box" data-attr="确认收货" v-if="orderBtnVal">
-      <div class="init can_order btn_order">
-        <div class="init can_con">
-          <div class="init can_title">
-            <img class="can_title_logo" src="static/img/mk_logo_login.png">
-            <p class="can_title_head">确认订单</p>
-          </div>
-          <div class="init can_item">
-            <p class="can_tip btn_tip">请收到货后，再确认收货！否则您可能钱货两空！</p>
-            <p class="btn_tip_back">如果您想申请退款，请返回到“已买到的货品”页申请退款</p>
-          </div>
-          <div class="init can_pick">
-            <button class="init can_btn btn_sub_set" @click="btnOrder()">确定</button>
-            <button class="init can_btn btn_set" @click="orderBtnVal=''">取消</button>
-          </div>
-        </div>
-        <div class="can_close" @click="orderBtnVal=''"><i class="el-icon-close"></i></div>
-      </div>
-    </div>
-    <div class="can_order_box" data-attr="取消订单" v-if="orderCancleVal">
-      <div class="init can_order">
-        <div class="init can_con">
-          <div class="init can_title">
-            <img class="can_title_logo" src="static/img/mk_logo_login.png">
-            <p class="can_title_head">取消订单</p>
-          </div>
-          <div class="init can_item">
-            <p class="can_tip">您确定要取消该订单吗？取消订单后，不能恢复。</p>
-            <div class="init can_select_box">
-              <label class="init">请选择取消订单的理由:&nbsp;</label>
-              <select class="init can_select">
-                <option value="请选择关闭理由">请选择关闭理由</option>
-                <option value="我不想买了">我不想买了</option>
-                <option value="信息填写错误，重新拍">信息填写错误，重新拍</option>
-                <option value="卖家缺货">卖家缺货</option>
-                <option value="同城见面交易">同城见面交易</option>
-                <option value="付款遇到问题（如余额不足、不知道怎么付款等）">付款遇到问题（如余额不足、不知道怎么付款等）</option>
-                <option value="拍错了">拍错了</option>
-                <option value="其他原因">其他原因</option>
-              </select>
-            </div>
-            <!-- <textarea class="init can_other" type="textarea" maxlength="100" placeholder="取消订单其他原因..."></textarea> -->
-          </div>
-          <div class="init can_pick">
-            <button class="init can_btn btn_sub_set" @click="cancleOrder()">确定</button>
-            <button class="init can_btn btn_set" @click="orderCancleVal=''">取消</button>
-          </div>
-        </div>
-        <div class="can_close" @click="orderCancleVal=''"><i class="el-icon-close"></i></div>
-      </div>
-    </div>
+    <Box :orderBtnVal="orderBtnVal" @btnOrder="btnOrder()" @quitBtnVal="orderBtnVal=''" :orderCancleVal="orderCancleVal" @cancleOrder="cancleOrder()" @quitCancleVal="orderCancleVal=''"></Box>
   </div>
 </template>
 <script>
 import orderListTitle from '@/components/orderListTitle'
 import orderListContentHead from '@/components/orderListContentHead'
 import orderListContent from '@/components/orderListContent'
+import Box from './box'
 import { formatDate } from '@/common/utils'
 export default {
   data () {
@@ -169,7 +120,7 @@ export default {
       orderCancleVal: ''
     }
   },
-  components: { orderListTitle, orderListContentHead, orderListContent },
+  components: { orderListTitle, orderListContentHead, orderListContent, Box },
   props: {},
   computed: {
     bridge () {
@@ -193,9 +144,14 @@ export default {
   },
   methods: {
     getOrder () {
-      this.API.userOrder({userName: this.name, pageNum: this.pageNum, pageSize: this.pageSize}).then(res => {
+      let arg = { userName: this.name, pageNum: this.pageNum, pageSize: this.pageSize }
+      if (this.status) {
+        Object.assign(arg, {status: this.status})
+      }
+      this.API.userOrder(arg).then(res => {
         this.all = res
       })
+      this.$emit('getOrderStatus')
     },
     // 订单过滤
     submit (page) {
@@ -256,9 +212,7 @@ export default {
           this.$notify.success({
             title: '删除成功'
           })
-          // 删除之后初始化 重新请求( pageNum ====> watch)
-          this.status = 0
-          this.pageNum = 1
+          this.getOrder()
         })
       }).catch(() => {})
     },
@@ -312,7 +266,7 @@ export default {
     cancleOrder () {
       this.API.orderCancle({ orderId: this.orderCancleVal }).then(res => {
         this.orderCancleVal = ''
-        console.log(res)
+        this.getOrder()
       })
     }
   },

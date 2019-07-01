@@ -17,8 +17,10 @@
           <span class="item-price">￥{{item.price}}</span>
           <span class="item-num">{{item.num}}</span>
           <span>
-            <a href="javascript:;" style="color: #414141">退款</a>|<a href="javascript:;" style="color: #414141">退货</a><br>
-            <span><a href="javascript:;" style="color: #414141">投诉卖家</a></span>
+            <a v-if="list.status === 3 || list.status === 4" href="javascript:;" style="color: #414141">退款/退货</a>
+            <span v-if="list.status === 3 || list.status === 4 || list.status === 5"><a href="javascript:;" style="color: #414141">投诉卖家</a></span><br>
+            <span v-if="list.status === 5"><a href="javascript:;" style="color: #414141">申请售后</a></span>
+            <span v-if="list.status === 5"><a href="javascript:;" style="color: #414141">售后中</a></span>
           </span>
         </div>
         <div class="item-Buttom" v-if="list.status===3">
@@ -45,9 +47,9 @@
       <li class="list-item">
         <router-link v-if="list.status === 1" class="fast-pay" :to="{path:'/pay', query: {payStyle: 'weChat', orderIdList:list.orderId, from: Date.parse(new Date())}}">立即付款</router-link>
         <a v-if="list.status === 1" href="javascript:;" @click="cancleOrder(list.orderId)">取消订单</a>
-        <a v-if="list.status === 2">取消详情</a>
-        <router-link :to="{path: '/detail', query: {goodsId: list.goodsId, skuId: list.itemId}}" v-if="list.status === 2 || list.status > 4">再次购买</router-link>
+        <a href="javascript:;" v-if="list.status === 2 || list.status > 4" @click="buyAgain(list.orderItemList)">再次购买</a>
         <router-link :to="{path: '/trace/orderDetail', query: {orderId: list.orderId}}" v-if="list.status === 3" :data-id="list.orderId">查看详情</router-link>
+        <!-- <a v-if="list.status === 4" class="fast-pay">延长收货时间</a> -->
         <a v-if="list.status === 4" class="fast-pay" @click="btnOrder(list.orderId)">确认收货</a>
         <a v-if="list.status === 5">申请开票</a>
         <a v-if="list.status === 5">追加评论</a>
@@ -78,6 +80,13 @@ export default {
     },
     btnOrder (orderId) {
       this.$emit('boxOrderBtn', [orderId])
+    },
+    buyAgain (series) {
+      console.log(series, 'list')
+      series.forEach(item => {
+        // (function (tip) { this.API.addToCart({ itemId: tip.itemId, num: tip.num, name: this.$cookies.get('user-key') }).then(res => {}) })(tip)
+      })
+      this.$router.push('/cart')
     }
   }
 }

@@ -1,6 +1,25 @@
 <template>
   <div>
-    <div class="can_order_box" data-attr="取消订单" v-if="boxOrderCancle">
+    <div class="can_order_box" data-attr="确认收货" v-if="orderBtnVal">
+      <div class="init can_order btn_order">
+        <div class="init can_con">
+          <div class="init can_title">
+            <img class="can_title_logo" src="static/img/mk_logo_login.png">
+            <p class="can_title_head">确认订单</p>
+          </div>
+          <div class="init can_item">
+            <p class="can_tip btn_tip">请收到货后，再确认收货！否则您可能钱货两空！</p>
+            <p class="btn_tip_back">如果您想申请退款，请返回到“已买到的货品”页申请退款</p>
+          </div>
+          <div class="init can_pick">
+            <button class="init can_btn btn_sub_set" @click="btnOrder()">确定</button>
+            <button class="init can_btn btn_set" @click="quitBtnVal()">取消</button>
+          </div>
+        </div>
+        <div class="can_close" @click="quitBtnVal()"><i class="el-icon-close"></i></div>
+      </div>
+    </div>
+    <div class="can_order_box" data-attr="取消订单" v-if="orderCancleVal">
       <div class="init can_order">
         <div class="init can_con">
           <div class="init can_title">
@@ -22,65 +41,42 @@
                 <option value="其他原因">其他原因</option>
               </select>
             </div>
-            <!-- <textarea class="init can_other" type="textarea" maxlength="100" placeholder="取消订单其他原因..."></textarea> -->
           </div>
-          <div class="init can_pick">
-            <button class="init can_btn btn_sub_set">确定</button>
-            <button class="init can_btn btn_set" @click="boxOrderCancle=false">取消</button>
-          </div>
-        </div>
-        <div class="can_close" @click="boxOrderCancle=false"><i class="el-icon-close"></i></div>
-      </div>
-    </div>
-    <div class="can_order_box" data-attr="确认收货" v-if="boxOrderBtn">
-      <div class="init can_order btn_order">
-        <div class="init can_con">
-          <div class="init can_title">
-            <img class="can_title_logo" src="static/img/mk_logo_login.png">
-            <p class="can_title_head">确认订单</p>
-          </div>
-          <div class="init can_item">
-            <p class="can_tip btn_tip">请收到货后，再确认收货！否则您可能钱货两空！</p>
-            <p class="btn_tip_back">如果您想申请退款，请返回到“已买到的货品”页申请退款</p>
-          </div>
-          <div class="init can_pick">
-            <button class="init can_btn btn_sub_set">确定</button>
-            <button class="init can_btn btn_set" @click="BoxOrderBtn=false">取消</button>
+          <div class="init can_pick" data-attr='<textarea class="init can_other" type="textarea" maxlength="100" placeholder="取消订单其他原因..."></textarea>'>
+            <button class="init can_btn btn_sub_set" @click="cancleOrder()">确定</button>
+            <button class="init can_btn btn_set" @click="quitCancleVal()">取消</button>
           </div>
         </div>
-        <div class="can_close" @click="boxOrderBtn=false"><i class="el-icon-close"></i></div>
+        <div class="can_close" @click="quitCancleVal()"><i class="el-icon-close"></i></div>
       </div>
     </div>
   </div>
 </template>
 <script>
 export default {
-  data () {
-    return {
-      boxOrderBtn: false,
-      boxOrderCancle: false
+  props: {
+    orderBtnVal: {
+      type: [String, Number]
+    },
+    orderCancleVal: {
+      type: [String, Number]
     }
   },
+  data () {
+    return {}
+  },
   methods: {
-    btnOrder (e) {
-      this.boxOrderBtn = true
-      // this.$emit('getOrder')
-      console.log(this.$refs)
-      // this.API.orderBtnObtain({ orderIds: e.join(',') }).then(res => {
-      //   if (res.success === false) {
-      //     this.$message.warning('提交异常')
-      //     return false
-      //   }
-      //   this.$message.success('交易已经成功')
-      //   // this.$emit('getOrder')
-      // })
+    btnOrder () {
+      this.$emit('btnOrder')
     },
-    cancleOrder (e) {
-      this.boxOrderCancle = true
-      console.log(e)
-      // this.API.orderCancle({ orderId: this.orderBox }).then(res => {
-      //   console.log(res)
-      // })
+    quitBtnVal () {
+      this.$emit('quitBtnVal')
+    },
+    cancleOrder () {
+      this.$emit('cancleOrder')
+    },
+    quitCancleVal () {
+      this.$emit('quitCancleVal')
     }
   }
 }
