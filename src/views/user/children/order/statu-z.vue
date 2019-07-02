@@ -75,7 +75,7 @@
       </div>
       <div class="shop-list" v-for="list in all.rows" :key="list.id">
         <orderListContentHead :list="list" :selectArr="selectArr" @toggle="toggle($event)" @remove="remove($event)"></orderListContentHead>
-        <orderListContent :list="list" @boxOrderBtn="orderBtnVal=$event.join(',')" @boxOrderCancle="orderCancleVal=$event"></orderListContent>
+        <orderListContent :list="list" @boxOrderBtn="orderBtnVal=$event.join(',')" @boxOrderCancle="orderCancleVal=$event" @boxOrderRefund="orderRefundVal=$event"></orderListContent>
       </div>
       <div v-if="!all.total" class="shop-list not-data">没有符合条件的商品</div>
     </div>
@@ -85,7 +85,7 @@
       layout="prev, pager, next, jumper"
       :total="all.total">
     </el-pagination>
-    <Box :orderBtnVal="orderBtnVal" @btnOrder="btnOrder()" @quitBtnVal="orderBtnVal=''" :orderCancleVal="orderCancleVal" @cancleOrder="cancleOrder()" @quitCancleVal="orderCancleVal=''"></Box>
+    <Box :orderBtnVal="orderBtnVal" @btnOrder="btnOrder()" @quitBtnVal="orderBtnVal=''" :orderCancleVal="orderCancleVal" @cancleOrder="cancleOrder()" @quitCancleVal="orderCancleVal=''" :orderRefundVal="orderRefundVal" @refundOrder="refundOrder()" @quitRefundVal="orderRefundVal=''"></Box>
   </div>
 </template>
 <script>
@@ -116,8 +116,9 @@ export default {
       isChecked: false, // 全选
       name: this.$cookies.get('user-key'),
       status: 0,
-      orderBtnVal: '',
-      orderCancleVal: ''
+      orderBtnVal: '', // 确认收货
+      orderCancleVal: '', // 取消订单
+      orderRefundVal: '' // 申请退款
     }
   },
   components: { orderListTitle, orderListContentHead, orderListContent, Box },
@@ -268,6 +269,9 @@ export default {
         this.orderCancleVal = ''
         this.getOrder()
       })
+    },
+    refundOrder () {
+      console.log(this.orderRefundVal, 'refund')
     }
   },
   watch: {
