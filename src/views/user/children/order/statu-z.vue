@@ -75,7 +75,7 @@
       </div>
       <div class="shop-list" v-for="list in all.rows" :key="list.id">
         <orderListContentHead :list="list" :selectArr="selectArr" @toggle="toggle($event)" @remove="remove($event)"></orderListContentHead>
-        <orderListContent :list="list"></orderListContent>
+        <orderListContent :list="list" @boxOrderBtn="orderBtnVal=$event.join(',')" @boxOrderCancle="orderCancleVal=$event"></orderListContent>
       </div>
       <div v-if="!all.total" class="shop-list not-data">没有符合条件的商品</div>
     </div>
@@ -85,12 +85,14 @@
       layout="prev, pager, next, jumper"
       :total="all.total">
     </el-pagination>
+    <Box :orderBtnVal="orderBtnVal" @btnOrder="btnOrder()" @quitBtnVal="orderBtnVal=''" :orderCancleVal="orderCancleVal" @cancleOrder="cancleOrder()" @quitCancleVal="orderCancleVal=''"></Box>
   </div>
 </template>
 <script>
 import orderListTitle from '@/components/orderListTitle'
 import orderListContentHead from '@/components/orderListContentHead'
 import orderListContent from '@/components/orderListContent'
+import Box from './box'
 import { formatDate } from '@/common/utils'
 export default {
   data () {
@@ -109,14 +111,16 @@ export default {
       },
       all: '', // 所有订单
       pageNum: 1,
-      pageSize: 10, // 每页的数量
+      pageSize: 15, // 每页的数量
       selectArr: [], // 选中的列表
       isChecked: false, // 全选
       name: this.$cookies.get('user-key'),
-      status: 0
+      status: 0,
+      orderBtnVal: '',
+      orderCancleVal: ''
     }
   },
-  components: { orderListTitle, orderListContentHead, orderListContent },
+  components: { orderListTitle, orderListContentHead, orderListContent, Box },
   props: {},
   computed: {
     bridge () {
@@ -136,11 +140,19 @@ export default {
     }
   },
   mounted () {
-    this.API.userOrder({userName: this.name, pageNum: this.pageNum, pageSize: this.pageSize}).then(res => {
-      this.all = res
-    })
+    this.getOrder()
   },
   methods: {
+    getOrder () {
+      let arg = { userName: this.name, pageNum: this.pageNum, pageSize: this.pageSize }
+      if (this.status) {
+        Object.assign(arg, {status: this.status})
+      }
+      this.API.userOrder(arg).then(res => {
+        this.all = res
+      })
+      this.$emit('getOrderStatus')
+    },
     // 订单过滤
     submit (page) {
       this.status = -1
@@ -200,9 +212,7 @@ export default {
           this.$notify.success({
             title: '删除成功'
           })
-          // 删除之后初始化 重新请求( pageNum ====> watch)
-          this.status = 0
-          this.pageNum = 1
+          this.getOrder()
         })
       }).catch(() => {})
     },
@@ -229,16 +239,35 @@ export default {
           message: `您${point.length}有笔订单不支持${desc},请重新选择`
         })
       } else {
+        let orderIdlist = []
+        this.selectArr.forEach(item => {
+          orderIdlist.push(item.orderId)
+        })
         if (status === 1) {
-          let orderIdlist = []
-          this.selectArr.forEach(item => {
-            orderIdlist.push(item.orderId)
-          })
+          this.selectArr = []
           this.$router.push({ path: '/pay', query: { payStyle: 'weChat', orderIdList: orderIdlist.join(','), from: Date.parse(new Date()) } })
         } else if (status === 4) {
-          console.log(4)
+          this.orderBtnVal = orderIdlist.join(',')
         }
       }
+    },
+    btnOrder () {
+      this.API.orderBtnObtain({ orderIds: this.orderBtnVal }).then(res => {
+        this.orderBtnVal = ''
+        this.selectArr = []
+        if (res.success === false) {
+          this.$message.warning('提交异常')
+          return false
+        }
+        this.$message.success('交易已成功')
+        this.getOrder()
+      })
+    },
+    cancleOrder () {
+      this.API.orderCancle({ orderId: this.orderCancleVal }).then(res => {
+        this.orderCancleVal = ''
+        this.getOrder()
+      })
     }
   },
   watch: {
@@ -422,4 +451,128 @@ export default {
     border-left: none;
     display: flex;
   }
+/* 取消订单 */
+  .can_order_box {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0,0,0, 0.1);
+    z-index: 1000;
+    overflow-y: hidden;
+  }
+  .can_order {
+    position: relative;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width:660px;
+    height:437px;
+    background:rgba(255,255,255,1);
+    border:10px solid rgba(142, 142, 142, 0.35);
+    border-radius: 10px;
+  }
+  .init{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    font-style: normal;
+    text-decoration: none;
+    font-family: "Helvetica Neue", "Microsoft Yahei";
+    -webkit-tap-highlight-color: transparent;
+    -webkit-font-smoothing: antialiased;
+  }
+  textarea:hover, textarea:focus, select:hover, select:focus, button:hover, button:focus, input:focus, input:hover, label:hover, label:focus, option:focus, option:hover{
+    outline: none;
+  }
+  select:hover, select {
+    border: 1px solid #8E8E8E;
+  }
+  select::-ms-expand{ display: none; }
+  input[type="button"], input[type="submit"], input[type="search"], input[type="reset"], textarea {
+    -webkit-appearance: none;
+  }
+  table, tr, td {
+    border-spacing: 0;
+  }
+  .can_con {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    font-size: 15px;
+    color: #3D3D3D;
+    padding: 24px 21px 15px 37px;
+  }
+  .can_title {
+    display: flex;
+  }
+  .can_title_logo {
+    max-width: 70px;
+    max-height: 40px;
+  }
+  .can_title_head {
+    color: #4E4E4E;
+    font-size: 24px;
+    vertical-align: bottom;
+    margin-left: 20px;
+    align-self: flex-end;
+  }
+  .can_item {
+    margin-top: 36px;
+  }
+  .can_tip {
+    color: #E53031;
+    margin-bottom: 10px;
+  }
+  .can_select_box {
+    height: 32px;
+    line-height: 32px;
+  }
+  .can_select {
+    font-size: 15px;
+    border-radius: 4px;
+    border:1px solid rgba(135,135,135,1);
+    box-shadow:0px 0px 8px 0px rgba(126,123,124,0.4);
+  }
+  .can_other {
+    margin-top: 25px;
+    border-radius: 4px;
+    width: 516px;
+    font-size: 13px;
+    font-family: "Microsoft Yahei";
+    height: 60px;
+  }
+  .can_close {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    font-size: 20px;
+    color: #4E4E4E;
+    cursor: pointer;
+  }
+  .can_pick {
+    display: flex;
+    justify-content: flex-end;
+    padding: 17px 21px;
+    box-sizing: border-box;
+    margin-top: auto;
+  }
+  .can_btn{
+    padding: 6px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .btn_sub_set {
+    background-color: #D73331;
+    color: #FFFFFF;
+    margin-right: 10px;
+  }
+/* 确认收货 */
+  .btn_order {
+    height: 258px;
+  }
+  .btn_tip { font-size: 24px; }
+  .btn_tip_back { color: #4E4E4E; font-size: 14px; }
 </style>

@@ -131,9 +131,8 @@
         </el-row>
         <div class="replace_btn Top">
           <router-link class="btn" v-if="orderInfo.status === 1" :to="{path:'/pay', query: {payStyle: 'weChat', orderIdList: $route.query.orderId, from: Date.parse(new Date())}}">立即付款</router-link>
-          <a class="btn" href="javascript:;" v-if="orderInfo.status === 3" @click="buyAgain(orderItemList)">申请退款</a>
           <a class="btn" href="javascript:;" v-if="orderInfo.status === 2 || orderInfo.status > 4" @click="buyAgain(orderItemList)">再次购买</a>
-          <a class="btn" href="javascript:;" v-if="orderInfo.status === 4" @click="orderBtnVal=$route.query.orderId">确认收货</a>
+          <a class="btn" href="javascript:;" v-if="orderInfo.status === 4" @click="btnOrder($route.query.orderId)">确认收货</a>
         </div>
       </section>
       <!-- <div class="recommend">
@@ -149,7 +148,25 @@
         </div>
       </div> -->
     </section>
-    <Box :orderBtnVal="orderBtnVal" @btnOrder="btnOrder()" @quitBtnVal="orderBtnVal=''"></Box>
+    <div class="can_order_box" data-attr="确认收货" v-if="orderBtnVal">
+      <div class="init can_order btn_order">
+        <div class="init can_con">
+          <div class="init can_title">
+            <img class="can_title_logo" src="static/img/mk_logo_login.png">
+            <p class="can_title_head">确认订单</p>
+          </div>
+          <div class="init can_item">
+            <p class="can_tip btn_tip">请收到货后，再确认收货！否则您可能钱货两空！</p>
+            <p class="btn_tip_back">如果您想申请退款，请返回到“已买到的货品”页申请退款</p>
+          </div>
+          <div class="init can_pick">
+            <button class="init can_btn btn_sub_set" @click="btnOrder()">确定</button>
+            <button class="init can_btn btn_set" @click="orderBtnVal=''">取消</button>
+          </div>
+        </div>
+        <div class="can_close" @click="orderBtnVal=''"><i class="el-icon-close"></i></div>
+      </div>
+    </div>
     <pageFooter class="footer"></pageFooter>
   </div>
 </template>
@@ -158,7 +175,6 @@ import shortcut from '@/components/shortcutHeader'
 import userNav from '@/components/userNav'
 import youRecom from '@/components/youRecom'
 import pageFooter from '@/components/pageFooter'
-import Box from '@/views/user/children/order/box'
 export default {
   data () {
     return {
@@ -170,24 +186,21 @@ export default {
       orderBtnVal: ''
     }
   },
-  components: { shortcut, userNav, youRecom, pageFooter, Box },
+  components: { shortcut, userNav, youRecom, pageFooter },
   mounted () {
-    this.dataInit()
-  },
-  methods: {
-    dataInit () {
-      this.API.orderDetail({ orderId: this.$route.query.orderId }).then(res => {
-        this.orderReceiverInfo = res.orderReceiverInfo
-        this.shippingInfo = res.shippingInfo
-        this.orderItemList = res.orderItemList
-        this.orderInfo = res.orderInfo
-        this.$nextTick(() => {
-          this.API.findFlow({ LogisticCode: this.shippingInfo.shippingCode, shipperCode: this.shippingInfo.shippingEncoded }).then(rtn => {
-            this.flowInfo = rtn.result
-          })
+    this.API.orderDetail({ orderId: this.$route.query.orderId }).then(res => {
+      this.orderReceiverInfo = res.orderReceiverInfo
+      this.shippingInfo = res.shippingInfo
+      this.orderItemList = res.orderItemList
+      this.orderInfo = res.orderInfo
+      this.$nextTick(() => {
+        this.API.findFlow({ LogisticCode: this.shippingInfo.shippingCode, shipperCode: this.shippingInfo.shippingEncoded }).then(rtn => {
+          this.flowInfo = rtn.result
         })
       })
-    },
+    })
+  },
+  methods: {
     goOrder () {
       this.$router.push('/user/userOrder/statu-z')
     },
@@ -200,16 +213,8 @@ export default {
         this.$router.push('/cart')
       })
     },
-    btnOrder () {
-      this.API.orderBtnObtain({ orderIds: this.orderBtnVal }).then(res => {
-        this.orderBtnVal = ''
-        if (res.success === false) {
-          this.$message.warning('提交异常')
-          return false
-        }
-        this.$message.success('交易已成功')
-        this.dataInit()
-      })
+    btnOrder (orderId) {
+      this.$emit('boxOrderBtn', [orderId])
     }
   }
 }

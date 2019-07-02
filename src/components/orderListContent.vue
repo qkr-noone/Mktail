@@ -17,8 +17,10 @@
           <span class="item-price">￥{{item.price}}</span>
           <span class="item-num">{{item.num}}</span>
           <span>
-            <a href="javascript:;" style="color: #414141">退款</a>|<a href="javascript:;" style="color: #414141">退货</a><br>
-            <span><a href="javascript:;" style="color: #414141">投诉卖家</a></span>
+            <a v-if="list.status === 3 || list.status === 4" href="javascript:;" style="color: #414141">退款/退货</a>
+            <span v-if="list.status === 3 || list.status === 4 || list.status === 5"><a href="javascript:;" style="color: #414141">投诉卖家</a></span><br>
+            <span v-if="list.status === 5"><a href="javascript:;" style="color: #414141">申请售后</a></span>
+            <span v-if="list.status === 5"><a href="javascript:;" style="color: #414141">售后中</a></span>
           </span>
         </div>
         <div class="item-Buttom" v-if="list.status===3">
@@ -44,55 +46,24 @@
       </li>
       <li class="list-item">
         <router-link v-if="list.status === 1" class="fast-pay" :to="{path:'/pay', query: {payStyle: 'weChat', orderIdList:list.orderId, from: Date.parse(new Date())}}">立即付款</router-link>
-        <a v-if="list.status === 1" @click="orderBox=list.orderId">取消订单</a>
-        <a v-if="list.status === 2">取消详情</a>
-        <router-link :to="{path: '/detail', query: {goodsId: list.goodsId, skuId: list.itemId}}" v-if="list.status === 2 || list.status > 4">再次购买</router-link>
+        <a v-if="list.status === 1" href="javascript:;" @click="cancleOrder(list.orderId)">取消订单</a>
+        <a href="javascript:;" v-if="list.status === 2 || list.status > 4" @click="buyAgain(list.orderItemList)">再次购买</a>
         <router-link :to="{path: '/trace/orderDetail', query: {orderId: list.orderId}}" v-if="list.status === 3" :data-id="list.orderId">查看详情</router-link>
-        <a v-if="list.status === 4" class="fast-pay">确认收货</a>
+        <!-- <a v-if="list.status === 4" class="fast-pay">延长收货时间</a> -->
+        <a v-if="list.status === 4" class="fast-pay" @click="btnOrder(list.orderId)">确认收货</a>
         <a v-if="list.status === 5">申请开票</a>
         <a v-if="list.status === 5">追加评论</a>
         <a v-if="list.status === 6">查看退款</a>
       </li>
     </ul>
-    <div class="can_order_box" data-attr="取消订单" v-if="orderBox">
-      <div class="init can_order">
-        <div class="init can_con">
-          <div class="init can_title">
-            <img class="can_title_logo" src="static/img/mk_logo_login.png">
-            <p class="can_title_head">取消订单</p>
-          </div>
-          <div class="init can_item">
-            <p class="can_tip">您确定要取消该订单吗？取消订单后，不能恢复。</p>
-            <div class="init can_select_box">
-              <label class="init">请选择取消订单的理由:&nbsp;</label>
-              <select class="init can_select">
-                <option value="请选择关闭理由">请选择关闭理由</option>
-                <option value="我不想买了">我不想买了</option>
-                <option value="信息填写错误，重新拍">信息填写错误，重新拍</option>
-                <option value="卖家缺货">卖家缺货</option>
-                <option value="同城见面交易">同城见面交易</option>
-                <option value="付款遇到问题（如余额不足、不知道怎么付款等）">付款遇到问题（如余额不足、不知道怎么付款等）</option>
-                <option value="拍错了">拍错了</option>
-                <option value="其他原因">其他原因</option>
-              </select>
-            </div>
-            <!-- <textarea class="init can_other" type="textarea" maxlength="100" placeholder="取消订单其他原因..."></textarea> -->
-          </div>
-          <div class="init can_pick">
-            <button class="init can_btn btn_sub_set" @click="cancleOrder()">确定</button>
-            <button class="init can_btn btn_set">取消</button>
-          </div>
-        </div>
-        <div class="can_close"><i class="el-icon-close"></i></div>
-      </div>
-    </div>
   </div>
 </template>
 <script>
 export default {
   data () {
     return {
-      orderBox: ''
+      orderBox: '',
+      orderBtn: ''
     }
   },
   props: {
@@ -104,10 +75,18 @@ export default {
     goDetail (id) {
       this.$router.push({path: '/detail', query: {goodsId: id}})
     },
-    cancleOrder () {
-      this.API.orderCancle({ orderId: this.orderBox }).then(res => {
-        console.log(res)
+    cancleOrder (orderId) {
+      this.$emit('boxOrderCancle', orderId)
+    },
+    btnOrder (orderId) {
+      this.$emit('boxOrderBtn', [orderId])
+    },
+    buyAgain (series) {
+      console.log(series, 'list')
+      series.forEach(item => {
+        // (function (tip) { this.API.addToCart({ itemId: tip.itemId, num: tip.num, name: this.$cookies.get('user-key') }).then(res => {}) })(tip)
       })
+      this.$router.push('/cart')
     }
   }
 }
@@ -247,7 +226,7 @@ export default {
     width:660px;
     height:437px;
     background:rgba(255,255,255,1);
-    border:10px solid rgba(142, 142, 142, 0.26);
+    border:10px solid rgba(142, 142, 142, 0.35);
     border-radius: 10px;
   }
   .init{
@@ -327,6 +306,7 @@ export default {
     right: 8px;
     font-size: 20px;
     color: #4E4E4E;
+    cursor: pointer;
   }
   .can_pick {
     display: flex;
@@ -338,10 +318,17 @@ export default {
   .can_btn{
     padding: 6px 15px;
     border-radius: 4px;
+    cursor: pointer;
   }
   .btn_sub_set {
     background-color: #D73331;
     color: #FFFFFF;
     margin-right: 10px;
   }
+/* 确认收货 */
+  .btn_order {
+    height: 258px;
+  }
+  .btn_tip { font-size: 24px; }
+  .btn_tip_back { color: #4E4E4E; font-size: 14px; }
 </style>

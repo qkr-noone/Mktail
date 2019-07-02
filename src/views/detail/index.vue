@@ -462,9 +462,6 @@ export default {
       if (this.num < this.minNum) this.num = this.minNum
       this.changeFlowPrice()
     },
-    NumBlur () {
-      if (this.num < this.minNum) this.num = this.minNum
-    },
     // 加入购物车
     submit () {
       if (this.selectSku.id && this.addToCartSwicth) {
