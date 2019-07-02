@@ -1,5 +1,4 @@
 import fetch from './fetch'
-/* http://192.168.1.100:8083 https://easy-mock.com/mock/5bf6166bf9b2636f875b693c/test http://192.168.1.40:8083 http://localhost:8084 */
 const http = {
   get: (path, data) => fetch.get(process.env.BASE_API + path, {
     params: data
@@ -34,6 +33,8 @@ export default {
   getShopCate: data => http.get('/seller/goods/search', data),
   // 获取最新商品 (分类左侧)
   getShopNew: data => http.get('/seller/goods/findNewGoods', data),
+  // 店铺信息
+  getStoreInfo: data => http.get('/seller/index/getSellerInfo', data),
 
   /* ----注册登录---- */
 
@@ -106,12 +107,12 @@ export default {
   getOrderInfo: data => http.post('/cart/order/add', data),
   // 从立即购买进入 提交订单
   directOrderInfo: (data, skuId, num, onlyValue) => http.post('/cart/order/directAdd?itemId=' + skuId + '&num=' + num + '&onlyValue=' + onlyValue, data),
-  // 支付页面信息
-  payPageInfo: data => http.get('/cart/order/searchPayLog', data),
-  // 创建微信支付链接
-  payCreate: data => http.get('/cart/pay/createNative', data),
+  // 获取微信支付码
+  getPayCode: params => http.post('/weixinpay/userPayOrder?orderList=' + params),
+  // 从我的订单跳转支付
+  getPayCodeOtherWay: params => http.post('/weixinpay/userPayFromOrderPage?orderList=' + params),
   // 支付订单状态查询
-  payOrder: data => http.get('/cart/pay/queryPayStatus', data),
+  payOrderPolling: data => http.get('/weixinpay/orderquery', data),
   // 用户的账户余额
   payUserCash: data => http.get('/cart/pay/findAccountBalanceByUserName', data),
   // 使用MKTail零钱买单
@@ -129,6 +130,10 @@ export default {
   userOrder: data => http.get('/cart/order/findOrderByUsernameAndStatus', data),
   // 订单查询过滤
   orderFilter: (data, pageNum, pageSize) => http.post('/cart/order/searchOrderByMap?pageNum=' + pageNum + '&pageSize=' + pageSize, data),
+  // 取消订单
+  orderCancle: data => http.get('/order/orderManager/updateStatus', data),
+  // 确认收货
+  orderBtnObtain: data => http.get('/order/orderManager/batchConfirmReceipt', data),
   // 订单删除
   orderRemove: data => http.get('/cart/order/delete', data),
   // 订单详情信息

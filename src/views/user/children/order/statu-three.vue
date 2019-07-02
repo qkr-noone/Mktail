@@ -15,7 +15,7 @@
       </div>
       <div class="shop-list" v-for="list in waitConfirm.rows" :key="list.id">
         <orderListContentHead :list="list" :selectArr="selectArr" @toggle="toggle($event)"></orderListContentHead>
-        <orderListContent :list="list"></orderListContent>
+        <orderListContent :list="list" @getOrder="getOrder()"></orderListContent>
       </div>
       <div v-if="!waitConfirm.total" class="shop-list not-data">没有符合条件的商品</div>
     </div>
@@ -44,11 +44,14 @@ export default {
   components: { orderListTitle, orderListContentHead, orderListContent, orderListSearch },
   mounted () {
     // 待收货
-    this.API.userOrder({userName: this.$cookies.get('user-key'), status: this.status, pageNum: this.pageNum, pageSize: 15}).then(res => {
-      this.waitConfirm = res
-    })
+    this.getOrder()
   },
   methods: {
+    getOrder () {
+      this.API.userOrder({userName: this.$cookies.get('user-key'), status: this.status, pageNum: this.pageNum, pageSize: 15}).then(res => {
+        this.waitConfirm = res
+      })
+    },
     changeValue (data) {
       this.pageNum = data[1]
       this.waitConfirm = data[0]

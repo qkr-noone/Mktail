@@ -316,7 +316,7 @@ export default {
       tabNav: '商品介绍',
       changeShowType: 'navShop',
       destination: '广东',
-      addressOne: '',
+      addressOne: '广东',
       addressTwo: '',
       addressTwoId: '',
       addrOptions: [],
@@ -385,6 +385,7 @@ export default {
       this.API.getShopNew({ sellerId: this.sellerInfo.sellerId }).then(res => {
         this.shopHotList = res
       })
+      if (Object.keys(this.storeFlow).length) this.changeFlowPrice()
     })
     // 看了又看
     this.API.detailLook({ categoryId: 17 }).then(res => {
@@ -445,7 +446,7 @@ export default {
       this.num++
       debounce(() => {
         this.changeFlowPrice()
-      }, 1000)
+      }, 600)
     },
     delNum () {
       if (this.num <= this.minNum) {
@@ -455,7 +456,11 @@ export default {
       this.num--
       debounce(() => {
         this.changeFlowPrice()
-      }, 1000)
+      }, 600)
+    },
+    NumBlur () {
+      if (this.num < this.minNum) this.num = this.minNum
+      this.changeFlowPrice()
     },
     NumBlur () {
       if (this.num < this.minNum) this.num = this.minNum

@@ -309,30 +309,6 @@ export default {
             formData.append('file', temFile)
           })
         }
-        axios({
-          method: 'post',
-          url: reqUrl,
-          data: formData,
-          params: { diskId: diskId },
-          headers: {
-            'Content-Type': 'multipart/form-data',
-            'Authorization': Authorization
-          }
-        }).then(res => {
-          if (res.data.code === 2000) {
-            callback(res.data.data)
-          } else {
-            Notification.error({
-              title: '错误',
-              message: res.data.message
-            })
-          }
-        }).catch(() => {
-          Notification.error({
-            title: '错误',
-            message: '请求有误，请核对再上传'
-          })
-        })
       }
     }
     // 获取登录用户名称

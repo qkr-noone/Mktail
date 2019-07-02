@@ -241,7 +241,7 @@
             <span>{{defaultAddress.mobile}}</span>
           </div>
         </div>
-        <div class="sum-order has_pointer" @click="submitOrder">提交订单</div>
+        <div class="sum-order has_pointer" @click.once="submitOrder">提交订单</div>
       </div>
     </div>
     <div class="user-info Center" v-if="isForm">
