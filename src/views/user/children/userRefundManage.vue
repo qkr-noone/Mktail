@@ -76,7 +76,7 @@
                <input class="long" type="text" placeholder="全部">
             </span>
       </div>
-        <button>提交</button>
+        <button @click="openevaluate">提交</button>
       </div>
       <div class="refund">
         <ul class="refund-title">
@@ -110,6 +110,56 @@
         </ul>
       </div>
     </div>
+    <div class="can_order_box" data-attr="取消订单" v-if="Box">
+      <div class="init can_order">
+        <div class="init can_con">
+          <div class="init can_title">
+            <img class="can_title_logo" src="static/img/mk_logo_login.png"><span>退款退货</span>
+          </div>
+          <div v-show="evaluate">
+            <div class="noteorder">
+              <div class="stepsnew">
+                <ul>
+                  <li :class="successimg=0 ? navs : navs1">1、申请退货退款</li>
+                  <li :class="successimg=1 ? navs : navs1">2、填写退货原因、退款金额</li>
+                  <li :class="successimg=2 ? navs : navs1">3、退货处理</li>
+                  <li :class="successimg=3 ? navs : navs1">4、退货完成</li>
+                </ul>
+              </div>
+              <div class="Switchtab">
+                <span :class="successimg=0 ? switchspan1 : switchspan2">卖家已发的货品</span><span :class="successimg=1 ? switchspan1 : switchspan2">卖家未发的货品</span>
+              </div>
+              <div class="shoplist">
+                <table>
+                  <tr>
+                    <td>货品</td>
+                    <td>单价（元）</td>
+                    <td>数量</td>
+                    <td>优惠（元）</td>
+                    <td>可付金额（元）</td>
+                    <td>货品状态</td>
+                    <td>退款数量</td>
+                  </tr>
+                  <tr style="border: 1px solid #CDCDCD">
+                    <td>商品图片|商品介绍</td>
+                    <td>￥28.00</td>
+                    <td>1</td>
+                    <td>￥00.00</td>
+                    <td>￥28.00</td>
+                    <td>已发货</td>
+                    <td><input type="number"></td>
+                  </tr>
+                </table>
+              </div>
+            <div class="init can_pick">
+              <button class="init can_btn btn_sub_set" @click="closeevaluate">确定</button>
+            </div>
+          </div>
+          <div class="can_close"><i class="el-icon-close" @click="closeevaluate"></i></div>
+        </div>
+      </div>
+    </div>
+  </div>
   </div>
 </template>
 <script>
@@ -122,6 +172,13 @@ export default {
       value2: '最近申请',
       value3: '全部',
       value4: '全部',
+      evaluate: false,
+      Box: false,
+      successimg: 0,
+      navs: 'navs',
+      navs1: 'navs1',
+      switchspan1: 'switchspan1',
+      switchspan2: 'switchspan2',
       options1: [
         {value1: '选项1', label: '全部'},
         {value1: '选项2', label: '售中退款'},
@@ -145,6 +202,16 @@ export default {
         {value4: '选项3', label: '先行垫付，退款成功'},
         {value4: '选项4', label: '先行垫付，退款关闭'},
         {value4: '选项5', label: '先行垫付，商家拒绝退款'}]
+    }
+  },
+  methods: {
+    openevaluate () {
+      this.Box = true
+      this.evaluate = true
+    },
+    closeevaluate () {
+      this.Box = false
+      this.evaluate = false
     }
   }
 }
@@ -246,7 +313,305 @@ export default {
  .textColorBlue{
    color:#7A9DF6;
  }
- .group ul,ul>li{
-   display: block !important;
+ /*.group ul,ul>li{*/
+ /*  display: block !important;*/
+ /*}*/
+ .can_order_box {
+   position: fixed;
+   top: 0;
+   bottom: 0;
+   left: 0;
+   right: 0;
+   background-color: rgba(0,0,0, 0.1);
+   z-index: 1000;
+   overflow-y: hidden;
+ }
+ .can_order {
+   position: relative;
+   left: 50%;
+   top: 50%;
+   transform: translate(-50%, -50%);
+   width:1184px;
+   height:1100px;
+   background:rgba(255,255,255,1);
+   border:10px solid rgba(142, 142, 142, 0.26);
+   border-radius: 10px;
+ }
+ .init{
+   box-sizing: border-box;
+   padding: 0;
+   margin: 0;
+   list-style: none;
+   font-style: normal;
+   text-decoration: none;
+   font-family: "Helvetica Neue", "Microsoft Yahei";
+   -webkit-tap-highlight-color: transparent;
+   -webkit-font-smoothing: antialiased;
+ }
+ .can_con {
+   display: flex;
+   flex-direction: column;
+   height: 100%;
+   font-size: 15px;
+   color: #3D3D3D;
+   padding: 24px 21px 15px 37px;
+ }
+ .can_title {
+   display: flex;
+ }
+ .can_title span {
+   width: 120px;
+   height: 45px;
+   font-size: 24px;
+   line-height: 45px;
+   border-left: 1px solid #6A6A6A;
+ }
+ .can_title_logo {
+   max-width: 70px;
+   max-height: 40px;
+ }
+ .can_title_head {
+   color: #4E4E4E;
+   font-size: 18px;
+   font-family:SourceHanSansCN-Regular;
+   font-weight:400;
+ }
+ .can_title_head span{
+   font-size:14px;
+   font-family:SourceHanSansCN-Regular;
+   font-weight:400;
+   color:rgba(78,78,78,1);
+ }
+ .can_item {
+   margin-top: 36px;
+ }
+ .can_tip {
+   color: #E53031;
+   margin-bottom: 10px;
+ }
+ .can_select_box {
+   height: 32px;
+   line-height: 32px;
+ }
+ .can_select {
+   font-size: 15px;
+   border-radius: 4px;
+   border:1px solid rgba(135,135,135,1);
+   box-shadow:0px 0px 8px 0px rgba(126,123,124,0.4);
+ }
+ .can_other {
+   margin-top: 25px;
+   border-radius: 4px;
+   width: 516px;
+   font-size: 13px;
+   font-family: "Microsoft Yahei";
+   height: 60px;
+ }
+ .can_close {
+   position: absolute;
+   top: 8px;
+   right: 8px;
+   font-size: 20px;
+   color: #4E4E4E;
+ }
+ .can_pick {
+   display: flex;
+   justify-content: flex-end;
+   padding: 17px 21px;
+   box-sizing: border-box;
+   margin-top: auto;
+ }
+ .can_btn{
+   padding: 6px 15px;
+   border-radius: 4px;
+ }
+ .stepsnew {
+   margin-top: 30px;
+ }
+ .stepsnew ul {
+   width: 1100px;
+   height: 40px;
+ }
+ .shoplist table{
+   margin-top: -10px;
+   width: 1062px;
+   height: 139px;
+   border-collapse: collapse;
+ }
+ .Switchtab {
+  text-align: left;
+   margin-top: 20px;
+ }
+ .switchspan1 {
+   width:141px;
+   height:21px;
+   font-size:16px;
+   font-family:SourceHanSansCN-Regular;
+   font-weight:400;
+   color:rgba(0,0,0,1);
+   line-height:20px;
+   border:1px dashed rgba(215,51,49,1);
+   border-radius:11px;
+   margin-top: 20px;
+   text-align: center;
+ }
+ .switchspan2{
+   width:141px;
+   height:21px;
+   font-size:16px;
+   font-family:SourceHanSansCN-Regular;
+   font-weight:400;
+   color: #FFFFFF;
+   line-height:20px;
+   background:rgba(215,51,49,1);
+   border-radius:11px;
+   margin-top: 20px;
+   text-align: center;
+ }
+ .navs {
+   width: 220px;
+   padding: 0px 10px 0 20px;
+   line-height: 40px;
+   background: #D6D6D6;
+   display: inline-block;
+   color: #000000;
+   font-size: 15px;
+   font-weight: 400;
+   position: relative;
+ }
+ .navs:after {
+   content: '';
+   display: block;
+   border-top: 20px solid #D6D6D6;
+   border-bottom: 20px solid #D6D6D6;
+   border-left: 20px solid #fff;
+   position: absolute;
+   right: -20px;
+   top: 0;
+ }
+ .navs:after{
+   content: '';
+   display: block;
+   border-top: 20px solid transparent;
+   border-bottom: 20px solid transparent;
+   border-left: 20px solid #D6D6D6;
+   position: absolute;
+   right: -20px;
+   top: 0;
+   z-index: 10;
+ }
+ .navs:before {
+   content: '';
+   display: block;
+   border-top: 20px solid #D6D6D6;
+   border-bottom: 20px solid #D6D6D6;
+   border-left: 20px solid #fff;
+   position: absolute;
+   left: 0px;
+   top: 0;
+ }
+ .navs:first-child {
+   border-radius: 4px 0 0 4px;
+   padding-left: 25px;
+ }
+
+ .navs:last-child,
+ .cssNavEnd {
+   border-radius: 0px 4px 4px 0px;
+   padding-right: 25px;
+ }
+
+ .navs:first-child:before {
+   display: none;
+ }
+
+ .navs:last-child:after,
+ .cssNavEnd:after {
+   display: none;
+ }
+
+ .navs.active {
+   background-color: #ef72b6;
+ }
+
+ .navs.active:after {
+   border-left-color: #ef72b6;
+ }
+ .navs1  {
+   width: 220px;
+   padding: 0px 10px 0 20px;
+   line-height: 40px;
+   background: #E53031;
+   display: inline-block;
+   color: #FFFFFF;
+   font-size: 15px;
+   font-weight: 400;
+   position: relative;
+ }
+ .navs1 img {
+   width: 18px;
+   height: 18px;
+   position: relative;
+   top:2px;
+ }
+ .navs1:after {
+   content: '';
+   display: block;
+   border-top: 20px solid #E53031;
+   border-bottom: 20px solid #E53031;
+   border-left: 20px solid #fff;
+   position: absolute;
+   right: -20px;
+   top: 0;
+ }
+
+ .navs1:after{
+   content: '';
+   display: block;
+   border-top: 20px solid transparent;
+   border-bottom: 20px solid transparent;
+   border-left: 20px solid #E53031;
+   position: absolute;
+   rightright: -20px;
+   top: 0;
+   z-index: 10;
+ }
+ .navs1:before {
+   content: '';
+   display: block;
+   border-top: 20px solid #E53031;
+   border-bottom: 20px solid #E53031;
+   border-left: 20px solid #fff;
+   position: absolute;
+   left: 0px;
+   top: 0;
+ }
+
+ .navs1:first-child {
+   border-radius: 4px 0 0 4px;
+   padding-left: 25px;
+ }
+
+ .navs1:last-child,
+ .cssNavEnd {
+   border-radius: 0px 4px 4px 0px;
+   padding-right: 25px;
+ }
+
+ .navs1:first-child:before {
+   display: none;
+ }
+
+ .navs1:last-child:after,
+ .cssNavEnd:after {
+   display: none;
+ }
+
+ .navs1.active {
+   background-color: #ef72b6;
+ }
+
+ .navs1.active:after {
+   border-left-color: #ef72b6;
  }
 </style>

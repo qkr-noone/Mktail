@@ -57,7 +57,7 @@
               <li>未评价</li>
               <li>
                 <a>订单详情</a><br>
-                <a  @click="dialogTableVisible = true"  class="textBlue">添加评价</a>
+                <a   @click="openBox()" class="textBlue">添加评价</a>
               </li>
             </ul>
           </div>
@@ -85,7 +85,7 @@
               <li><i class="el-icon-warning"></i></li>
               <li>
                 <a>订单详情</a><br>
-                <a @click="amendcomment" class="textBlue">修改评价</a>
+                <a  @click="openBox()" class="textBlue">修改评价</a>
               </li>
             </ul>
           </div>
@@ -94,9 +94,6 @@
     </div>
     <div class="no-order" v-show="order">
       <p>您现在还没有已评价订单</p>
-    </div>
-    <div class="dialog">
-    <el-button type="text" @click="openBox()">打开</el-button>
     </div>
     <div class="can_order_box" data-attr="取消订单" v-if="Box">
       <div class="init can_order">
@@ -115,7 +112,7 @@
                   </span>
               </div>
               <div class="comment">
-                <span class="score">请选择我的评分:</span><el-rate v-model="value1"></el-rate>
+                <span class="score">请选择我的评分:</span><el-rate  v-model="value1" :colors="colors"></el-rate>
                 <el-input
                   type="textarea"
                   class="scoreinput"
@@ -130,42 +127,29 @@
                 <div class="upload">
                   <div class="uploadArea">
                     <el-upload
-                      v-if="imageUrl.length === 0"
-                      action="123"
-                      :show-file-list="false"
-                      multiple
-                      accept='image/jpeg,image/gif,image/png,image/bmp'
-                      class="avatar-uploader"
+                      class="imgstlye"
+                      action="https://jsonplaceholder.typicode.com/posts/"
+                      :on-preview="handlePictureCardPreview"
+                      :multiple="true"
+                      :limit="5"
+                      :on-exceed="chooseImg"
                       :on-success="handleAvatarSuccess"
-                      :http-request="httpRequest">
-                      <div class="upload">选择文件并上传</div>
+                      accept=".jpg,.jpeg,.png,.gif,.pdf,.doc,.docx,.xls,.xlsx,.JPG,.JPEG,.PBG,.GIF,.PDF,.DOC,.DOCX,.XLS,.XLSX"
+                    :on-remove="handleRemove">
+                    <i class="el-icon-plus"></i>
+                    <i class="el-icon-plus"></i>
+                    <i class="el-icon-plus"></i>
+                    <i class="el-icon-plus"></i>
+                    <i class="el-icon-plus"></i>
                     </el-upload>
 
                   </div>
                 </div>
+                <p class="stepsp">评价发表后，不能修改评价内容</p>
               </div>
             </div>
-
-<!--          <div class="init can_item">-->
-<!--            <p class="can_tip">您确定要取消该订单吗？取消订单后，不能恢复。</p>-->
-<!--            <div class="init can_select_box">-->
-<!--              <label class="init">请选择取消订单的理由:&nbsp;</label>-->
-<!--              <select class="init can_select">-->
-<!--                <option value="请选择关闭理由">请选择关闭理由</option>-->
-<!--                <option value="我不想买了">我不想买了</option>-->
-<!--                <option value="信息填写错误，重新拍">信息填写错误，重新拍</option>-->
-<!--                <option value="卖家缺货">卖家缺货</option>-->
-<!--                <option value="同城见面交易">同城见面交易</option>-->
-<!--                <option value="付款遇到问题（如余额不足、不知道怎么付款等）">付款遇到问题（如余额不足、不知道怎么付款等）</option>-->
-<!--                <option value="拍错了">拍错了</option>-->
-<!--                <option value="其他原因">其他原因</option>-->
-<!--              </select>-->
-<!--            </div>-->
-<!--            &lt;!&ndash; <textarea class="init can_other" type="textarea" maxlength="100" placeholder="取消订单其他原因..."></textarea> &ndash;&gt;-->
-<!--          </div>-->
-          <div class="init can_pick">
-            <button class="init can_btn btn_sub_set" @click="closeBox">确定</button>
-            <button class="init can_btn btn_set" @click="closeBox">取消</button>
+            <div class="init can_pick">
+            <button class="init can_btn btn_sub_set" @click="opensteps">提交评价</button>
           </div>
         </div>
           <div class="notefont" v-show="note">
@@ -176,6 +160,33 @@
             订单在线交易成功（指该订单变为交易成功状态）后的30天内。系统自动默认的评价，用
             户不能进行修改。所有评价都以匿名的形式展现。</p>
 
+          </div>
+          <div class="steps" v-show="stepsshow">
+            <div class="steptips">
+              <el-steps :space="200" :active="4" finish-status="success">
+                <el-step title="确定订单信息"></el-step>
+                <el-step title="付款"></el-step>
+                <el-step title="确定收货"></el-step>
+                <el-step title="评价"></el-step>
+              </el-steps>
+            </div>
+            <div class="steptext">
+              <table>
+              <tr>
+                <img src="/static/img/mk_search_fee.png">
+              </tr>
+                <tr>
+                  已评价成功
+                </tr>
+                <tr>相关操作</tr>
+                <tr>
+                  查看  <a>评价详情</a>
+                </tr>
+                <tr>
+                  查看 <a>我做出的评价</a>
+                </tr>
+              </table>
+            </div>
           </div>
           <p class="noteReturn" @click="opennote(false)" v-show="note">《 返回</p>
         <div class="can_close"><i class="el-icon-close" @click="closeBox"></i></div>
@@ -195,9 +206,11 @@ export default {
       order: false, // 没有已评价订单
       noorder: true, // 没有未评价订单
       loginName: '',
-      Box: false, // 弹窗
-      evaluate: false, // 商品评价
+      Box: true, // 弹窗
+      evaluate: true, // 商品评价
       note: false, // 评价须知
+      colors: ['#FB1D1E', '#FB1D1E', '#FB1D1E', '#FB1D1E', '#FB1D1E'],
+      stepsshow: false, // 评价成功
       unevaluatedorders: [], // 未评价商品列表
       evaluatedorders: [], // 已评价商品列表
       dialogTableVisible: false,
@@ -369,18 +382,29 @@ export default {
     openBox () {
       this.Box = true
       this.evaluate = true
+      this.stepsshow = false
     },
     closeBox () {
       this.Box = false
       this.evaluate = false
       this.note = false
+      this.stepsshow = false
     },
     opennote (e) {
       if (e === true) {
         this.note = true
+        this.evaluate = false
+        this.stepsshow = false
       } else {
         this.note = false
+        this.evaluate = true
+        this.stepsshow = false
       }
+    },
+    opensteps () {
+      this.note = false
+      this.evaluate = false
+      this.stepsshow = true
     },
     // 点击文件列表中已上传的文件时的方法
     handlePictureCardPreview () {
@@ -768,5 +792,57 @@ export default {
     padding-top: 42px;
     margin-right: 12px;
     border: 1px solid #8A8A8A;
+  }
+  .steps {
+  }
+  .steptips {
+      width: 400px;
+    height: 100px;
+    margin-top:60px;
+    margin-left: 300px;
+  }
+  .steptext{
+    width:862px;
+    height:190px;
+    background:rgba(244,244,244,1);
+    border:1px solid rgba(106,106,106,1);
+    font-family:SourceHanSansCN-Regular;
+    font-weight:400;
+    color:rgba(49,49,49,1);
+    line-height:24px;
+
+    border-radius:5px;
+    margin-top: 66px;
+    display: flex;
+    justify-content: center;
+  }
+  .btn_sub_set {
+    width:122px;
+    height:40px;
+    border:1px solid rgba(171,44,44,1);
+    background:linear-gradient(-180deg,rgba(255,99,99,1) 0%,rgba(251,29,30,1) 100%);
+    border-radius:5px;
+    font-size:18px;
+    font-family:Adobe Heiti Std R;
+    font-weight:normal;
+    color:rgba(255,255,255,1);
+    line-height:18px;
+    margin-right: 390px;
+    margin-top: 100px;
+  }
+  .steptext img {
+    width: 50px;
+    height: 50px;
+  }
+  .stepsp {
+    width:180px;
+    height:13px;
+    font-size:12px;
+    font-family:Adobe Heiti Std R;
+    font-weight:normal;
+    color:rgba(78,78,78,1);
+    line-height:18px;
+    margin-left: 190px;
+    margin-top: 220px;
   }
 </style>
