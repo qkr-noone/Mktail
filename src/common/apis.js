@@ -166,5 +166,9 @@ export default {
   // 根据用户名查询未评价的订单
   Unevaluatedorders: data => http.get('/page/goodsEvaluate/findListByUserName', data),
   // 根据用户名查询已评价的订单
-  Evaluatedorders: data => http.get('/page/goodsEvaluate/findListByName', data)
+  Evaluatedorders: data => http.get('/page/goodsEvaluate/findListByName', data),
+  // 根据用户名和评价状态查询未评价订单
+  selectByUserName: data => http.get('/page/goodsEvaluate/selectByUserName', data),
+  // 评价图片文件上传
+  updatacomment: data => http.post('/page/goodsEvaluate/uploadFile', data)
 }

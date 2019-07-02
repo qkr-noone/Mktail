@@ -111,14 +111,15 @@
       <div class="add">
         <div class="add-title">
           <h2>商品及服务信息</h2>
-            <router-link :to="{path: '/cart'}" class="add-address-btn">返回我的购物车修改</router-link>
+            <router-link :to="{path: '/cart'}" class="add-address-btn" v-if="!skuId">返回我的购物车修改</router-link>
         </div>
         <div class="goods">
           <ul>
             <li class="goods-li" v-for="(data, numIndex) in orderList" :key="data.sellerId">
               <div class="goods-box">
                 <div class="goods-head">
-                  <div class="goods-h1"><h4>{{data.sellerName}}</h4><img src="static/img/mk_addorder-service.png"></div>
+                  <div class="goods-h1"><h4>{{data.sellerName}}</h4>
+                  </div>
                   <div class="goods-h2">服务信息</div>
                   <div class="goods-h3">单价</div>
                   <div class="goods-h4">数量</div>
@@ -562,8 +563,8 @@ export default {
           })
           setStore('cartList', cartList)
         }
-        let temOutTradeNo = rtn
-        this.$router.push({path: '/payHome', query: {outTradeNo: temOutTradeNo}})
+        console.log(rtn)
+        this.$router.push({ path: '/pay', query: {payStyle: this.choosePay, orderIdList: rtn.orderIdList} })
       })
     },
     getForm () {
@@ -806,7 +807,6 @@ export default {
     color: rgba(231,22,0,1);
     text-align: center;
     line-height: 40px;
-    background-color: rgba(238, 238, 238, 0.7);
     cursor: pointer;
   }
   .user-inf-push {

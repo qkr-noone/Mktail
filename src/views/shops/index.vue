@@ -43,6 +43,12 @@
         </ul>
       </ul>
     </div>
+    <!-- 侧边栏客服 -->
+    <div class="customer_box" data-attr="客服" v-if="sellerInfo.linkmanQq">
+      <div class="customer_con">
+        <a :href="(sellerInfo.linkmanQq && 'http://wpa.qq.com/msgrd?v=3&uin='+ sellerInfo.linkmanQq +'&site=qq&menu=yes')||'javascript:;'" target="_blank" title="点此可以直接和卖家交流选好的宝贝，或相互交流网购体验。"><img src="static/img/mk_search_link.png"></a>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -54,7 +60,8 @@ export default {
       menuCate: [],
       storeSign: {},
       menuNavBar: [],
-      scroll: 0
+      scroll: 0,
+      sellerInfo: {}
     }
   },
   components: {
@@ -79,6 +86,10 @@ export default {
     // 下拉菜单
     this.API.getStoreMenu({ sellerId: this.storeId }).then(res => {
       this.menuCate = res
+    })
+    // 店铺信息
+    this.API.getStoreInfo({ sellerId: this.storeId }).then(res => {
+      this.sellerInfo = res
     })
     document.addEventListener('mousemove', this.handlePackNavBar)
   },
@@ -222,12 +233,12 @@ export default {
     position: relative;
   }
   .menu-item-li {
-    height: 40px;
-    line-height: 40px;
+    height: 44px;
+    line-height: 44px;
   }
   .menu-item-li>a.menu-a {
-    height: 40px;
-    line-height: 40px;
+    height: 44px;
+    line-height: 44px;
   }
   .menu-a {
     height: 40px;
@@ -284,4 +295,21 @@ export default {
     display: block;
   }
 
+/* 侧边栏客服 */
+  .customer_box {
+    position: fixed;
+    bottom: 300px;
+    z-index: 100000003;
+    right: 20px;
+    width: 50px;
+    .customer_con {
+      height: 50px;
+      background-color: rgba(255, 255, 255, 0.85);
+      border-radius: 8px;
+      border: 1px solid rgba(226, 226, 226, 0.56);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
 </style>

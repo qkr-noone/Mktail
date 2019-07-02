@@ -29,7 +29,7 @@
       </li>
       <li class="list-item">
         <span class="large-size">￥{{list.payment}}</span>
-        <span>(含运费：￥0.00)</span>
+        <span>(含运费：￥{{list.shippingPrice}})</span>
         <span>在线支付</span>
       </li>
       <li class="list-item">
@@ -43,8 +43,8 @@
         <a class="text-red" v-if="list.status===4 || list.status ===5">查看物流</a>
       </li>
       <li class="list-item">
-        <a v-if="list.status === 1" class="fast-pay">立即付款</a>
-        <a v-if="list.status === 1" @click="cancleOrder()">取消订单</a>
+        <router-link v-if="list.status === 1" class="fast-pay" :to="{path:'/pay', query: {payStyle: 'weChat', orderIdList:list.orderId, from: Date.parse(new Date())}}">立即付款</router-link>
+        <a v-if="list.status === 1" @click="orderBox=list.orderId">取消订单</a>
         <a v-if="list.status === 2">取消详情</a>
         <router-link :to="{path: '/detail', query: {goodsId: list.goodsId, skuId: list.itemId}}" v-if="list.status === 2 || list.status > 4">再次购买</router-link>
         <router-link :to="{path: '/trace/orderDetail', query: {orderId: list.orderId}}" v-if="list.status === 3" :data-id="list.orderId">查看详情</router-link>
@@ -54,12 +54,46 @@
         <a v-if="list.status === 6">查看退款</a>
       </li>
     </ul>
+    <div class="can_order_box" data-attr="取消订单" v-if="orderBox">
+      <div class="init can_order">
+        <div class="init can_con">
+          <div class="init can_title">
+            <img class="can_title_logo" src="static/img/mk_logo_login.png">
+            <p class="can_title_head">取消订单</p>
+          </div>
+          <div class="init can_item">
+            <p class="can_tip">您确定要取消该订单吗？取消订单后，不能恢复。</p>
+            <div class="init can_select_box">
+              <label class="init">请选择取消订单的理由:&nbsp;</label>
+              <select class="init can_select">
+                <option value="请选择关闭理由">请选择关闭理由</option>
+                <option value="我不想买了">我不想买了</option>
+                <option value="信息填写错误，重新拍">信息填写错误，重新拍</option>
+                <option value="卖家缺货">卖家缺货</option>
+                <option value="同城见面交易">同城见面交易</option>
+                <option value="付款遇到问题（如余额不足、不知道怎么付款等）">付款遇到问题（如余额不足、不知道怎么付款等）</option>
+                <option value="拍错了">拍错了</option>
+                <option value="其他原因">其他原因</option>
+              </select>
+            </div>
+            <!-- <textarea class="init can_other" type="textarea" maxlength="100" placeholder="取消订单其他原因..."></textarea> -->
+          </div>
+          <div class="init can_pick">
+            <button class="init can_btn btn_sub_set" @click="cancleOrder()">确定</button>
+            <button class="init can_btn btn_set">取消</button>
+          </div>
+        </div>
+        <div class="can_close"><i class="el-icon-close"></i></div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
 export default {
   data () {
-    return {}
+    return {
+      orderBox: ''
+    }
   },
   props: {
     list: {
@@ -70,7 +104,11 @@ export default {
     goDetail (id) {
       this.$router.push({path: '/detail', query: {goodsId: id}})
     },
-    cancleOrder () {}
+    cancleOrder () {
+      this.API.orderCancle({ orderId: this.orderBox }).then(res => {
+        console.log(res)
+      })
+    }
   }
 }
 </script>
@@ -106,6 +144,7 @@ export default {
     border-radius:5px;
     margin: 6px 0;
     color: #fff;
+    cursor: pointer;
   }
   .shop-list li:first-child {
     width: 719px;
@@ -188,5 +227,121 @@ export default {
     font-size: 16px;
     font-weight: 500;
     color: rgba(62, 62, 62, 1);
+  }
+/* 取消订单 */
+  .can_order_box {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0,0,0, 0.1);
+    z-index: 1000;
+    overflow-y: hidden;
+  }
+  .can_order {
+    position: relative;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width:660px;
+    height:437px;
+    background:rgba(255,255,255,1);
+    border:10px solid rgba(142, 142, 142, 0.26);
+    border-radius: 10px;
+  }
+  .init{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    font-style: normal;
+    text-decoration: none;
+    font-family: "Helvetica Neue", "Microsoft Yahei";
+    -webkit-tap-highlight-color: transparent;
+    -webkit-font-smoothing: antialiased;
+  }
+  textarea:hover, textarea:focus, select:hover, select:focus, button:hover, button:focus, input:focus, input:hover, label:hover, label:focus, option:focus, option:hover{
+    outline: none;
+  }
+  select:hover, select {
+    border: 1px solid #8E8E8E;
+  }
+  select::-ms-expand{ display: none; }
+  input[type="button"], input[type="submit"], input[type="search"], input[type="reset"], textarea {
+    -webkit-appearance: none;
+  }
+  table, tr, td {
+    border-spacing: 0;
+  }
+  .can_con {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    font-size: 15px;
+    color: #3D3D3D;
+    padding: 24px 21px 15px 37px;
+  }
+  .can_title {
+    display: flex;
+  }
+  .can_title_logo {
+    max-width: 70px;
+    max-height: 40px;
+  }
+  .can_title_head {
+    color: #4E4E4E;
+    font-size: 24px;
+    vertical-align: bottom;
+    margin-left: 20px;
+    align-self: flex-end;
+  }
+  .can_item {
+    margin-top: 36px;
+  }
+  .can_tip {
+    color: #E53031;
+    margin-bottom: 10px;
+  }
+  .can_select_box {
+    height: 32px;
+    line-height: 32px;
+  }
+  .can_select {
+    font-size: 15px;
+    border-radius: 4px;
+    border:1px solid rgba(135,135,135,1);
+    box-shadow:0px 0px 8px 0px rgba(126,123,124,0.4);
+  }
+  .can_other {
+    margin-top: 25px;
+    border-radius: 4px;
+    width: 516px;
+    font-size: 13px;
+    font-family: "Microsoft Yahei";
+    height: 60px;
+  }
+  .can_close {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    font-size: 20px;
+    color: #4E4E4E;
+  }
+  .can_pick {
+    display: flex;
+    justify-content: flex-end;
+    padding: 17px 21px;
+    box-sizing: border-box;
+    margin-top: auto;
+  }
+  .can_btn{
+    padding: 6px 15px;
+    border-radius: 4px;
+  }
+  .btn_sub_set {
+    background-color: #D73331;
+    color: #FFFFFF;
+    margin-right: 10px;
   }
 </style>

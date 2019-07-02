@@ -11,11 +11,13 @@
     "e2e": "node test/e2e/runner.js",
     "test": "npm run unit && npm run e2e",
     "lint": "eslint --ext .js,.vue src test/unit test/e2e/specs",
-    "build": "node build/build.js"
+    "build": "cross-env NODE_ENV=production env_config=prod node build/build.js",
+    "build:inner": "cross-env NODE_ENV=production env_config=inner node build/build.js"
   },
   "dependencies": {
     "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
+    "cross-env": "^5.2.0",
     "element-ui": "^2.4.9",
     "qs": "^6.6.0",
     "save": "^2.3.3",
@@ -25,6 +27,7 @@
     "vue-cropper": "^0.4.8",
     "vue-drag-verify": "^1.0.6",
     "vue-piczoom": "^1.0.6",
+    "vue-qr": "^2.1.0",
     "vue-router": "^3.0.1",
     "vue-scrollto": "^2.13.0",
     "vuex": "^3.0.1"

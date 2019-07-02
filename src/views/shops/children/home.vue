@@ -4,7 +4,7 @@
     <div class="layout_m" v-for="(list, index) in tree" :key="index">
       <div class="pre_item_wrap">
         <!-- 组件内容...窄栏 -->
-        <div class="pre_module" style="z-index: 2;" v-if="!list.passModuleDataList.length">
+        <div class="pre_module" style="z-index: 2;" v-if="list.passModuleDataList&&!list.passModuleDataList.length">
           <!-- 窄栏数据遍历 -->
           <div class="pre_module_con" v-for="item in list.narrowModuleDataList" :key="item.id" :data-template="item.templateName">
             <!-- 窄栏项模板>>组件 -->
@@ -12,7 +12,7 @@
           </div>
         </div>
         <!-- 组件内容...宽栏 -->
-        <div class="pre_module" v-if="!list.passModuleDataList.length">
+        <div class="pre_module" v-if="list.passModuleDataList&&!list.passModuleDataList.length">
           <!-- 宽栏数据遍历 -->
           <div class="pre_module_con"  v-for="item in list.widthModuleDataList" :key="item.id" :data-template="item.templateName">
             <!-- 宽栏项模板>>组件 -->
@@ -20,7 +20,7 @@
           </div>
         </div>
         <!-- 组件内容...通栏 -->
-        <div class="pre_module" style="width: 100%;" v-if="list.passModuleDataList.length">
+        <div class="pre_module" style="width: 100%;" v-if="list.passModuleDataList&&list.passModuleDataList.length">
           <!-- 通栏数据遍历 -->
           <div class="pre_module_con" v-for="item in list.passModuleDataList" :key="item.id" :data-template="item.templateName">
             <!-- 通栏项模板=>>组件 -->

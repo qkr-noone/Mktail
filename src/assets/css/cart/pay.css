@@ -46,6 +46,7 @@
   }
   .pay-price {
     padding: 0 10px;
+    flex-shrink: 0;
   }
   
   .pay .checkout-tit {
@@ -62,12 +63,13 @@
   }
   
   .checkout-steps {
-    border: 1px solid #ddd;
     padding: 8px 10px 35px 10px;
+    box-sizing: border-box;
   }  
   .pay .success-info {
     line-height: 30px;
-    vertical-align: top
+    vertical-align: top;
+    text-align: left;
   }
   
   
@@ -110,6 +112,11 @@
     font-size: 24px;
     color: #4A4A4A;
   }
+  .weixin span.reload {
+    font-size: 12px;
+    color: #0b79ec;
+    cursor: pointer;
+  }
   .weixin .red{
     font-size: 13px;
     margin-left: 38px;
@@ -126,6 +133,7 @@
     justify-content: center;
     margin-top: 40px;
   }
+  .code {}
   .other-pay {
   	margin-top: 50px;
     padding-left: 20px;
@@ -140,4 +148,35 @@
     align-items: center;
     border:1px solid rgba(242,242,242,1);
     padding: 20px;
+    width: 375px;
+    height: 375px;
+  }
+  .other_pay {
+    border: none;
+  }
+  .pay_title {
+    cursor: pointer;
+    color: #0f7fed;
+  }
+  .pay_title:hover {
+    text-decoration: underline;
+  }
+  #pay{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  .pay_footer {
+    margin-top: auto;
+  }
+  .order_mistake {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 100px 0;
+  }
+  .order_mistake i {
+    color: #FF7674;
+    font-size: 30px;
+    margin-right: 20px;
   }

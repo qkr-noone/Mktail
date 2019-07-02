@@ -42,8 +42,8 @@ export default {
     flex-direction: column;
     align-items: center;
     justify-content:center;
-    font-size:15px;
-    font-family:Bahnschrift;
+    font-size: 12px;
+    font-family: "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
     font-weight:400;
   }
   .footer-list{
