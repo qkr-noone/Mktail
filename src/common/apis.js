@@ -133,7 +133,7 @@ export default {
   // 取消订单
   orderCancle: data => http.get('/order/orderManager/updateStatus', data),
   // 确认收货
-  orderBtn: data => http.get('/order/orderManager/batchConfirmReceipt', data),
+  orderBtnObtain: data => http.get('/order/orderManager/batchConfirmReceipt', data),
   // 订单删除
   orderRemove: data => http.get('/cart/order/delete', data),
   // 订单详情信息
@@ -186,5 +186,9 @@ export default {
   // 添加工单
   addWorkOrder: data => http.post('/shop/work/addWorkOrder', data),
   // oss上传签名生成
-  policy: data => http.get('/aliyun/oss/policy', data)
+  policy: data => http.get('/aliyun/oss/policy', data),
+  // 根据用户名和评价状态查询未评价订单
+  selectByUserName: data => http.get('/page/goodsEvaluate/selectByUserName', data),
+  // 评价图片文件上传
+  updatacomment: data => http.post('/page/goodsEvaluate/uploadFile', data)
 }

@@ -4,18 +4,18 @@
     <userNav></userNav>
     <section class="order">
       <section class="crumbs Left-Center">
-        <span @click="goUser">我的MKTail</span><i class="el-icon-arrow-right"></i><span @click="goOrder">订单中心</span><i class="el-icon-arrow-right"></i><span>物流详情</span>
+        <span @click="goUser">我的MKTail</span><i class="el-icon-arrow-right"></i><span @click="goOrder">订单中心</span><i class="el-icon-arrow-right"></i><span>订单详情</span>
       </section>
       <section class="content">
-        <ul class="status Center">
+        <ul class="status Center" v-if="orderInfo.status>=3 &&orderInfo.status<=5">
           <li class="Top-Center">
             <img src="static/img/user/user-order-detail-1.png">
-            <span class="status-0" :class="{'status-1': false}">待揽件</span>
+            <span class="status-0" :class="{'status-1': flowInfo.State==='0'}">待揽件</span>
           </li>
           <span class="line"></span>
           <li class="Top-Center">
             <img src="static/img/user/user-order-detail-2.png">
-            <span class="status-0" :class="{'status-1': false}">运输中</span>
+            <span class="status-0" :class="{'status-1': flowInfo.State==='2'}">运输中</span>
           </li>
           <span  class="line"></span>
           <li class="Top-Center">
@@ -25,45 +25,34 @@
           <span  class="line"></span>
           <li class="Top-Center">
             <img src="static/img/user/user-order-detail-4.png">
-            <span class="status-0" :class="{'status-1': false}">已签收</span>
+            <span class="status-0" :class="{'status-1': flowInfo.State==='3'}">已签收</span>
           </li>
         </ul>
-        <section class="data">
-          <h5 class="data-title">待揽件</h5>
+        <section class="data" v-if="orderInfo.status>=3 &&orderInfo.status<=5">
+          <h5 class="data-title" v-if="flowInfo.State==='0'">待揽件</h5>
+          <h5 class="data-title" v-else-if="flowInfo.State==='2'">运输中</h5>
+          <h5 class="data-title" v-else-if="flowInfo.State==='3'">已签收</h5>
           <section class="flow-list">
             <ul class="flow-ul">
-              <li class="flow-li Left">
-                <span class="date">2019-03-25</span>
-                <span class="week">周一</span>
-                <span class="time">10:41:56</span>
-                <span class="data-desc">您的订单卖家已发货，等待快递揽收</span>
+              <li class="flow-li Left" v-for="item in flowInfo.Traces" :key="item.AcceptTime">
+                <span class="date">{{item.AcceptTime.split(" ")[0]}}</span>
+                <!-- <span class="week">周一</span> -->
+                <span class="time">{{item.AcceptTime.split(" ")[1]}}</span>
+                <span class="data-desc">{{item.AcceptStation}}</span>
               </li>
-              <li class="flow-li Left">
-                <span class="date hidden">2019-03-25</span>
-                <span class="week hidden">周一</span>
-                <span class="time">10:41:56</span>
-                <span class="data-desc">您的订单卖家已发货，等待快递揽收您的订单卖家已发货，等待快递揽收您的订单卖家已发货，等待快递揽收您的订单卖家已发货，等待快递揽收您的订单卖家已发货，等待快递揽收您的订单卖家已发货，等待快递揽收</span>
-              </li>
-              <li class="flow-li Left">
-                <span class="date">2019-03-25</span>
-                <span class="week">周一</span>
-                <span class="time">10:41:56</span>
-                <span class="data-desc">您的订单卖家已发货，等待快递揽收</span>
-              </li>
-              <li class="flow-li Left">
-                <span class="date">2019-03-25</span>
-                <span class="week">周一</span>
-                <span class="time">10:41:56</span>
-                <span class="data-desc">您的订单卖家已发货，等待快递揽收</span>
-              </li>
-              <li class="flow-li Left">
-                <span class="date">2019-03-25</span>
-                <span class="week">周一</span>
-                <span class="time">10:41:56</span>
-                <span class="data-desc">您的订单卖家已发货，等待快递揽收</span>
+              <li class="flow-li Left" v-if="flowInfo.Traces && !flowInfo.Traces.length">
+                <span class="data-desc">等待快递揽件</span>
               </li>
             </ul>
           </section>
+        </section>
+        <section class="order_other_status" v-if="orderInfo.status<3 || orderInfo.status>5" data-attr="待付款  已取消  已退款">
+          <div class="order_other_box">
+            <div class="order_other_con">
+              <span class="order_other_icon" href="javascript:;"><img src="static/img/user/trace_edit.png"></span>
+              <span class="order_other_cur">当前订单状态：&nbsp;</span><span v-if="orderInfo.status===1">待付款</span><span v-if="orderInfo.status===2">已取消</span><span v-if="orderInfo.status===6">已退款</span><span>&nbsp;（买家操作）</span>
+            </div>
+          </div>
         </section>
         <ul class="order-info Left">
           <li class="order-li">
@@ -93,7 +82,7 @@
               <span class="label">物流公司：</span><div class="item-info">{{shippingInfo.shippingName}}</div>
             </div>
           </li>
-          <li class="order-li">
+          <!-- <li class="order-li">
             <h5 class="item-title">发票信息</h5>
             <div class="item Left">
               <span class="label">发票类型：</span><div class="item-info">电子普通发票</div>
@@ -105,8 +94,8 @@
               <span class="label">发票内容：</span><div class="item-info">商品明细</div>
             </div>
             <span class="ticket">电子发票与纸质发票具有同等法律效力，可作为用户维权、保修的有效凭据</span>
-            <!-- <div class="load-ticket">下载电子发票</div> -->
-          </li>
+            <div class="load-ticket">下载电子发票</div>
+          </li> -->
         </ul>
       </section>
       <section class="goods">
@@ -141,8 +130,10 @@
           </el-col>
         </el-row>
         <div class="replace_btn Top">
-          <a class="btn" href="javascript:;">再次购买</a>
-          <a class="btn" href="javascript:;">确认收货</a>
+          <router-link class="btn" v-if="orderInfo.status === 1" :to="{path:'/pay', query: {payStyle: 'weChat', orderIdList: $route.query.orderId, from: Date.parse(new Date())}}">立即付款</router-link>
+          <a class="btn" href="javascript:;" v-if="orderInfo.status === 2 || orderInfo.status > 4" @click="buyAgain(orderItemList)">再次购买</a>
+          <a class="btn" href="javascript:;" v-if="orderInfo.status === 3">申请退款</a>
+          <a class="btn" href="javascript:;" v-if="orderInfo.status === 4" @click="orderBtnVal=$route.query.orderId">确认收货</a>
         </div>
       </section>
       <!-- <div class="recommend">
@@ -158,6 +149,7 @@
         </div>
       </div> -->
     </section>
+    <Box :orderBtnVal="orderBtnVal" @btnOrder="btnOrder()" @quitBtnVal="orderBtnVal=''"></Box>
     <pageFooter class="footer"></pageFooter>
   </div>
 </template>
@@ -166,31 +158,58 @@ import shortcut from '@/components/shortcutHeader'
 import userNav from '@/components/userNav'
 import youRecom from '@/components/youRecom'
 import pageFooter from '@/components/pageFooter'
+import Box from '@/views/user/children/order/box'
 export default {
   data () {
     return {
       orderReceiverInfo: {},
       shippingInfo: {},
-      orderItemList: []
+      orderItemList: [],
+      orderInfo: {},
+      flowInfo: {},
+      orderBtnVal: ''
     }
   },
-  components: { shortcut, userNav, youRecom, pageFooter },
+  components: { shortcut, userNav, youRecom, pageFooter, Box },
   mounted () {
-    this.API.orderDetail({ orderId: this.$route.query.orderId }).then(res => {
-      this.orderReceiverInfo = res.orderReceiverInfo
-      this.shippingInfo = res.shippingInfo
-      this.orderItemList = res.orderItemList
-    })
-    // this.API.findFlow({ LogisticCode: this.$route.query.orderNum, shipperCode: this.$route.query.orderNum }).then(res => {
-    //   console.log(res, 0)
-    // })
+    this.dataInit()
   },
   methods: {
+    dataInit () {
+      this.API.orderDetail({ orderId: this.$route.query.orderId }).then(res => {
+        this.orderReceiverInfo = res.orderReceiverInfo
+        this.shippingInfo = res.shippingInfo
+        this.orderItemList = res.orderItemList
+        this.orderInfo = res.orderInfo
+        this.$nextTick(() => {
+          this.API.findFlow({ LogisticCode: this.shippingInfo.shippingCode, shipperCode: this.shippingInfo.shippingEncoded }).then(rtn => {
+            this.flowInfo = rtn.result
+          })
+        })
+      })
+    },
     goOrder () {
       this.$router.push('/user/userOrder/statu-z')
     },
     goUser () {
       this.$router.push('/user')
+    },
+    buyAgain (series) {
+      series.forEach(item => {
+        this.API.addToCart({ itemId: item.itemId, num: item.num, name: this.$cookies.get('user-key') }).then(res => {})
+        this.$router.push('/cart')
+      })
+    },
+    btnOrder () {
+      this.API.orderBtnObtain({ orderIds: this.orderBtnVal }).then(res => {
+        this.orderBtnVal = ''
+        if (res.success === false) {
+          this.$message.warning('提交异常')
+          return false
+        }
+        this.$message.success('交易已成功')
+        this.dataInit()
+      })
     }
   }
 }
@@ -232,6 +251,9 @@ export default {
   .order-detail {
     background-color: #F4F4F4;
     font-family: SourceHanSansCN-Light;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
   }
   .order {
     width: 1226px;
@@ -295,7 +317,6 @@ export default {
   .flow-list {
     overflow: hidden;
     padding-bottom: 30px;
-    min-height: 200px;
   }
   .flow-ul {
     margin: 50px 0 0 70px;
@@ -314,6 +335,7 @@ export default {
     border-radius: 10px;
     margin-left: -9px;
     margin-right: 10px;
+    margin-top: 3px;
     flex-shrink: 0;
   }
   li.flow-li:last-child:before{
@@ -484,7 +506,7 @@ export default {
   a.btn + a{
     margin-top: 8px;
   }
-/*为你推荐*/
+/* 为你推荐 */
   .recommend{
     width:1185px;
     height:312px;
@@ -506,6 +528,157 @@ export default {
     margin-left:40px;
   }
   .footer {
-    margin-top: 80px;
+    padding-top: 80px;
+    margin-top: auto;
+  }
+/* 取消订单 */
+  .can_order_box {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0,0,0, 0.1);
+    z-index: 1000;
+    overflow-y: hidden;
+  }
+  .can_order {
+    position: relative;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width:660px;
+    height:437px;
+    background:rgba(255,255,255,1);
+    border:10px solid rgba(142, 142, 142, 0.35);
+    border-radius: 10px;
+  }
+  .init{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    font-style: normal;
+    text-decoration: none;
+    font-family: "Helvetica Neue", "Microsoft Yahei";
+    -webkit-tap-highlight-color: transparent;
+    -webkit-font-smoothing: antialiased;
+  }
+  textarea:hover, textarea:focus, select:hover, select:focus, button:hover, button:focus, input:focus, input:hover, label:hover, label:focus, option:focus, option:hover{
+    outline: none;
+  }
+  select:hover, select {
+    border: 1px solid #8E8E8E;
+  }
+  select::-ms-expand{ display: none; }
+  input[type="button"], input[type="submit"], input[type="search"], input[type="reset"], textarea {
+    -webkit-appearance: none;
+  }
+  table, tr, td {
+    border-spacing: 0;
+  }
+  .can_con {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    font-size: 15px;
+    color: #3D3D3D;
+    padding: 24px 21px 15px 37px;
+  }
+  .can_title {
+    display: flex;
+  }
+  .can_title_logo {
+    max-width: 70px;
+    max-height: 40px;
+  }
+  .can_title_head {
+    color: #4E4E4E;
+    font-size: 24px;
+    vertical-align: bottom;
+    margin-left: 20px;
+    align-self: flex-end;
+  }
+  .can_item {
+    margin-top: 36px;
+  }
+  .can_tip {
+    color: #E53031;
+    margin-bottom: 10px;
+  }
+  .can_select_box {
+    height: 32px;
+    line-height: 32px;
+  }
+  .can_select {
+    font-size: 15px;
+    border-radius: 4px;
+    border:1px solid rgba(135,135,135,1);
+    box-shadow:0px 0px 8px 0px rgba(126,123,124,0.4);
+  }
+  .can_other {
+    margin-top: 25px;
+    border-radius: 4px;
+    width: 516px;
+    font-size: 13px;
+    font-family: "Microsoft Yahei";
+    height: 60px;
+  }
+  .can_close {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    font-size: 20px;
+    color: #4E4E4E;
+    cursor: pointer;
+  }
+  .can_pick {
+    display: flex;
+    justify-content: flex-end;
+    padding: 17px 21px;
+    box-sizing: border-box;
+    margin-top: auto;
+  }
+  .can_btn{
+    padding: 6px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .btn_sub_set {
+    background-color: #D73331;
+    color: #FFFFFF;
+    margin-right: 10px;
+  }
+/* 确认收货 */
+  .btn_order {
+    height: 258px;
+  }
+  .btn_tip { font-size: 24px; }
+  .btn_tip_back { color: #4E4E4E; font-size: 14px; }
+/* 待付款 已取消 已退款 */
+  .order_other_status {
+    box-sizing: border-box;
+    height:173px;
+    background:rgba(255,255,255,1);
+    border:1px solid rgba(173,173,173,1);
+    box-shadow:0px 0px 6px 3px rgba(0, 0, 0, 0.1);
+    border-radius:5px;
+  }
+  .order_other_box {
+    padding: 27px 62px;
+  }
+  .order_other_con {
+    font-size: 18px;
+    color: #3F3F3F;
+    text-align: left;
+  }
+  .order_other_cur {
+    color: #E53031
+  }
+  .order_other_handler {
+    color: #8A8A8A;
+  }
+  .order_other_icon {
+    margin-bottom: -5px;
   }
 </style>

@@ -514,6 +514,10 @@ export default {
         this.$message.info('请核对信息, 重新购买')
       }
     },
+    // 唤醒客服
+    customer () {
+      console.log(10)
+    },
     // 用户登陆
     userLogin () {
       this.isMaskLogin = false

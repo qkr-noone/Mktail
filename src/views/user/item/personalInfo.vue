@@ -232,8 +232,8 @@ export default {
       isFullUserHead: false,
       previews: {},
       one: '',
-      header: {
-        Authorization: 'MkTail-eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMjM0NTY3IiwiZXhwIjoxNTg1Mjk4Nzc2LCJpYXQiOjE1NTM3NjI3NzZ9.xVq2MALQisfT1urVW7EfWrdL1FPzZrsF32guN1tCyC5z24h2B4ogjShxXIxTUyKoaiRkjuq0gJRxM9ikb3qQUw'
+      header: { // TODO error
+        Authorization: this.$cookies.get('token')
       }
     }
   },

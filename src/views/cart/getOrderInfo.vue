@@ -563,6 +563,7 @@ export default {
           })
           setStore('cartList', cartList)
         }
+        console.log(rtn)
         this.$router.push({ path: '/pay', query: {payStyle: this.choosePay, orderIdList: rtn.orderIdList} })
       })
     },
