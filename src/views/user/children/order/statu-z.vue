@@ -272,6 +272,7 @@ export default {
     },
     refundOrder () {
       console.log(this.orderRefundVal, 'refund')
+      this.$router.push('/trace/orderRefund?orderRefundVal=' + this.orderRefundVal)
     }
   },
   watch: {

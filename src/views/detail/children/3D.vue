@@ -8,7 +8,6 @@
         <div class="threeD-box">
           <img :src="cover3d">
           <!-- <iframe ref="threeDSrc" style="width: 100%; height: 100%;" frameborder="0" scrolling="no"></iframe> -->
-          <a class="threeD-btn" href="javascript:;" v-show="!is3Ding" @click="threeDUrl(show3d)">
             <img src="static/img/mk_search_play.png">
           </a>
         </div>
@@ -31,7 +30,6 @@ export default {
     }
   },
   props: {
-    show3d: {
       type: String
     },
     scroll: {

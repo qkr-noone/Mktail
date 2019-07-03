@@ -349,7 +349,14 @@ router = new Router({
       meta: {
         isLogin: true
       },
-      component: resolve => require(['@/views//trace/orderDetail'], resolve)
+      component: resolve => require(['@/views/trace/orderDetail'], resolve)
+    },
+    { // 申请退款
+      path: '/trace/orderRefund',
+      meta: {
+        isLogin: true
+      },
+      component: resolve => require(['@/views/trace/orderRefund'], resolve)
     },
     { // 行业类别
       path: '/category',
