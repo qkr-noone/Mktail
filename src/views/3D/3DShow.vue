@@ -154,7 +154,6 @@ export default {
       document.documentElement.scrollTop = 133
       document.body.scrollTop = 133
     })
-    let threeDUrl = this.U3DIP + '/index.html?id=' + this.$route.query.U3DId // http://192.168.0.34:8080/qn30/index.html?spuid=10112267
     // console.log(this.$route.query)
     this.findSellerThreeDDataF()
     this.infoName = this.$route.query.InfoName
