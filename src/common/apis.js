@@ -171,5 +171,20 @@ export default {
   // 根据用户名查询未评价的订单
   Unevaluatedorders: data => http.get('/page/goodsEvaluate/findListByUserName', data),
   // 根据用户名查询已评价的订单
-  Evaluatedorders: data => http.get('/page/goodsEvaluate/findListByName', data)
+  Evaluatedorders: data => http.get('/page/goodsEvaluate/findListByName', data),
+
+  /* ---- 商品评价 ---- */
+  findSellerThreeDData: data => http.get('/3d/findSellerThreeDData', data),
+
+  /* ---- 3D ---- */
+  // 获取商家产品自定义分类
+  findProductTypeComboList: data => http.get('/seller/productType/findProductTypeComboList', data),
+  // 根据产品自定义分类Id和商品名称获取已绑定3d的商品
+  findThreeDGoodsByProductTypeIdAndName: data => http.get('/seller/goods/findThreeDGoodsByProductTypeIdAndName', data),
+  // 添加获取
+  addGain: data => http.post('/work/gain/addGain', data),
+  // 添加工单
+  addWorkOrder: data => http.post('/shop/work/addWorkOrder', data),
+  // oss上传签名生成
+  policy: data => http.get('/aliyun/oss/policy', data)
 }

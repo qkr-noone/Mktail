@@ -86,3 +86,15 @@ export function isHKMobile (mobile) {
 export function isPassword (num) {
   return /(?!^[0-9]+$)(?!^[A-z]+$)(?!^[^A-z0-9]+$)^.{6,18}$/.test(num)
 }
+
+/**
+* 生成uuid
+*/
+export function uuid () {
+  // return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+  return 'xxxxxx4xxxxxxxxxxxxxxyxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+    var r = Math.random() * 16 | 0
+    var v = c === 'x' ? r : (r & 0x3 | 0x8)
+    return v.toString(16)
+  })
+}

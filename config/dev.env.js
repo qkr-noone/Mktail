@@ -4,7 +4,9 @@ const prodEnv = require('./prod.env')
 
 module.exports = merge(prodEnv, {
   NODE_ENV: '"development"',
-  BASE_API: '"//192.168.1.31:8083"', // 线上 https://www.mktail.cn:8483
+  // BASE_API: '"//192.168.1.31:8083"', // 线上 https://www.mktail.cn:8483
+  // BASE_API: '"//192.168.1.37:8083"',
+  BASE_API: '"//192.168.1.100:8083"',
   U3D_IP: '"http://192.168.1.100:9004/qnnc2c"',
   BASE_AFTER: '"http://192.168.1.100:9002"' // 后台系统
 })

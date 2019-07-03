@@ -44,7 +44,7 @@ export default {
       default: 'MKTail'
     },
     goodsId: {
-      type: String,
+      // type: String || Number,
       default: ''
     }
   },

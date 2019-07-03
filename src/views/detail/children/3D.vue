@@ -6,7 +6,8 @@
     <div class="intro-detail">
       <div class="tab-box">
         <div class="threeD-box">
-          <iframe ref="threeDSrc" style="width: 100%; height: 100%;" frameborder="0" scrolling="no"></iframe>
+          <img :src="cover3d">
+          <!-- <iframe ref="threeDSrc" style="width: 100%; height: 100%;" frameborder="0" scrolling="no"></iframe> -->
           <a class="threeD-btn" href="javascript:;" v-show="!is3Ding" @click="threeDUrl(show3d)">
             <img src="static/img/mk_search_play.png">
           </a>
@@ -35,6 +36,27 @@ export default {
     },
     scroll: {
       type: Object
+    },
+    threeId: {
+      type: Number
+    },
+    logoPic: {
+      type: String
+    },
+    InfoName: {
+      type: String
+    },
+    seller: {
+      type: String
+    },
+    goodsId: {
+      type: Number || String
+    },
+    cover3d: {
+      type: String
+    },
+    linkmanQq: {
+      type: String
     }
   },
   mounted () {
@@ -45,7 +67,8 @@ export default {
   methods: {
     threeDUrl (U3DID) {
       // this.$refs.threeDSrc.src = threeDUrl
-      this.$router.push({ path: '/3D/3Dshow', query: { id: U3DID } })
+      console.log(this.threeId, '3D')
+      this.$router.push({ path: '/3D/3Dshow', query: { id: this.threeId, logoPic: this.logoPic, InfoName: this.InfoName, seller: this.seller, goodsId: this.goodsId, linkmanQq: this.linkmanQq } })
       // this.is3Ding = true
       return false
     },
@@ -75,12 +98,21 @@ export default {
   }
   .tab-box .threeD-box{
     position: relative;
-    background-color: #E0E0E0;
+    /* background-color: #E0E0E0; */
+    background-color: #000;
     margin: 20px auto;
     width:861px;
     border: 1px solid #ddd;
     height:484px;
     overflow: hidden;
+  }
+  .threeD-box > img{
+    position: absolute;
+    max-width: 861px;
+    max-height: 484px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
   }
   .threeD-btn{
     position: absolute;

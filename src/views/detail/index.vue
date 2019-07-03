@@ -246,7 +246,7 @@
                 </div>
               </div>
               <transition>
-                <router-view :attrItem="attrItem" :goodsIntroduc="goodsIntroduc" :shopsVideo="goodsDesc.detailsVedio" :articleNumber="goodsDesc.articleNumber" :series="goodsDesc.series" :show3d="goodsDesc.show3d" :saleService="goodsDesc.saleService" :evaluationObj="evaluationObj" :scroll='scroll'></router-view>
+                <router-view :attrItem="attrItem" :goodsIntroduc="goodsIntroduc" :shopsVideo="goodsDesc.detailsVedio" :articleNumber="goodsDesc.articleNumber" :series="goodsDesc.series" :show3d="goodsDesc.show3d" :saleService="goodsDesc.saleService" :evaluationObj="evaluationObj" :scroll='scroll' :threeId="goodsDesc.threeId" :logoPic="sellerInfo.logoPic" :InfoName="sellerInfo.name" :seller="sellerInfo.sellerId" :goodsId="goods.id" :cover3d="goodsDesc.cover3d" :linkmanQq='sellerInfo.linkmanQq'></router-view>
               </transition>
             </div>
           </div>
@@ -347,6 +347,7 @@ export default {
       this.tabNav = '商品介绍'
     }
     this.API.detailTest({ goodsId: this.$route.query.goodsId, skuId: this.$route.query.skuId || '' }).then(rtn => {
+      console.log(rtn)
       if (rtn.success === false) {
         // this.$router.go(-1)
         // return false
