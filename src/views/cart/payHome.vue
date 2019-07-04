@@ -60,13 +60,11 @@
         </ul>
       </div>
     </div>
-    <div class="footer">
-      <p>MKtail公司版权所有-粤ICP备 <span><img src="static/img/reg/reg_ghs1.png"></span> 京公网安备11010820220134号-京ICP证110507</p>
-    </div>
+    <regFooter></regFooter>
   </div>
 </template>
 <script>
-import pageFooter from '@/components/pageFooter'
+import regFooter from '@/components/regFooter'
 import checkoutCounter from '@/components/checkoutCounter'
 export default {
   data () {
@@ -80,7 +78,7 @@ export default {
       cash: 0
     }
   },
-  components: { pageFooter, checkoutCounter },
+  components: { regFooter, checkoutCounter },
   mounted () {
     this.API.payPageInfo({userName: this.$cookies.get('user-key')}).then(rtn => {
       if (rtn.success === false) return false

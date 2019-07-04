@@ -73,8 +73,6 @@ export default {
     padding-bottom: 10px;
     text-align: left;
     font-size:13px;
-    font-family:SourceHanSansCN-Normal;
-    font-weight:400;
   }
   input{
     padding-left: 8px;

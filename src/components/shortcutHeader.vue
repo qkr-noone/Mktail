@@ -4,10 +4,10 @@
       <div class="shortcut">
         <div class="sc-left">
           <p v-if="this.isHome" class="backHome child" @click="home">返回首页</p>
-          <!-- <p class="child">网站导航</p>
+          <p class="child">网站导航</p>
           <a class="child">商家服务</a>
           <a class="child">客户服务</a>
-          <a class="child"><i class="el-icon-location"></i>广州</a> -->
+          <a class="child"><i class="el-icon-location"></i>广州</a>
         </div>
         <div class="sc-right">
           <ul>
@@ -27,7 +27,11 @@
             </li>
             <li class="spacer" v-if="Object.keys(userInfo).length !== 0"></li>
             <li class="child" @click="goPage({path:'/user'})">
-              <div><router-link :to="{path:'/user'}">我的订单</router-link></div>
+              <div><router-link :to="{path:'/user'}">我的MkTail</router-link></div>
+            </li>
+            <li class="spacer"></li>
+            <li class="child" @click="becomeStore()">
+              <div><a>商家入住</a></div>
             </li>
             <!-- <li class="spacer"></li>
             <li class="child">
@@ -71,6 +75,9 @@ export default {
     },
     goPage (router) {
       this.$router.push({path: router.path})
+    },
+    becomeStore () {
+      window.open(this.AFTERIP + '/#/login')
     }
   }
 }

@@ -16,19 +16,19 @@
           </form>
           <div class="search-tip">
             <ul>
-              <li><a data-tem='暂存'></a></li>
-              <!-- <li><a>脚轮</a></li>
+              <!-- <li><a data-tem='暂存'></a></li> -->
+              <li><a>脚轮</a></li>
               <li><a>手机</a></li>
               <li><a>加湿器</a></li>
               <li><a>电视</a></li>
-              <li><a>工具柜</a></li> -->
+              <li><a>工具柜</a></li>
             </ul>
           </div>
         </div>
-        <!-- <div class="download-app" v-if="isHome">
+        <div class="download-app" v-if="isHome">
           <img src="static/img/mk_app_download.png">
-          <p>扫码安装APP端</p>
-        </div> -->
+          <p>扫码关注公众号</p>
+        </div>
         <div class="addCart" @click="toCart">
           <img src="static/img/mk_search_cart.png">
           <p>我的购物车</p>
@@ -144,11 +144,11 @@ export default {
     align-items: center;
     overflow: hidden;
     height: 50px;
-    width: 650px;
+    width: 550px;
     margin: auto;
   }
   .search_ipt {
-    width: 650px;
+    width: 550px;
     border: 2px solid #E71600;
     /*border-radius: 23px 23px 23px 23px;*/
     height: 34px;
@@ -185,7 +185,7 @@ export default {
   .search-tip {
     display: flex;
     align-items: center;
-    width: 650px;
+    width: 550px;
     margin: auto;
   }
   .search-tip ul {
@@ -206,8 +206,9 @@ export default {
   .download-app {
     display: flex;
     align-items: center;
-    margin-right: 68px;
+    margin-right: 18px;
     font-size: 14px;
+    flex-shrink: 0;
     margin-bottom: 23px;
   }
   .download-app p{
@@ -223,6 +224,7 @@ export default {
     margin-bottom: 23px;
     margin-right: 68px;
     display: flex;
+    flex-shrink: 0;
     justify-content: center;
     align-items: center;
     cursor: pointer;

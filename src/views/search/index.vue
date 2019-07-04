@@ -206,6 +206,7 @@
       </div>
     </div>
     <pageFooter id="bottom"></pageFooter>
+    <regFooter></regFooter>
     <div class="point">
       <div class="point-con">
         <ul class="point-ul">
@@ -225,6 +226,7 @@ import headerNav from '@/components/headerNav'
 import homeNav from '@/components/homeNav'
 import absBox from '@/components/absBox'
 import pageFooter from '@/components/pageFooter'
+import regFooter from '@/components/regFooter'
 import { formatDate } from '@/common/utils'
 export default {
   data () {
@@ -265,7 +267,7 @@ export default {
       bottomAbs: [] // 底部广告
     }
   },
-  components: { pageFooter, shortcut, headerNav, absBox, homeNav },
+  components: { pageFooter, shortcut, headerNav, absBox, homeNav, regFooter },
   computed: {
     chooseSpec () {
       let tem = []

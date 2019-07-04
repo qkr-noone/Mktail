@@ -299,12 +299,12 @@
         </div>
       </div>
     </div>
-    <pageFooter></pageFooter>
+    <regFooter></regFooter>
   </div>
 </template>
 <script>
 import shortcutHeader from '@/components/shortcutHeader'
-import pageFooter from '@/components/pageFooter'
+import regFooter from '@/components/regFooter'
 import { getStore, setStore, formatDate } from '@/common/utils'
 export default {
   data () {
@@ -370,7 +370,7 @@ export default {
       GUID: ''
     }
   },
-  components: { shortcutHeader, pageFooter },
+  components: { shortcutHeader, regFooter },
   computed: {
     totalPostFee () {
       let tem = 0

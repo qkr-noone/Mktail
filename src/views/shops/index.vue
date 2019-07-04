@@ -49,10 +49,12 @@
         <a :href="(sellerInfo.linkmanQq && 'http://wpa.qq.com/msgrd?v=3&uin='+ sellerInfo.linkmanQq +'&site=qq&menu=yes')||'javascript:;'" target="_blank" title="点此可以直接和卖家交流选好的宝贝，或相互交流网购体验。"><img src="static/img/mk_search_link.png"></a>
       </div>
     </div>
+    <regFooter></regFooter>
   </div>
 </template>
 
 <script>
+import regFooter from '@/components/regFooter'
 export default {
   data () {
     return {
@@ -66,6 +68,7 @@ export default {
   },
   components: {
     /* 本页面的组件 */
+    regFooter,
     shortcut: () => import('@/components/shortcutHeader'),
     headerNav: () => import('@/components/headerNav'),
     shopsNav: () => import('@/components/goods/shopsNav')

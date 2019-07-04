@@ -76,11 +76,11 @@
         </div>
       </div>
     </div>
-    <pageFooter class="pay_footer"></pageFooter>
+    <regFooter class="pay_footer"></regFooter>
   </div>
 </template>
 <script>
-import pageFooter from '@/components/pageFooter'
+import regFooter from '@/components/regFooter'
 import VueQr from 'vue-qr'
 export default {
   data () {
@@ -97,7 +97,7 @@ export default {
       fromOrder: false
     }
   },
-  components: { pageFooter, VueQr },
+  components: { regFooter, VueQr },
   mounted () {
     this.payStyle = this.$route.query.payStyle || ''
     this.orderIdList = this.$route.query.orderIdList

@@ -382,7 +382,7 @@
   .Right {
     display: flex;
     flex-direction: column;
-    /*background-color: #FFFFFF;*/
+    background-color: #FFFFFF;
   }
   .user-info{
     display: flex;

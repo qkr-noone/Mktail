@@ -186,6 +186,7 @@
         </div>
       </div>
     </div>
+    <regFooter></regFooter>
   </div>
 </template>
 <script>
@@ -193,6 +194,7 @@ import shortcut from '@/components/shortcutHeader'
 import userNav from '@/components/userNav'
 import youLike from '@/components/youLike'
 import youRecom from '@/components/youRecom'
+import regFooter from '@/components/regFooter'
 export default {
   data () {
     return {
@@ -245,7 +247,7 @@ export default {
       recList: []
     }
   },
-  components: { shortcut, userNav, youLike, youRecom },
+  components: { shortcut, userNav, youLike, youRecom, regFooter },
   created () {
     let path = this.$route.path.split('/')[2]
     for (let item of this.nav) {

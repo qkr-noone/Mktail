@@ -38,11 +38,13 @@
       </div>
     </div>
     <pageFooter></pageFooter>
+    <regFooter></regFooter>
   </div>
 </template>
 <script>
 import shortcutHeader from '@/components/shortcutHeader'
 import pageFooter from '@/components/pageFooter'
+import regFooter from '@/components/regFooter'
 export default {
   data () {
     return {
@@ -54,7 +56,7 @@ export default {
       likeCate: ''
     }
   },
-  components: { shortcutHeader, pageFooter },
+  components: { shortcutHeader, pageFooter, regFooter },
   activated () {},
   deactivated () {
     this.$destroy()

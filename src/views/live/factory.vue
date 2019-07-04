@@ -230,13 +230,13 @@
         </ul>
       </div>
     </div>
-    <pageFooter></pageFooter>
+    <regFooter></regFooter>
   </div>
 </template>
 <script>
 import shortcut from '@/components/shortcutHeader'
 import live3Dheader from '@/components/live3Dheader'
-import pageFooter from '@/components/pageFooter'
+import regFooter from '@/components/regFooter'
 export default {
   data () {
     return {
@@ -273,7 +273,7 @@ export default {
       }
     }
   },
-  components: { shortcut, live3Dheader, pageFooter },
+  components: { shortcut, live3Dheader, regFooter },
   created  () {
     console.log(this['liveSource' + 1])
   },

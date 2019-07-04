@@ -4,11 +4,11 @@
     <headerNav></headerNav>
     <div class="py-container">
       <div id="item">
-        <!-- <div class="crumb-wrap">
+        <div class="crumb-wrap">
           <el-breadcrumb class="sui-breadcrumb">
-            <el-breadcrumb-item v-for="item in cateList" :to="{ path: '/search' }" :data_value="item" :key="item">{{item}}</el-breadcrumb-item>
+            <el-breadcrumb-item v-for="item in cateList" :to="{ path: '/search', query: {keywords: item} }" :data_value="item" :key="item">{{item}}</el-breadcrumb-item>
           </el-breadcrumb>
-        </div> -->
+        </div>
         <!--product-info-->
         <div class="product-info">
           <div class="preview-wrap">
@@ -260,10 +260,11 @@
         </div> -->
       </div>
     </div>
-    <!-- <div class="bottom-abs">
+    <div class="bottom-abs">
       <absBox :data="absBottomList" :indicator="'none'" :arrow="'never'" :interval="5000"></absBox>
-    </div> -->
+    </div>
     <pageFooter id="bottom"></pageFooter>
+    <regFooter></regFooter>
     <!-- 登陆 -->
     <div class="mask mask-login" v-show="isMaskLogin">
       <div class="is-login">
@@ -281,6 +282,7 @@ import shortcut from '@/components/shortcutHeader'
 import headerNav from '@/components/headerNav'
 import absBox from '@/components/absBox'
 import pageFooter from '@/components/pageFooter'
+import regFooter from '@/components/regFooter'
 import loginBox from '@/components/loginBox'
 import { formatDate, debounce, guid } from '@/common/utils'
 export default {
@@ -329,7 +331,7 @@ export default {
       unit: '个'
     }
   },
-  components: { shortcut, headerNav, pageFooter, absBox, loginBox },
+  components: { shortcut, headerNav, pageFooter, absBox, loginBox, regFooter },
   computed: {
     ...mapState(['cartList'])
   },

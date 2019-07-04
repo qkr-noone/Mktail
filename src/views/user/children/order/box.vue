@@ -58,7 +58,7 @@
             <p class="can_title_head">提示</p>
           </div>
           <div class="init can_item">
-            <p class="btn_tip_back refund_con">请先与卖家协商并及时申请退款，如双方未协商一致，请选择待退款货品申请退款，申请退款的3天后您可以申请投诉。申请退款 <br><span class="refund_query">还有疑问？点此咨询</span></p>
+            <p class="btn_tip_back refund_con">请先与卖家协商并及时申请退款，如双方未协商一致，请选择待退款货品申请退款，申请退款的3天后您可以申请投诉。申请退款 <br><!-- <span class="refund_query">还有疑问？点此咨询</span> --></p>
           </div>
           <div class="init can_pick refund_btn">
             <button class="init can_btn btn_sub_set refund_sub" @click="refundOrder()">确定</button>
@@ -67,19 +67,108 @@
         <div class="can_close" @click="quitRefundVal()"><i class="el-icon-close"></i></div>
       </div>
     </div>
+    <div class="can_order_box" data-attr="撤销退款申请" v-if="orderCancleRefund">
+      <div class="init can_order btn_order refund_order">
+        <div class="init can_con">
+          <div class="init can_title">
+            <img class="can_title_logo" src="static/img/mk_logo_login.png">
+            <p class="can_title_head">撤销退款申请</p>
+          </div>
+          <div class="init can_item">
+            <p class="btn_tip_back refund_con">销退款后，交易当即恢复超时。如您与卖家协商了新的退款协议，请立刻重新申请退款，以免超时后系统自动打款给卖家。 </p>
+          </div>
+          <div class="init can_pick refund_btn">
+            <button class="init can_btn btn_sub_set" @click="cancleRefund()">确定</button>
+            <button class="init can_btn btn_set" @click="quitCancle()">取消</button>
+          </div>
+        </div>
+        <div class="can_close" @click="quitCancle()"><i class="el-icon-close"></i></div>
+      </div>
+    </div>
+    <div class="can_order_box" data-attr="撤销退款成功" v-if="cancleRefundSuccess">
+      <div class="init can_order btn_order refund_order">
+        <div class="init can_con">
+          <div class="init can_title">
+            <img class="can_title_logo" src="static/img/mk_logo_login.png">
+            <p class="can_title_head">撤销退款申请</p>
+          </div>
+          <div class="init can_item">
+            <p class="btn_tip_back refund_con">撤销退款成功！ </p>
+          </div>
+          <div class="init can_pick refund_btn">
+            <button class="init can_btn btn_sub_set" @click="closeCancleRefund()">确定</button>
+          </div>
+        </div>
+        <div class="can_close" @click="closeCancleRefund()"><i class="el-icon-close"></i></div>
+      </div>
+    </div>
+    <div class="can_order_box" data-attr="补充留言/凭证" v-if="proofRefund">
+      <div class="init can_order can_proof">
+        <div class="init can_con">
+          <div class="init can_title">
+            <img class="can_title_logo" src="static/img/mk_logo_login.png">
+            <p class="can_title_head">补充留言/凭证</p>
+          </div>
+          <div class="btn_tip_back can_proof_word">给卖家留言</div>
+          <div class="stage2_item_con stage2_pick_user_flow">
+            <label class="init stage2_item_key"><sup class="stage2_info_color">*</sup>填写留言:</label>
+            <div>
+              <textarea type="textarea" class="stage_pick_info_box stage_pick_other" placeholder="内容在2-200个字之间，请您采用友好协商的沟通方式和对方进行交流，以助于解决问题" name=""></textarea>
+              <div class="stage_pick_word stage2_info_color">还可输入200字</div>
+            </div>
+          </div>
+          <div class="stage2_item_con stage2_pick_user_flow">
+            <label class="init stage2_item_key"><sup class="stage2_info_color">*</sup>上传凭证:</label>
+            <div>
+              <div class="stage2_file">
+                <el-upload
+                  class="avatar-uploader"
+                  accept="image/png, image/jpeg, image/gif, image/jpg, image/BMP"
+                  :action="URLIP +'/personData/personData/uploadFile'"
+                  :show-file-list="false">
+                  <label class="file_choose">选择文件</label>
+                </el-upload>
+                <p class="file_desc">请补充支持退款原因的<span class="stage2_info_color">聊天记录截图、实物照片、第三方证明等</span>相关证明，<span class="file_desc_more">查看详情</span></p>
+              </div>
+              <p class="file_tip">并可上传10张图片，只仅支持JPG、GIF、PNG、JPEG和BMP格式，单张最大5M</p>
+            </div>
+          </div>
+          <div class="init can_pick">
+            <button class="init can_btn btn_sub_set" @click="btnProof()">补充留言/上传凭证</button>
+            <button class="init can_btn btn_set" @click="quitProof()">取消</button>
+          </div>
+        </div>
+        <div class="can_close" @click="quitProof()"><i class="el-icon-close"></i></div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
 export default {
   props: {
     orderBtnVal: {
-      type: [String, Number]
+      type: [String, Number],
+      default: ''
     },
     orderCancleVal: {
-      type: [String, Number]
+      type: [String, Number],
+      default: ''
     },
     orderRefundVal: {
-      type: [String, Number]
+      type: [String, Number],
+      default: ''
+    },
+    orderCancleRefund: {
+      type: [String, Number],
+      default: ''
+    },
+    cancleRefundSuccess: {
+      type: [String, Number],
+      default: ''
+    },
+    proofRefund: {
+      type: [String, Number],
+      default: ''
     }
   },
   data () {
@@ -103,6 +192,21 @@ export default {
     },
     quitRefundVal () {
       this.$emit('quitRefundVal')
+    },
+    cancleRefund () {
+      this.$emit('cancleRefund')
+    },
+    quitCancle () {
+      this.$emit('quitCancle')
+    },
+    closeCancleRefund () {
+      this.$emit('closeCancleRefund')
+    },
+    btnProof () {
+      this.$emit('btnProof')
+    },
+    quitProof () {
+      this.$emit('quitProof')
     }
   }
 }
@@ -199,7 +303,7 @@ export default {
     width: 516px;
     font-size: 13px;
     font-family: "Microsoft Yahei";
-    height: 60px;
+    height: 120px;
   }
   .can_close {
     position: absolute;
@@ -248,5 +352,124 @@ export default {
   }
   .refund_sub {
     margin-right: 0;
+  }
+/* 上传凭证、留言 */
+  .can_proof {
+    width: 1100px;
+    height: 600px;
+  }
+  .can_proof_word {
+    color: #000;
+    font-size: 18px;
+    margin: 25px 0;
+  }
+  .stage2_item_con {
+    display: flex;
+    font-size: 16px;
+    color: #4F4F4F;
+    margin-bottom: 10px;
+  }
+  .stage2_item_con>div, .stage2_info_order {
+    text-align: left;
+  }
+  .stage2_item_key {
+    display: block;
+    text-align: right;
+    width: 132px;
+    color: #000;
+    margin-right: 10px;
+  }
+  .stage2_item_value {
+    padding-left: 12px;
+    text-align: left;
+  }
+  .stage2_info_color {
+    color: #E53031
+  }
+  .stage2_item_flow {
+    padding-top: 10px;
+  }
+  .stage2_see_order {
+    box-sizing: border-box;
+    padding-left: 30px;
+    margin-top: 10px;
+    font-size: 15px;
+    color: #0066FF;
+  }
+  .stage2_call_me {
+    margin: 0 13px;
+    height: 21px;
+    border:1px dashed rgba(60,129,255,1);
+    color: #3C81FF;
+    padding: 0px 5px;
+    cursor: pointer;
+  }
+  .stage2_pick {
+    margin-top: 30px;
+  }
+  .stage2_pick .stage2_item_con {
+    display: flex;
+    align-items: center;
+  }
+  #goodsDesc, #goodsDescNot {
+    margin: 0 2px;
+    margin-top: 4px;
+  }
+  input[type="button"], input[type="submit"], input[type="search"], input[type="reset"], input[type="number"], input[type="text"], input[type="textarea"] {
+    border: 1px solid #606060;
+  }
+  sup.stage2_info_color {
+    display: inline-block;
+    margin-top: -5px;
+  }
+  .stage_pick_info_box {
+    width:242px;
+    height:32px;
+    box-shadow:0px 3px 6px 0px rgba(96,96,96,0.4);
+    margin-right: 13px;
+    font-size: 16px;
+  }
+  .stage2_pick_user_flow {
+    align-items: flex-start !important;
+  }
+  .stage2_pick_user_flow  .stage2_item_key{
+    flex-shrink: 0;
+  }
+  .stage_pick_other {
+    width: 800px;
+    height:135px;
+    font-family: "Helvetica Neue", "Microsoft Yahei";
+  }
+  .stage_pick_word {
+    margin: 9px 0;
+    padding-right: 13px;
+    text-align: right;
+  }
+  .stage2_file {
+    background-color: #EEEEEE;
+    border:1px solid rgba(151,151,151,1);
+    width:800px;
+    height:63px;
+    display: flex;
+    align-items: center;
+  }
+  .file_choose {
+    margin: 0 30px;
+    color: #000;
+    background-color: #fff;
+    padding: 7px 15px;
+    border-radius: 8px;
+    font-size: 14px;
+    border:1px solid rgba(142,142,142,1);
+  }
+  .file_desc_more {
+    box-sizing: border-box;
+    font-size: 16px;
+    color: #0066FF;
+  }
+  .file_tip {
+    font-size:14px;
+    padding: 6px 3px;
+    color:rgba(180,180,180,1);
   }
 </style>

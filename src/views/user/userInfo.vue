@@ -24,13 +24,13 @@
         </div>
       </div>
     </div>
-    <pageFooter></pageFooter>
+    <regFooter></regFooter>
   </div>
 </template>
 <script>
 import shortcut from '@/components/shortcutHeader'
 import userNav from '@/components/userNav'
-import pageFooter from '@/components/pageFooter'
+import regFooter from '@/components/regFooter'
 export default {
   data () {
     return {
@@ -38,7 +38,7 @@ export default {
       nav: []
     }
   },
-  components: { shortcut, userNav, pageFooter },
+  components: { shortcut, userNav, regFooter },
   created () {
     let path = this.$route.path.split('/')[2]
     this.nav.forEach(item => {

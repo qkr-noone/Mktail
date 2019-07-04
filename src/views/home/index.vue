@@ -56,7 +56,7 @@
                   <router-link :to="{path: '/cart'}">购物车</router-link>
                 </div>
               </div>
-              <!-- <div class="news-info">
+              <div class="news-info">
                 <li v-for="(list, index) in tipHot" :key="list.id" v-if="index === 0"><a href="javascript:;"><span class="news-tip">【热门】</span>{{list.title}}</a></li>
                 <li v-for="(list, index) in tipKnown" :key="list.id" v-if="index === 0"><a href="javascript:;"><span class="news-tip">【知识】</span>{{list.title}}</a></li>
                 <li v-for="(list, index) in tipAbs" :key="list.id" v-if="index === 0"><a href="javascript:;"><span class="news-tip">【公告】</span>{{list.title}}</a></li>
@@ -66,7 +66,7 @@
                 <li><a><img src="static/img/mk_chongzhi.png"><h5>充值</h5></a></li>
                 <li><a><img src="static/img/mk_hongbao.png"><h5>红包</h5></a></li>
                 <li><a><img src="static/img/mk_gongyi.png"><h5>公益</h5></a></li>
-              </div> -->
+              </div>
             </div>
           </div>
         </div>
@@ -219,7 +219,8 @@
         </div>
       </div>
     </div>
-    <!-- <pageFooter></pageFooter> -->
+    <pageFooter></pageFooter>
+    <regFooter></regFooter>
     <div class="point">
       <a class="point-logo">
         <img src="static/img/mk_logo_tip.png">
@@ -253,6 +254,7 @@ import homeNav from '@/components/homeNav'
 import absBox from '@/components/absBox'
 import youLike from '@/components/youLike'
 import pageFooter from '@/components/pageFooter'
+import regFooter from '@/components/regFooter'
 import { mapState } from 'vuex'
 
 export default {
@@ -291,7 +293,7 @@ export default {
       likeList: [] // 猜你喜欢
     }
   },
-  components: { shortcut, headerNav, pageFooter, absBox, youLike, homeNav },
+  components: { shortcut, headerNav, pageFooter, absBox, youLike, homeNav, regFooter },
   computed: {
     ...mapState({
       userInfo: state => state.user.userInfo

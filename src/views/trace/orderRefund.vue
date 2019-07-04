@@ -5,10 +5,6 @@
     <div class="can_order_box" data-attr="申请退款">
       <div class="init can_order regret_order">
         <div class="init can_con">
-          <!-- <div class="init can_title">
-            <img class="can_title_logo" src="static/img/mk_logo_login.png">
-            <p class="can_title_head">退款退货</p>
-          </div> -->
           <div class="can_item">
             <div class="stage_box">
               <div class="regret_stage">
@@ -188,7 +184,7 @@
               <div class="init stage2_info_order stage2_info_seller">
                 <div class="stage2_reason_desc stage2_info_title">卖家信息</div>
                 <div class="stage2_item_con"><label class="stage2_item_key">卖家:</label><label class="stage2_item_value stage2_info_color">从化新兴金属（脚轮）</label></div>
-                <div class="stage2_item_con"><label class="stage2_item_key">会员登录名:</label><label class="stage2_item_value"><span>广州从化新兴金属（脚轮）制品有限公司</span><span class="stage2_call_me">给我留言</span></label></div>
+                <div class="stage2_item_con"><label class="stage2_item_key">会员登录名:</label><label class="stage2_item_value"><span>广州从化新兴金属（脚轮）制品有限公司</span><span class="stage2_call_me">和我联系</span></label></div>
                 <div class="stage2_item_con"><label class="stage2_item_key">支付宝账户:</label><label class="stage2_item_value">15158985207</label></div>
                 <div class="stage2_item_con"><label class="stage2_item_key">电话:</label><label class="stage2_item_value">86-</label></div>
                 <div class="stage2_item_con"><label class="stage2_item_key">手机:</label><label class="stage2_item_value">18969399695</label></div>
@@ -256,11 +252,11 @@
               <p>售后编号: TQ24338627700422548</p>
               <p>当前退款状态: <span class="stage2_info_color">退款协议等待卖家确认</span></p>
               <p class="stage3_end_time"><i class="el-icon-time stage2_info_color"></i><span>卖家必须在4天23小时59分26秒内处理，逾期系统自动同意退款</span></p>
-              <div class="stage3_end_back"><span>修改退款协议</span><span>撤销退款申请</span></div>
+              <div class="stage3_end_back"><span>修改退款协议</span><span @click="orderCancleRefund='11'">撤销退款申请</span><span @click="proofRefund='11'">补充留言/凭证</span></div>
             </div>
             <div class="init stage3_tip">
               <p>重要提示：</p>
-              <p class="stage3_tip_handle"><span class="reufnd_other_radio"></span>您还可以主动联系卖家广州从化新兴金属（脚轮）制品有限公司<span class="stage2_call_me">给我留言</span>，要求尽快处理退款。</p>
+              <p class="stage3_tip_handle"><span class="reufnd_other_radio"></span>您还可以主动联系卖家广州从化新兴金属（脚轮）制品有限公司<span class="stage2_call_me">和我联系</span>，要求尽快处理退款。</p>
               <p><span class="reufnd_other_radio"></span>您好，卖家需要一定的时间处理您的申请，若未协商一致，您可以在卖家拒绝后申请介入。</p>
             </div>
             <div class="init stage3_info">
@@ -282,8 +278,8 @@
                 </div>
                 <div class="stage3_info_con2">
                   <div class="init stage3_info_con2_2">
-                    <label>买家:conghuaxinxxing</label>
-                    <span class="stage2_call_me">给我留言</span>
+                    <label>卖家:conghuaxinxxing</label>
+                    <span class="stage2_call_me">和我联系</span>
                     <label class="stage2_item_value">121212；1212： 121</label>
                   </div>
                   <div class="init stage3_info_con2_3">
@@ -309,7 +305,7 @@
                     <label class="stage2_item_key">卖家:</label><label class="stage2_item_value stage2_info_color">从化新兴金属（脚轮）</label>
                   </div>
                   <div class="stage2_item_con">
-                    <label class="stage2_item_key">会员登录名:</label><label class="stage2_item_value">从化新兴金属（脚轮）<span class="stage2_call_me">给我留言</span></label>
+                    <label class="stage2_item_key">会员登录名:</label><label class="stage2_item_value">从化新兴金属（脚轮）<span class="stage2_call_me">和我联系</span></label>
                   </div>
                   <div class="stage2_item_con">
                     <label class="stage2_item_key">支付宝账户:</label><label class="stage2_item_value">从化新兴金属（脚轮）</label>
@@ -359,22 +355,102 @@
               <p class="stage3_seller_table stage3_seller_total">退款金额:<span class="stage2_info_color">&nbsp;28:00</span>元(<span class="stage2_info_color">8:00</span>元货品金额&nbsp;+<span class="stage2_info_color">&nbsp;10:00</span>元运费金额)</p>
             </div>
           </div>
+          <div class="can_item" data-attr="阶段2.5">
+            <div class="stage_half">
+              <p class="stage_half_title">退款协议已提交，请等待卖家处理！</p>
+              <p>注意事项：</p>
+              <p>1.如果卖家拒绝退款协议，请与卖家沟通具体原因，在根据双方的协商结果，重新修改退款协议并提交。</p>
+              <p>2.退款成功后，最终退款金额将 退回您绑定的账户中</p>
+              <span class="stage2_see_order">查看退款详情</span>
+            </div>
+            <div class="stage_half_Tip">
+              <p class="stage_half_title">后续处理流程须知：</p>
+              <div class="stage_half_box">
+                <div class="stage_process_step">
+                  <div class="stage_process">
+                    <div class="triangl_left"></div>
+                    <div class="regret_node">
+                      <span>买家提交退款协议</span>
+                      <i class="el-icon-arrow-right triangl_arrow"></i><i class="el-icon-minus triangl_line"></i>
+                    </div>
+                    <span class="triangl"></span>
+                  </div>
+                  <div class="stage_process_line">- - - - -</div>
+                </div>
+                <div class="stage_process_step">
+                  <div class="stage_process">
+                    <div class="triangl_left"></div>
+                    <div class="regret_node">
+                      <span>等待卖家处理协议</span>
+                      <i class="el-icon-arrow-right triangl_arrow"></i><i class="el-icon-minus triangl_line"></i>
+                    </div>
+                    <span class="triangl"></span>
+                  </div>
+                  <div class="stage_process_line">- - - - -</div>
+                </div>
+                <div class="stage_process_step">
+                  <div class="stage_process">
+                    <div class="triangl_left"></div>
+                    <div class="regret_node">
+                      <span>退款成功</span>
+                      <i class="el-icon-arrow-right triangl_arrow"></i><i class="el-icon-minus triangl_line"></i>
+                    </div>
+                    <span class="triangl"></span>
+                  </div>
+                </div>
+              </div>
+              <div class="stage_half_box">
+                <div class="stage_half_word">填写退款原因、金额</div>
+                <div class="stage_half_word">卖家拒绝协议</div>
+                <div class="stage_half_word stage_half_word_active">到账户查询余额</div>
+              </div>
+              <div class="stage_half_box">
+                <div class="stage_half_link">
+                  <span class="stage_half_position"></span>
+                  <p class=stage_half_link_desc>联系卖家协商<br>修改协议重新提交</p>
+                  <span class="stage_half_position_right"></span>
+                </div>
+                <div class="stage_half_link">
+                  <span class="stage_half_position_end"></span>
+                  <span class="stage_half_position_end_word">卖家同意协议</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    <pageFooter class="footer"></pageFooter>
+    <Box :orderCancleRefund="orderCancleRefund" @cancleRefund="cancleRefund()" @quitCancle="orderCancleRefund=''" :cancleRefundSuccess="cancleRefundSuccess" @closeCancleRefund="closeCancleRefund()" :proofRefund="proofRefund" @btnProof="btnProof()" @quitProof="proofRefund=''"></Box>
+    <regFooter class="footer"></regFooter>
   </div>
 </template>
 <script>
 import shortcut from '@/components/shortcutHeader'
 import userNav from '@/components/userNav'
-import pageFooter from '@/components/pageFooter'
+import regFooter from '@/components/regFooter'
+import Box from '@/views/user/children/order/box'
 export default {
   data () {
-    return {}
+    return {
+      orderCancleRefund: '',
+      cancleRefundSuccess: '',
+      proofRefund: '',
+      stage: ''
+    }
   },
-  components: { shortcut, userNav, pageFooter },
+  components: { shortcut, userNav, regFooter, Box },
   methods: {
+    cancleRefund () {
+      console.log(this.orderCancleRefund)
+      this.cancleRefundSuccess = this.orderCancleRefund
+      this.orderCancleRefund = ''
+    },
+    closeCancleRefund () {
+      this.cancleRefundSuccess = ''
+    },
+    btnProof () {
+      this.proofRefund = ''
+    }
   }
 }
 </script>
@@ -387,7 +463,7 @@ export default {
   }
   .footer {
     margin-top: auto;
-    border-top: 50px solid #f5f5f5;
+    border-top: 50px solid #ffffff;
   }
   .can_order_box {
   }
@@ -918,9 +994,12 @@ export default {
     padding: 3px;
     border-radius: 4px;
     margin-right: 13px;
+    cursor: pointer;
   }
   .stage3_end_back>span+span {
     color: #3C81FF;
+    cursor: pointer;
+    margin-right: 20px;
   }
   .stage3_tip {
     padding: 12px 40px;
@@ -1064,5 +1143,147 @@ export default {
   .stage3_seller_total {
     text-align: right;
     padding: 9px 0px 20px 0;
+  }
+/* 退款阶段2.5 */
+  .stage_half {
+    color: #393939;
+    font-size: 15px;
+    border: 1px dashed #D9D9D9;
+    padding: 21px 52px 65px 52px;
+  }
+  .stage_half>:nth-child(n) {
+    margin-top: 20px;
+  }
+  .stage_half_box {
+    display: flex;
+    justify-content: center;
+  }
+  .stage_half_Tip {
+    padding-bottom: 50px;
+  }
+
+  .stage_half_Tip>.stage_half_title {
+    margin-bottom: 52px;
+    margin-top: 40px;
+  }
+  .stage_process_step {
+    display: flex;
+    align-items: center;
+  }
+  .stage_process {
+    display: flex;
+  }
+  .stage_process .regret_node{
+    width: 250px;
+    height: 60px;
+    text-align: center;
+    line-height: 60px;
+    position: relative;
+    background-color: #E53031;
+    font-size: 22px;
+    color: #FFFFFF;
+  }
+  .stage_process .triangl{
+    border-top: 30px solid transparent;
+    border-right: 0;
+    border-bottom: 30px solid transparent;
+    border-left: 26px solid #E53031;
+  }
+  .stage_process .triangl_left{
+    border-top: 30px solid transparent;
+    border-right: 0;
+    border-bottom: 30px solid transparent;
+    border-right: 26px solid #E53031;
+  }
+  .stage_process .triangl_arrow, .stage_process .triangl_line{
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translate(68%, -50%);
+    font-size: 44px;
+    font-weight: 600;
+  }
+  .stage_process .triangl_line{
+    transform: translate(46%, -50%);
+  }
+  .stage_half_title {
+    font-size: 24px;
+  }
+  .stage_process_line {
+    font-weight: 600;
+    color: #E53031;
+    margin-top: -4px;
+  }
+  .stage_half_word {
+    width: 308px;
+    text-align: center;
+    padding-top: 7px;
+    color: #E53031;
+  }
+  .stage_half_word + .stage_half_word {
+    margin-left: 50px;
+  }
+  .stage_half_word_active {
+    color: #979797
+  }
+  .stage_half_link {
+    display: flex;
+    color: #E53031;
+    width: 666px;
+    justify-content: center;
+    align-items: center;
+  }
+  .stage_half_link + .stage_half_link {
+    width: 358px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    margin-top: -40px;
+  }
+  .stage_half_position {
+    width: 114px;
+    height: 30px;
+    border-left: 2px dashed #E53031;
+    border-bottom: 2px dashed #E53031;
+    position: relative;
+  }
+  .stage_half_position:before {
+    position: absolute;
+    left: -8px;
+    top: -18px;
+    content: '▲';
+  }
+  .stage_half_position_right {
+    width: 114px;
+    height: 30px;
+    border-right: 2px dashed #E53031;
+    border-bottom: 2px dashed #E53031;
+    position: relative;
+  }
+  .stage_half_position_right:before {
+    position: absolute;
+    right: -8px;
+    top: -18px;
+    content: '▲';
+  }
+  .stage_half_link_desc {
+    text-align: center;
+    line-height: 20px;
+    margin-top: 40px;
+  }
+  .stage_half_position_end {
+    height: 30px;
+    border-right: 2px dashed #E53031;
+    position: relative;
+    margin-left: 25px;
+  }
+  .stage_half_position_end:before {
+    position: absolute;
+    right: -8px;
+    top: -18px;
+    content: '▲';
+  }
+  .stage_half_position_end_word {
+    margin-left: -18px;
   }
 </style>

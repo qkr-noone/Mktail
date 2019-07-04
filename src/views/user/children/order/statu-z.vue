@@ -332,6 +332,8 @@ export default {
   .content .search {
     color: rgba(48, 48, 48, 1);
     margin: -10px 0 14px 0;
+    display: flex;
+    align-items: center;
   }
   .content .search input {
     outline: none;
@@ -339,18 +341,15 @@ export default {
     height: 26px;
     margin-left: 14px;
     border: 1px solid rgba(225, 225, 225, 1);
-    padding-top: 1px;
   }
   .content .search .btn {
     width: 93px;
-    height: 24px;
+    height: 26px;
     background: rgba(238, 238, 238, 1);
     border: 1px solid rgba(201, 201, 201, 1);
     margin: 0 17px 0 -8px;
     border-left: none;
     box-sizing: content-box;
-    padding-bottom: 2px;
-    padding-top: 1px;
   }
   .condition {
     margin-left: 24px;

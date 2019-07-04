@@ -8,39 +8,40 @@
       </section>
       <section class="content">
         <ul class="status Center" v-if="orderInfo.status>=3 &&orderInfo.status<=5">
+          <!-- 0在途中、1已揽收、2疑难、3已签收、4退签、5同城派送中、6退回、7转单等7个状态 -->
           <li class="Top-Center">
             <img src="static/img/user/user-order-detail-1.png">
-            <span class="status-0" :class="{'status-1': flowInfo.State==='0'}">待揽件</span>
+            <span class="status-0" :class="{'status-1': flowInfo.state==='1'}">已揽件</span>
           </li>
           <span class="line"></span>
           <li class="Top-Center">
             <img src="static/img/user/user-order-detail-2.png">
-            <span class="status-0" :class="{'status-1': flowInfo.State==='2'}">运输中</span>
+            <span class="status-0" :class="{'status-1': flowInfo.state==='0'}">运输中</span>
           </li>
           <span  class="line"></span>
           <li class="Top-Center">
             <img src="static/img/user/user-order-detail-3.png">
-            <span class="status-0" :class="{'status-1': false}">派送中</span>
+            <span class="status-0" :class="{'status-1': flowInfo.state==='5'}">派送中</span>
           </li>
           <span  class="line"></span>
           <li class="Top-Center">
             <img src="static/img/user/user-order-detail-4.png">
-            <span class="status-0" :class="{'status-1': flowInfo.State==='3'}">已签收</span>
+            <span class="status-0" :class="{'status-1': flowInfo.state==='3'}">已签收</span>
           </li>
         </ul>
         <section class="data" v-if="orderInfo.status>=3 &&orderInfo.status<=5">
-          <h5 class="data-title" v-if="flowInfo.State==='0'">待揽件</h5>
-          <h5 class="data-title" v-else-if="flowInfo.State==='2'">运输中</h5>
-          <h5 class="data-title" v-else-if="flowInfo.State==='3'">已签收</h5>
+          <h5 class="data-title" v-if="flowInfo.state==='1'">已揽件</h5>
+          <h5 class="data-title" v-else-if="flowInfo.state==='0'">运输中</h5>
+          <h5 class="data-title" v-else-if="flowInfo.state==='3'">已签收</h5>
           <section class="flow-list">
             <ul class="flow-ul">
-              <li class="flow-li Left" v-for="item in flowInfo.Traces" :key="item.AcceptTime">
-                <span class="date">{{item.AcceptTime.split(" ")[0]}}</span>
+              <li class="flow-li Left" v-for="item in flowInfo.data" :key="item.ftime">
+                <span class="date">{{item.ftime.split(" ")[0]}}</span>
                 <!-- <span class="week">周一</span> -->
-                <span class="time">{{item.AcceptTime.split(" ")[1]}}</span>
-                <span class="data-desc">{{item.AcceptStation}}</span>
+                <span class="time">{{item.ftime.split(" ")[1]}}</span>
+                <span class="data-desc">{{item.context}}</span>
               </li>
-              <li class="flow-li Left" v-if="flowInfo.Traces && !flowInfo.Traces.length">
+              <li class="flow-li Left" v-if="flowInfo.data && !flowInfo.data.length">
                 <span class="data-desc">等待快递揽件</span>
               </li>
             </ul>
@@ -50,7 +51,7 @@
           <div class="order_other_box">
             <div class="order_other_con">
               <span class="order_other_icon" href="javascript:;"><img src="static/img/user/trace_edit.png"></span>
-              <span class="order_other_cur">当前订单状态：&nbsp;</span><span v-if="orderInfo.status===1">待付款</span><span v-if="orderInfo.status===2">已取消</span><span v-if="orderInfo.status===6">已退款</span><span>&nbsp;（买家操作）</span>
+              <span>当前订单状态：&nbsp;</span><span class="order_other_cur" v-if="orderInfo.status===1">待付款</span><span  class="order_other_cur" v-if="orderInfo.status===2">已取消</span><span class="order_other_cur" v-if="orderInfo.status===6">已退款</span><span>&nbsp;（买家操作）</span>
             </div>
           </div>
         </section>
@@ -136,6 +137,11 @@
           <a class="btn" href="javascript:;" v-if="orderInfo.status === 4" @click="orderBtnVal=$route.query.orderId">确认收货</a>
         </div>
       </section>
+      <section class="order_all">
+        <p class="order_all_sub">运费:&nbsp;{{orderInfo.shippingPrice}}元</p>
+        <!-- <p class="order_all_sub">优惠:&nbsp;8.00元</p> -->
+        <p class="order_all_price">订单总价:&nbsp;<span class="order_other_cur">{{orderInfo.payment}}</span>元</p>
+      </section>
       <!-- <div class="recommend">
         <div class="recommend-top">
           <span>为您推荐</span>
@@ -150,14 +156,14 @@
       </div> -->
     </section>
     <Box :orderBtnVal="orderBtnVal" @btnOrder="btnOrder()" @quitBtnVal="orderBtnVal=''"></Box>
-    <pageFooter class="footer"></pageFooter>
+    <regFooter class="footer"></regFooter>
   </div>
 </template>
 <script>
 import shortcut from '@/components/shortcutHeader'
 import userNav from '@/components/userNav'
 import youRecom from '@/components/youRecom'
-import pageFooter from '@/components/pageFooter'
+import regFooter from '@/components/regFooter'
 import Box from '@/views/user/children/order/box'
 export default {
   data () {
@@ -170,7 +176,7 @@ export default {
       orderBtnVal: ''
     }
   },
-  components: { shortcut, userNav, youRecom, pageFooter, Box },
+  components: { shortcut, userNav, youRecom, regFooter, Box },
   mounted () {
     this.dataInit()
   },
@@ -183,7 +189,7 @@ export default {
         this.orderInfo = res.orderInfo
         this.$nextTick(() => {
           this.API.findFlow({ LogisticCode: this.shippingInfo.shippingCode, shipperCode: this.shippingInfo.shippingEncoded }).then(rtn => {
-            this.flowInfo = rtn.result
+            this.flowInfo = rtn
           })
         })
       })
@@ -317,6 +323,8 @@ export default {
   .flow-list {
     overflow: hidden;
     padding-bottom: 30px;
+    max-height: 480px;
+    overflow-y: auto;
   }
   .flow-ul {
     margin: 50px 0 0 70px;
@@ -338,7 +346,7 @@ export default {
     margin-top: 3px;
     flex-shrink: 0;
   }
-  li.flow-li:last-child:before{
+  li.flow-li:first-child:before{
     background-color: #fe4300;
     border-color: #f8e9e4;
   }
@@ -505,6 +513,27 @@ export default {
   }
   a.btn + a{
     margin-top: 8px;
+  }
+/* 支付减免总价 */
+  .order_all {
+    padding: 20px;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    color: #3D3D3D;
+    font-size: 14px;
+  }
+  .order_all_sub {
+    margin-bottom: 15px;
+  }
+  .order_all_price {
+    margin: 10px 0;
+    font-size: 16px;
+    color: #878787;
+  }
+  .order_all_price .order_other_cur {
+    font-size: 18px;
   }
 /* 为你推荐 */
   .recommend{

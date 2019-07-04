@@ -29,10 +29,10 @@
           <span v-if="isOver">99</span>
           <span v-else>{{cartNum}}</span>
         </div>
-        <!-- <div class="switch" v-if="isUser">
+        <div class="switch" v-if="isUser">
           <div class="switch-line"></div>
           <div class="switch-p"><a>切换卖家版</a></div>
-        </div> -->
+        </div>
       </div>
     </header>
   </div>

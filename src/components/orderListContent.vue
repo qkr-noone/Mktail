@@ -41,8 +41,8 @@
         <a v-else-if="list.status === 4">已发货</a>
         <a v-else-if="list.status === 5">已完成</a>
         <a v-else-if="list.status === 6">已退款</a>
-        <router-link :to="{path: '/trace/orderDetail', query: {orderId: list.orderId}}" :data-id="list.orderId">查看详情</router-link>
-        <a class="text-red" v-if="list.status===4 || list.status ===5">查看物流</a>
+        <router-link :to="{path: '/trace/orderDetail', query: {orderId: list.orderId}}">查看详情</router-link>
+        <router-link :to="{path: '/trace/orderDetail', query: {orderId: list.orderId}}" class="text-red" v-if="list.status===4 || list.status ===5">查看物流</router-link>
       </li>
       <li class="list-item">
         <router-link v-if="list.status === 1" class="fast-pay" :to="{path:'/pay', query: {payStyle: 'weChat', orderIdList:list.orderId, from: Date.parse(new Date())}}">立即付款</router-link>
