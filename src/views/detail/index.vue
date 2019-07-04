@@ -246,7 +246,7 @@
                 </div>
               </div>
               <transition>
-                <router-view :attrItem="attrItem" :goodsIntroduc="goodsIntroduc" :shopsVideo="goodsDesc.detailsVedio" :articleNumber="goodsDesc.articleNumber" :series="goodsDesc.series" :show3d="goodsDesc.show3d" :saleService="goodsDesc.saleService" :evaluationObj="evaluationObj" :scroll='scroll' :threeId="goodsDesc.threeId" :logoPic="sellerInfo.logoPic" :InfoName="sellerInfo.name" :seller="sellerInfo.sellerId" :goodsId="goods.id" :cover3d="goodsDesc.cover3d" :linkmanQq='sellerInfo.linkmanQq'></router-view>
+                <router-view :attrItem="attrItem" :goodsIntroduc="goodsIntroduc" :shopsVideo="goodsDesc.detailsVedio" :articleNumber="goodsDesc.articleNumber" :series="goodsDesc.series" :saleService="goodsDesc.saleService" :evaluationObj="evaluationObj" :scroll='scroll' :threeId="goodsDesc.threeId" :logoPic="sellerInfo.logoPic" :InfoName="sellerInfo.name" :seller="sellerInfo.sellerId" :goodsId="goods.id" :cover3d="goodsDesc.cover3d" :linkmanQq='sellerInfo.linkmanQq'></router-view>
               </transition>
             </div>
           </div>

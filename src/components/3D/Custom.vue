@@ -67,13 +67,13 @@ export default {
   },
   methods: {
     init () {
-      this.API.findProductTypeComboList({ sellerId: this.$route.query.seller }).then(res => {
+      this.API.findProductTypeComboList({ sellerId: this.$route.query.homeShops }).then(res => {
         this.tree = res
       })
       this.findThreeDGoodsByProductTypeIdAndNameF()
     },
     findThreeDGoodsByProductTypeIdAndNameF () {
-      this.API.findThreeDGoodsByProductTypeIdAndName({ name: this.name, productTypeId: this.productTypeId, sellerId: this.$route.query.seller }).then(res => {
+      this.API.findThreeDGoodsByProductTypeIdAndName({ name: this.name, productTypeId: this.productTypeId, sellerId: this.$route.query.homeShops }).then(res => {
         this.goodsList = res
       })
     },

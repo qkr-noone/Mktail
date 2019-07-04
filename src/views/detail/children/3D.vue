@@ -8,7 +8,7 @@
         <div class="threeD-box">
           <img :src="cover3d">
           <!-- <iframe ref="threeDSrc" style="width: 100%; height: 100%;" frameborder="0" scrolling="no"></iframe> -->
-          <a class="threeD-btn" href="javascript:;" v-show="!is3Ding" @click="threeDUrl(show3d)">
+          <a class="threeD-btn" href="javascript:;" v-show="!is3Ding" @click="threeDUrl()">
             <img src="static/img/mk_search_play.png">
           </a>
         </div>
@@ -31,9 +31,6 @@ export default {
     }
   },
   props: {
-    show3d: {
-      type: String
-    },
     scroll: {
       type: Object
     },
@@ -65,16 +62,9 @@ export default {
     })
   },
   methods: {
-    threeDUrl (U3DID) {
-      // this.$refs.threeDSrc.src = threeDUrl
+    threeDUrl () {
       console.log(this.threeId, '3D')
-      this.$router.push({ path: '/3D/3Dshow', query: { id: this.threeId, logoPic: this.logoPic, InfoName: this.InfoName, seller: this.seller, goodsId: this.goodsId, linkmanQq: this.linkmanQq } })
-      // this.is3Ding = true
-      return false
-    },
-    threeDclose () {
-      // this.is3Ding = false
-      return false
+      this.$router.push({ path: '/3D/3Dshow', query: { id: this.threeId, logoPic: this.logoPic, InfoName: this.InfoName, homeShops: this.seller, goodsId: this.goodsId, linkmanQq: this.linkmanQq } })
     }
   }
 }

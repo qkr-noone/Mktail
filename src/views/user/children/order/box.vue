@@ -107,7 +107,7 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
 /* 取消订单 */
   .can_order_box {
     position: fixed;

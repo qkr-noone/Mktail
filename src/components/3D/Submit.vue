@@ -104,7 +104,7 @@ export default {
         prices: '', // 期待价格(最高)
         unit: '', // 单位
         workName: '', // 工单名称
-        sellerId: this.$route.query.seller
+        sellerId: this.$route.query.homeShops
       }
     }
   },

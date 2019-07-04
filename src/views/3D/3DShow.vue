@@ -118,7 +118,7 @@ export default {
         linkman: '',
         phone: '',
         email: '',
-        seller: this.$route.query.seller
+        seller: this.$route.query.homeShops
       },
       rules: {
         industry: [
@@ -158,7 +158,7 @@ export default {
     this.findSellerThreeDDataF()
     this.infoName = this.$route.query.InfoName
     this.logo = this.$route.query.logoPic
-    this.seller = this.$route.query.seller
+    this.seller = this.$route.query.homeShops
     this.goodsId = this.$route.query.goodsId
     this.linkmanQq = this.$route.query.linkmanQq
     // let threeDUrl = this.U3DIP + '/index.html?id=24' // http://192.168.0.34:8080/qn30/index.html?spuid=10112267
@@ -196,7 +196,7 @@ export default {
       }
     },
     findSellerThreeDDataF () {
-      this.API.findSellerThreeDData({ sellerId: this.$route.query.seller }).then(res => {
+      this.API.findSellerThreeDData({ sellerId: this.$route.query.homeShops }).then(res => {
         this.goodsTotal = res.goodsComboList.length
         res.goodsComboList.map((res, i) => {
           if (this.goods.length < 3 && this.goodsNum <= i) {
