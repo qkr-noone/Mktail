@@ -6,7 +6,7 @@
       <form>
         <div class="group">
           <label>手机号码：</label>
-          <input type="text" placeholder="请填写正确的11位手机号码"/>
+          <input v-model="phone" type="text" placeholder="请填写正确的11位手机号码"/>
         </div>
         <div class="group">
           <label>验证码：</label>
@@ -43,7 +43,8 @@
 export default {
   data () {
     return {
-      panelShow: false
+      panelShow: false,
+      phone: ''
     }
   },
   methods: {

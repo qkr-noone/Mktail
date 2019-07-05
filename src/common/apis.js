@@ -148,6 +148,10 @@ export default {
   userUpdateHead: data => http.post('/personData/personData/uploadFile', data),
   // 字节流上传头像
   userUploadBlodFlow: (data, extName) => http.post('/personData/personData/uploadFile1?extName=' + extName, data),
+  // 获取具体的密保问题
+  getProblemByTypeCode: data => http.get('/personData/personData/getProblemByTypeCode', data),
+  // 保存用户的密保问题以及答案
+  Keepconfidential: data => http.post('/personData/personData', data),
 
   /* ---- 收藏关注 ---- */
 
@@ -190,5 +194,17 @@ export default {
   // 根据用户名和评价状态查询未评价订单
   selectByUserName: data => http.get('/page/goodsEvaluate/selectByUserName', data),
   // 评价图片文件上传
-  updatacomment: data => http.post('/page/goodsEvaluate/uploadFile', data)
+  updatacomment: data => http.post('/page/goodsEvaluate/uploadFile', data),
+
+  /* ---- 退款维权 ---- */
+  // 根据综合条件进行查询
+  ComprehensiveQuery: data => http.get('/order/refundOrder/findRefundOrder', data),
+  // 根据退款状态查询退单
+  Refundstatusinquiryrefund: data => http.get('/order/refundOrder/findRefundStatus', data),
+  // 根据退款类型查询退单
+  RefundTypeInquiryReturnForm: data => http.get('/order/refundOrder/findSaleStatus', data),
+  // 根据退款时间查询订单
+  Refundtimeinquiryorder: data => http.get('/order/refundOrder/selectBuyerId', data),
+  // 根据小二是否介入查询
+  findIntervention: data => http.get('/order/refundOrder/findSaleStatus', data)
 }

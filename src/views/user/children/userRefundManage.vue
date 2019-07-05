@@ -20,32 +20,16 @@
           </span>
           <span class="group">
             <label>退款时间：</label>
-             <el-select v-model="value2" placeholder="请选择" size="mini" class="short">
-              <el-option
-                v-for="item in options2"
-                :key="item.value2"
-                :label="item.label"
-                :value="item.value2">
-              </el-option>
-            </el-select>
-          </span>
-          <span class="group">
-            <label>从：</label>
-             <el-date-picker
-               v-model="startTime"
-               type="datetime"
-               size="mini"
-               placeholder="选择日期时间"
-               default-time="12:00:00" class="long">
-             </el-date-picker>
-            <label>到：</label>
-             <el-date-picker
-               v-model="endTime"
-               type="datetime"
-               size="mini"
-               placeholder="选择日期时间"
-               default-time="12:00:00" class="long">
-             </el-date-picker>
+    <el-date-picker
+      v-model="stime"
+      type="datetimerange"
+      value-format = "yyyy-MM-dd HH:mm:ss"
+      :picker-options="pickerOptions"
+      range-separator="至"
+      start-placeholder="开始日期"
+      end-placeholder="结束日期"
+      align="right">
+    </el-date-picker>
           </span>
         </div>
         <div class="choose-item">
@@ -60,23 +44,30 @@
               </el-option>
             </el-select>
           </span>
-          <span class="group">
-              <label>垫付状态：</label>
-               <el-select v-model="value4" placeholder="请选择" size="mini" class="long">
-                <el-option
-                  v-for="item in options4"
-                  :key="item.value4"
-                  :label="item.label"
-                  :value="item.value4">
-                </el-option>
-              </el-select>
-            </span>
+<!--          <span class="group">-->
+<!--              <label>垫付状态：</label>-->
+<!--               <el-select v-model="value4" placeholder="请选择" size="mini" class="long">-->
+<!--                <el-option-->
+<!--                  v-for="item in options4"-->
+<!--                  :key="item.value4"-->
+<!--                  :label="item.label"-->
+<!--                  :value="item.value4">-->
+<!--                </el-option>-->
+<!--              </el-select>-->
+<!--            </span>-->
           <span class="group">
               <label>小二介入：</label>
-               <input class="long" type="text" placeholder="全部">
+                           <el-select v-model="value2" placeholder="请选择" size="mini" class="short">
+              <el-option
+                v-for="item in options2"
+                :key="item.value2"
+                :label="item.label"
+                :value="item.value2">
+              </el-option>
+            </el-select>
             </span>
       </div>
-        <button @click="openevaluate">提交</button>
+        <button @click="ComprehensiveQuery">提交</button>
       </div>
       <div class="refund">
         <ul class="refund-title">
@@ -90,8 +81,8 @@
         <ul class="refund-list">
           <li class="refund-item">
             <p class="item-title">
-              <span>2018-12-05 20:59:00</span>
-              <span>定单号300382019621354414</span>
+              <span></span>
+              <span>订单号</span>
               <span>飞科旗舰店 <img src="static/img/user/user_part.png"></span>
             </p>
             <div class="item-info">
@@ -100,7 +91,7 @@
                 <span>飞科(FLYCO)电吹风机家用FH6232大功率吹风筒  2000W</span>
                 <span class="color-type">颜色分类：01</span>
               </p>
-              <span class="textColorOrange">¥45.00</span>
+              <span class="textColorOrange">¥4</span>
               <span class="info-date">2018-12-01 15:21:43</span>
               <span>仅退款</span>
               <span class="textColorBlue">退款成功</span>
@@ -166,43 +157,79 @@
 export default {
   data () {
     return {
-      startTime: '2018-10-19 12:25:03',
-      endTime: '2018-12-19 13:12:03',
-      value1: '全部',
-      value2: '最近申请',
-      value3: '全部',
-      value4: '全部',
+      pickerOptions: {
+        shortcuts: [{
+          text: '最近一周',
+          onClick (picker) {
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+            picker.$emit('pick', [start, end])
+          }
+        }, {
+          text: '最近一个月',
+          onClick (picker) {
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+            picker.$emit('pick', [start, end])
+          }
+        }, {
+          text: '最近三个月',
+          onClick (picker) {
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+            picker.$emit('pick', [start, end])
+          }
+        }]
+      },
+      value1: '',
+      value2: '',
+      value3: '',
+      value4: '',
+      stime: '',
+      beginTime: '',
+      endTime: '',
+      pageNum: 1, // 选择当前页
+      pageSize: 8, // 页上的条数
       evaluate: false,
-      Box: false,
-      successimg: 0,
-      navs: 'navs',
+      Box: false, // 退款弹窗
+      username: '',
+      Authorization: this.$cookies.get('token'),
+      successimg: 0, // 样式切换
+      navs: 'navs', // 选中
       navs1: 'navs1',
       switchspan1: 'switchspan1',
       switchspan2: 'switchspan2',
+      userid: '',
+      list: '',
       options1: [
-        {value1: '选项1', label: '全部'},
-        {value1: '选项2', label: '售中退款'},
-        {value1: '选项3', label: '售后退款'}],
+        {value1: '0', label: '全部'},
+        {value1: '1', label: '售中退款'},
+        {value1: '2', label: '售后退款'}],
       options2: [
-        {value2: '选项1', label: '最近申请'},
-        {value2: '选项2', label: '全部'},
-        {value2: '选项3', label: '售后退款'}],
+        {value2: '0', label: '否 '},
+        {value2: '1', label: '是 '},
+        {value2: '2', label: '全部'}],
       options3: [
-        {value3: '选项1', label: '全部'},
-        {value3: '选项2', label: '进行中的订单'},
-        {value3: '选项3', label: '退款待处理'},
-        {value3: '选项4', label: '已拒绝退款'},
-        {value3: '选项5', label: '待买家发货'},
-        {value3: '选项6', label: '待商家发货'},
-        {value3: '选项7', label: '退款关闭'},
-        {value3: '选项8', label: '退款成功'}],
-      options4: [
-        {value4: '选项1', label: '全部'},
-        {value4: '选项2', label: '先行垫付，待商家处理'},
-        {value4: '选项3', label: '先行垫付，退款成功'},
-        {value4: '选项4', label: '先行垫付，退款关闭'},
-        {value4: '选项5', label: '先行垫付，商家拒绝退款'}]
+        {value3: '0', label: '全部'},
+        {value3: '1', label: '待卖家同意'},
+        {value3: '2', label: '待卖家发货'},
+        {value3: '3', label: '待买家退货'},
+        {value3: '4', label: '待卖家确认收货'},
+        {value3: '5', label: '退款/退货成功'},
+        {value3: '6', label: '退款/退货关闭'}]
+      // options4: [
+      //   {value4: '选项1', label: '全部'},
+      //   {value4: '选项2', label: '先行垫付，待商家处理'},
+      //   {value4: '选项3', label: '先行垫付，退款成功'},
+      //   {value4: '选项4', label: '先行垫付，退款关闭'},
+      //   {value4: '选项5', label: '先行垫付，商家拒绝退款'}]
     }
+  },
+  mounted () {
+    this.username = this.$store.state.user.userInfo.username
   },
   methods: {
     openevaluate () {
@@ -212,6 +239,45 @@ export default {
     closeevaluate () {
       this.Box = false
       this.evaluate = false
+    },
+    // 根据综合条件进行查询
+    ComprehensiveQuery () {
+      // this.beginTime = this.stime[0].replace('+', ' ')
+      // this.endTime = this.stime[1].replace('+', ' ')
+      this.API.ComprehensiveQuery({Authorization: this.Authorization, beginTime: this.beginTime, endTime: this.endTime, buyerId: this.username, refundStatus: this.value1, intervention: this.value2, saleStatus: this.value3}).then(res => {
+        if (res.success === false) {
+        }
+        this.list = res
+        console.log(this.list)
+      })
+    },
+    // 根据退款状态查询退单
+    Refundstatusinquiryrefund () {
+      this.API.Refundstatusinquiryrefund({pageNum: this.pageNum, pageSize: this.pageSize, saleStatus: this.value3}).then(res => {
+        if (res.success === false) {
+        }
+      })
+    },
+    // 根据退款类型查询退单
+    RefundTypeInquiryReturnForm () {
+      this.API.RefundTypeInquiryReturnForm({pageNum: this.pageNum, pageSize: this.pageSize, refundStatus: this.value1}).then(res => {
+        if (res.success === false) {
+        }
+      })
+    },
+    // 根据退款时间查询订单
+    Refundtimeinquiryorder () {
+      this.API.Refundtimeinquiryorder({pageNum: this.pageNum, pageSize: this.pageSize, beginTime: this.stime[0], enddTime: this.stime[1], buyerId: this.username}).then(res => {
+        if (res.success === false) {
+        }
+      })
+    },
+    // 根据小二是否介入查询
+    findIntervention () {
+      this.API.findIntervention({pageNum: this.pageNum, pageSize: this.pageSize, intervention: this.value2, buyerId: this.username}).then(res => {
+        if (res.success === false) {
+        }
+      })
     }
   }
 }

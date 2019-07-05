@@ -3,7 +3,7 @@
     <div class="title">
       <a>密保问题设置</a>
     </div>
-    <div class="con-de"  >
+    <div class="con-de">
       <div class="con-item">
         <div class="tip">
           <img src="static/img/user/user_safetytips1.png">
@@ -14,48 +14,54 @@
         <form>
           <div class="group">
             <label>问题一</label>
-            <select>
-              <option value="" disabled selected hidden>请选择</option>
-              <option >您最爱吃的美食是？</option>
-              <option >您最爱的一本书是？</option>
-              <option >最喜欢听的一首歌是？</option>
-            </select>
+            <el-select style="width: 330px" v-model="value1" placeholder="请选择">
+              <el-option
+                v-for="item in options1"
+                :key="item.id"
+                :label="item.info"
+                :value="item.id">
+              </el-option>
+            </el-select>
           </div>
           <div class="group">
             <label class="answer">答案</label>
-            <input type="text" v-model="answer1" id="ans1"  v-on:blur="change()"/>
+            <input style="width: 330px" type="text" v-model="answer1" id="ans1"  v-on:blur="change()"/>
             <span class="error"  v-show="!isAnswer"><div class="error-ipt">x</div> 请填写答案</span>
           </div>
           <div class="group">
             <label>问题二</label>
-            <select>
-              <option value="" disabled selected hidden>请选择</option>
-              <option >您小时候的梦想是什么？</option>
-              <option >您最好的朋友叫什么名字？</option>
-              <option >您的初中学校是？</option>
-            </select>
+            <el-select style="width: 330px" v-model="value2" placeholder="请选择">
+              <el-option
+                v-for="item in options2"
+                :key="item.id"
+                :label="item.info"
+                :value="item.id">
+              </el-option>
+            </el-select>
           </div>
           <div class="group">
             <label class="answer">答案</label>
-            <input type="text" class="answer-test" v-model="answer2" id="ans2" v-on:blur="changeSecon()"/>
+            <input style="width: 330px" type="text" class="answer-test" v-model="answer2" id="ans2" v-on:blur="changeSecon()"/>
             <span class="error"  v-show="!isSecondAn"><div class="error-ipt">x</div> 请填写答案</span>
           </div>
           <div class="group">
             <label>问题三</label>
-            <select>
-              <option value="" disabled selected hidden>请选择</option>
-              <option >您最喜欢的城市是？</option>
-              <option >第一份工作的公司叫？</option>
-              <option >您的qq邮箱是？</option>
-            </select>
+            <el-select style="width: 330px" v-model="value3" placeholder="请选择">
+              <el-option
+                v-for="item in options3"
+                :key="item.id"
+                :label="item.info"
+                :value="item.id">
+              </el-option>
+            </el-select>
           </div>
           <div class="group">
             <label class="answer">答案</label>
-            <input type="text" v-model="answer3" id="ans3" v-on:blur="changeThird()"/>
+            <input style="width: 330px" type="text" v-model="answer3" id="ans3" v-on:blur="changeThird()"/>
             <span class="error"  v-show="!isThirdAn"><div class="error-ipt">x</div> 请填写答案</span>
           </div>
           <div class="group">
-            <button class="btn">确定</button>
+            <button @click="SubmitSecretSecurity" class="btn">确定</button>
           </div>
         </form>
       </div>
@@ -71,8 +77,19 @@ export default {
       answer3: '',
       isAnswer: true,
       isSecondAn: true,
-      isThirdAn: true
+      isThirdAn: true,
+      value1: '',
+      value2: '',
+      value3: '',
+      options1: [],
+      options2: [],
+      options3: [],
+      Authorization: this.$cookies.get('token'),
+      userName: this.$store.state.user.userInfo.username
     }
+  },
+  mounted () {
+    this.getquestion()
   },
   methods: {
     change (item, val) {
@@ -95,6 +112,24 @@ export default {
       } else {
         this.isThirdAn = true
       }
+    },
+    getquestion () {
+      this.API.getProblemByTypeCode({Authorization: this.Authorization, typeCode: 1}).then(res => {
+        this.options1 = res
+      })
+      this.API.getProblemByTypeCode({Authorization: this.Authorization, typeCode: 2}).then(res => {
+        this.options2 = res
+      })
+      this.API.getProblemByTypeCode({Authorization: this.Authorization, typeCode: 3}).then(res => {
+        this.options3 = res
+      })
+    },
+    showdata () {
+      console.log(this.value1)
+    },
+    SubmitSecretSecurity () {
+      this.API.Keepconfidential({Authorization: this.Authorization, dictInfoId1: this.value1, dictInfoId2: this.value2, dictInfoId3: this.value3, answer: this.answer1, answer2: this.answer2, answer3: this.answer3}).then(res => {
+      })
     }
   }
 }
@@ -193,7 +228,7 @@ export default {
     border:1px solid rgba(225,225,225,1);
   }
   .con-item form .group .answer{
-    margin-left: -120px;
+    /*margin-left: -120px;*/
   }
   .con-item form .group .btn{
     width:145px;
