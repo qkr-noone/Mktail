@@ -48,7 +48,7 @@
         <router-link v-if="list.status === 1" class="fast-pay" :to="{path:'/pay', query: {payStyle: 'weChat', orderIdList:list.orderId, from: Date.parse(new Date())}}">立即付款</router-link>
         <a v-if="list.status === 1" href="javascript:;" @click="cancleOrder(list.orderId)">取消订单</a>
         <a v-if="list.status === 2 || list.status > 4" href="javascript:;" @click="buyAgain(list.orderItemList)">再次购买</a>
-        <a v-if="list.status === 3" href="javascript:;" @click="refundOrder(list.orderId)">申请退款</a>
+        <a v-if="list.status === 3 || list.status === 4" href="javascript:;" @click="refundOrder(list.orderId, list.sellerId, list.status)">申请退款</a>
         <!-- <a v-if="list.status === 4" class="fast-pay">延长收货时间</a> -->
         <a v-if="list.status === 4" class="fast-pay" @click="btnOrder(list.orderId)">确认收货</a>
         <a v-if="list.status === 5">申请开票</a>
@@ -78,8 +78,11 @@ export default {
     btnOrder (orderId) {
       this.$emit('boxOrderBtn', [orderId])
     },
-    refundOrder (orderId) {
-      this.$emit('boxOrderRefund', orderId)
+    refundOrder (orderId, sellerId, status) {
+      this.API.refundList({ orderId: orderId }).then(res => {
+        if (res.success === false) return false
+        this.$emit('boxOrderRefund', [orderId, sellerId, status])
+      })
     },
     buyAgain (series) {
       console.log(series, 'list')

@@ -80,14 +80,14 @@
           </div>
           <div class="can_item" data-attr="阶段一">
             <div class="refund_type">
-              <div class="refund_type_flow refund_type_active">卖家已发的货品</div>
-              <div class="refund_type_wait">卖家未发的货品</div>
+              <div class="refund_type_flow" :class="{'refund_type_active': isFlowGoods}" @click="isFlowGoods = true">卖家已发的货品</div>
+              <div class="refund_type_wait" :class="{'refund_type_active': !isFlowGoods}" @click="isFlowGoods = false">卖家未发的货品</div>
             </div>
             <div class="refund_goods">
               <div class="refund_item_title">请选择您需要退款的货品</div>
               <div class="refund_item_con">
                 <el-row class="refund_item_row">
-                  <el-col :span="2"><input id="all" class="refund_item_check" type="checkbox" checked="true" name=""><label for="all" class="check_all">全选</label></el-col>
+                  <el-col :span="2"><input id="allGoods" ref="allGoods" class="refund_item_check" type="checkbox" name="" @change="selectGoods()"><label for="allGoods" class="check_all">全选</label></el-col>
                   <el-col :span="8">货品</el-col>
                   <el-col :span="3">单价（元）</el-col>
                   <el-col :span="2">数量</el-col>
@@ -96,24 +96,24 @@
                   <el-col :span="3">货品状态</el-col>
                 </el-row>
                 <div class="refund_grid_box">
-                  <el-row class="refund_grid" v-for="i in 3" :key="i">
-                    <el-col :span="2"><input class="refund_item_check" type="checkbox" checked="true" name=""></el-col>
+                  <el-row class="refund_grid" v-for="list in goodsList" :key="list.id">
+                    <el-col :span="2"><input class="refund_item_check" type="checkbox" name="" :value="list" v-model="selectList" @change="judge($event)"></el-col>
                     <el-col :span="8" class="refund_desc">
-                    <router-link :to="{path: '/detail', query:{goodsId: 111}}" class="a_box">
-                      <img class="nest_img" src="static/img/mk_logo_login.png">
+                    <router-link :to="{path: '/detail', query:{goodsId: list.goodsId}}" class="a_box">
+                      <img class="nest_img" :src="list.picPath">
                     </router-link>
                     <div class="nest-desc">
-                      <router-link :to="{path: '/detail', query:{goodsId: 121212}}">
-                        <span class="nest-desc-one">tttitle</span>
+                      <router-link :to="{path: '/detail', query:{goodsId: list.goodsId}}">
+                        <span class="nest-desc-one">{{list.title}}</span>
                       </router-link>
-                      <span>规格: ll</span>
+                      <span>规格: {{list.spec}}</span>
                     </div>
                     </el-col>
-                    <el-col :span="3">￥28.00</el-col>
-                    <el-col :span="2">1</el-col>
-                    <el-col :span="3">￥00.00</el-col>
-                    <el-col :span="3">￥28.00</el-col>
-                    <el-col :span="3">已发货</el-col>
+                    <el-col :span="3">￥{{list.price}}</el-col>
+                    <el-col :span="2">{{list.num}}</el-col>
+                    <el-col :span="3">￥{{list.adjustmentAmount}}</el-col>
+                    <el-col :span="3">￥{{list.payment}}</el-col>
+                    <el-col :span="3">{{goodsStatus===3 ?'未发货': '已发货'}}</el-col>
                   </el-row>
                 </div>
               </div>
@@ -121,17 +121,17 @@
             <div class="refund_tip" data-attr="退款底部信息">
               <div class="back_box">
                 <span>退款服务：</span>
-                <span><input id="goodsRefund" type="radio" name="退货退款" value="wallet"><label for="goodsRefund">退货退款</label></span>
-                <span><input id="onlyRefund" type="radio" name="退货退款" value="wallet"><label for="onlyRefund">仅退款</label></span>
+                <span><input id="goodsRefund" type="radio" name="退货退款" v-model="refundService" value="1"><label for="goodsRefund">退货退款</label></span>
+                <span><input id="onlyRefund" type="radio" name="退货退款" v-model="refundService" value="2"><label for="onlyRefund">仅退款</label></span>
               </div>
-              <div class="refund_select_num">共选择&nbsp;<span class="refund_num">0</span>&nbsp;货品</div>
-              <div class="refund_total">货品金额总计&nbsp;<span class="refund_num">0</span>&nbsp;元</div>
+              <div class="refund_select_num">共选择&nbsp;<span class="refund_num">{{selectList.reduce(reducerPost, 0)}}</span>&nbsp;货品</div>
+              <div class="refund_total">货品金额总计&nbsp;<span class="refund_num">{{selectList.reduce(reducerPrice, 0)}}</span>&nbsp;元</div>
               <p class="reufnd_other_tip"><span class="reufnd_other_radio"></span>如需退还运费，请在下一步填写</p>
               <p class="reufnd_other_tip"><span class="reufnd_other_radio"></span>在提交退款协议前，可重选货品</p>
             </div>
           </div>
           <div class="init can_pick refund_btn">
-            <button class="init can_btn btn_sub_set refund_sub">确定退款货品</button>
+            <button type="button" class="init can_btn btn_sub_set refund_sub" :disabled="!selectList.length &&'disabled'" @click="submitGoods()">确定退款货品</button>
           </div>
           <div class="can_item" data-attr="阶段二">
             <div class="refund_item_con">
@@ -145,24 +145,24 @@
                 <el-col :span="3">退款数量</el-col>
               </el-row>
               <div class="refund_grid_box">
-                <el-row class="refund_grid stage2_grid" v-for="i in 3" :key="i">
+                <el-row class="refund_grid stage2_grid" v-for="list in goodsList" :key="list.id">
                   <el-col :span="8" class="refund_desc">
-                  <router-link :to="{path: '/detail', query:{goodsId: 111}}" class="a_box">
-                    <img class="nest_img" src="static/img/mk_logo_login.png">
+                  <router-link :to="{path: '/detail', query:{goodsId: list.goodsId}}" class="a_box">
+                    <img class="nest_img" :src="list.picPath">
                   </router-link>
                   <div class="nest-desc">
-                    <router-link :to="{path: '/detail', query:{goodsId: 121212}}">
-                      <span class="nest-desc-one">tttitle</span>
+                    <router-link :to="{path: '/detail', query:{goodsId: list.goodsId}}">
+                      <span class="nest-desc-one">{{list.title}}</span>
                     </router-link>
-                    <span>规格: ll</span>
+                    <span>规格: {{list.spec}}</span>
                   </div>
                   </el-col>
-                  <el-col :span="3">￥28.00</el-col>
-                  <el-col :span="2">1</el-col>
-                  <el-col :span="2">￥00.00</el-col>
-                  <el-col :span="3">￥28.00</el-col>
-                  <el-col :span="3">已发货</el-col>
-                  <el-col :span="3" class="stage2_select_num"><input class="stage2_item_num" type="number" min="1" max="200" name=""><div class="">最多1件</div></el-col>
+                  <el-col :span="3">￥{{list.price}}</el-col>
+                  <el-col :span="2">{{list.num}}</el-col>
+                  <el-col :span="2">￥{{list.adjustmentAmount}}</el-col>
+                  <el-col :span="3">￥{{list.payment}}</el-col>
+                  <el-col :span="3">{{goodsStatus===3 ?'未发货': '已发货'}}</el-col>
+                  <el-col :span="3" class="stage2_select_num"><input class="stage2_item_num" type="number" min="1" :max="list.num" name=""><div class="">最多{{list.num}}件</div></el-col>
                 </el-row>
               </div>
             </div>
@@ -173,66 +173,87 @@
             <div class="init stage2_info">
               <div class="init stage2_info_order">
                 <div class="stage2_reason_desc stage2_info_title">订单摘要</div>
-                <div class="stage2_item_con"><label class="stage2_item_key">订单号:</label><label class="stage2_item_value">121212121212121212</label></div>
-                <div class="stage2_item_con"><label class="stage2_item_key">下单时间:</label><label class="stage2_item_value">121212121212121212</label></div>
-                <div class="stage2_item_con"><label class="stage2_item_key">付款时间:</label><label class="stage2_item_value">121212121212121212</label></div>
-                <div class="stage2_item_con"><label class="stage2_item_key">发货时间:</label><label class="stage2_item_value">121212121212121212</label></div>
-                <div class="stage2_item_con"><label class="stage2_item_key">订单状态:</label><label class="stage2_item_value stage2_info_color">等待买家确认收货</label></div>
-                <div class="stage2_item_con"><label class="stage2_item_key">已付款:</label><label class="stage2_item_value"><span class="stage2_info_color">28.00&nbsp;元</span><br><span class="stage2_item_flow">(含运费 10.00元)</span></label></div>
-                <a href="javascript:;" class="stage2_see_order">>> 查看订单详情</a>
+                <div class="stage2_item_con"><label class="stage2_item_key">订单号:</label><label class="stage2_item_value">{{orderInfo.orderId}}</label></div>
+                <div class="stage2_item_con"><label class="stage2_item_key">下单时间:</label><label class="stage2_item_value">{{orderInfo.createTime}}</label></div>
+                <div class="stage2_item_con"><label class="stage2_item_key">付款时间:</label><label class="stage2_item_value">{{orderInfo.paymentTime}}</label></div>
+                <div v-if="orderInfo.status===4" class="stage2_item_con"><label class="stage2_item_key">发货时间:</label><label class="stage2_item_value">{{orderInfo.paymentTime}}</label></div>
+                <div class="stage2_item_con"><label class="stage2_item_key">订单状态:</label>
+                  <label v-if="orderInfo.status===3" class="stage2_item_value stage2_info_color">等待卖家发货</label>
+                  <label v-if="orderInfo.status===4" class="stage2_item_value stage2_info_color">等待买家确认收货</label>
+                </div>
+                <div class="stage2_item_con"><label class="stage2_item_key">已付款:</label><label class="stage2_item_value"><span class="stage2_info_color">{{orderInfo.amountsPayable}}&nbsp;元</span><br><span class="stage2_item_flow">(含运费 {{orderInfo.shippingPrice}}.00元)</span></label></div>
+                <router-link :to="{path: '/trace/orderDetail', query: {orderId: orderId}}" class="stage2_see_order">>> 查看订单详情</router-link>
               </div>
               <div class="init stage2_info_order stage2_info_seller">
                 <div class="stage2_reason_desc stage2_info_title">卖家信息</div>
-                <div class="stage2_item_con"><label class="stage2_item_key">卖家:</label><label class="stage2_item_value stage2_info_color">从化新兴金属（脚轮）</label></div>
-                <div class="stage2_item_con"><label class="stage2_item_key">会员登录名:</label><label class="stage2_item_value"><span>广州从化新兴金属（脚轮）制品有限公司</span><span class="stage2_call_me">和我联系</span></label></div>
-                <div class="stage2_item_con"><label class="stage2_item_key">支付宝账户:</label><label class="stage2_item_value">15158985207</label></div>
-                <div class="stage2_item_con"><label class="stage2_item_key">电话:</label><label class="stage2_item_value">86-</label></div>
-                <div class="stage2_item_con"><label class="stage2_item_key">手机:</label><label class="stage2_item_value">18969399695</label></div>
+                <div class="stage2_item_con"><label class="stage2_item_key">卖家:</label><label class="stage2_item_value stage2_info_color">{{sellerInfo.name}}</label></div>
+                <div class="stage2_item_con">
+                  <label class="stage2_item_key">会员登录名:</label>
+                  <label class="stage2_item_value">
+                    <span>{{sellerInfo.sellerId}}</span>
+                    <a class="stage2_call_me" :href="(sellerInfo.linkmanQq && 'http://wpa.qq.com/msgrd?v=3&uin='+ sellerInfo.linkmanQq +'&site=qq&menu=yes') || 'javascript:;'" target="_blank" title="点此可以直接和卖家交流选好的宝贝，或相互交流网购体验。">和我联系</a>
+                  </label>
+                </div>
+                <div class="stage2_item_con"><label class="stage2_item_key">支付宝账户:</label><label class="stage2_item_value">{{sellerInfo.linkmanMobile}}</label></div>
+                <div class="stage2_item_con"><label class="stage2_item_key">电话:</label><label class="stage2_item_value">{{sellerInfo.telephone}}</label></div>
+                <div class="stage2_item_con"><label class="stage2_item_key">手机:</label><label class="stage2_item_value">{{sellerInfo.legalMobile}}</label></div>
               </div>
             </div>
             <div class="init stage2_pick">
               <div class="stage2_item_con">
                 <label class="stage2_item_key"><sup class="stage2_info_color">*</sup>货品情况:</label>
-                <input id="goodsDesc" type="radio" name=""><label for="goodsDesc">已收到全部（或部分）货品</label>
-                <input id="goodsDescNot" type="radio" name="" v-if="false"><label for="goodsDescNot">没有收到货品</label>
+                <input id="goodsDesc" type="radio" name="" value="1" v-model="isObtainGoods"><label for="goodsDesc">已收到全部（或部分）货品</label>
+                <input id="goodsDescNot" type="radio" name="" value="0" v-model="isObtainGoods"><label for="goodsDescNot">没有收到货品</label>
                 <span class="stage2_pick_status_tip">没有收到货时，请勿选择“已收到全部（或部分）货品”，谨防钱货两空。</span>
-                <span class=" " v-if="false">卖家已发货，请与卖家协商发货情况。</span>
+                <!-- <span class="stage2_pick_status_tip">卖家已发货，请与卖家协商发货情况。</span> -->
               </div>
               <div class="stage2_item_con">
                 <label class="init stage2_item_key"><sup class="stage2_info_color">*</sup>退款原因:</label>
                 <!-- <input class="init stage_pick_info_box" type="text" name=""> -->
-                <select class="init can_select stage_pick_info_box" >
-                  <option value="" disabled selected style="display: none;">请选择退款原因</option>
-                  <option value="不想买了，已与卖家协商一致">不想买了，已与卖家协商一致</option>
-                  <option value="大小/尺寸不符">大小/尺寸不符</option>
-                  <option value="颜色/图案/款式不符">颜色/图案/款式不符</option>
-                  <option value="破损/污渍/划痕">破损/污渍/划痕</option>
-                  <option value="材质/成分不符">材质/成分不符</option>
-                  <option value="质量问题">质量问题</option>
+                <select class="init can_select stage_pick_info_box" v-model="refundReason">
+                  <option value="0" disabled selected style="display: none;">请选择退款原因</option>
+                  <option value="6">不想买了，已与卖家协商一致</option>
+                  <option value="1">大小/尺寸不符</option>
+                  <option value="2">颜色/图案/款式不符</option>
+                  <option value="3">破损/污渍/划痕</option>
+                  <option value="4">材质/成分不符</option>
+                  <option value="5">质量问题</option>
                 </select>
+                <div class="stage2_info_color"><i class="el-icon-warning"></i>请选择退款原因</div>
               </div>
               <div class="stage2_item_con">
                 <label class="init stage2_item_key"><sup class="stage2_info_color">*</sup>退款货品金额:</label>
                 <input class="init stage_pick_info_box" type="text" name=""><span>元</span>
+                <div class="stage2_info_color"><i class="el-icon-warning"></i>退款货品金额不能为空</div>
               </div>
               <div class="stage2_item_con stage2_pick_user_flow">
                 <label class="init stage2_item_key"><sup class="stage2_info_color">*</sup>退款运费金额:</label>
                 <div>
-                  <input class="init stage_pick_info_box" type="text" min="0.01" name=""><span>元</span><span class="init stage2_pick_flow">退款运费说明<i class="el-icon-caret-bottom"></i></span>
-                  <div class="stage2_pick_flow_tip">如实际运费高于<span class="stage2_info_color">&nbsp;10.00&nbsp;</span>元，请<span class="stage2_call_me">联系卖家</span>协商打款方式。</div>
+                  <input class="init stage_pick_info_box" type="text" min="0.00" name="" :value="refundPost" >
+                  <span>元</span>
+                  <el-popover
+                    placement="bottom"
+                    width="250"
+                    trigger="hover">
+                    <p>由卖家承担: 货品质量问题、假货等</p>
+                    <p>由买家承担: 个人原因不喜欢，不想要等</p>
+                    <span class="init stage2_pick_flow"  slot="reference">退款运费说明<i class="el-icon-caret-bottom"></i></span>
+                  </el-popover>
+                  <div class="stage2_info_color"><i class="el-icon-warning"></i>退款货品金额不能为空</div>
+                  <div class="stage2_pick_flow_tip">如实际运费高于<span class="stage2_info_color">&nbsp;{{orderInfo.shippingPrice}}&nbsp;</span>元，请<a class="stage2_call_me" :href="(sellerInfo.linkmanQq && 'http://wpa.qq.com/msgrd?v=3&uin='+ sellerInfo.linkmanQq +'&site=qq&menu=yes') || 'javascript:;'" target="_blank" title="点此可以直接和卖家交流选好的宝贝，或相互交流网购体验。">和我联系</a>协商打款方式。</div>
                   <textarea type="textarea" class="stage_pick_info_box stage_pick_other" placeholder="内容在2-200个字之间，建议填写有关退款原因说明等信息。" name=""></textarea>
-                  <div class="stage_pick_word stage2_info_color">还可输入200字</div>
+                  <div class="stage_pick_word stage2_info_color"><div class="stage2_info_color"><i class="el-icon-warning"></i>退款货品金额不能为空</div><span>还可输入200字</span></div>
                 </div>
               </div>
               <div class="stage2_item_con stage2_pick_user_flow">
-                <label class="init stage2_item_key"><sup class="stage2_info_color">*</sup>上传凭证:</label>
+                <label class="init stage2_item_key">上传凭证:</label>
                 <div>
                   <div class="stage2_file">
                     <!-- <input type="file" name=""> -->
                     <el-upload
                       class="avatar-uploader"
                       accept="image/png, image/jpeg, image/gif, image/jpg, image/BMP"
-                      :action="URLIP +'/personData/personData/uploadFile'"
+                      :action="URLIP +'/order/refundOrder/uploadFile'"
                       :show-file-list="false">
                       <label class="file_choose">选择文件</label>
                     </el-upload>
@@ -256,12 +277,12 @@
             </div>
             <div class="init stage3_tip">
               <p>重要提示：</p>
-              <p class="stage3_tip_handle"><span class="reufnd_other_radio"></span>您还可以主动联系卖家广州从化新兴金属（脚轮）制品有限公司<span class="stage2_call_me">和我联系</span>，要求尽快处理退款。</p>
+              <p class="stage3_tip_handle"><span class="reufnd_other_radio"></span>您还可以主动联系卖家广州从化新兴金属（脚轮）制品有限公司<a class="stage2_call_me" :href="(sellerInfo.linkmanQq && 'http://wpa.qq.com/msgrd?v=3&uin='+ sellerInfo.linkmanQq +'&site=qq&menu=yes') || 'javascript:;'" target="_blank" title="点此可以直接和卖家交流选好的宝贝，或相互交流网购体验。">和我联系</a>，要求尽快处理退款。</p>
               <p><span class="reufnd_other_radio"></span>您好，卖家需要一定的时间处理您的申请，若未协商一致，您可以在卖家拒绝后申请介入。</p>
             </div>
             <div class="init stage3_info">
               <div class="stage3_info_title"><div class="stage3_info_title_item stage3_info_title_active">退款协议与退款货品</div><div class="stage3_info_title_item">留言和凭证</div></div>
-              <div class="init stage2_info_order stage3_info_con" v-if="false">
+              <div class="init stage2_info_order stage3_info_con" v-if="true">
                 <div class="stage2_item_con"><label class="stage2_item_key">退款服务:</label><label class="stage2_item_value">仅退款</label></div>
                 <div class="stage2_item_con"><label class="stage2_item_key">申请退款时间:</label><label class="stage2_item_value">2019-04-19  17：50：19</label></div>
                 <div class="stage2_item_con"><label class="stage2_item_key">退款状态:</label><label class="stage2_item_value">退款协议等待卖家确认</label></div>
@@ -279,7 +300,7 @@
                 <div class="stage3_info_con2">
                   <div class="init stage3_info_con2_2">
                     <label>卖家:conghuaxinxxing</label>
-                    <span class="stage2_call_me">和我联系</span>
+                    <a class="stage2_call_me" :href="(sellerInfo.linkmanQq && 'http://wpa.qq.com/msgrd?v=3&uin='+ sellerInfo.linkmanQq +'&site=qq&menu=yes') || 'javascript:;'" target="_blank" title="点此可以直接和卖家交流选好的宝贝，或相互交流网购体验。">和我联系</a>
                     <label class="stage2_item_value">121212；1212： 121</label>
                   </div>
                   <div class="init stage3_info_con2_3">
@@ -305,7 +326,7 @@
                     <label class="stage2_item_key">卖家:</label><label class="stage2_item_value stage2_info_color">从化新兴金属（脚轮）</label>
                   </div>
                   <div class="stage2_item_con">
-                    <label class="stage2_item_key">会员登录名:</label><label class="stage2_item_value">从化新兴金属（脚轮）<span class="stage2_call_me">和我联系</span></label>
+                    <label class="stage2_item_key">会员登录名:</label><label class="stage2_item_value">从化新兴金属（脚轮）<a class="stage2_call_me" :href="(sellerInfo.linkmanQq && 'http://wpa.qq.com/msgrd?v=3&uin='+ sellerInfo.linkmanQq +'&site=qq&menu=yes') || 'javascript:;'" target="_blank" title="点此可以直接和卖家交流选好的宝贝，或相互交流网购体验。">和我联系</a></label>
                   </div>
                   <div class="stage2_item_con">
                     <label class="stage2_item_key">支付宝账户:</label><label class="stage2_item_value">从化新兴金属（脚轮）</label>
@@ -432,13 +453,61 @@ import Box from '@/views/user/children/order/box'
 export default {
   data () {
     return {
-      orderCancleRefund: '',
-      cancleRefundSuccess: '',
-      proofRefund: '',
-      stage: ''
+      orderCancleRefund: '', // 撤销申请
+      cancleRefundSuccess: '', // 撤销申请成功
+      proofRefund: '', // 补充上传留言凭证
+      staged: '', // 申请状态 未使用
+      orderId: this.$route.query.orderRefundVal,
+      sellerId: this.$route.query.sellerId,
+      goodsStatus: JSON.parse(this.$route.query.status),
+      goodsList: [], // 可退款货品
+      isFlowGoods: true, // 是否已发的货品
+      refundService: 1, // 1. 退货退款 2. 仅退款
+      selectList: [], // 确定退款货品
+      orderInfo: {}, // 订单摘要
+      sellerInfo: {}, // 卖家信息
+      isObtainGoods: 0, // 是否收到货
+      refundReason: 0, // 退货/售后原因：1（大小/尺寸不符）2（颜色/图案/款式不符）3（破损/污渍/划痕）4（材质/成分不符）5（质量问题）
+      refundPost: 0, // 退款运费金额
+      map: {
+        alipayAccount: '',
+        buyerId: 0,
+        buyerNick: '',
+        companyBuyerNickname: '',
+        companyBuyerUrl: '',
+        createTime: '',
+        fixedLine: '',
+        goodsPrice: 0,
+        intervention: '',
+        isReceived: '',
+        orderId: 0,
+        orderShippingPrice: '',
+        phone: '',
+        refundDesc: '',
+        refundDescImages: '',
+        refundMoneyStatus: '',
+        refundOrderId: 0,
+        refundPrice: 0,
+        refundReason: '',
+        refundStatus: '',
+        refundType: '',
+        refuseRefundDesc: '',
+        refuseRefundImages: '',
+        refuseRefundReason: '',
+        saleStatus: '',
+        sellerId: '',
+        shippingCode: '',
+        shippingName: '',
+        updateTime: ''
+      }
     }
   },
   components: { shortcut, userNav, regFooter, Box },
+  mounted () {
+    this.getList()
+    this.getRefundDesc()
+    this.getSellerInfo()
+  },
   methods: {
     cancleRefund () {
       console.log(this.orderCancleRefund)
@@ -450,11 +519,72 @@ export default {
     },
     btnProof () {
       this.proofRefund = ''
+    },
+    getList () {
+      this.API.refundList({ orderId: this.orderId }).then(res => {
+        if (res.success === false) return false
+        this.goodsList = res
+      })
+    },
+    selectGoods (event) {
+      if (this.selectList.length === this.goodsList.length) this.selectList = []
+      else this.selectList = this.goodsList
+    },
+    judge (event) {
+      if (event.target.checked) {
+        if (this.selectList.length === this.goodsList.length) this.$refs.allGoods.checked = true
+      } else {
+        this.$refs.allGoods.checked = false
+      }
+    },
+    reducerPost (sum, item) {
+      return sum + item.num
+    },
+    reducerPrice (sum, item) {
+      return ((sum * 100000 + JSON.parse(item.payment) * 100000) / 100000).toFixed(2)
+    },
+    // 提交退款货品
+    submitGoods () {
+      let obj = {
+        goodsId: this.selectList[0].goodsId,
+        id: this.selectList[0].id,
+        itemId: this.selectList[0].itemId,
+        num: this.selectList[0].num,
+        payment: this.selectList[0].payment,
+        picPath: this.selectList[0].picPath,
+        price: this.selectList[0].price,
+        // refundNum: this.selectList[0].,
+        // refundOrderId: this.selectList[0].orderId,
+        sellerId: this.selectList[0].sellerId,
+        title: this.selectList[0].title,
+        totalFee: this.selectList[0].totalFee
+      }
+      this.API.refundGoodsBtn(obj).then(res => {
+        console.log(res)
+      })
+    },
+    // 订单摘要
+    getRefundDesc () {
+      this.API.refundDesc({ orderId: this.orderId }).then(res => {
+        console.log('订单摘要', res)
+        this.orderInfo = res
+      })
+    },
+    // 卖家信息
+    getSellerInfo () {
+      this.API.refundSellerInfo({ sellerId: this.sellerId }).then(res => {
+        console.log('商家信息', res)
+        this.sellerInfo = res
+      })
     }
   }
 }
 </script>
 <style>
+/* 交互按钮 */
+ button[disabled="disabled"], .disabledBG {
+  background-color: #9e9e9e !important;
+ }
 /* 取消订单 */
   .orderRefund {
     display: flex;
@@ -650,6 +780,7 @@ export default {
     padding: 0 18px;
     border:1px dashed rgba(215,51,49,1);
     border-radius:11px;
+    cursor: pointer;
   }
   .refund_type_flow {
     border-right-color: transparent;
@@ -679,6 +810,7 @@ export default {
   .refund_item_row {
     height: 32px;
     line-height: 32px;
+    padding: 0 14px;
   }
   .el-col {
     display: flex;
@@ -738,6 +870,10 @@ export default {
     word-wrap:break-word;
     color: rgb(53, 53, 53);
     height: 36px;
+  }
+  .nest-desc-one:hover {
+    text-decoration: underline;
+    color: #E53031;
   }
 /* 退款阶段一底部信息 */
   .refund_tip {
@@ -883,8 +1019,9 @@ export default {
     margin-right: 10px;
   }
   #goodsDesc, #goodsDescNot {
-    margin: 0 2px;
     margin-top: 4px;
+    margin-left: 20px;
+    cursor: pointer;
   }
   .stage2_pick_status_tip {
     font-size: 14px;
@@ -916,6 +1053,7 @@ export default {
     border:1px solid rgba(155,155,155,1);
     border-radius:10px;
     padding: 0px 8px;
+    cursor: pointer;
   }
   .stage2_pick_user_flow {
     align-items: flex-start !important;

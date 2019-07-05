@@ -153,6 +153,31 @@ export default {
   // 保存用户的密保问题以及答案
   Keepconfidential: data => http.post('/personData/personData', data),
 
+  /* ---- 申请退款 ---- */
+
+  // 判断是否可以退款 (退款列表)
+  refundList: data => http.get('/order/refundOrder/findOrderId', data),
+  // 查询订单摘要
+  refundDesc: data => http.get('/order/refundOrder/findOrderDescId', data),
+  // 根据商家 id 查询商家信息
+  refundSellerInfo: data => http.get('/order/refundOrder/findSellerId', data),
+  // 确定退款货品
+  refundGoodsBtn: data => http.post('/order/refundOrder/refundOrderItem', data),
+  // 申请退款
+  refundSubmit: data => http.post('/order/refundOrder/findSeller', data),
+  // 根据退单ID查询退单详情
+  getRefundOrderDetail: data => http.get('/order/refundOrder/findDetail', data),
+  // 查询退款协议与退款货品
+  getRefundProtocol: data => http.get('/order/refundOrder/findRefundOrderUpdate', data),
+  // 查询留言和凭证
+  getRefundProof: data => http.get('/order/refundOrder/findRefundOrderMessage', data),
+  // 修改退款协议
+  setRefundProtocol: data => http.post('/order/refundOrder/updateRefundOrderId', data),
+  // 撤销退款申请
+  deleteRefund: data => http.get('/order/refundOrder/updateRefundMoneyStatus', data),
+  // 添加补充留言和凭证
+  addRefundProof: data => http.post('/order/refundOrder/addRefundRecord', data),
+
   /* ---- 收藏关注 ---- */
 
   // 添加收藏(商品、店铺) 返回判断是否已收藏
