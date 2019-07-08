@@ -3,7 +3,7 @@
     <header class="mk-header">
       <div class="mk-head">
         <div class="h-logo" ref='logoIsCursor'>
-          <router-link :to="{path: '/home'}" ><img src="static/img/mk_user_logo.png"></router-link>
+          <router-link :to="{path: '/home'}" target="_blank"><img src="static/img/mk_user_logo.png"></router-link>
         </div>
         <div class="title-se">
           <h1>我的MKTail</h1>

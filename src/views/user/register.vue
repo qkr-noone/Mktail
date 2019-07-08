@@ -131,14 +131,12 @@ export default {
         return false
       }
       if (!isMobile(this.phoneValue)) {
-        console.log(2)
         this.$message.warning('请输入正确的手机号')
         return false
       }
-      this.API.sendCode({phone: this.phoneValue}).then(res => {
+      this.API.sendCode({phoneNumbers: this.phoneValue}).then(res => {
         this.$message.success('验证码已发送')
         this.flag = true
-        this.smsCode = res
         this.newsTip = this.time + '秒后可重新获取'
         this.setTime()
       })
@@ -162,7 +160,6 @@ export default {
         return false
       }
       if (!isMobile(this.phoneValue)) {
-        console.log(2)
         this.$message.warning('请输入正确的手机号')
         return false
       }
@@ -178,7 +175,6 @@ export default {
         this.$message.warning('请先同意并且勾选协议~')
         return false
       }
-      console.log(this.smsCode, this.userName, this.userName)
       // 新增
       let user = {
         username: this.userName,
@@ -186,6 +182,7 @@ export default {
         phone: this.phoneValue
       }
       this.API.register(user, this.smsCode).then(res => {
+        if (res.success === false) return false
         this.smsCode = ''
         this.time = 60
         this.password = ''
@@ -193,14 +190,12 @@ export default {
         this.$message.success('注册成功')
         this.$router.push({path: '/login'})
       }).catch(() => {
-        console.log('error')
         this.smsCode = ''
         this.time = 60
       })
     },
     setTime () {
       if (this.time === 1 || this.time === 0) {
-        console.log('可免费获取验证码' + this.time)
         this.time = 60
       } else {
         this.time--

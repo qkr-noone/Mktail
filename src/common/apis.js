@@ -39,7 +39,7 @@ export default {
   /* ----注册登录---- */
 
   // 发送手机验证码
-  sendCode: data => http.get('/user/user/sendCode', data),
+  sendCode: data => http.get('/portal/sms/registerSms', data),
   // 注册用户
   register: (data, smscode) => http.post('/user/user/add?smscode=' + smscode, data),
   // 获取用户信息
@@ -48,8 +48,6 @@ export default {
   getToken: data => http.post('/user/login/login', data),
   // 用户退出登录
   logout: () => http.post('/user/login/logout'),
-  // 展示登录用户的名称
-  getUsername: data => http.get('/user/login/name', data),
   /* ----购物车---- */
 
   // 购物车列表
@@ -162,7 +160,7 @@ export default {
   // 根据商家 id 查询商家信息
   refundSellerInfo: data => http.get('/order/refundOrder/findSellerId', data),
   // 确定退款货品
-  refundGoodsBtn: data => http.post('/order/refundOrder/refundOrderItem', data),
+  refundGoodsBtn: data => http.get('/order/refundOrder/refundOrderItem', data),
   // 申请退款
   refundSubmit: data => http.post('/order/refundOrder/findSeller', data),
   // 根据退单ID查询退单详情

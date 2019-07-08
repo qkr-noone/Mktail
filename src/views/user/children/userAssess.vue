@@ -21,14 +21,14 @@
       </ul>
     </div>
     <div class="tab">
-      <div class="tab-title" :class="{tabTitleActive:assessCommodity===true}" @click="tabTitleChange(true)">待评商品</div>
-      <div class="tab-title tab-titleActive" :class="{tabTitleActive:assessCommodity===false}" @click="tabTitleChange(false)">已评商品</div>
+      <div class="tab-title" :class="{tabTitleActive:!statusAssess}" @click="statusAssess=false">待评商品</div>
+      <div class="tab-title tab-titleActive" :class="{tabTitleActive:statusAssess}" @click="statusAssess=true">已评商品</div>
       <div class="recovery orientate"  v-show="assessCommodity===false">
         <img src="static/img/user/user_delete1.png">
         <span>回收订单</span>
       </div>
     </div>
-    <div class="order-tab" v-show="assessCommodity" >
+    <!-- <div class="order-tab" v-show="assessCommodity" >
       <ul>
         <li class="order-item order-itemActive">全部订单</li>
         <li class="order-item">线上订单</li>
@@ -38,19 +38,48 @@
         <img src="static/img/user/user_delete1.png">
         <span>回收订单</span>
       </div>
+    </div> -->
+    <div class="assess-wares" v-if="!statusAssess&&orderList.length">
+      <el-row class="com_title">
+        <el-col :span="12">订单详情</el-col>
+        <el-col :span="4">收货人</el-col>
+        <el-col :span="4">金额</el-col>
+        <el-col :span="4">操作</el-col>
+      </el-row>
+      <div class="com_con" v-for="(list, index) in orderList" :key="index">
+        <el-row class="com_con_title">
+          <el-col :span="4">{{orderTime(list.evaluateTime)}}</el-col>
+          <el-col :span="6">订单号：{{list.orderId}}</el-col>
+        </el-row>
+        <el-row class="com_con_desc">
+          <el-col :span="12">
+            <div class="com_con_desc_item">
+              <el-col :span="18" class="com_con_desc_item">
+                <router-link :to="{path: '/detail', query:{goodsId: 11}}" class="a_box">
+                  <img class="nest_img" src="static/img/mk_logo_login.png">
+                </router-link>
+                <div class="nest-desc">
+                  <router-link :to="{path: '/detail', query:{goodsId: 11}}">
+                    <span class="nest-desc-one">{{list.title}}</span>
+                  </router-link>
+                </div>
+              </el-col>
+              <el-col :span="6"  class="com_desc_num"><span>X 1</span></el-col>
+            </div>
+          </el-col>
+          <el-col :span="4">收货人</el-col>
+          <el-col :span="4">{{list.payment}}</el-col>
+          <el-col :span="4" class="com_handle">
+            <router-link :to="{path: '/trace/orderDetail', query:{orderId: list.orderId}}" class="com_order_more">订单详情</router-link>
+            <button class="com_order_handle">评价</button>
+          </el-col>
+        </el-row>
+      </div>
     </div>
-    <div class="assess-wares" v-show="assessCommodity1">
-      <ul  v-for="item in unevaluatedorders" :key="item.skuId" class="wares-list">
+    <!-- <div class="assess-wares" v-show="assessCommodity1">
+      <ul class="wares-list">
         <li class="wares-item">
-          <div class="item-title">
-            <ul>
-              <li>订单详情</li>
-              <li>数量</li>
-              <li>状态</li>
-              <li>操作</li>
-            </ul>
-          </div>
-          <div>
+          <div v-for="item in unevaluatedorders" :key="item.skuId">
             <ul class="item-info">
               <img src="static/img/user/user_demo1.png">
               <li class="info-title">{{item.title}}</li>
@@ -64,11 +93,42 @@
           </div>
         </li>
       </ul>
-    </div>
+    </div> -->
     <div class="no-order" v-show="noorder">
       <p>您现在还没有未评价订单</p>
     </div>
-    <div  class="assess-wares" v-if="assessCommodity2">
+    <div class="assess-wares" v-if="statusAssess&&orderList.length">
+      <div class="com_con com_assess" v-for="(list, index) in orderList" :key="index">
+        <el-row class="com_con_title already_assess">
+          <el-col :span="13">订单详情</el-col>
+          <el-col :span="7">状态</el-col>
+          <el-col :span="4">操作</el-col>
+        </el-row>
+        <el-row class="com_con_desc">
+          <el-col :span="13">
+            <div class="com_con_desc_item">
+              <el-col :span="18" class="com_con_desc_item">
+                <router-link :to="{path: '/detail', query:{goodsId: 11}}" class="a_box">
+                  <img class="nest_img" src="static/img/mk_logo_login.png">
+                </router-link>
+                <div class="nest-desc">
+                  <router-link :to="{path: '/detail', query:{goodsId: 11}}">
+                    <span class="nest-desc-one">{{list.title}}</span>
+                  </router-link>
+                </div>
+              </el-col>
+              <el-col :span="6"  class="com_desc_num"><span>X 1</span></el-col>
+            </div>
+          </el-col>
+          <el-col :span="7">2019-01-07 21:32:09 初评积分+30</el-col>
+          <el-col :span="4" class="com_handle">
+            <router-link :to="{path: '/trace/orderDetail', query:{orderId: list.orderId}}" class="com_order_more">订单详情</router-link>
+            <router-link :to="{path: '/trace/orderDetail', query:{orderId: list.orderId}}" class="assess_active">查看评价</router-link>
+          </el-col>
+        </el-row>
+      </div>
+    </div>
+    <!-- <div  class="assess-wares" v-if="statusAssess&&assessCommodity2">
       <ul class="wares-list" v-for="item in evaluatedorders" :key="item.skuId" >
         <li class="wares-item">
           <div class="item-title">
@@ -93,7 +153,7 @@
           </div>
         </li>
       </ul>
-    </div>
+    </div> -->
     <div class="no-order" v-show="order">
       <p>您现在还没有已评价订单</p>
     </div>
@@ -197,6 +257,7 @@
   </div>
 </template>
 <script>
+import { formatDate } from '@/common/utils'
 export default {
   data () {
     return {
@@ -205,7 +266,6 @@ export default {
       assessCommodity2: false, // 已评价商品显示
       order: false, // 没有已评价订单
       noorder: true, // 没有未评价订单
-      loginName: '',
       Box: false, // 弹窗
       evaluate: false, // 商品评价
       note: false, // 评价须知
@@ -215,36 +275,42 @@ export default {
       evaluatedorders: [], // 已评价商品列表
       dialogTableVisible: false,
       value1: '',
-      value2: ''
+      value2: '',
+      username: this.$cookies.get('user-key'),
+      statusAssess: false,
+      orderList: []
     }
   },
   mounted () {
-    // 获取登录用户名称
-    this.API.getUsername().then(res => {
-      this.loginName = res.loginName
-      // 查询未评价商品列表
-      this.API.Unevaluatedorders({userName: res.loginName}).then(rtn => {
-        if (rtn.success === false) {
-          this.noorder = true
-          this.assessCommodity = true
-          this.assessCommodity1 = false
-        }
-        this.unevaluatedorders = rtn
-        console.log(rtn)
-        this.noorder = false
-        this.assessCommodity1 = true
-      })
-      // 查询评价商品列表
-      this.API.Evaluatedorders({userName: res.loginName}).then(red => {
-        this.evaluatedorders = red
-      })
+    // 查询未评价商品列表
+    this.API.Unevaluatedorders({ userName: this.username }).then(rtn => {
+      this.orderList = rtn
+      if (rtn.success === false) {
+        this.noorder = true
+        this.assessCommodity = true
+        this.assessCommodity1 = false
+      }
+      this.unevaluatedorders = rtn
+      console.log(rtn)
+      this.noorder = false
+      this.assessCommodity1 = true
+    })
+    // 查询评价商品列表
+    // this.API.Evaluatedorders({ userName: this.username }).then(red => {
+    //   this.evaluatedorders = red
+    // })
+    this.API.Unevaluatedorders({ userName: this.username }).then(rtn => {
+      this.orderList = rtn
     })
   },
   methods: {
+    orderTime (time) {
+      return formatDate(new Date(time))
+    },
     tabTitleChange (val) {
       if (val === true) {
         // 查询未评价商品列表
-        this.API.Unevaluatedorders({userName: this.loginName}).then(rtn => {
+        this.API.Unevaluatedorders({userName: this.username}).then(rtn => {
           if (rtn.success === false) {
             this.noorder = true
             this.order = false
@@ -259,7 +325,7 @@ export default {
         })
       } else {
         // 查询评价商品列表
-        this.API.Evaluatedorders({userName: this.loginName}).then(rtn => {
+        this.API.Evaluatedorders({userName: this.username}).then(rtn => {
           if (rtn.success === false) {
             this.noorder = false
             this.order = true
@@ -317,6 +383,7 @@ export default {
 }
 </script>
 <style scoped>
+/* shi s */
   ul,ul>li,img,.recovery{
     display: inline-block;
   }
@@ -403,6 +470,7 @@ export default {
     color:#454545;
     border: none;
     background: none;
+    cursor: pointer;
   }
   .tab .orientate{
     position: absolute;
@@ -465,7 +533,7 @@ export default {
     text-align: center;
   }
   .assess-wares{
-    height:404px;
+    min-height: 345px;
     border:1px solid rgba(224,224,224,1);
     background: #FFFFFF;
     border-top: none;
@@ -473,13 +541,17 @@ export default {
   .wares-list{
     display: flex;
     flex-direction: column;
-    padding:34px 20px 0 20px;
+    padding:0 20px 0 20px;
   }
   .assess-wares .wares-item{
-    height:152px;
-    border:1px solid #E7E7E7;
+    /*height:152px;*/
+    /*border:1px solid #E7E7E7;*/
     color:#686868;
     margin-bottom: 17px;
+  }
+  .wares-item>div{
+    border: 1px solid #E7E7E7;
+    border-top: none;
   }
   .wares-item .item-title{
     height:41px;
@@ -510,6 +582,7 @@ export default {
   }
   .textBlue{
     color:#3D8AEA !important;
+    cursor: pointer;
   }
   .wares-item .item-info .info-num{
     margin-left: -100px;
@@ -739,5 +812,135 @@ export default {
     line-height:18px;
     margin-left: 190px;
     margin-top: 220px;
+  }
+/* com title */
+  .com_title {
+   height: 55px;
+   text-align: center;
+   color: #686868;
+   font-size: 14px;
+   padding: 0 20px;
+   box-sizing: border-box;
+   border-bottom: 4px solid #F4F4F4;
+  }
+  .com_title >div{
+   height: 100%;
+   line-height: 55px;
+  }
+  .com_con {
+   font-size: 13px;
+   color: #676767;
+   padding: 20px;
+   width: 100%;
+   padding-bottom: 0;
+  }
+  .com_con + .com_con {
+    padding-top: 0;
+  }
+  .com_con_title {
+   height: 41px;
+   background-color: #F4F4F4;
+   box-sizing: border-box;
+   padding-left: 12px;
+   border: 1px solid #E7E7E7;
+   border-top: none;
+   border-bottom: none;
+  }
+  .com_con_title >div {
+   height: 100%;
+   line-height: 41px;
+  }
+  .com_con_desc {
+   padding-left: 12px;
+   /*height: 68px;*/
+   display: flex;
+   border: 1px solid #E7E7E7;
+   border-top: none;
+   box-sizing: border-box;
+  }
+  .com_con_desc >div{
+    padding: 22px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .com_con_desc >div:first-child{
+    flex-direction: column;
+    justify-content: initial;
+    align-items: initial;
+  }
+  .com_con_desc_item {
+    display: flex;
+  }
+  .com_con_item_box {
+    display: flex;
+  }
+  .com_con_desc >div:nth-child(n+2){
+    border-left: 1px solid #E7E7E7;
+  }
+  .com_con_desc .com_desc_num {
+    justify-content: flex-start;
+    display: flex;
+    align-items: center;
+  }
+  .a_box {
+    width: 81px;
+    height: 81px;
+    margin-right: 20px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .nest_img {
+    max-width: 81px;
+    max-height: 81px;
+    font-size: 81px;
+  }
+  .nest-desc {
+    box-sizing: border-box;
+    height: 100%;
+    padding: 10px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    width: calc(100% - 102px);
+  }
+  .nest-desc-one {
+    width: 100%;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap:break-word;
+    color: rgb(53, 53, 53);
+    height: 36px;
+  }
+  .nest-desc-one:hover {
+    text-decoration: underline;
+    color: #E53031;
+  }
+  .com_handle {
+    flex-direction: column;
+  }
+  .com_order_more {
+    color: #686868;
+    margin-bottom: 5px;
+  }
+  .com_order_handle {
+    padding: 7px 45px;
+    border: 1px solid rgba(183,183,183,1);
+    border-radius: 6px;
+    background:rgba(242,242,242,1);
+    margin-top: 5px;
+  }
+  .com_assess {
+    padding-bottom: 20px;
+  }
+  .already_assess>div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .assess_active{
+    color: #3D8AEA;
   }
 </style>
