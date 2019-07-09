@@ -192,7 +192,7 @@ export default {
   deleteCollect: data => http.get('/userCollect/userCollect/delUserCollectByDataId', data),
 
   /* ---- 直播 ---- */
-  getNineLiveUrlBySellerId: (data, sellerId) => http.get('/live/main/getNineLiveUrlBySellerId?sellerId=' + sellerId, data),
+  getLiveInfoPortal: (sellerId) => http.get('/live/all/getLiveInfoPortal?sellerId=' + sellerId),
 
   /* ---- 商品评价 ---- */
   // 根据用户名查询未评价的订单
