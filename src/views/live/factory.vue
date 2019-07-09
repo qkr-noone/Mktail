@@ -7,12 +7,123 @@
         <div class="live-box">
           <div class="page-select">
             <h4>直播画面</h4>
+            <span class="span-li page-item" @mouseenter="isShowLayout()" @mouseleave="isHiddenLayout()">
+              <span>画面布局</span>
+                <a href="javascript:;"><img v-show="choosePage==='page1'" src="static/img/mk_page_1.png">
+                <img v-show="choosePage==='page4'" src="static/img/mk_page_4.png">
+                <img v-show="choosePage==='page9'" src="static/img/mk_page_9.png"></a>
+              <ul class="page-ul" v-show="isLayout">
+                <li class="page-li"><a href="javascript:;" @click="choosePage='page1'"><img src="static/img/mk_page_1_1.png"></a></li>
+                <li class="page-li"><a href="javascript:;" @click="choosePage='page4'"><img src="static/img/mk_page_4_4.png"></a></li>
+                <li class="page-li"><a href="javascript:;" @click="choosePage='page9'"><img src="static/img/mk_page_9_9.png"></a></li>
+              </ul>
+            </span>
             <span class="span-li"><span>弹屏</span><a href="javascript:;"><img src="static/img/mk_live_tanping.png"></a></span>
             <span class="span-li"><a href="javascript:;"><img src="static/img/mk_live_service.png"></a><span>客服</span></span>
           </div>
           <div class="live">
-            <!--直播播放器-->
-            <div class="prism-player" id="J_prismPlayer"></div>
+            <div class="live-ul" data-attr='page1' v-if="choosePage === 'page1' ">
+              <div class="live-list live-page1">
+                <a><iframe class="live_iframe" ref="iframe0" v-bind:src="liveSource1" frameborder="0" scrolling="no"></iframe>
+                  <div class="iframeMask" @click="activePage($event, 'liveSource1')">
+                  </div>
+                </a>
+              </div>
+            </div>
+            <div class="live-ul"  data-attr='page4' v-if="choosePage === 'page4' ">
+              <div class="live-list">
+                <a><iframe class="live_iframe" data-dd='1' ref="iframe0" v-bind:src="liveSource1" frameborder="0" scrolling="no"></iframe>
+                  <div class="iframeMask" @click="activePage($event, 'liveSource1')">
+                  </div>
+                </a>
+              </div>
+              <div class="live-list">
+                <a><iframe class="live_iframe" ref="iframe1" v-bind:src="liveSource2" frameborder="0" scrolling="no"></iframe>
+                  <div class="iframeMask" @click="activePage($event, 'liveSource2')">
+                  </div>
+                </a>
+              </div>
+              <div class="live-list">
+                <a><iframe class="live_iframe" ref="iframe2" v-bind:src="liveSource3" frameborder="0" scrolling="no"></iframe>
+                  <div class="iframeMask" @click="activePage($event, 'liveSource3')">
+                  </div>
+                </a>
+              </div>
+              <div class="live-list">
+                <a><iframe class="live_iframe" ref="iframe3" v-bind:src="liveSource4" frameborder="0" scrolling="no"></iframe>
+                  <div class="iframeMask" @click="activePage($event, 'liveSource4')">
+                  </div>
+                </a>
+              </div>
+            </div>
+            <div class="live-ul"  data-attr='page9' v-if="choosePage === 'page9' ">
+              <div class="live-list live-page9">
+                <a><iframe id="frame1" name="1" class="live_iframe" ref="iframe0" v-bind:src="liveSource1" frameborder="0" scrolling="no"></iframe>
+                  <div class="iframeMask" @click="activePage($event, 'liveSource1')">
+                  </div>
+                </a>
+              </div>
+              <div class="live-list live-page9 ">
+                <a><iframe class="live_iframe" ref="iframe1" v-bind:src="liveSource2" frameborder="0" scrolling="no"></iframe>
+                  <div class="iframeMask" @click="activePage($event, 'liveSource2')">
+                  </div>
+                </a>
+              </div>
+              <div class="live-list live-page9 ">
+                <a><iframe class="live_iframe" ref="iframe2" v-bind:src="liveSource3" frameborder="0" scrolling="no"></iframe>
+                  <div class="iframeMask" @click="activePage($event, 'liveSource3')">
+                  </div>
+                </a>
+              </div>
+              <div class="live-list live-page9">
+                <a><iframe class="live_iframe" ref="iframe4" v-bind:src="liveSource4" frameborder="0" scrolling="no"></iframe>
+                  <div class="iframeMask" @click="activePage($event, 'liveSource4')">
+                  </div>
+                </a>
+              </div>
+              <div class="live-list live-page9">
+                <a><iframe class="live_iframe" ref="iframe5" v-bind:src="liveSource5" frameborder="0" scrolling="no"></iframe>
+                  <div class="iframeMask" @click="activePage($event, 'liveSource5')">
+                  </div>
+                </a>
+              </div>
+              <div class="live-list live-page9">
+                <a><iframe class="live_iframe" ref="iframe6" v-bind:src="liveSource6" frameborder="0" scrolling="no"></iframe>
+                  <div class="iframeMask" @click="activePage($event, 'liveSource6')">
+                  </div>
+                </a>
+              </div>
+              <div class="live-list live-page9">
+                <a><iframe class="live_iframe" ref="iframe7" v-bind:src="liveSource7" frameborder="0" scrolling="no"></iframe>
+                  <div class="iframeMask" @click="activePage($event, 'liveSource7')">
+                  </div>
+                </a>
+              </div>
+              <div class="live-list live-page9">
+                <a><iframe class="live_iframe" ref="iframe8" v-bind:src="liveSource8" frameborder="0" scrolling="no"></iframe>
+                  <div class="iframeMask" @click="activePage($event, 'liveSource8')">
+                  </div>
+                </a>
+              </div>
+              <div class="live-list live-page9">
+                <a><iframe class="live_iframe" ref="iframe9" v-bind:src="liveSource9" frameborder="0" scrolling="no"></iframe>
+                  <div class="iframeMask" @click="activePage($event, 'liveSource9')">
+                  </div>
+                </a>
+              </div>
+            </div>
+            <div class="source-li">
+              <div class="source-select">
+                <a href="javascript:;">选择画面</a>
+                <div class="source-box">
+                  <div class="source-scroll">
+                    <ul class="source-ul">
+                      <a v-for="(list, index) in sourceList" :key="index" class="source-a" href="javascript:;" @click="sourcePlay(list, index)">{{index+1}}</a>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
           <div class="threeD-list">
             <div class="threeD-title">
@@ -129,51 +240,141 @@ import regFooter from '@/components/regFooter'
 export default {
   data () {
     return {
+      liveSource: '',
+      liveSource1: '',
+      liveSource2: '',
+      liveSource3: '',
+      liveSource4: '',
+      liveSource5: '',
+      liveSource6: '',
+      liveSource7: '',
+      liveSource8: '',
+      liveSource9: '',
       goodsId: '149187842867965',
+      cutover: 'liveSource1', // 判断当前放的直播源到哪一个画面
       isLayout: false,
-      liveTitel: 'MKTail源工厂',
+      choosePage: 'page9',
+      liveTitel: 'MKTail直播',
       writeDesc: '',
-      liveUrl: ''
-    }
-  },
-  props: {
-    sellerId: {
-      type: String || Number,
-      default: 'baidu123'
+      // http://192.168.1.11/hls/test"+i+".m3u8  直播源
+      sourceList: [
+        'http://hls01open.ys7.com',
+        'http://hls01open.ys7.com',
+        'http://hls01open.ys7.com',
+        'http://hls01open.ys7.com',
+        'http://hls01open.ys7.com',
+        'http://hls01open.ys7.com',
+        'http://hls01open.ys7.com',
+        'http://hls01open.ys7.com',
+        'http://hls01open.ys7.com'
+      ],
+      randomObj: {
+        select: 'select' // 先定义随机ID
+      }
     }
   },
   components: { shortcut, live3Dheader, regFooter },
   created  () {
+    console.log(this['liveSource' + 1])
   },
   mounted () {
     this.$nextTick(() => {
       document.documentElement.scrollTop = 133
       document.body.scrollTop = 133
     })
-    // 初始化播放器
-    window.aliyunLiveplayer = new window.Aliplayer({
-      id: 'J_prismPlayer',
-      width: '100%',
-      height: '100%',
-      autoplay: false,
-      source: '1.m3u8',
-      isLive: true,
-      rePlay: false,
-      preload: true,
-      controlBarVisibility: 'hover',
-      useH5Prism: true
-    }, function (player) {
-      console.log('播放器创建好了。')
-    })
-    // 请求后端接口获取商家的直播信息
-    this.API.getLiveInfoPortal(this.sellerId).then(res => {
-      window.aliyunLiveplayer.loadByUrl(res.pullM3u8Url)
-      window.aliyunLiveplayer.play()
+    window[this.randomObj.select] = function (page) {
+      this.activeChildPage(page)
+    }.bind(this)
+    // 请求获取直播地址9个,必然是9个~ 需要传入SellerId
+    let sellerId = 'baidu123'
+    this.API.getNineLiveUrlBySellerId('', sellerId).then(res => {
+      this.sourceList = this.sourceList.map((item, index) => res[index].videoUrl)
     })
   },
   methods: {
+    sourcePlay (list, index) {
+      let height = this.$refs.iframe0.offsetHeight
+      console.log(this.cutover, index, this.cutover === ('liveSource' + (index + 1)))
+      // if (this.cutover === ('liveSource' + (index + 1))) {
+      //   this['liveSource' + (index + 1)] = '../static/live.html?' + 'source=' + list + '&height=' + height + '&page=liveSource' + (index + 1)
+      //   this.$refs.iframe[index].parentElement.children[1].style.display = 'none'
+      // }
+      if (this.cutover === 'liveSource1') {
+        this.liveSource1 = '../static/live.html?' + 'source=' + list + '&height=' + height + '&page=liveSource1'
+        this.$refs.iframe0.parentElement.children[1].style.display = 'none'
+      } else if (this.cutover === 'liveSource2') {
+        this.liveSource2 = '../static/live.html?' + 'source=' + list + '&height=' + height + '&page=liveSource2'
+        this.$refs.iframe1.parentElement.children[1].style.display = 'none'
+      } else if (this.cutover === 'liveSource3') {
+        this.liveSource3 = '../static/live.html?' + 'source=' + list + '&height=' + height + '&page=liveSource3'
+        console.log(this.$refs.iframe2)
+        this.$refs.iframe2.parentElement.children[1].style.display = 'none'
+      } else if (this.cutover === 'liveSource4') {
+        this.liveSource4 = '../static/live.html?' + 'source=' + list + '&height=' + height + '&page=liveSource4'
+        console.log(this.$refs.iframe3)
+        this.$refs.iframe3.parentElement.children[1].style.display = 'none'
+      } else if (this.cutover === 'liveSource5') {
+        this.liveSource5 = '../static/live.html?' + 'source=' + list + '&height=' + height + '&page=liveSource5'
+        this.$refs.iframe4.parentElement.children[1].style.display = 'none'
+      } else if (this.cutover === 'liveSource6') {
+        this.liveSource6 = '../static/live.html?' + 'source=' + list + '&height=' + height + '&page=liveSource6'
+        this.$refs.iframe5.parentElement.children[1].style.display = 'none'
+      } else if (this.cutover === 'liveSource7') {
+        this.liveSource7 = '../static/live.html?' + 'source=' + list + '&height=' + height + '&page=liveSource7'
+        this.$refs.iframe6.parentElement.children[1].style.display = 'none'
+      } else if (this.cutover === 'liveSource8') {
+        this.liveSource8 = '../static/live.html?' + 'source=' + list + '&height=' + height + '&page=liveSource8'
+        this.$refs.iframe7.parentElement.children[1].style.display = 'none'
+      } else if (this.cutover === 'liveSource9') {
+        this.liveSource9 = '../static/live.html?' + 'source=' + list + '&height=' + height + '&page=liveSource9'
+        this.$refs.iframe8.parentElement.children[1].style.display = 'none'
+      }
+    },
+    activePage (event, page) {
+      console.log(page, '画布')
+      if (this.cutover === page) return false
+      else {
+        this.cutover = page
+      }
+    },
+    isShowLayout () {
+      this.isLayout = true
+    },
+    isHiddenLayout () {
+      this.isLayout = false
+    },
+    initLive () {
+      this.liveSource = ''
+      this.liveSource1 = ''
+      this.liveSource2 = ''
+      this.liveSource3 = ''
+      this.liveSource4 = ''
+      this.liveSource5 = ''
+      this.liveSource6 = ''
+      this.liveSource7 = ''
+      this.liveSource8 = ''
+      this.liveSource9 = ''
+      for (let i = 0; i < 9; i++) {
+        if (this.$refs[`iframe${i}`] !== undefined) {
+          this.$refs[`iframe${i}`].parentElement.children[1].style.display = 'block'
+        }
+      }
+    },
+    vueFunc () {
+      // this.$el.getElementsByTagName('iframe')[0].contentWindow.touch()
+      // this.$refs.iframe0.contentWindow.changeHeight(11)
+    },
+    activeChildPage (page) {
+      console.log(page)
+      this.cutover = page
+    }
   },
   watch: {
+    choosePage (newState, oldState) {
+      if (newState !== oldState) {
+        this.initLive()
+      }
+    }
   }
 }
 
@@ -199,16 +400,51 @@ export default {
   }
   .live {
     min-width: 880px;
-    flex-grow: 1;
-    margin-top: 47px;
+    flex-grow: 1
   }
-  /* 设置画布*/
-  .page-select{
+  .live-ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 100%;
+    height: calc(100% - 50px);
+  }
+  .live-list {
+    width: calc(50% - 2px);
+    height: calc(50% - 2px);
+    border:1px solid #a4a4a4;
+  }
+  .live-list.live-page1{
+    width: calc(100% - 2px);
+    height: calc(100% - 2px);
+  }
+  .live-list.live-page9{
+    width: calc(33.3% - 2px);
+    height: calc(33.3% - 2px);
+  }
+  .live-list a, .live_iframe {
+    width: 100%;
+    height: 100%;
+  }
+  .live-list a {
+    position: relative;
+  }
+  .iframeMask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10;
+    background-color: transparent;
+  }
+/* 设置画布*/
+ .page-select{
     position: absolute;
     top: 0;
     left: 0;
     height:47px;
-    background-color: #000000;
+    background-color: rgba(52,52,52,0.4);
     display: flex;
     align-items: center;
     width: calc(100% - 340px);
@@ -235,7 +471,91 @@ export default {
   .span-li > :nth-child(1) {
     margin-right: 10px;
   }
-
+  .page-item {
+    position: relative;
+    height: 100%;
+    line-height: 47px;
+  }
+  .page-item:hover .page-ul{
+    /*display: block;*/
+  }
+  .page-ul {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    bottom: -135px;
+    right: -7px;
+    width:39px;
+    height:135px;
+    background-color: rgba(52,52,52,0.69);
+  }
+  .page-li {
+    margin: 0;
+  }
+/* 选择直播源*/
+  .source-li{
+    background-color: #353535;
+    text-align: right;
+  }
+  .source-select{
+    position: relative;
+    display: inline-block;
+    width: 116px;
+    text-align: center;
+    margin-right: 20px;
+  }
+  .source-select>a {
+    font-size:18px;
+    font-family:SourceHanSansCN-Normal;
+    font-weight:400;
+    color:rgba(255,255,255,1);
+    height: 50px;
+    line-height: 50px;
+  }
+  .source-box {
+    position: absolute;
+    left: -20px;
+    top: -110px;
+    width: 137px;
+    height:109px;
+    border: 1px solid #15191C;
+    background:rgba(255,255,255,1);
+    z-index: 20;
+  }
+  .source-scroll{
+    overflow: hidden;
+    text-align: center;
+    display: inline-block;
+  }
+  .source-ul {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 11px;
+    overflow: hidden;
+    overflow-y: auto;
+    height: 98px;
+    width: 116px;
+  }
+  a.source-a {
+    width:26px;
+    height:26px;
+    line-height: 27px;
+    border:1px solid #D2D2D2;
+    border-radius:50%;
+    color: #000;
+    font-size: 16px;
+  }
+  a.source-a {
+    margin-left: 4px;
+  }
+  a.source-a:nth-child(3n +1 ) {
+    /*margin-left: 0px;*/
+  }
+  a.source-a:nth-child(n+4){
+    margin-top: 5px;
+  }
 /*店铺推荐*/
   .threeD-list{
     display: flex;

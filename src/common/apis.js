@@ -39,7 +39,7 @@ export default {
   /* ----注册登录---- */
 
   // 发送手机验证码
-  sendCode: data => http.get('/portal/sms/registerSms', data),
+  sendCode: data => http.get('/user/user/sendCode', data),
   // 注册用户
   register: (data, smscode) => http.post('/user/user/add?smscode=' + smscode, data),
   // 获取用户信息
@@ -48,7 +48,8 @@ export default {
   getToken: data => http.post('/user/login/login', data),
   // 用户退出登录
   logout: () => http.post('/user/login/logout'),
-
+  // 展示登录用户的名称
+  getUsername: data => http.get('/user/login/name', data),
   /* ----购物车---- */
 
   // 购物车列表
@@ -150,8 +151,9 @@ export default {
   // 获取具体的密保问题
   getProblemByTypeCode: data => http.get('/personData/personData/getProblemByTypeCode', data),
   // 保存用户的密保问题以及答案
-  Keepconfidential: data => http.post('/personData/personData', data),
-
+  Keepconfidential: data => http.post('/personData/personData/saveUserSafeQuestion', data),
+  // 判断验证码是否正确
+  VerificationCode: data => http.get('/user/user/checkSmsCode', data),
   /* ---- 申请退款 ---- */
 
   // 判断是否可以退款 (退款列表)
@@ -161,7 +163,7 @@ export default {
   // 根据商家 id 查询商家信息
   refundSellerInfo: data => http.get('/order/refundOrder/findSellerId', data),
   // 确定退款货品
-  refundGoodsBtn: data => http.get('/order/refundOrder/refundOrderItem', data),
+  refundGoodsBtn: data => http.post('/order/refundOrder/refundOrderItem', data),
   // 申请退款
   refundSubmit: data => http.post('/order/refundOrder/findSeller', data),
   // 根据退单ID查询退单详情
@@ -193,21 +195,20 @@ export default {
   deleteCollect: data => http.get('/userCollect/userCollect/delUserCollectByDataId', data),
 
   /* ---- 直播 ---- */
+  getNineLiveUrlBySellerId: (data, sellerId) => http.get('/live/main/getNineLiveUrlBySellerId?sellerId=' + sellerId, data),
 
-  getLiveInfoPortal: (sellerId) => http.get('/live/all/getLiveInfoPortal?sellerId=' + sellerId),
-  /* ---- 评价管理 ---- */
+  /* ---- 商品评价 ---- */
+  // 根据用户名查询未评价的订单
+  Unevaluatedorders: data => http.get('/page/goodsEvaluate/findListByUserName', data),
+  // 根据用户名查询已评价的订单
+  Evaluatedorders: data => http.get('/page/goodsEvaluate/findListByName', data),
 
-  // 查询未评价/已评价的订单
-  getOrderEvaluation: data => http.get('/page/goodsEvaluate/findListByUserName', data),
-  // 统计已评价/未评价的商品数量
-  getEvaluationCount: data => http.get('/page/goodsEvaluate/count', data),
+  /* ---- 商品评价 ---- */
+  findSellerThreeDData: data => http.get('/3d/findSellerThreeDData', data),
 
   /* ---- 3D ---- */
-
   // 获取商家产品自定义分类
   findProductTypeComboList: data => http.get('/seller/productType/findProductTypeComboList', data),
-  // 获取绑定商品...
-  findSellerThreeDData: data => http.get('/3d/findSellerThreeDData', data),
   // 根据产品自定义分类Id和商品名称获取已绑定3d的商品
   findThreeDGoodsByProductTypeIdAndName: data => http.get('/seller/goods/findThreeDGoodsByProductTypeIdAndName', data),
   // 添加获取
@@ -222,7 +223,6 @@ export default {
   updatacomment: data => http.post('/page/goodsEvaluate/uploadFile', data),
 
   /* ---- 退款维权 ---- */
-
   // 根据综合条件进行查询
   ComprehensiveQuery: data => http.get('/order/refundOrder/findRefundOrder', data),
   // 根据退款状态查询退单

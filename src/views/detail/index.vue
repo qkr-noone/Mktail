@@ -22,7 +22,6 @@
                     <div id="m_float-box"></div>
                     <img :src="currentImg">
                     <div class="video_play" v-if="goodsDesc.itemVedio" @click="playItemVideo()"><i class="el-icon-caret-right"></i></div>
-                    <div class="video_play t3D_play" v-if="show3dStatus&&goodsDesc.threeId" @click="playItem3D()"><i class="el-icon-caret-right"></i></div>
                   </div>
                   <div id="m_big-box">
                     <img :src="currentImg">
@@ -238,7 +237,7 @@
               <div class="tab-nav">
                 <ul>
                   <li class="tab-nav-li has_pointer"><a :class="{choosetab:'商品介绍'===tabNav}"  @click="tab('商品介绍', 'desciption')">商品介绍</a></li>
-                  <li class="tab-nav-li has_pointer" v-if="show3dStatus&&goodsDesc.threeId"><a :class="{choosetab:'3D展示'===tabNav}"  @click="tab('3D展示', '3D')">3D展示</a></li>
+                  <li class="tab-nav-li has_pointer" v-if="show3dStatus"><a :class="{choosetab:'3D展示'===tabNav}"  @click="tab('3D展示', '3D')">3D展示</a></li>
                   <li class="tab-nav-li has_pointer"><a :class="{choosetab:'商品评价'===tabNav}"  @click="tab('商品评价', 'review')">商品评价</a></li>
                   <!-- <li class="tab-nav-li has_pointer"><a :class="{choosetab:'售后保障'===tabNav}"  @click="tab('售后保障', 'afterSale')">售后保障</a></li> -->
                 </ul>
@@ -247,23 +246,7 @@
                 </div>
               </div>
               <transition>
-                <router-view
-                  :attrItem="attrItem"
-                  :goodsIntroduc="goodsIntroduc"
-                  :shopsVideo="goodsDesc.detailsVedio"
-                  :articleNumber="goodsDesc.articleNumber"
-                  :series="goodsDesc.series"
-                  :saleService="goodsDesc.saleService"
-                  :evaluationObj="evaluationObj"
-                  :scroll='scroll'
-                  :threeId="goodsDesc.threeId"
-                  :logoPic="sellerInfo.logoPic"
-                  :InfoName="sellerInfo.name"
-                  :seller="sellerInfo.sellerId"
-                  :goodsId="goods.id"
-                  :cover3d="goodsDesc.cover3d"
-                  :linkmanQq='sellerInfo.linkmanQq'>
-                </router-view>
+                <router-view :attrItem="attrItem" :goodsIntroduc="goodsIntroduc" :shopsVideo="goodsDesc.detailsVedio" :articleNumber="goodsDesc.articleNumber" :series="goodsDesc.series" :saleService="goodsDesc.saleService" :evaluationObj="evaluationObj" :scroll='scroll' :threeId="goodsDesc.threeId" :logoPic="sellerInfo.logoPic" :InfoName="sellerInfo.name" :seller="sellerInfo.sellerId" :goodsId="goods.id" :cover3d="goodsDesc.cover3d" :linkmanQq='sellerInfo.linkmanQq'></router-view>
               </transition>
             </div>
           </div>
@@ -278,12 +261,7 @@
       </div>
     </div>
     <div class="bottom-abs">
-      <absBox
-        :data="absBottomList"
-        :indicator="'none'"
-        :arrow="'never'"
-        :interval="5000">
-      </absBox>
+      <absBox :data="absBottomList" :indicator="'none'" :arrow="'never'" :interval="5000"></absBox>
     </div>
     <pageFooter id="bottom"></pageFooter>
     <regFooter></regFooter>
@@ -686,9 +664,6 @@ export default {
     },
     videoEnd () {
       this.$refs.videoBox.style.visibility = 'hidden'
-    },
-    playItem3D () {
-      this.$router.push({ path: '/3D/3Dshow', query: { id: this.goodsDesc.threeId, logoPic: this.sellerInfo.logoPic, InfoName: this.sellerInfo.name, homeShops: this.sellerInfo.sellerId, goodsId: this.goods.id, linkmanQq: this.sellerInfo.linkmanQq } })
     }
   },
   watch: {
@@ -765,9 +740,5 @@ export default {
     height: 28px;
     line-height: 28px;
     border: none;
-  }
-  .t3D_play {
-    left: initial;
-    right: 10px;
   }
 </style>

@@ -11,16 +11,21 @@
         <div class="group">
           <label>验证码：</label>
           <input type="text"/>
-          <span class="get-code">获取验证码</span>
+          <span class="get-code"><el-link @click="getphonecode" type="primary">获取验证码</el-link></span>
         </div>
         <div class="group">
-          <label class=" proving">验证：</label>
-          <div class="test">
-            <div class="arrow">>></div>
-            <div class="text-right">请按住滑块拖动到最右边</div>
-          </div>
+          <drag-verify class="code" :width=232
+                       :height=30
+                       :text="text"
+                       :success-text="successText"
+                       :circle="false"></drag-verify>
+<!--          <label class=" proving">验证：</label>-->
+<!--          <div class="test">-->
+<!--            <div class="arrow">>></div>-->
+<!--            <div class="text-right">请按住滑块拖动到最右边</div>-->
+<!--          </div>-->
         </div>
-        <button class="btn">确定</button>
+        <button @click="sendphone" class="btn">确定</button>
       </form>
     </div>
     <div class="title">
@@ -40,12 +45,19 @@
   </div>
 </template>
 <script>
+import dragVerify from 'vue-drag-verify'
+import {isMobile} from '@/common/utils'
 export default {
   data () {
     return {
       panelShow: false,
-      phone: ''
+      phone: '',
+      text: '请将滑块拖动到右侧',
+      successText: '验证成功'
     }
+  },
+  components: {
+    dragVerify
   },
   methods: {
     hidePanel: function (event) {
@@ -54,6 +66,40 @@ export default {
         if (!sp.contains(event.target)) {
           this.panelShow = false
         }
+      }
+    },
+    getphonecode () {
+      if (isMobile(this.phone) === true) {
+        this.API.sendCode({phone: this.phone}).then(res => {
+          if (res.success === false) {
+          }
+          this.$message({
+            message: '获取验证码成功',
+            type: 'success'
+          })
+        })
+      } else {
+        this.$message({
+          message: '手机号码错误，请重新输入',
+          type: 'warning'
+        })
+      }
+    },
+    sendphone () {
+      if (this.$refs.Verify.isPassing === true) {
+        this.API.VerificationCode({code: this.code, phone: this.phone}).then(res => {
+          if (res.success === false) {
+          }
+          this.$message({
+            message: '验证成功',
+            type: 'success'
+          })
+        })
+      } else {
+        this.$message({
+          message: '请将滑块拖动到右侧，再尝试重新发送',
+          type: 'warning'
+        })
       }
     },
     changeShow () {
@@ -75,6 +121,12 @@ export default {
     border: 1px solid #F4F4F4;
     flex-grow: 1;
     position: relative;
+  }
+  .code {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    margin-left: 100px;
   }
   .title {
     height:41px;

@@ -31,7 +31,7 @@
             </li>
             <li class="spacer"></li>
             <li class="child" @click="becomeStore()">
-              <div><a>商家入驻</a></div>
+              <div><a>商家入住</a></div>
             </li>
             <!-- <li class="spacer"></li>
             <li class="child">

@@ -63,6 +63,7 @@ export default {
   },
   methods: {
     threeDUrl () {
+      console.log(this.threeId, '3D')
       this.$router.push({ path: '/3D/3Dshow', query: { id: this.threeId, logoPic: this.logoPic, InfoName: this.InfoName, homeShops: this.seller, goodsId: this.goodsId, linkmanQq: this.linkmanQq } })
     }
   }

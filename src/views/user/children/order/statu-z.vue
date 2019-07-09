@@ -92,7 +92,7 @@
 import orderListTitle from '@/components/orderListTitle'
 import orderListContentHead from '@/components/orderListContentHead'
 import orderListContent from '@/components/orderListContent'
-import Box from '@/views/user/children/order/box'
+import Box from './box'
 import { formatDate } from '@/common/utils'
 export default {
   data () {

@@ -74,7 +74,7 @@
               </div>
             </li>
             <li class="goods-item not-data" v-if="!goodsList.total">
-              你的收藏中没有相关的商品
+              你的收藏中没有与“{{value}}”相关的商品
             </li>
           </ul>
         </div>
@@ -88,8 +88,8 @@
                 <el-rate v-model="starValue" disabled text-color="#FF9900" :colors="['#FF9900', '#FF9900', '#FF9900']"  class="store-star"></el-rate>
                 <p class="etc">粉丝：<span class="ect-num">{{store.shops.sellerFans}}</span></p>
                 <p class="contact-enter">
-                  <a class="contact has_pointer" :href="(store.shops.linkmanQq && 'http://wpa.qq.com/msgrd?v=3&uin='+ store.shops.linkmanQq +'&site=qq&menu=yes') || 'javascript:;'" target="_blank" title="点此可以直接和卖家交流选好的宝贝，或相互交流网购体验。">联系店铺</a>
-                  <router-link :to="{path: '/shops/home', query: {homeShops: store.shops.sellerId}}" class="enter has_pointer">进入店铺</router-link>
+                  <a class="contact has_pointer">联系店铺</a>
+                  <a class="enter has_pointer">进入店铺</a>
                 </p>
                 <div class="cancel" @click="negative(store.shops.sellerId)">取消关注</div>
               </div>
@@ -113,7 +113,7 @@
               </div>
             </li>
             <li class="list-item not-data" v-if="!storeList.total">
-              你的收藏中没有相关的店铺
+              你的收藏中没有与“{{value}}”相关的店铺
             </li>
           </ul>
         </div>
@@ -198,9 +198,9 @@ export default {
       this.focusGoods = false
       this.pageSize = 5
     }
-    // this.AJAX.get('/static/data/collectClass.json').then(res => {
-    //   this.series = res.data
-    // })
+    this.AJAX.get('/static/data/collectClass.json').then(res => {
+      this.series = res.data
+    })
     // 配送至
     this.API.allProvince().then(res => {
       this.addrOptions = res
@@ -237,9 +237,9 @@ export default {
       }
       let queryList = this.$route.query
       this.$router.push({path: path, query: queryList})
-      // this.AJAX.get('/static/data/collectClass.json').then(res => {
-      //   this.series = res
-      // })
+      this.AJAX.get('/static/data/collectClass.json').then(res => {
+        this.series = res
+      })
     },
     request (sellerId, shops) {
       this.API.goodsBySeller({sellerId: sellerId}).then(res => {
@@ -732,8 +732,8 @@ export default {
     height:112px;
   }
   .storeList .list-item .store-info> a img {
-    max-width: 100%;
-    max-height: 100%;
+    width: 100%;
+    height: 100%;
   }
   .storeList .list-item .store-info .store-title{
     font-size:20px;
@@ -747,17 +747,14 @@ export default {
   .storeList .list-item .store-info .contact-enter{
     width:100%;
     height:39px;
-    display: flex;
     position: absolute;
     bottom: 0;
     border-top: 1px solid rgba(232,232,232,1);
     line-height: 39px;
   }
   .storeList .list-item .store-info .contact-enter>a{
-    width: 50%;
+    width:49%;
     text-align: center;
-    box-sizing: border-box;
-    color: #353535;
   }
   .store-info .contact-enter .contact{
     border-right: 1px solid  rgba(232,232,232,1);

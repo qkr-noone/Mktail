@@ -141,64 +141,6 @@
         <div class="can_close" @click="quitProof()"><i class="el-icon-close"></i></div>
       </div>
     </div>
-    <div class="can_order_box" data-attr="商品评价" v-if="evaluatGoods.length">
-      <div class="init can_order can_proof">
-        <div class="init can_con">
-          <div class="init can_title">
-            <img class="can_title_logo" src="static/img/mk_logo_login.png">
-          </div>
-          <div class="evaluate_title">
-            <span><span class="can_title_head">货品评价</span><span class="btn_tip_back">共有<span class="stage2_info_color">{{evaluatGoods.length}}</span>个货品需要评价</span></span>
-            <a class="evaluate_know">评价须知</a>
-          </div>
-          <div class="evaluate_con">
-            <div class="evaluate_item" v-for="(evaItem, index) in evaluatGoods" :key="index">
-              <div class="evaluate_item_left">
-                <a class="evaluate_item_left_img_box">
-                  <img :src='evaItem.picPath'>
-                </a>
-                <p class="evaluate_item_left_desc">{{evaItem.title}}</p>
-                <span class="stage2_info_color evaluate_item_left_price">￥{{evaItem.price}}</span>
-              </div>
-              <div class="evaluate_item_right">
-                <div class="evaluate_score">
-                  <span class="evaluate_score_tip">请选择我的评分:</span>
-                  <el-rate
-                    v-model="userScore"
-                    :texts="['失望', '不满', '一般', '满意', '惊喜']"
-                    show-text>
-                  </el-rate>
-                </div>
-                <div class="evaluate_desc">
-                  <el-input
-                    type="textarea"
-                    class="evaluate_desc_input"
-                    placeholder="写点评价吧，您的评价对其他买家有很大的帮助(最多150字)"
-                    v-model="userEvaluation"
-                    maxlength="180"
-                    show-word-limit
-                    :autosize="{ minRows: 5, maxRows: 5}">
-                  </el-input>
-                  <span class="evaluate_desc_couter">{{userEvaluation.length}}/180 字数</span>
-                </div>
-                <div class="evaluate_proof_box">
-                  <span class="evaluate_proof_item"><i class="el-icon-plus"></i></span>
-                  <span class="evaluate_proof_item"><i class="el-icon-plus"></i></span>
-                  <span class="evaluate_proof_item"><i class="el-icon-plus"></i></span>
-                  <span class="evaluate_proof_item"><i class="el-icon-plus"></i></span>
-                  <span class="evaluate_proof_item"><i class="el-icon-plus"></i></span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="init evaluate_pick">
-            <p class="evaluate_know evaluate_proof_tip">评价发表后，不能修改评价内容</p>
-            <button class="set_btn_sub">提交评价</button>
-          </div>
-        </div>
-        <div class="can_close" @click="closeEvaluate()"><i class="el-icon-close"></i></div>
-      </div>
-    </div>
   </div>
 </template>
 <script>
@@ -227,17 +169,10 @@ export default {
     proofRefund: {
       type: [String, Number],
       default: ''
-    },
-    evaluatGoods: {
-      type: [Array],
-      default: () => []
     }
   },
   data () {
-    return {
-      userScore: null,
-      userEvaluation: ''
-    }
+    return {}
   },
   methods: {
     btnOrder () {
@@ -272,12 +207,6 @@ export default {
     },
     quitProof () {
       this.$emit('quitProof')
-    },
-    btnEvaluate () {
-      this.$emit('btnEvaluate')
-    },
-    closeEvaluate () {
-      this.$emit('quitEvaluate')
     }
   }
 }
@@ -542,122 +471,5 @@ export default {
     font-size:14px;
     padding: 6px 3px;
     color:rgba(180,180,180,1);
-  }
-/* 商品评价 */
-  .evaluate_title {
-    display: flex;
-    justify-content: space-between;
-    border-top: 1px solid #6A6A6A;
-    margin-top: 8px;
-    margin-bottom: 40px;
-  }
-  .evaluate_title .can_title_head {
-    color: #4E4E4E;
-    font-size: 18px;
-    margin-right: 12px;
-    margin-left: 0;
-  }
-  .evaluate_know {
-    font-size: 12px;
-    color: #4E4E4E;
-    margin-top: 12px;
-    line-height: 16px;
-  }
-  .evaluate_con {
-  }
-  .evaluate_item {
-    display: flex;
-    justify-content: space-between;
-  }
-  .evaluate_item_left {
-    font-size: 12px;
-    color: #767676;
-    line-height: 16px;
-    width: 120px;
-    margin-left: 38px;
-  }
-  .evaluate_item_left_img_box {
-    width: 100%;
-    height: 120px;
-    overflow: hidden;
-  }
-  .evaluate_item_left_img_box img {
-    max-width: 100%;
-    max-height: 100%;
-  }
-  .evaluate_item_left_desc {
-    word-break: break-all;
-  }
-  .evaluate_item_left_desc:hover{
-    color: #E53031;
-    cursor: pointer;
-    text-decoration: underline;
-  }
-  .evaluate_item_left_price {
-    margin-top: 9px;
-  }
-  .evaluate_item_right {
-    margin-right: 50px;
-  }
-  .evaluate_score {
-    display: flex;
-  }
-  .evaluate_score_tip {
-    color: #8E8E8E;
-    font-size: 14px;
-    margin-right: 20px;
-    margin-bottom: 15px;
-  }
-  .evaluate_desc {
-    position: relative;
-  }
-  .evaluate_desc_input {
-    width: 689px;
-    height: 117px;
-    border-radius: 6px;
-  }
-  .evaluate_desc_couter {
-    position: absolute;
-    right: 0;
-    bottom: -18px;
-    color: #8E8E8E;
-    font-size: 12px;
-  }
-  .evaluate_proof_box {
-    display: flex;
-    margin-top: 6px;
-  }
-  .evaluate_proof_item {
-    width: 66px;
-    height: 92px;
-    text-align: center;
-    line-height: 92px;
-    color: #8A8A8A;
-    border: 1px solid rgba(142,142,142,1);
-    font-size: 35px;
-  }
-  .evaluate_proof_item i {
-    cursor: pointer;
-  }
-  .evaluate_proof_item + .evaluate_proof_item {
-    margin-left: 12px;
-  }
-  .evaluate_pick {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  .evaluate_proof_tip {
-    margin-top: 35px;
-    margin-bottom: 20px;
-  }
-  .set_btn_sub {
-    border:1px solid rgba(171,44,44,1);
-    background:linear-gradient(-180deg,rgba(255,99,99,1) 0%,rgba(251,29,30,1) 100%);
-    border-radius:5px;
-    padding: 10px 25px;
-    color: #FFFFFF;
-    cursor: pointer;
   }
 </style>

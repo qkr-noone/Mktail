@@ -128,7 +128,10 @@ export default {
       console.log(this.value1)
     },
     SubmitSecretSecurity () {
-      this.API.Keepconfidential({Authorization: this.Authorization, dictInfoId1: this.value1, dictInfoId2: this.value2, dictInfoId3: this.value3, answer: this.answer1, answer2: this.answer2, answer3: this.answer3}).then(res => {
+      this.API.Keepconfidential({problem1: this.value1, problem2: this.value2, problem3: this.value3, answer1: this.answer1, answer2: this.answer2, answer3: this.answer3, userName: this.userName}).then(res => {
+        if (res.success === false) {
+        }
+        console.log(res)
       })
     }
   }

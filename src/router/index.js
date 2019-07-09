@@ -342,9 +342,6 @@ router = new Router({
     },
     {
       path: '/live/factory',
-      meta: {
-        isLogin: true
-      },
       component: resolve => require(['@/views/live/factory'], resolve)
     },
     { // 订单详情
