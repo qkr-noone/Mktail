@@ -39,7 +39,7 @@ export default {
   /* ----注册登录---- */
 
   // 发送手机验证码
-  sendCode: data => http.get('/user/user/sendCode', data),
+  sendCode: data => http.get('/portal/sms/registerSms', data),
   // 注册用户
   register: (data, smscode) => http.post('/user/user/add?smscode=' + smscode, data),
   // 获取用户信息
@@ -48,8 +48,7 @@ export default {
   getToken: data => http.post('/user/login/login', data),
   // 用户退出登录
   logout: () => http.post('/user/login/logout'),
-  // 展示登录用户的名称
-  getUsername: data => http.get('/user/login/name', data),
+
   /* ----购物车---- */
 
   // 购物车列表
@@ -154,6 +153,7 @@ export default {
   Keepconfidential: data => http.post('/personData/personData/saveUserSafeQuestion', data),
   // 判断验证码是否正确
   VerificationCode: data => http.get('/user/user/checkSmsCode', data),
+
   /* ---- 申请退款 ---- */
 
   // 判断是否可以退款 (退款列表)
@@ -196,10 +196,13 @@ export default {
 
   /* ---- 直播 ---- */
 
-
+  getLiveInfoPortal: (sellerId) => http.get('/live/all/getLiveInfoPortal?sellerId=' + sellerId),
 
   /* ---- 评价管理 ---- */
 
+  // 查询未评价/已评价的订单
+  getOrderEvaluation: data => http.get('/page/goodsEvaluate/findListByUserName', data),
+  // 统计已评价/未评价的商品数量
   getEvaluationCount: data => http.get('/page/goodsEvaluate/count', data),
   // 增加评价内容项
   addEvaluation: data => http.post('/page/goodsEvaluate/addEvaluate', data),
@@ -208,6 +211,8 @@ export default {
 
   // 获取商家产品自定义分类
   findProductTypeComboList: data => http.get('/seller/productType/findProductTypeComboList', data),
+  // 获取绑定商品...
+  findSellerThreeDData: data => http.get('/3d/findSellerThreeDData', data),
   // 根据产品自定义分类Id和商品名称获取已绑定3d的商品
   findThreeDGoodsByProductTypeIdAndName: data => http.get('/seller/goods/findThreeDGoodsByProductTypeIdAndName', data),
   // 添加获取

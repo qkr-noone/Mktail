@@ -141,6 +141,64 @@
         <div class="can_close" @click="quitProof()"><i class="el-icon-close"></i></div>
       </div>
     </div>
+    <div class="can_order_box" data-attr="商品评价" v-if="evaluatGoods.length">
+      <div class="init can_order can_proof">
+        <div class="init can_con">
+          <div class="init can_title">
+            <img class="can_title_logo" src="static/img/mk_logo_login.png">
+          </div>
+          <div class="evaluate_title">
+            <span><span class="can_title_head">货品评价</span><span class="btn_tip_back">共有<span class="stage2_info_color">{{evaluatGoods.length}}</span>个货品需要评价</span></span>
+            <a class="evaluate_know">评价须知</a>
+          </div>
+          <div class="evaluate_con">
+            <div class="evaluate_item" v-for="(evaItem, index) in evaluatGoods" :key="index">
+              <div class="evaluate_item_left">
+                <a class="evaluate_item_left_img_box">
+                  <img :src='evaItem.picPath'>
+                </a>
+                <p class="evaluate_item_left_desc">{{evaItem.title}}</p>
+                <span class="stage2_info_color evaluate_item_left_price">￥{{evaItem.price}}</span>
+              </div>
+              <div class="evaluate_item_right">
+                <div class="evaluate_score">
+                  <span class="evaluate_score_tip">请选择我的评分:</span>
+                  <el-rate
+                    v-model="userScore"
+                    :texts="['失望', '不满', '一般', '满意', '惊喜']"
+                    show-text>
+                  </el-rate>
+                </div>
+                <div class="evaluate_desc">
+                  <el-input
+                    type="textarea"
+                    class="evaluate_desc_input"
+                    placeholder="写点评价吧，您的评价对其他买家有很大的帮助(最多150字)"
+                    v-model="userEvaluation"
+                    maxlength="180"
+                    show-word-limit
+                    :autosize="{ minRows: 5, maxRows: 5}">
+                  </el-input>
+                  <span class="evaluate_desc_couter">{{userEvaluation.length}}/180 字数</span>
+                </div>
+                <div class="evaluate_proof_box">
+                  <span class="evaluate_proof_item"><i class="el-icon-plus"></i></span>
+                  <span class="evaluate_proof_item"><i class="el-icon-plus"></i></span>
+                  <span class="evaluate_proof_item"><i class="el-icon-plus"></i></span>
+                  <span class="evaluate_proof_item"><i class="el-icon-plus"></i></span>
+                  <span class="evaluate_proof_item"><i class="el-icon-plus"></i></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="init evaluate_pick">
+            <p class="evaluate_know evaluate_proof_tip">评价发表后，不能修改评价内容</p>
+            <button class="set_btn_sub">提交评价</button>
+          </div>
+        </div>
+        <div class="can_close" @click="closeEvaluate()"><i class="el-icon-close"></i></div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -169,10 +227,17 @@ export default {
     proofRefund: {
       type: [String, Number],
       default: ''
+    },
+    evaluatGoods: {
+      type: [Array],
+      default: () => []
     }
   },
   data () {
-    return {}
+    return {
+      userScore: null,
+      userEvaluation: ''
+    }
   },
   methods: {
     btnOrder () {
@@ -207,6 +272,12 @@ export default {
     },
     quitProof () {
       this.$emit('quitProof')
+    },
+    btnEvaluate () {
+      this.$emit('btnEvaluate')
+    },
+    closeEvaluate () {
+      this.$emit('quitEvaluate')
     }
   }
 }

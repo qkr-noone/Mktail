@@ -22,6 +22,7 @@
                     <div id="m_float-box"></div>
                     <img :src="currentImg">
                     <div class="video_play" v-if="goodsDesc.itemVedio" @click="playItemVideo()"><i class="el-icon-caret-right"></i></div>
+                    <div class="video_play t3D_play" v-if="show3dStatus&&goodsDesc.threeId" @click="playItem3D()"><i class="el-icon-caret-right"></i></div>
                   </div>
                   <div id="m_big-box">
                     <img :src="currentImg">
