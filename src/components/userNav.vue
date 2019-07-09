@@ -246,6 +246,7 @@ export default {
   }
   .switch-p a {
     font-size:14px;
+    line-height: 16px;
     width: 15px;
     color:rgba(106,106,106,1);
     display: flex;

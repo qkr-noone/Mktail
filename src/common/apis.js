@@ -48,6 +48,7 @@ export default {
   getToken: data => http.post('/user/login/login', data),
   // 用户退出登录
   logout: () => http.post('/user/login/logout'),
+
   /* ----购物车---- */
 
   // 购物车列表
@@ -192,20 +193,21 @@ export default {
   deleteCollect: data => http.get('/userCollect/userCollect/delUserCollectByDataId', data),
 
   /* ---- 直播 ---- */
+
   getLiveInfoPortal: (sellerId) => http.get('/live/all/getLiveInfoPortal?sellerId=' + sellerId),
+  /* ---- 评价管理 ---- */
 
-  /* ---- 商品评价 ---- */
-  // 根据用户名查询未评价的订单
-  Unevaluatedorders: data => http.get('/page/goodsEvaluate/findListByUserName', data),
-  // 根据用户名查询已评价的订单
-  Evaluatedorders: data => http.get('/page/goodsEvaluate/findListByName', data),
-
-  /* ---- 商品评价 ---- */
-  findSellerThreeDData: data => http.get('/3d/findSellerThreeDData', data),
+  // 查询未评价/已评价的订单
+  getOrderEvaluation: data => http.get('/page/goodsEvaluate/findListByUserName', data),
+  // 统计已评价/未评价的商品数量
+  getEvaluationCount: data => http.get('/page/goodsEvaluate/count', data),
 
   /* ---- 3D ---- */
+
   // 获取商家产品自定义分类
   findProductTypeComboList: data => http.get('/seller/productType/findProductTypeComboList', data),
+  // 获取绑定商品...
+  findSellerThreeDData: data => http.get('/3d/findSellerThreeDData', data),
   // 根据产品自定义分类Id和商品名称获取已绑定3d的商品
   findThreeDGoodsByProductTypeIdAndName: data => http.get('/seller/goods/findThreeDGoodsByProductTypeIdAndName', data),
   // 添加获取
@@ -220,6 +222,7 @@ export default {
   updatacomment: data => http.post('/page/goodsEvaluate/uploadFile', data),
 
   /* ---- 退款维权 ---- */
+
   // 根据综合条件进行查询
   ComprehensiveQuery: data => http.get('/order/refundOrder/findRefundOrder', data),
   // 根据退款状态查询退单
