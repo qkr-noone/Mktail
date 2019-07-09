@@ -24,7 +24,7 @@
           <!-- 通栏数据遍历 -->
           <div class="pre_module_con" v-for="item in list.passModuleDataList" :key="item.id" :data-template="item.templateName">
             <!-- 通栏项模板=>>组件 -->
-            <component :is="item.template" :list="item.dataList" :dataUrl="item.data"></component>
+            <component :is="item.template" :list="item.dataList" :dataUrl="item.data" :videoCover="item.config"></component>
           </div>
         </div>
       </div>

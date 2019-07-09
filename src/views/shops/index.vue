@@ -116,9 +116,9 @@ export default {
     handlePackNavBar (e) {
       let navBar = this.$refs.navBar
       if ((navBar && navBar[1].contains(e.target)) || this.$refs.storeMenuShow.contains(e.target)) {
-        this.$refs.storeMenuShow.style.visibility = 'visible'
+        this.$refs.storeMenuShow.style.display = 'block'
       } else {
-        this.$refs.storeMenuShow.style.visibility = 'hidden'
+        this.$refs.storeMenuShow.style.display = 'none'
       }
     },
     // 获取滚动高度
@@ -226,7 +226,7 @@ export default {
     margin: 0 auto;
   }
   .menu_pupper {
-    visibility: hidden;
+    display: none;
     z-index: 10;
   }
   .menu-box {
@@ -236,12 +236,12 @@ export default {
     position: relative;
   }
   .menu-item-li {
-    height: 44px;
-    line-height: 44px;
+    height: 40px;
+    line-height: 40px;
   }
   .menu-item-li>a.menu-a {
-    height: 44px;
-    line-height: 44px;
+    height: 40px;
+    line-height: 40px;
   }
   .menu-a {
     height: 40px;

@@ -195,18 +195,17 @@ export default {
   deleteCollect: data => http.get('/userCollect/userCollect/delUserCollectByDataId', data),
 
   /* ---- 直播 ---- */
-  getNineLiveUrlBySellerId: (data, sellerId) => http.get('/live/main/getNineLiveUrlBySellerId?sellerId=' + sellerId, data),
 
-  /* ---- 商品评价 ---- */
-  // 根据用户名查询未评价的订单
-  Unevaluatedorders: data => http.get('/page/goodsEvaluate/findListByUserName', data),
-  // 根据用户名查询已评价的订单
-  Evaluatedorders: data => http.get('/page/goodsEvaluate/findListByName', data),
 
-  /* ---- 商品评价 ---- */
-  findSellerThreeDData: data => http.get('/3d/findSellerThreeDData', data),
+
+  /* ---- 评价管理 ---- */
+
+  getEvaluationCount: data => http.get('/page/goodsEvaluate/count', data),
+  // 增加评价内容项
+  addEvaluation: data => http.post('/page/goodsEvaluate/addEvaluate', data),
 
   /* ---- 3D ---- */
+
   // 获取商家产品自定义分类
   findProductTypeComboList: data => http.get('/seller/productType/findProductTypeComboList', data),
   // 根据产品自定义分类Id和商品名称获取已绑定3d的商品
