@@ -250,6 +250,10 @@ export default {
     color: #000;
     font-size: 14px;
     border-radius: 4px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: keep-all;
+    max-width: 200px;
   }
   .menu-more {
     padding-left: 5px;

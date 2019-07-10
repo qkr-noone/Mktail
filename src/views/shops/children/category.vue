@@ -97,7 +97,7 @@ export default {
     width: 220px;
     text-align: left;
     display: flex;
-    align-item: center;
+    align-items: center;
     input {
       display: block;
       width: 168px;

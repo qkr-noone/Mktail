@@ -79,73 +79,7 @@
           <li>交易操作</li>
         </ul>
         <ul class="refund-list" v-show="listbox">
-
-          <li class="refund-item" >
-<!--            <div class="shop-info"  v-for="item in list" :key="item" >-->
-<!--              <input class="has_pointer" type="checkbox" :value="item" v-model="addData" @click="change(list)"/>-->
-<!--              <span class="date">{{item.list.createTime}}</span>-->
-<!--              <span class="order-num">订单号：<span>{{item.orderId}}</span></span>-->
-<!--              <router-link :to="{path:'/shops', query: {homeShops: item.list[item].sellerId}}" target="_blank" class="name">{{item.list[item].sellerName}}</router-link>-->
-<!--              &lt;!&ndash; <img class="has_pointer" src="static/img/user/user_part.png"> &ndash;&gt;-->
-<!--              <span v-if="item.list[item].status === 1" class="delete pay-time">&lt;!&ndash; <i class="el-icon-time"></i><span>自动取消:00时 00分 00秒</span> &ndash;&gt;</span>-->
-<!--              <span v-else-if="item.list[item].status === 2 || item.list[item].status === 5 || item.list[item].status === 6" class="delete"><img class="has_pointer" @click="del(item.list[item].orderId)" src="static/img/user/user_delete.png"></span>-->
-<!--            </div>-->
-<!--            <ul class="shop-item" >-->
-<!--              <li class="first-item">-->
-<!--                <div class="item-Top" v-for="item in list.list[]" :key="item">-->
-<!--                  <router-link :to="{path: '/detail', query: {goodsId: item.goodsId}}"><img :src="item.picPath" class="item-Top-img"></router-link>-->
-<!--                  <div class="item-desc">-->
-<!--            <span class="item-title">-->
-<!--              <span class="desc-title has_pointer" @click="goDetail(item.goodsId)">{{item.title}}</span>-->
-<!--              <br>-->
-<!--              <span>规格: {{item.spec}}</span>-->
-<!--              &lt;!&ndash; <span class="desc-title has_pointer">[交易快照]</span> &ndash;&gt;-->
-<!--            </span><br/>-->
-<!--                    <div class="back">退</div>-->
-<!--                    <span class="text-red">7天无理由退货</span>-->
-<!--                  </div>-->
-<!--                  <span class="item-price">￥{{item.price}}</span>-->
-<!--                  <span class="item-num">{{item.num}}</span>-->
-<!--                  <span>-->
-<!--            <a v-if="list.status === 3 || list.status === 4" href="javascript:;" style="color: #414141">退款/退货</a>-->
-<!--            <span v-if="list.status === 3 || list.status === 4 || list.status === 5"><a href="javascript:;" style="color: #414141">投诉卖家</a></span><br>-->
-<!--            <span v-if="list.status === 5"><a href="javascript:;" style="color: #414141">申请售后</a></span>-->
-<!--            <span v-if="list.status === 5"><a href="javascript:;" style="color: #414141">售后中</a></span>-->
-<!--          </span>-->
-<!--                </div>-->
-<!--                <div class="item-Buttom" v-if="list.status===3">-->
-<!--                  <img src="static/img/user/user_car.png">-->
-<!--                  <span class="date">{{list.paymentTime}}</span>-->
-<!--                  <span class="text-orange">您已选择在线支付，请等待确认审核</span>-->
-<!--                </div>-->
-<!--              </li>-->
-<!--              <li class="list-item">-->
-<!--                <span class="large-size">￥{{list.payment}}</span>-->
-<!--&lt;!&ndash;                <span>(含运费：￥{{list.shippingPrice}})</span>&ndash;&gt;-->
-<!--                <span>在线支付</span>-->
-<!--              </li>-->
-<!--              <li class="list-item">-->
-<!--                <a v-if="list.status === 1">待付款</a>-->
-<!--                <a v-else-if="list.status === 2">已取消</a>-->
-<!--                <a v-else-if="list.status === 3">已付款</a>-->
-<!--                <a v-else-if="list.status === 4">已发货</a>-->
-<!--                <a v-else-if="list.status === 5">已完成</a>-->
-<!--                <a v-else-if="list.status === 6">已退款</a>-->
-<!--                <router-link :to="{path: '/trace/orderDetail', query: {orderId: list.orderId}}">查看详情</router-link>-->
-<!--                <router-link :to="{path: '/trace/orderDetail', query: {orderId: list.orderId}}" class="text-red" v-if="list.status===4 || list.status ===5">查看物流</router-link>-->
-<!--              </li>-->
-<!--              <li class="list-item">-->
-<!--                <router-link v-if="list.status === 1" class="fast-pay" :to="{path:'/pay', query: {payStyle: 'weChat', orderIdList:list.orderId, from: Date.parse(new Date())}}">立即付款</router-link>-->
-<!--                <a v-if="list.status === 1" href="javascript:;" @click="cancleOrder(list.orderId)">取消订单</a>-->
-<!--                <a v-if="list.status === 2 || list.status > 4" href="javascript:;" @click="buyAgain(list.orderItemList)">再次购买</a>-->
-<!--                <a v-if="list.status === 3 || list.status === 4" href="javascript:;" @click="refundOrder(list.orderId, list.sellerId, list.status)">申请退款</a>-->
-<!--                &lt;!&ndash; <a v-if="list.status === 4" class="fast-pay">延长收货时间</a> &ndash;&gt;-->
-<!--                <a v-if="list.status === 4" class="fast-pay" @click="btnOrder(list.orderId)">确认收货</a>-->
-<!--                <a v-if="list.status === 5">申请开票</a>-->
-<!--                <a v-if="list.status === 5">追加评论</a>-->
-<!--                <a v-if="list.status === 6">查看退款</a>-->
-<!--              </li>-->
-<!--            </ul>-->
+          <li class="refund-item" v-for="(item, index) in list" :key='index'>
             <p class="item-title">
               <span></span>
               <span>订单号:{{item.orderId}}</span>
@@ -169,7 +103,6 @@
               <span class="textColorBlue">退款成功</span>
               <span>服务详情</span>
             </div>
-
           </li>
         </ul>
       </div>
@@ -321,7 +254,7 @@ export default {
       this.API.ComprehensiveQuery({beginTime: this.stime[0], endTime: this.stime[1], buyerId: this.username, refundStatus: this.value1, intervention: this.value2, saleStatus: this.value3}).then(res => {
         if (res.success === false) {
         }
-        this.list = res
+        this.list = res.list[0]
         console.log(this.list)
       })
     },
