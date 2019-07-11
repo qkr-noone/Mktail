@@ -129,7 +129,8 @@
                 <li  v-for="item in searchList.rows" :key="item.id">
                   <div class="p-list">
                     <div class="p-img">
-                      <router-link :to="{ path:'/detail',query:{goodsId: item.goodsId, skuId: item.id}}"><img :src="item.image" /></router-link>
+                      <router-link :to="{ path:'/detail',query:{goodsId: item.goodsId, skuId: item.id}}" target="_blank"><img :src="item.image" /></router-link>
+                      <div class="video_play t3D_play" title="商品支持3D展示" v-if="item.isThreeD"><img src="static/img/detail_play_3D.png"></div>
                     </div>
                     <div class="p-price">
                       <strong>
@@ -139,15 +140,18 @@
                     </div>
                     <div class="p-attr">
                       <!-- 修改 -->
-                      <a v-html="item.title">
-                        <em>{{item.title}}</em>
-                      </a>
+                      <router-link :to="{ path:'/detail',query:{goodsId: item.goodsId, skuId: item.id}}" target="_blank">
+                        {{item.title}}
+                      </router-link>
                     </div>
                     <div class="p-shop">
                       <strong><a target="_blank" :title="item.seller">{{item.seller}}</a></strong>
                     </div>
                     <div class="p-commit" data-selfware="0" data-score="0" data-reputation="99" data-verderid="594052" data-done="1">
-                      <span class="J_im_icon"><a target="_blank">销量1000</a><b class="im-01" title="联系客服"><i class="el-icon-service"></i></b></span>
+                      <span class="J_im_icon">
+                        <a target="_blank">销量&nbsp;{{item.salesCount}}</a>
+                        <a v-if="item.customerQq" class="im-01" :href="(item.customerQq && 'http://wpa.qq.com/msgrd?v=3&uin='+ item.customerQq +'&site=qq&menu=yes') || 'javascript:;'" target="_blank" title="点此可以直接和卖家交流选好的宝贝，或相互交流网购体验。"><i class="el-icon-service"></i></a>
+                      </span>
                     </div>
                     <div class="p-add">
                       <a class="has_pointer" @click="toCollect(item.goodsId, 1)"><img src="static/img/mk_search_addgoods.png"><span>收藏</span></a>
@@ -210,10 +214,10 @@
     <div class="point">
       <div class="point-con">
         <ul class="point-ul">
-          <li class="point-li"><a><img src="static/img/mk_search_point_1.png"></a></li>
-          <li class="point-li"><a><img src="static/img/mk_search_point_2.png"></a></li>
-          <li class="point-li"><a><img src="static/img/mk_search_point_3.png"></a></li>
-          <li class="point-li"><a><img src="static/img/mk_search_point_4.png"></a></li>
+          <li class="point-li"><a data-attr="二维码"><img src="static/img/mk_search_point_1.png"></a></li>
+          <li class="point-li"><a data-attr="运营商客服"><img src="static/img/mk_search_point_2.png"></a></li>
+          <li class="point-li"><router-link :to="{path:'/cart'}" data-attr="购物车"><img src="static/img/mk_search_point_3.png"></router-link></li>
+          <li class="point-li"><router-link :to="{path:'/user/userCollectGoods'}" data-attr="收藏"><img src="static/img/mk_search_point_4.png"></router-link></li>
         </ul>
       </div>
       <div class="point-li top-box"  v-scroll-to="'#headTop'"><a class="top"><i class="el-icon-caret-top"></i><p>TOP</p></a></div>
@@ -405,6 +409,7 @@ export default {
       if (!this.isSelectBrandMore) { // 正常选择单个品牌
         // 去重 this.selectBrand = [...new Set(this.selectBrand)]
         this.selectBrand.push(item.text)
+        this.currentPage = 1
         this.search([this.keywords, false])
       } else { // 下拉多选
         if (this.temSelectList.indexOf(item.text) >= 0) {
@@ -448,6 +453,7 @@ export default {
         }
       } else {
         this.selectSpec.push({spec: specIdList.spec, childList: [{'attr': item.optionName, 'id': item.id}]})
+        this.currentPage = 1
         this.search([this.keywords, false])
         this.isSelectSpec.push(rollNum)
       }
@@ -472,10 +478,12 @@ export default {
         })
         this.isSelectSpec.push(rollNum)
       }
+      this.currentPage = 1
       this.search([this.keywords, false])
     },
     // 提交指定价格区间
     btnPrice () {
+      this.currentPage = 1
       this.search([this.keywords, false])
     },
     // 结果条件过滤
@@ -513,6 +521,7 @@ export default {
           this.$set(this.temSort, 'field', 'price')
         }
       }
+      this.currentPage = 1
       this.search([this.keywords, false])
     },
     // 收藏
@@ -645,5 +654,28 @@ export default {
   height: auto;
   max-height: 60px;
   overflow-y: auto;
+}
+.video_play {
+  position: absolute;
+  bottom: 1px;
+  z-index: 100;
+  font-size: 36px;
+  color: #404040;
+  border-radius: 50%;
+  line-height: 35px;
+}
+.t3D_play {
+  width: 45px;
+  height: 45px;
+  left: initial;
+  right: 6px;
+  border: 1px solid transparent;
+}
+/*.t3D_play:hover {
+  border: 1px solid rgba(64, 64, 64, 0.33);
+}*/
+.t3D_play>img {
+  max-width: 100%;
+  max-height: 100%;
 }
 </style>

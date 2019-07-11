@@ -139,7 +139,7 @@
     font-style: normal;
   }
   .p-attr {
-    height: 32px;
+    height: 33px;
     line-height:17px;;
     margin-bottom: 8px;
     overflow: hidden;
@@ -158,6 +158,11 @@
   .p-attr a{
     color: #6C6C6C;
     padding:0 9px;
+    cursor: pointer;
+  }
+  .p-attr a:hover{
+    color: #E53031;
+    text-decoration: underline;
   }
   .p-attr a>em{
     font-style: normal;

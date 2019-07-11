@@ -109,6 +109,7 @@
           </div>
         </div>
       </div>
+      <div class="allgoods" v-else>购物车还未添加商品哦，<router-link class="cart_to_home" :to="{path: '/home'}">逛一逛~</router-link></div>
       <div class="liked">
         <ul class="sui-nav nav-tabs">
           <h2 class="active">

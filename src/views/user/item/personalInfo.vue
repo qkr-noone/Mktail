@@ -232,7 +232,7 @@ export default {
       isFullUserHead: false,
       previews: {},
       one: '',
-      header: { // TODO error
+      header: {
         Authorization: this.$cookies.get('token')
       }
     }

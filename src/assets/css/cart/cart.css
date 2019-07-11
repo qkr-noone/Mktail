@@ -135,6 +135,9 @@
     margin-bottom: 70px;
   }
   .allgoods {margin-top: 20px; margin-bottom: 50px;}
+  .cart_to_home {
+    color: #E53031;
+  }
   .title-tip {
     display: flex;
     justify-content: space-between;
