@@ -1,8 +1,7 @@
 <template>
-  <el-carousel :interval="interval" :indicator-position="indicator"     :arrow="arrow" height="100%" :autoplay="autoplay">
+  <el-carousel :interval="interval" :indicator-position="indicator" :arrow="arrow" height="100%" :autoplay="autoplay">
     <el-carousel-item v-for="item in data" :key="item.id">
-      <a><img :src="item.pic"></a>
-      <!-- <router-link :to="item.url"><img :src="item.pic"></router-link> -->
+      <a :href="item.url || 'javascript:;'"><img :src="item.pic"></a>
     </el-carousel-item>
   </el-carousel>
 </template>

@@ -162,10 +162,8 @@ export default {
   refundDesc: data => http.get('/order/refundOrder/findOrderDescId', data),
   // 根据商家 id 查询商家信息
   refundSellerInfo: data => http.get('/order/refundOrder/findSellerId', data),
-  // 确定退款货品
-  refundGoodsBtn: data => http.post('/order/refundOrder/refundOrderItem', data),
   // 申请退款
-  refundSubmit: data => http.post('/order/refundOrder/findSeller', data),
+  refundSubmit: data => http.post('/order/refundOrder/saveRefundOrder', data),
   // 根据退单ID查询退单详情
   getRefundOrderDetail: data => http.get('/order/refundOrder/findDetail', data),
   // 查询退款协议与退款货品
@@ -227,6 +225,7 @@ export default {
   updatacomment: data => http.post('/page/goodsEvaluate/uploadFile', data),
 
   /* ---- 退款维权 ---- */
+
   // 根据综合条件进行查询
   ComprehensiveQuery: data => http.get('/order/refundOrder/findRefundOrder', data),
   // 根据退款状态查询退单

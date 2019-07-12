@@ -140,7 +140,7 @@
         </div>
       </div>
     </div>
-    <regFooter></regFooter>
+    <regFooter class="footer"></regFooter>
   </div>
 </template>
 <script>

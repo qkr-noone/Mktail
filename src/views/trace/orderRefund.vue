@@ -145,7 +145,7 @@
                 <el-col :span="3">退款数量</el-col>
               </el-row>
               <div class="refund_grid_box">
-                <el-row class="refund_grid stage2_grid" v-for="list in selectList" :key="list.id">
+                <el-row class="refund_grid stage2_grid" v-for="(list, index) in selectList" :key="list.id">
                   <el-col :span="8" class="refund_desc">
                   <router-link :to="{path: '/detail', query:{goodsId: list.goodsId}}" class="a_box">
                     <img class="nest_img" :src="list.picPath">
@@ -162,7 +162,19 @@
                   <el-col :span="2">￥{{list.adjustmentAmount}}</el-col>
                   <el-col :span="3">￥{{list.payment}}</el-col>
                   <el-col :span="3">{{goodsStatus===3 ?'未发货': '已发货'}}</el-col>
-                  <el-col :span="3" class="stage2_select_num"><input class="stage2_item_num" type="number" min="1" :max="list.num" name=""><div class="">最多{{list.num}}件</div></el-col>
+                  <el-col :span="3" class="stage2_select_num">
+                    <input class="stage2_item_num"
+                      type="text"
+                      ref="targeValNum"
+                      @keyup="filterNum($event);filterRefundPrice($event)"
+                      @beforepaste="filterRefundPrice($event)"
+                      @blur="checkNum(list, $event)"
+                      min="1"
+                      :max="list.num"
+                      name="number"
+                      v-model="selectNum[index].num">
+                    <div class=""><span class="stage2_info_color" v-show="errorNum.indexOf(list.id)>=0"><i class="el-icon-warning"></i>数量有误&nbsp;</span>最多{{list.num}}件</div>
+                  </el-col>
                 </el-row>
               </div>
             </div>
@@ -182,7 +194,7 @@
                   <label v-if="orderInfo.status===4" class="stage2_item_value stage2_info_color">等待买家确认收货</label>
                 </div>
                 <div class="stage2_item_con"><label class="stage2_item_key">已付款:</label><label class="stage2_item_value"><span class="stage2_info_color">{{orderInfo.amountsPayable}}&nbsp;元</span><br><span class="stage2_item_flow">(含运费 {{orderInfo.shippingPrice}}.00元)</span></label></div>
-                <router-link :to="{path: '/trace/orderDetail', query: {orderId: orderId}}" class="stage2_see_order">>> 查看订单详情</router-link>
+                <router-link :to="{path: '/trace/orderDetail', query: {orderId: orderId}}" target="_blank" class="stage2_see_order">>> 查看订单详情</router-link>
               </div>
               <div class="init stage2_info_order stage2_info_seller">
                 <div class="stage2_reason_desc stage2_info_title">卖家信息</div>
@@ -194,7 +206,7 @@
                     <a class="stage2_call_me" :href="(sellerInfo.linkmanQq && 'http://wpa.qq.com/msgrd?v=3&uin='+ sellerInfo.linkmanQq +'&site=qq&menu=yes') || 'javascript:;'" target="_blank" title="点此可以直接和卖家交流选好的宝贝，或相互交流网购体验。">和我联系</a>
                   </label>
                 </div>
-                <div class="stage2_item_con"><label class="stage2_item_key">支付宝账户:</label><label class="stage2_item_value"></label></div>
+                <!-- <div class="stage2_item_con"><label class="stage2_item_key">支付宝账户:</label><label class="stage2_item_value"></label></div> -->
                 <div class="stage2_item_con"><label class="stage2_item_key">电话:</label><label class="stage2_item_value">{{sellerInfo.telephone}}</label></div>
                 <div class="stage2_item_con"><label class="stage2_item_key">手机:</label><label class="stage2_item_value">{{sellerInfo.mobile}}</label></div>
               </div>
@@ -210,7 +222,7 @@
               <div class="stage2_item_con">
                 <label class="init stage2_item_key"><sup class="stage2_info_color">*</sup>退款原因:</label>
                 <!-- <input class="init stage_pick_info_box" type="text" name=""> -->
-                <select class="init can_select stage_pick_info_box" v-model="refundReason">
+                <select class="init can_select stage_pick_info_box" v-model="refundReason" @blur="checkVal('refundReason')">
                   <option value="0" disabled selected style="display: none;">请选择退款原因</option>
                   <option value="6">不想买了，已与卖家协商一致</option>
                   <option value="1">大小/尺寸不符</option>
@@ -219,17 +231,28 @@
                   <option value="4">材质/成分不符</option>
                   <option value="5">质量问题</option>
                 </select>
-                <div class="stage2_info_color"><i class="el-icon-warning"></i>请选择退款原因</div>
+                <div class="stage2_info_color" v-show="refundReason===''"><i class="el-icon-warning"></i>请选择退款原因</div>
               </div>
               <div class="stage2_item_con">
                 <label class="init stage2_item_key"><sup class="stage2_info_color">*</sup>退款货品金额:</label>
-                <input class="init stage_pick_info_box" type="text" name=""><span>元</span>
-                <div class="stage2_info_color"><i class="el-icon-warning"></i>退款货品金额不能为空</div>
+                <input class="init stage_pick_info_box"
+                  @keyup="filterRefundPrice($event)"
+                  @blur="checkVal('refundGoodsPrice')"
+                  v-model="refundGoodsPrice"
+                  type="text"
+                  name="">
+                <span>元</span>
+                <div class="stage2_info_color" v-show="refundGoodsPrice===''"><i class="el-icon-warning"></i>退款货品金额不能为空</div>
               </div>
               <div class="stage2_item_con stage2_pick_user_flow">
                 <label class="init stage2_item_key"><sup class="stage2_info_color">*</sup>退款运费金额:</label>
                 <div>
-                  <input class="init stage_pick_info_box" type="text" min="0.00" name="" :value="refundPost" >
+                  <input class="init stage_pick_info_box"
+                    @keyup="filterRefundPrice($event)"
+                    @blur="checkVal('refundPost')"
+                    type="text"
+                    name=""
+                    v-model="refundPost">
                   <span>元</span>
                   <el-popover
                     placement="bottom"
@@ -239,10 +262,26 @@
                     <p>由买家承担: 个人原因不喜欢，不想要等</p>
                     <span class="init stage2_pick_flow"  slot="reference">退款运费说明<i class="el-icon-caret-bottom"></i></span>
                   </el-popover>
-                  <div class="stage2_info_color"><i class="el-icon-warning"></i>退款货品金额不能为空</div>
-                  <div class="stage2_pick_flow_tip">如实际运费高于<span class="stage2_info_color">&nbsp;{{orderInfo.shippingPrice}}&nbsp;</span>元，请<a class="stage2_call_me" :href="(sellerInfo.linkmanQq && 'http://wpa.qq.com/msgrd?v=3&uin='+ sellerInfo.linkmanQq +'&site=qq&menu=yes') || 'javascript:;'" target="_blank" title="点此可以直接和卖家交流选好的宝贝，或相互交流网购体验。">和我联系</a>协商打款方式。</div>
-                  <textarea type="textarea" class="stage_pick_info_box stage_pick_other" placeholder="内容在2-200个字之间，建议填写有关退款原因说明等信息。" name=""></textarea>
-                  <div class="stage_pick_word stage2_info_color"><div class="stage2_info_color"><i class="el-icon-warning"></i>退款货品金额不能为空</div><span>还可输入200字</span></div>
+                  <div class="stage2_info_color" v-show="refundPost===''">
+                    <i class="el-icon-warning"></i>退款运费金额不能为空
+                  </div>
+                  <div class="stage2_pick_flow_tip">
+                    如实际运费高于<span class="stage2_info_color">&nbsp;{{orderInfo.shippingPrice}}&nbsp;</span>元，请<a class="stage2_call_me" :href="(sellerInfo.linkmanQq && 'http://wpa.qq.com/msgrd?v=3&uin='+ sellerInfo.linkmanQq +'&site=qq&menu=yes') || 'javascript:;'" target="_blank" title="点此可以直接和卖家交流选好的宝贝，或相互交流网购体验。">和我联系</a>协商打款方式。
+                  </div>
+                  <el-input
+                    type="textarea"
+                    class="stage_pick_info_box stage_pick_other"
+                    placeholder="内容在1-200个字之间，建议填写有关退款原因说明等信息。"
+                    v-model="refundDetail"
+                    maxlength="200"
+                    show-word-limit
+                    @blur="checkVal('refundDetail')"
+                    :autosize="{ minRows: 5, maxRows: 5}">
+                  </el-input>
+                  <div class="stage_pick_word">
+                    <div class="stage2_info_color" v-show="refundDetail===''"><i class="el-icon-warning"></i>退款内容详细不能为空</div>
+                    <span>可输入200个字</span>
+                  </div>
                 </div>
               </div>
               <div class="stage2_item_con stage2_pick_user_flow">
@@ -252,16 +291,26 @@
                     <el-upload
                       accept="image/png, image/jpeg, image/gif, image/jpg, image/bmp"
                       :action="URLIP +'/order/refundOrder/uploadFile'"
-                      :limit="10"
                       :headers="header"
+                      :multiple="true"
+                      :limit="10"
                       :show-file-list="false"
+                      :on-success="handleFileSuccess"
                       :before-upload="beforeImgUpload">
                       <label class="file_choose">选择文件</label>
                     </el-upload>
                     <p class="file_desc">请补充支持退款原因的<span class="stage2_info_color">聊天记录截图、实物照片、第三方证明等</span>相关证明，<span class="file_desc_more">查看详情</span></p>
+                    <span class="set_select_order">
+                      <ul>
+                        <li v-if="pickList" v-for="item in pickList" :key="item.url + new Date().getTime()">
+                          <img :src="item.url">
+                          <i class="el-icon-delete" @click="deleteFileImg(item)"></i>
+                        </li>
+                      </ul>
+                    </span>
                   </div>
-                  <p class="file_tip">并可上传10张图片，只仅支持JPG、GIF、PNG、JPEG和BMP格式，单张最大5M</p>
-                  <span class="file_tip_tip stage2_pick_status_tip">请仔细确认您的退款金额，一旦卖家同意该退款协议，<span class="stage2_info_color">0.0&nbsp;</span>元退款金额将转入您绑定的支付宝账户。</span>
+                  <p class="file_tip">并可上传 &nbsp;{{pickList.length}}/10 &nbsp;张图片，只仅支持JPG、GIF、PNG、JPEG和BMP格式，单张最大5M</p>
+                  <span class="file_tip_tip stage2_pick_status_tip">请仔细确认您的退款金额，一旦卖家同意该退款协议，<span class="stage2_info_color">{{ ((refundGoodsPrice * 10000 + this.refundPost * 10000)/10000).toFixed(2) }}&nbsp;</span>元退款金额将转入您绑定的支付账户。</span>
                   <div class="init refund_btn">
                     <button class="init can_btn btn_sub_set refund_sub" @click="submitRefund">申请退款</button>
                   </div>
@@ -442,8 +491,19 @@
         </div>
       </div>
     </div>
-    <Box :orderCancleRefund="orderCancleRefund" @cancleRefund="cancleRefund()" @quitCancle="orderCancleRefund=''" :cancleRefundSuccess="cancleRefundSuccess" @closeCancleRefund="closeCancleRefund()" :proofRefund="proofRefund" @btnProof="btnProof()" @quitProof="proofRefund=''"></Box>
+    <Box
+      :orderCancleRefund="orderCancleRefund"
+      @cancleRefund="cancleRefund()"
+      @quitCancle="orderCancleRefund=''"
+      :cancleRefundSuccess="cancleRefundSuccess"
+      @closeCancleRefund="closeCancleRefund()"
+      :proofRefund="proofRefund"
+      @btnProof="btnProof()"
+      @quitProof="proofRefund=''">
+    </Box>
     <regFooter class="footer"></regFooter>
+    <!-- 加载loading -->
+    <div class="loading_wrap" v-show="isLoading"><i class="el-icon-loading"></i></div>
   </div>
 </template>
 <script>
@@ -466,26 +526,33 @@ export default {
       isFlowGoods: true, // 是否已发的货品
       refundService: 1, // 1. 仅退款 2. 退货退款
       selectList: [], // 确定退款货品
+      selectNum: [],
       orderInfo: {}, // 订单摘要
       sellerInfo: {}, // 卖家信息
       isObtainGoods: 0, // 是否收到货
       refundReason: 0, // 退货/售后原因：1（大小/尺寸不符）2（颜色/图案/款式不符）3（破损/污渍/划痕）4（材质/成分不符）5（质量问题）
-      refundPost: 0, // 退款运费金额
+      refundGoodsPrice: null,
+      refundPost: null, // 退款运费金额
+      refundDetail: null,
       header: {
         Authorization: this.$cookies.get('token')
       },
-      isProofMessage: false
+      isProofMessage: false,
+      pickList: [],
+      errorNum: [],
+      isLoading: false,
+      refundDetailID: ''
     }
   },
   components: { shortcut, userNav, regFooter, Box },
   mounted () {
+    this.staged = 1
     this.getList()
     this.getRefundDesc()
     this.getSellerInfo()
   },
   methods: {
     cancleRefund () {
-      console.log(this.orderCancleRefund)
       this.cancleRefundSuccess = this.orderCancleRefund
       this.orderCancleRefund = ''
     },
@@ -499,7 +566,6 @@ export default {
       this.API.refundList({ orderId: this.orderId }).then(res => {
         if (res.success === false) return false
         this.goodsList = res
-        this.staged = 1
       })
     },
     selectGoods (event) {
@@ -521,19 +587,38 @@ export default {
     },
     // 提交退款货品
     submitGoods () {
+      this.selectNum = JSON.parse(JSON.stringify(this.selectList))
       this.staged = 2
+    },
+    // 过滤退款数量
+    filterNum (e) {
+      e = e || window.event
+      let target = e.target
+      target.value = target.value.replace(/[^\d]/g, '')
+      let leng1 = target.value.substr(0, 1)
+      if (leng1 === '0') target.value = ''
+    },
+    // 过滤退款金额
+    filterRefundPrice (e) {
+      e = e || window.event
+      let obj = e.target
+      obj.value = obj.value.replace(/[^\d.]/g, '') // 清除“数字”和“.”以外的字符
+      obj.value = obj.value.replace(/\.{2,}/g, '.') // 只保留第一个. 清除多余的
+      obj.value = obj.value.replace('.', '$#$').replace(/\./g, '').replace('$#$', '.')
+      obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3') // 只能输入两个小数
+      if (obj.value.indexOf('.') < 0 && obj.value !== '') { // 以上已经过滤，此处控制的是如果没有小数点，首位不能为类似于 01、02的金额
+        obj.value = parseFloat(obj.value)
+      }
     },
     // 订单摘要
     getRefundDesc () {
       this.API.refundDesc({ orderId: this.orderId }).then(res => {
-        console.log('订单摘要', res)
         this.orderInfo = res
       })
     },
     // 卖家信息
     getSellerInfo () {
       this.API.refundSellerInfo({ sellerId: this.sellerId }).then(res => {
-        console.log('商家信息', res)
         this.sellerInfo = res
       })
     },
@@ -548,15 +633,46 @@ export default {
       }
       return isJPG && isLt5M
     },
+    handleFileSuccess (file) {
+      this.pickList.push({ url: file.data })
+    },
+    deleteFileImg (item) {
+      this.pickList.splice(this.pickList.indexOf(item), 1)
+    },
+    // check 数量
+    checkNum (item, e) {
+      let num = parseInt(e.target.value)
+      let tip = this.errorNum.indexOf(item.id)
+      if (!num || num > item.num) {
+        if (tip >= 0) return false
+        else this.errorNum.push(item.id)
+      } else {
+        if (tip >= 0) this.errorNum.splice(tip, 1)
+      }
+    },
+    // check 金额 内容
+    checkVal (val) {
+      if (!this[val]) this[val] = ''
+    },
     // 申请退单
     submitRefund () {
-      this.staged = 3
-      // this.API.refundGoodsBtn({ checked: 3, orderId: this.orderId }).then(res => {
-      //   console.log(res)
-      // })
-      // TODO 重接
-      // 1：退款协议等待卖家确认，2：退货申请等待卖家确认，3：换货/维修申请等待卖家确认，4：补寄申请等待卖家确认，5：等待买家退货中，6：买家已退货, 7，等待卖家确认收货，8：等待卖家发货，9.退款/退货成功，10.退款/退货关闭，11：换货/维修/补寄成功，12：换货/维修/补寄关闭
-      let obj = {
+      if (this.errorNum.length) {
+        this.$message.warning('请核对退款商品数量~~')
+        return false
+      }
+      if (!this.refundReason || !this.refundGoodsPrice || !this.refundPost || !this.refundDetail) {
+        this.$message.warning('请完善退款信息')
+        this.checkVal('refundReason')
+        this.checkVal('refundGoodsPrice')
+        this.checkVal('refundPost')
+        this.checkVal('refundDetail')
+        return false
+      }
+      for (let i = 0; i < this.selectNum.length; i++) {
+        this.$set(this.selectNum[i], 'num', parseInt(this.selectNum[i].num))
+      }
+      let selectVal = { orderItemList: this.selectNum }
+      let refundObj = {
         alipayAccount: '',
         buyerId: this.$cookies.get('user-key'),
         buyerNick: '',
@@ -564,18 +680,18 @@ export default {
         companyBuyerUrl: '',
         createTime: formatDate(new Date()),
         fixedLine: '',
-        goodsPrice: 100,
+        goodsPrice: this.refundGoodsPrice,
         intervention: 2,
         isReceived: this.isObtainGoods,
         orderId: this.orderId,
         orderShippingPrice: this.orderInfo.shippingPrice,
         phone: this.orderInfo.receiverMobile,
-        refundDesc: '退款说明hhhhhh', // 退款说明
-        refundDescImages: JSON.stringify([{ url: 'http://mktail.oss-cn-shenzhen.aliyuncs.com/file/6636f3ce59c446bb8945b76ea7727dd0.jpg' }]),
+        refundDesc: this.refundDetail, // 退款说明
+        refundDescImages: this.pickList,
         refundMoneyStatus: '',
-        refundOrderId: 0,
-        refundPrice: 20,
-        refundReason: 1,
+        refundOrderId: '',
+        refundPrice: (this.refundGoodsPrice * 10000 + this.refundPost * 10000) / 10000,
+        refundReason: this.refundReason,
         refundStatus: 0,
         refundType: this.refundService,
         refuseRefundDesc: '',
@@ -587,15 +703,20 @@ export default {
         shippingName: '',
         updateTime: ''
       }
-      console.log('obj', obj)
-      // this.API.refundSubmit(obj).then(res => {
-      //   console.log(res, '提交')
-      // })
+      let double = Object.assign(selectVal, { tbRefundOrder: refundObj })
+      this.API.refundSubmit(double).then(res => {
+        if (res.success === false) {
+          this.$message.warning(res.message)
+          return false
+        }
+        this.refundDetailID = res
+        this.staged = 3
+      })
     }
   }
 }
 </script>
-<style>
+<style scoped>
 /* 交互按钮 */
  button[disabled="disabled"], .disabledBG {
   background-color: #9e9e9e !important;
@@ -1015,6 +1136,7 @@ export default {
     margin-top: 10px;
     font-size: 15px;
     color: #0066FF;
+    cursor: pointer;
   }
   .stage2_call_me {
     margin: 0 13px;
@@ -1081,7 +1203,7 @@ export default {
   }
   .stage_pick_other {
     width: 911px;
-    height:135px;
+    height: 132px;
     font-family: "Helvetica Neue", "Microsoft Yahei";
   }
   .stage2_pick_flow_tip {
@@ -1098,9 +1220,10 @@ export default {
     background-color: #EEEEEE;
     border:1px solid rgba(151,151,151,1);
     width:911px;
-    height:63px;
+    min-height:63px;
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
   }
   .file_choose {
     margin: 0 30px;
@@ -1111,6 +1234,9 @@ export default {
     font-size: 14px;
     border:1px solid rgba(142,142,142,1);
     cursor: pointer;
+  }
+  .file_desc {
+    margin: 20px 150px 20px 0;
   }
   .file_desc_more {
     box-sizing: border-box;
@@ -1124,6 +1250,15 @@ export default {
   }
   .file_tip_tip {
     margin: 10px 0 30px;
+  }
+  .loading_wrap {
+    position: fixed;
+    left: 50vw;
+    top: 50vh;
+    margin: auto;
+    font-size: 32px;
+    color: #ef7026;
+    z-index: 10000;
   }
 /* 退款阶段三 */
   .stage3_end {
@@ -1444,4 +1579,57 @@ export default {
   .stage_half_position_end_word {
     margin-left: -18px;
   }
+</style>
+<style scoped lang="scss">
+@mixin border($height,$width,$borderColor,$border-radio:0){
+  width: $width;
+  height:$height;
+  text-align: center;
+  line-height: $height;
+  border: 1px solid $borderColor;
+  border-radius:$border-radio ;
+}
+.set_select_order {
+  ul{
+    position: relative;
+    display: flex;
+    .draggable {
+      position: absolute;
+      width: 631px;
+      overflow-x: auto;
+      top: 0;
+      left: 0;
+      display: flex;
+      list-style: none;
+    }
+    li{
+      @include border(66px,66px,#D8D8D8);
+      background:rgba(247,247,247,1);
+      border:1px dotted rgba(216,216,216,1);
+      margin:6px 10px 8px 2px;
+      font-size:18px;
+      font-weight:500;
+      font-style:italic;
+      color:rgba(212,212,212,1);
+      cursor: initial;
+      position: relative;
+      img{
+        max-height: 64px;
+        max-width: 64px;
+      }
+      i{
+        font-size: 16px;
+        position: absolute;
+        right: 2px;
+        bottom: 2px;
+        cursor: pointer;
+        color: #989898;
+        font-weight: bolder;
+      }
+      i:hover{
+        color: #E43031;
+      }
+    }
+  }
+}
 </style>

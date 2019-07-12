@@ -173,7 +173,7 @@
                   <el-input
                     type="textarea"
                     class="evaluate_desc_input"
-                    placeholder="写点评价吧，您的评价对其他买家有很大的帮助(最多150字)"
+                    placeholder="写点评价吧，您的评价对其他买家有很大的帮助(最多180字)"
                     v-model="userEvaluation"
                     maxlength="180"
                     show-word-limit

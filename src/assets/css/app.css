@@ -489,6 +489,12 @@
     color: #ffffff;
     width: 215px;
     flex-shrink: 0;
+    transition: all 0.2s linear;
+    cursor: pointer;
+  }
+  .sty-con-left:hover {
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    transform: translate3d(0, -2px, 0);
   }
   .sty-con-left h1{
     background-color: #33AE75;
@@ -554,6 +560,12 @@
     height: 203px;
     background-color: #ffffff;
     font-size: 16px;
+    transition: all 0.2s linear;
+    cursor: pointer;
+  }
+  .sty-con-li:hover {
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    transform: translate3d(0, -2px, 0);
   }
   li.sty-con-li:first-child {
     border-right: 1px solid #F4F4F4;
@@ -630,11 +642,19 @@
     align-items: center;
     justify-content: center;
     margin-top: 10px;
+    transition: all 0.2s linear;
+  }
+  .source-box-ul a:hover{
+    box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+    transform: translate3d(0, -2px, 0);
   }
   .source-box-ul h4{font-size: 12px; color: #000000;width: 87px; overflow: hidden;
     text-overflow: ellipsis; white-space: nowrap;}
 
 /* 猜你喜欢 */
+ #yourLike {
+  overflow: initial;
+ }
  .hot-title{ display: flex;justify-content: space-between;
   font-size: 20px;
   color: #FFD704; 
@@ -650,6 +670,12 @@
  .hot-con-ul li {
   padding: 13px 23px 15px 23px;
   background-color: #fff;
+  transition: all 0.2s linear;
+  cursor: pointer;
+ }
+ .hot-con-ul li:hover {
+  box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+  transform: translate3d(0, -2px, 0);
  }
  .hot-con-ul li:nth-child(n+6) {
     margin-top: 11px;
