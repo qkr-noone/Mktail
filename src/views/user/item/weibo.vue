@@ -77,6 +77,7 @@ export default {
 }
 </script>
 <style scoped>
+<<<<<<< HEAD
   .con-wrap {
     position: relative;
     font-family: "SimHei";
@@ -106,6 +107,9 @@ export default {
     margin-left: 40px;
     font-weight: 400;
   }
+=======
+  @import '../../../assets/css/user/user-set.css';
+>>>>>>> remotes/origin/master
   .con-de{
     position: relative;
   }
@@ -134,6 +138,7 @@ export default {
   .elastic-frame .btn{
     background:rgba(254,133,4,1);
   }
+<<<<<<< HEAD
   .elastic-frame{
     position: absolute;
     top:116px;
@@ -187,6 +192,8 @@ export default {
     font-weight:400;
     color:rgba(100,100,100,1);
   }
+=======
+>>>>>>> remotes/origin/master
   .bindinged .state{
     font-size:14px;
     font-family:SourceHanSansCN-Regular;

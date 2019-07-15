@@ -46,7 +46,10 @@
   }
   .pay-price {
     padding: 0 10px;
+<<<<<<< HEAD
     flex-shrink: 0;
+=======
+>>>>>>> remotes/origin/master
   }
   
   .pay .checkout-tit {
@@ -63,6 +66,7 @@
   }
   
   .checkout-steps {
+<<<<<<< HEAD
     padding: 8px 10px 35px 10px;
     box-sizing: border-box;
   }  
@@ -70,6 +74,28 @@
     line-height: 30px;
     vertical-align: top;
     text-align: left;
+=======
+    border: 1px solid #ddd;
+    padding: 8px 10px 35px 10px;
+  }  
+  .pay .paymark {
+    overflow: hidden;
+    line-height: 26px;
+    text-indent: 38px
+  }
+  
+  .pay .success-icon {
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+    background: url(/static/img/success-icon.png);
+    background-position: 0 0
+  }
+  
+  .pay .success-info {
+    line-height: 30px;
+    vertical-align: top
+>>>>>>> remotes/origin/master
   }
   
   
@@ -112,11 +138,14 @@
     font-size: 24px;
     color: #4A4A4A;
   }
+<<<<<<< HEAD
   .weixin span.reload {
     font-size: 12px;
     color: #0b79ec;
     cursor: pointer;
   }
+=======
+>>>>>>> remotes/origin/master
   .weixin .red{
     font-size: 13px;
     margin-left: 38px;
@@ -133,7 +162,10 @@
     justify-content: center;
     margin-top: 40px;
   }
+<<<<<<< HEAD
   .code {}
+=======
+>>>>>>> remotes/origin/master
   .other-pay {
   	margin-top: 50px;
     padding-left: 20px;
@@ -148,6 +180,7 @@
     align-items: center;
     border:1px solid rgba(242,242,242,1);
     padding: 20px;
+<<<<<<< HEAD
     width: 375px;
     height: 375px;
   }
@@ -179,4 +212,6 @@
     color: #FF7674;
     font-size: 30px;
     margin-right: 20px;
+=======
+>>>>>>> remotes/origin/master
   }

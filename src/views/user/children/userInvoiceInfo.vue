@@ -17,6 +17,7 @@
         <label>新增发票抬头:</label>
         <input/>
       </p>
+<<<<<<< HEAD
       <el-upload
         class="upload-demo"
         ref="upload"
@@ -30,6 +31,8 @@
         <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
         <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
       </el-upload>
+=======
+>>>>>>> remotes/origin/master
       <p class=" operate">
         <button class="btn-cancel" @click="cancle">取消</button>
         <button class="btn-ensure">确定</button>
@@ -76,6 +79,7 @@ export default {
     return {
       plainInvoice: true,
       panelShow1: false,
+<<<<<<< HEAD
       panelShow2: false,
       fileList: [],
       header: {
@@ -94,6 +98,12 @@ export default {
       console.log(this.fileList)
       this.$refs.upload.submit()
     },
+=======
+      panelShow2: false
+    }
+  },
+  methods: {
+>>>>>>> remotes/origin/master
     changeTab (val) {
       this.plainInvoice = val
     },
@@ -242,6 +252,7 @@ export default {
     text-align: right;
   }
 </style>
+<<<<<<< HEAD
 <style>
   .avatar-uploader .el-upload {
     border: 1px dashed #d9d9d9;
@@ -267,3 +278,5 @@ export default {
     display: block;
   }
 </style>
+=======
+>>>>>>> remotes/origin/master

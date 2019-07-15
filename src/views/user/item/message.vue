@@ -42,6 +42,7 @@ export default {
 
 </script>
 <style scoped>
+<<<<<<< HEAD
   .con-wrap {
     display: flex;
     flex-direction: column;
@@ -50,6 +51,10 @@ export default {
   .con-de{
     border: 1px solid #F4F4F4;
     flex-grow: 1;
+=======
+  @import '../../../assets/css/user/user-set.css';
+  .con-de{
+>>>>>>> remotes/origin/master
     font-size:14px;
     font-family:SourceHanSansCN-Regular;
     font-weight:400;
@@ -82,9 +87,12 @@ export default {
     display: inline-block;
     margin-right:30px;
   }
+<<<<<<< HEAD
   .con-item {
     margin-left: 40px;
     font-weight: 400;
   }
+=======
+>>>>>>> remotes/origin/master
 
 </style>

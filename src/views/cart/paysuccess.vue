@@ -10,15 +10,25 @@
           <p>重要提示：平台及销售商不会以订单异常、系统升级为由，要求您点击任何链接进行退款。</p>
         </div>
       </div>
+<<<<<<< HEAD
       <!-- <payRecom></payRecom> -->
+=======
+      <payRecom></payRecom>
+>>>>>>> remotes/origin/master
     </div>
     <regFooter class="footer"></regFooter>
   </div>
 </template>
 <script>
+<<<<<<< HEAD
 import regFooter from '@/components/regFooter'
 import checkoutCounter from '@/components/checkoutCounter'
 import payRecom from '@/components/payRecom'
+=======
+import regFooter from '../../components/regFooter'
+import checkoutCounter from '../../components/checkoutCounter'
+import payRecom from '../../components/payRecom'
+>>>>>>> remotes/origin/master
 export default {
   data () {
     return {}
@@ -32,9 +42,12 @@ export default {
     background-image: url(/static/img/mk_success_bg.jpg);
     background-size: cover;
     background-repeat: no-repeat;
+<<<<<<< HEAD
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+=======
+>>>>>>> remotes/origin/master
   }
   .py-container{
     width: 1125px;
@@ -46,7 +59,10 @@ export default {
   .footer {
     padding-top: 40px;
     border-top: 1px solid #919293;
+<<<<<<< HEAD
     margin-top: auto;
+=======
+>>>>>>> remotes/origin/master
   }
 /* 成功*/
   .paysuccess {

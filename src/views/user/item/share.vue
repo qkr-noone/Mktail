@@ -35,6 +35,7 @@ export default {
 }
 </script>
 <style scoped>
+<<<<<<< HEAD
   .con-wrap {
     position: relative;
     font-family:SourceHanSansCN-Regular;
@@ -64,6 +65,9 @@ export default {
     margin-left: 40px;
     font-weight: 400;
   }
+=======
+  @import '../../../assets/css/user/user-set.css';
+>>>>>>> remotes/origin/master
   .con-item {
     text-align: left;
     margin-top: 25px;
@@ -81,7 +85,10 @@ export default {
   }
   .con-item .group img{
     margin-right: 20px;
+<<<<<<< HEAD
     display: inline;
+=======
+>>>>>>> remotes/origin/master
   }
   .con-item .group button{
     width:80px;

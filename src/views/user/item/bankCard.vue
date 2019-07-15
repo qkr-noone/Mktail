@@ -79,6 +79,7 @@ export default {
 }
 </script>
 <style scoped>
+<<<<<<< HEAD
   .con-wrap {
     position: relative;
     font-family:SourceHanSansCN-Regular;
@@ -169,6 +170,12 @@ export default {
     text-align: center;
   }
 /*绑定弹窗*/
+=======
+  @import '../../../assets/css/user/user-set.css';
+  .con-de{
+    position: relative;
+  }
+>>>>>>> remotes/origin/master
   .elastic-frame {
     position: absolute;
     left:317px;
@@ -178,10 +185,13 @@ export default {
     background:rgba(255,255,255,1);
     box-shadow:0px 0px 6px 0px rgba(0, 0, 0, 0.35);
     text-align: left;
+<<<<<<< HEAD
     display: flex;
     justify-content: center;
     flex-direction: column;
     align-items: center;
+=======
+>>>>>>> remotes/origin/master
   }
   .elastic-frame p{
     font-size:12px;
@@ -232,7 +242,10 @@ export default {
    .test{
     width:248px;
     height:33px;
+<<<<<<< HEAD
     border: 1px solid rgba(227,227,227,1);
+=======
+>>>>>>> remotes/origin/master
   }
   .elastic-frame .drap{
     height:33px !important;

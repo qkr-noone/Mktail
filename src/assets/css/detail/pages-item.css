@@ -1,10 +1,13 @@
 .py-container{width:1226px;margin:0 auto; overflow: hidden;}
+<<<<<<< HEAD
   input:focus {
     outline: none;
   }
   input:hover {
     outline: none;
   }
+=======
+>>>>>>> remotes/origin/master
 .wrap {
   width: 100%;
   overflow: hidden;
@@ -82,6 +85,7 @@
   }
   
   .aside {
+<<<<<<< HEAD
     width: 220px;
     flex-shrink: 0;
   }
@@ -89,6 +93,13 @@
   .detail {
     width: 986px;
     /*flex-grow: 1;*/
+=======
+    width: 210px;
+  }
+  
+  .detail {
+    width: 1010px
+>>>>>>> remotes/origin/master
   }
   
   i,em {
@@ -130,7 +141,11 @@
     margin: 30px 0;
     display: flex;
     justify-content: space-between;
+<<<<<<< HEAD
     flex-wrap: nowrap;
+=======
+    flex-wrap: wrap;
+>>>>>>> remotes/origin/master
   }
   
   .red-bg {
@@ -185,11 +200,14 @@
     font-weight:400;
     color:rgba(53,53,53,1);
   }
+<<<<<<< HEAD
   .flow-con {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
   }
+=======
+>>>>>>> remotes/origin/master
   .flow-con b, .flow-con i{
     font-size:14px;
     font-family:Adobe Heiti Std R;
@@ -197,6 +215,7 @@
     color:rgba(163,163,163,1);
     margin: 0 10px;
   }
+<<<<<<< HEAD
   .flow-addr {
     position: relative;
   }
@@ -227,11 +246,18 @@
     display: flex;
   }
   .city-box {}
+=======
+  .flow-addr {}
+>>>>>>> remotes/origin/master
   .flow-item {
     border-right: 1px solid #E3E3E3;
     border-left: 1px solid #E3E3E3;
     padding:  0 15px;
+<<<<<<< HEAD
     line-height: 28px;
+=======
+    line-height: 14px;
+>>>>>>> remotes/origin/master
     margin-right: 10px;
   }
   .flow-send-date {
@@ -255,14 +281,24 @@
     font-size: 14px;
   }
   ul.summary-wrap>li:first-child {margin-top: 12px;}
+<<<<<<< HEAD
+=======
+  ul.summary-wrap>li.spec-list+li{ margin-top: -14px; }
+>>>>>>> remotes/origin/master
   ul.summary-wrap>li.spec-list .title i { text-align: justify; width: 60px;height: 28px;color: #000}
   ul.summary-wrap>li.spec-list .title i:after {content: " "; display: inline-block;width: 100%;}
   ul.summary-wrap>li.spec-list>ul {
     display: flex;
+<<<<<<< HEAD
     flex-wrap: wrap;
   }
   .summary-wrap {
     /*overflow: hidden;*/
+=======
+  }
+  .summary-wrap {
+    overflow: hidden;
+>>>>>>> remotes/origin/master
     line-height: 28px;
     margin-top: 10px;
   }
@@ -273,7 +309,10 @@
   }
   
   .summary-wrap dl a, ul.summary-wrap>li.spec-list>ul li a {
+<<<<<<< HEAD
     margin-bottom: 10px; 
+=======
+>>>>>>> remotes/origin/master
     font-family:SourceHanSansCN-Regular;
     color: #000;
     font-size: 14px;
@@ -302,6 +341,21 @@
     border-style: dotted
   }
   
+<<<<<<< HEAD
+=======
+  .summary-wrap a span {
+    width: 13px;
+    height: 13px;
+    display: none;
+    position: absolute;
+    right: 0;
+    _right: -1px;
+    bottom: 0;
+    _bottom: -1px;
+    overflow: hidden;
+    background: url(/static/img/choosed.png) no-repeat
+  }
+>>>>>>> remotes/origin/master
   
   .summary-wrap .selected span {
     display: block
@@ -336,7 +390,11 @@
   }
   
   .controls {
+<<<<<<< HEAD
     width: auto;
+=======
+    width: 48px;
+>>>>>>> remotes/origin/master
     position: relative
   }
   
@@ -346,8 +404,12 @@
   
   .controls .itxt {
     display: block;
+<<<<<<< HEAD
     width: 50px;
     padding: 0 10px;
+=======
+    width: 38px;
+>>>>>>> remotes/origin/master
     height: 34px;
     line-height: 42px;
     border: 1px solid #ddd;
@@ -356,6 +418,10 @@
     float: left;
     border-right: 0
   }
+<<<<<<< HEAD
+=======
+  
+>>>>>>> remotes/origin/master
   .controls .plus {
     display: block;
     width: 15px;
@@ -385,6 +451,7 @@
     top: 18px;
     border-top: 0
   }
+<<<<<<< HEAD
   .control-group {
     position: relative;
   }
@@ -396,6 +463,8 @@
     left: 95px;
     color: #795548;
   }
+=======
+>>>>>>> remotes/origin/master
   
   .red-bg {
     background: #c81623;
@@ -519,9 +588,16 @@
       border-radius: 0;
   }
   
+<<<<<<< HEAD
   .sui-btn:active{
     background-color: #c81623;
     color: #fff;
+=======
+  .sui-btn:active,
+  .sui-btn.active {
+    background-color: #c81623;
+    color: #fff
+>>>>>>> remotes/origin/master
   }
   
   ul.part-list {
@@ -547,6 +623,21 @@
     color: #333
   }
   
+<<<<<<< HEAD
+=======
+  .sui-nav.nav-tabs.tab-wraped>li.active>a {
+    padding-top: 9px
+  }
+  
+  .intro .sui-nav.nav-tabs.tab-wraped>li.active>a {
+    font-weight: 400;
+    border: 0;
+    padding-top: 12px;
+    background: #c81623;
+    color: #fff
+  }
+  
+>>>>>>> remotes/origin/master
   .tab-content.tab-wraped {
     padding: 10px
   }
@@ -570,6 +661,12 @@
     font-size: 14px;
     display: flex;
   }
+<<<<<<< HEAD
+=======
+  .tab-content>.active{
+  	display: block;
+  }
+>>>>>>> remotes/origin/master
   .intro-detail {
     display: flex;
     flex-direction: column;
@@ -750,7 +847,10 @@
       border: 1px solid #e1e1e1;
       border-radius: 2px;
       user-select: none;
+<<<<<<< HEAD
       border-radius: 4px;
+=======
+>>>>>>> remotes/origin/master
   }
   .operate:hover{
     background: #8c8c8c;
@@ -900,7 +1000,10 @@
     font-size: 14px;
     width: calc(50% - 2px);
     font-size:14px;
+<<<<<<< HEAD
     width: 100%;
+=======
+>>>>>>> remotes/origin/master
   }
   .nav-tabs {
     border-top: 1px solid #E3E3E3;
@@ -939,7 +1042,11 @@
   }
   .se-recom-item {
     display: flex;
+<<<<<<< HEAD
     /*justify-content: space-between;*/
+=======
+    justify-content: space-between;
+>>>>>>> remotes/origin/master
     align-items: center;
     font-size: 12px;
     color: #878787;
@@ -961,17 +1068,26 @@
   .se-recom-item p:nth-child(2){
     font-size: 16px;
     color: #FF4606;
+<<<<<<< HEAD
     padding-left: 10px;
     line-height: 33px;
+=======
+>>>>>>> remotes/origin/master
   }
   .shop-box {
     display: flex;
     align-items: center;
     justify-content: space-around;
+<<<<<<< HEAD
     padding: 8px 5px;
     background:rgba(245,247,250,1);
     border:1px solid rgba(227,227,227,1);
     color: #333;
+=======
+    height:40px;
+    background:rgba(245,247,250,1);
+    border:1px solid rgba(227,227,227,1);
+>>>>>>> remotes/origin/master
   }
   .shop-list {
     display: flex;
@@ -992,8 +1108,12 @@
   }
   .shops a{
     height: 30px;
+<<<<<<< HEAD
     background-color: rgba(255, 59, 59, 0);
     border-radius: 4px;
+=======
+    background-color: #CFCFCF;
+>>>>>>> remotes/origin/master
     display: flex;
     align-items: center;
     color: #878787;
@@ -1115,6 +1235,10 @@
       width: 332px;
       height: 332px;
       border: 1px solid #DFDFDF;
+<<<<<<< HEAD
+=======
+      overflow: hidden;
+>>>>>>> remotes/origin/master
   }
   .spec-preview >span,.spec-preview >span>img {
     width: 100%;
@@ -1129,6 +1253,7 @@
   }
   
   .spec-scroll .prev,.spec-scroll .next {
+<<<<<<< HEAD
     flex-shrink: 0;
     background: #eee;
     height: 62px;
@@ -1143,6 +1268,21 @@
   }
   
   .spec-scroll .items {
+=======
+    background: #eee;
+    height: 60px;
+    width: 27px;
+    text-align: center;
+  }
+  .spec-scroll .prev >i,
+  .spec-scroll .next >i {
+      font-size: 30px;
+      line-height: 60px;
+  }
+  
+  .spec-scroll .items {
+      float: left;
+>>>>>>> remotes/origin/master
       position: relative;
       width: 380px;
       height: 70px;
@@ -1151,12 +1291,19 @@
   
   .spec-scroll .items ul {
       position: absolute;
+<<<<<<< HEAD
       width: auto;
       margin: 0;
       padding: 0;
       display: flex;
       flex-wrap: nowrap;
       transition: all ease 0.2s;
+=======
+      width: 9999px;
+      margin: 0;
+      padding: 0;
+      display: flex;
+>>>>>>> remotes/origin/master
   }
   
   .spec-scroll .items ul li {
@@ -1181,7 +1328,11 @@
     margin-left: 6px;
   }
   
+<<<<<<< HEAD
   .spec-scroll .items ul li img.man_choose {
+=======
+  .spec-scroll .items ul li img:hover {
+>>>>>>> remotes/origin/master
       border-color: #F60;
   }
 
@@ -1190,6 +1341,12 @@
     font-size: 36px;
     color: #777;
   }
+<<<<<<< HEAD
+=======
+  .el-tabs__nav{
+    width: 100%;
+  }
+>>>>>>> remotes/origin/master
   .mask-login {display: flex; justify-content: center; align-items: center;}
   .is-login {
     width: 380px;
@@ -1197,6 +1354,7 @@
     position: relative;
     padding: 20px;
   }
+<<<<<<< HEAD
   .closeUser{
     position: absolute;
     top: 3px;
@@ -1205,6 +1363,71 @@
     line-height: 20px;
     color: #a3a3a3;
     cursor: pointer;
+=======
+  .el-tabs--border-card>.el-tabs__header .el-tabs__item {
+    width: 45%;
+  }
+  .loginform >ul{
+    display: flex;
+  }
+  .input-prepend >input:focus{
+    outline: none
+  }
+  .sui-nav.nav-tabs.tab-wraped>li {
+    width: 50%
+  }
+  .sui-nav.nav-tabs.tab-wraped>li.active>a {
+    padding-top: 0;
+    border-top: 1px solid #28a3ef
+  }
+  .sui-nav.nav-tabs.tab-wraped>li>a {
+    padding: 0
+  }
+  .sui-nav.nav-tabs.tab-wraped>li.active h3 {
+    color: #c8111a
+  }
+  .sui-form {
+    margin-top: 15px
+  }
+  span.loginname {
+    background: url(/static/img/user.png);
+    background-position: center;
+    background-size: 35px;
+    background-repeat: no-repeat;
+  }
+  .sui-form .input-prepend {
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .sui-form .input-prepend .add-on {
+    background-color: #cfcdcd;
+    width: 45px;
+    height: 45px;
+  }
+  .sui-form input[type=text],
+  .sui-form input[type=password] {
+      height: 45px
+  }
+  .sui-form input.span2 {
+    width: 284px;
+    border: 1px solid #dcdfe6;
+    box-sizing: border-box;
+  }
+  .loginpwd {
+    background: url(/static/img/password.png);
+    background-position: center;
+    background-size: 35px;
+    background-repeat: no-repeat;
+  }
+  .loginmanage {
+    height: 500px;
+    width: 1920px;
+    background: url(/static/img/bg_head.png);
+    vertical-align: middle;
+    display: table-cell
+>>>>>>> remotes/origin/master
   }
   .btn-danger {
     background-color: #c81623;
@@ -1217,6 +1440,7 @@
     text-align: center;
     color: #fff;
   }
+<<<<<<< HEAD
 
   /* 自定义放大镜 */
   #m_demo{
@@ -1271,4 +1495,18 @@
   #m_small-box >img{
     width: 100%;
     height: 100%;
+=======
+  .loginform {
+    width: 380px;
+    background: #fff;
+    margin: 45px auto 0;
+    position: relative;
+    padding: 20px
+  }
+  .tab-pane {
+    background-color: #fff;
+  }
+  .tab-pane >img{
+    margin: 0 auto;
+>>>>>>> remotes/origin/master
   }

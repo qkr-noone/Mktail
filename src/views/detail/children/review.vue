@@ -3,6 +3,7 @@
     <div class="tab-title">
       <h4>商品评价</h4>
     </div>
+<<<<<<< HEAD
     <div>
       <div class="comment-box">
         <ul class="comment-list">
@@ -26,6 +27,8 @@
         </ul>
       </div>
     </div>
+=======
+>>>>>>> remotes/origin/master
   </div>
 </template>
 <script>
@@ -36,9 +39,12 @@ export default {
   props: {
     scroll: {
       type: Object
+<<<<<<< HEAD
     },
     evaluationObj: {
       type: Object
+=======
+>>>>>>> remotes/origin/master
     }
   },
   mounted () {
@@ -62,6 +68,7 @@ export default {
     color:rgba(135,135,135,1);
     margin-left: 20px;
   }
+<<<<<<< HEAD
   .comment-box {
     padding: 25px;
   }
@@ -135,4 +142,6 @@ export default {
   .comment-time {
     margin-left: 10px;
   }
+=======
+>>>>>>> remotes/origin/master
 </style>

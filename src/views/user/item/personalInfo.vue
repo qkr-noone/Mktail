@@ -5,16 +5,26 @@
     </div>
     <div class="con-de"  >
       <div class="con-item user-info">
+<<<<<<< HEAD
         <div class="head" v-bind:style="{backgroundImage:'url('+ userInfo.headPic || 'static/img/user/user_headportrait.png' +')'}">
           <div class="editor" @click="editHeadImg">编辑头像</div>
         </div>
         <div class="info">
           <p>用户名： {{userInfo.nickName}}</p>
+=======
+        <div class="head">
+          <img src="static/img/user/user_headportrait.png"/>
+          <div class="editor">编辑头像</div>
+        </div>
+        <div class="info">
+          <p>用户名： MK_6e409e353bc3e</p>
+>>>>>>> remotes/origin/master
           <p> <a>立即查看</a>账户安全状态</p>
         </div>
       </div>
       <hr>
       <div class="con-item">
+<<<<<<< HEAD
         <form @submit.prevent>
           <div class="group">
             <div class="group-lable">
@@ -22,14 +32,30 @@
             </div>
             <div class="group-item">
               <input v-model="userInfo.realName"/>
+=======
+        <form>
+          <div class="group">
+            <div class="group-lable">
+              <label class="start">真实姓名:</label>
+            </div>
+            <div class="group-item">
+              <input/>
+>>>>>>> remotes/origin/master
             </div>
           </div>
           <div class="group">
             <div class="group-lable " >
+<<<<<<< HEAD
               <label class="start">昵称：</label>
             </div>
             <div class="group-item">
               <input v-model="userInfo.nickName"/>
+=======
+              <label class="start">昵称:</label>
+            </div>
+            <div class="group-item">
+              <input/>
+>>>>>>> remotes/origin/master
             </div>
           </div>
           <div class="group">
@@ -37,9 +63,15 @@
               <label>性别：</label>
             </div>
             <div class="group-item sex">
+<<<<<<< HEAD
               <input name="sex" type="radio" v-model="userInfo.sex" value="1" :checked="userInfo.sex === 1"/>男
               <input name="sex" type="radio" v-model="userInfo.sex" value="2" :checked="userInfo.sex === 2"/>女
               <input name="sex" type="radio" v-model="userInfo.sex" value="3" :checked="userInfo.sex === 3"/>保密
+=======
+              <input name="sex" type="radio" value="1" />男
+              <input name="sex" type="radio" value="0" />女
+              <input name="sex" type="radio" value="2 " />保密
+>>>>>>> remotes/origin/master
             </div>
           </div>
           <div class="group">
@@ -47,6 +79,7 @@
               <label>生日：</label>
             </div>
             <div class="group-item">
+<<<<<<< HEAD
               <el-date-picker
                 v-model="userInfo.birthday"
                 :clearable=false
@@ -55,6 +88,26 @@
                 format="yyyy 年 MM 月 dd 日"
                 value-format="timestamp">
               </el-date-picker>
+=======
+              <select>
+                <option value="" disabled selected hidden>请选择</option>
+                <option >1997</option>
+                <option >1995</option>
+                <option >1994</option>
+              </select> 年
+              <select>
+                <option value="" disabled selected hidden>请选择</option>
+                <option >12</option>
+                <option >11</option>
+                <option >10</option>
+              </select> 月
+              <select>
+                <option value="" disabled selected hidden>请选择</option>
+                <option >01</option>
+                <option >02</option>
+                <option >03</option>
+              </select> 日
+>>>>>>> remotes/origin/master
             </div>
           </div>
           <div class="group">
@@ -62,6 +115,7 @@
               <label class="start">手机：</label>
             </div>
             <div class="group-item">
+<<<<<<< HEAD
               <div v-if="!isChangePhone">
                 <span>{{userInfo.phone}}</span>
                 <a @click="isChangePhone = true">修改</a>
@@ -71,12 +125,17 @@
                   <input v-model="userInfo.phone"/>
                 </div>
               </div>
+=======
+              <span>154*******20</span>
+              <a>修改</a>
+>>>>>>> remotes/origin/master
             </div>
           </div>
           <div class="group">
             <div class="group-lable">
               <label>邮箱：</label>
             </div>
+<<<<<<< HEAD
             <div v-if="!userInfo.email&&!isChangeEmail" class="group-item">
               <span>您的账号还没有绑定邮箱</span>
               <a @click="isChangeEmail = true">立即绑定</a>
@@ -126,11 +185,51 @@
                   @click.native="tabCounty(list.areaid)">
                 </el-option>
               </el-select> 区
+=======
+            <div class="group-item">
+              <span>您的账号还没有绑定邮箱</span>
+              <a>立即绑定</a>
+            </div>
+          </div>
+          <div class="group">
+            <div class="group-lable">
+              <label>居住地址：</label>
+            </div>
+            <div class="group-item">
+              <select>
+                <option value="" disabled selected hidden>请选择</option>
+                <option >广西</option>
+                <option >广东</option>
+                <option >湖南</option>
+              </select> 省
+              <select>
+                <option value="" disabled selected hidden>请选择</option>
+                <option >南宁</option>
+                <option >广州</option>
+                <option >邵阳</option>
+              </select> 市
+              <select>
+                <option value="" disabled selected hidden>请选择</option>
+                <option >青秀</option>
+                <option >从化</option>
+                <option ></option>
+              </select> 区
+              <select>
+                <option value="" disabled selected hidden>请选择</option>
+                <option >01</option>
+                <option >02</option>
+                <option >03</option>
+              </select> 乡镇
+>>>>>>> remotes/origin/master
             </div>
           </div>
           <div class="group">
             <div class="group-item">
+<<<<<<< HEAD
               <input type="text" placeholder="乡镇、街道、小区、楼牌号等" class="street-name" maxlength="50" v-model="temVal">
+=======
+              <input type="text" placeholder="街道名称或者小区名称" class="street-name" >
+>>>>>>> remotes/origin/master
             </div>
           </div>
           <div class="group">
@@ -139,6 +238,7 @@
             </div>
             <div class="group-item ">
               <div class="test">
+<<<<<<< HEAD
                 <drag-verify
                   :width="390"
                   :height="40"
@@ -152,15 +252,24 @@
                   :circle="false"
                   ref="Verify">
                 </drag-verify>
+=======
+                <div class="arrow">>></div>
+                <div class="text-right">请按住滑块拖动到最右边</div>
+>>>>>>> remotes/origin/master
               </div>
             </div>
           </div>
           <div class="group">
+<<<<<<< HEAD
             <button class="btn" @click="submit">确定</button>
+=======
+            <button class="btn">确定</button>
+>>>>>>> remotes/origin/master
           </div>
         </form>
       </div>
     </div>
+<<<<<<< HEAD
     <div class="full-path" v-if="isFullUserHead">
       <div class="full-box">
         <div class="head-left">
@@ -489,16 +598,30 @@ export default {
     }
   },
   watch: {}
+=======
+  </div>
+</template>
+<script>
+export default {
+  data () {
+    return {}
+  }
+>>>>>>> remotes/origin/master
 }
 
 </script>
 <style scoped>
+<<<<<<< HEAD
 .show-preview{width: 100%;height: 100%;}
 /* 主体 */
+=======
+  @import '../../../assets/css/user/user-set.css';
+>>>>>>> remotes/origin/master
   .con-wrap {
     position: relative;
     font-family:SourceHanSansCN-Regular;
     font-weight:400;
+<<<<<<< HEAD
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -544,6 +667,8 @@ export default {
     font-weight:300;
     color:rgba(167,167,167,1);
     text-align: center;
+=======
+>>>>>>> remotes/origin/master
   }
   .user-info {
     display: flex;
@@ -561,9 +686,17 @@ export default {
     margin-right: 30px;
     overflow: hidden;
     position: relative;
+<<<<<<< HEAD
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+=======
+  }
+  .con-item .head img{
+    width:120px;
+    height:65px;
+    margin: 20px 0px 0 -3px;
+>>>>>>> remotes/origin/master
   }
   .con-item .head .editor{
     width:98px;
@@ -575,7 +708,10 @@ export default {
     color:rgba(255,255,255,1);
     position: absolute;
     bottom: 0;
+<<<<<<< HEAD
     cursor: pointer;
+=======
+>>>>>>> remotes/origin/master
   }
   .con-item .info p{
     margin: 8px 0 8px  0;
@@ -587,6 +723,7 @@ export default {
   }
  .con-de hr{
     display: block;
+<<<<<<< HEAD
     width:1080px;
     background:rgba(244,244,244,1);
     opacity: 0.2;
@@ -598,6 +735,19 @@ export default {
     left:31px;
     top:199px;
   }
+=======
+    width:1085px;
+    background:rgba(244,244,244,1);
+   opacity: 0.2;
+    position: absolute;
+    top:185px;
+  }
+.con-item form{
+  position: absolute;
+  left:31px;
+  top:199px;
+}
+>>>>>>> remotes/origin/master
   .con-item .group{
     height: 40px;
     line-height: 40px;
@@ -605,6 +755,10 @@ export default {
     text-align: left;
     margin-top: 10px;
     position: relative;
+<<<<<<< HEAD
+=======
+    font-family:SimSun;
+>>>>>>> remotes/origin/master
     font-weight:400;
     color:rgba(98,98,98,1);
     font-size:14px;
@@ -651,12 +805,16 @@ export default {
     font-weight:300;
     color:rgba(255,255,255,1);
     float: right;
+<<<<<<< HEAD
     margin-top: 10px;
+=======
+>>>>>>> remotes/origin/master
   }
   .test{
     height:40px;
     width:386px;
   }
+<<<<<<< HEAD
 /*上传文件*/
   .full-path {
     position: fixed;
@@ -765,4 +923,6 @@ export default {
     line-height: 35px;
     color: red;
   }
+=======
+>>>>>>> remotes/origin/master
 </style>

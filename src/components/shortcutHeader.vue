@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
   <div name='shortcutHeader'>
     <div class="mk-shortcut">
       <div class="shortcut">
@@ -37,6 +38,35 @@
             <li class="child">
               <div><router-link :to="{path:'/user'}">消息中心</router-link></div>
             </li> -->
+=======
+  <div>
+    <div class="mk-shortcut">
+      <div class="shortcut">
+        <div class="sc-left">
+          <p v-if="this.isHome" class="backHome" @click="home">返回首页</p>
+          <p>网站导航</p>
+          <a>商家服务</a>
+          <a>客户服务</a>
+          <a ><i class="el-icon-location"></i>广州</a>
+        </div>
+        <div class="sc-right">
+          <ul>
+            <li v-if="!username">
+              <div><router-link :to="{path:'/login'}">登陆</router-link></div>
+            </li>
+            <li v-if="!username">
+              <div><router-link :to="{path:'/register'}">注册</router-link></div>
+            </li>
+            <li  v-if="username">
+              <div><router-link :to="{path:'/user'}">{{username}}</router-link></div>
+            </li>
+            <li>
+              <div><router-link :to="{path:'user'}">我的订单</router-link></div>
+            </li>
+            <li>
+              <div><router-link :to="{path:'/user'}">消息中心</router-link></div>
+            </li>
+>>>>>>> remotes/origin/master
           </ul>
         </div>
       </div>
@@ -45,24 +75,38 @@
 </template>
 
 <script>
+<<<<<<< HEAD
 import { mapState, mapMutations } from 'vuex'
+=======
+import { mapState } from 'vuex'
+>>>>>>> remotes/origin/master
 export default {
   name: 'shortcutHeader',
   data () {
     return {
+<<<<<<< HEAD
       isHome: ''
+=======
+      isHome: '',
+      username: ''
+>>>>>>> remotes/origin/master
     }
   },
   props: [],
   computed: {
+<<<<<<< HEAD
     ...mapState({
       userInfo: state => state.user.userInfo
     })
+=======
+    ...mapState(['userInfo'])
+>>>>>>> remotes/origin/master
   },
   created () {
     let curRoute = this.$route.path
     this.isHome = (curRoute === '/home' ? '' : '/home')
   },
+<<<<<<< HEAD
   methods: {
     ...mapMutations(['MK_CODE']),
     home () {
@@ -79,6 +123,24 @@ export default {
     },
     becomeStore () {
       window.open(this.AFTERIP + '/#/login')
+=======
+  mounted () {
+    this.username = this.$cookies.isKey('userInfo') ? this.$cookies.get('userInfo').username : ''
+  },
+  activated () {
+    // this.username = this.$cookies.isKey('userInfo') ? this.$cookies.get('userInfo').username : ''
+  },
+  deactivated () {},
+  methods: {
+    home () {
+      this.$router.push({path: '/home'})
+    }
+  },
+  watch: {
+    userInfo () {
+      console.log('userInfo')
+      this.username = this.$cookies.isKey('userInfo') ? this.$cookies.get('userInfo').username : ''
+>>>>>>> remotes/origin/master
     }
   }
 }
@@ -110,11 +172,15 @@ export default {
   .shortcut .sc-left{
     display: flex;
   }
+<<<<<<< HEAD
   .sc-right .child, .sc-left .child {
     height: 35px;
     line-height: 35px;
     cursor: pointer;
   }
+=======
+
+>>>>>>> remotes/origin/master
   .sc-left a{
     margin-left: 24px;
   }
@@ -126,6 +192,7 @@ export default {
   .sc-right >ul {
     display: flex;
     justify-content: flex-end;
+<<<<<<< HEAD
     align-items: center;
   }
   .sc-right >ul li:not(.spacer) {
@@ -140,12 +207,18 @@ export default {
   }
   .sc-right >ul li+li {
     /*border-left: 1px solid #ccc;*/
+=======
+  }
+  .sc-right >ul li+li {
+    margin-left: 24px;
+>>>>>>> remotes/origin/master
   }
   .sc-right >ul li a{
     line-height: 12px;
     text-align: center;
     color: #000;
   }
+<<<<<<< HEAD
   .down {
     margin-left: 5px;
     color: #999;
@@ -171,4 +244,7 @@ export default {
     cursor: pointer;
     display: block;
   }
+=======
+
+>>>>>>> remotes/origin/master
 </style>

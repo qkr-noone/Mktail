@@ -10,11 +10,19 @@
           <span>返回首页</span>
         </router-link>
         <a href="javascript:;">
+<<<<<<< HEAD
           <span>{{$cookies.get('user-key')}}</span>
         </a>
         <router-link :to="{path: '/user/userOrder'}">
           <span>我的订单</span>
         </router-link>
+=======
+          <span>90835991</span>
+        </a>
+        <a href="javascript:;">
+          <span>我的订单</span>
+        </a>
+>>>>>>> remotes/origin/master
         <a href="javascript:;">
           <span>支付帮助</span>
         </a>

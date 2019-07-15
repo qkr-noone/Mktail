@@ -7,20 +7,35 @@
           <h1>{{title}}</h1>
         </div>
         <div class="title-se">
+<<<<<<< HEAD
           <form action="#" @submit.prevent>
             <div class="search_box">
               <div class="search_ipt">
                 <input type="text" ref="search_ipt" name="pro_search" placeholder="search product" @keyup.enter="searchPro">
+=======
+          <form action="#">
+            <div class="search_box">
+              <div class="search_ipt">
+                <input type="text" ref="search_ipt" placeholder="search product">
+>>>>>>> remotes/origin/master
                 <a @click="searchPro" class="search_btn">搜索</a>
               </div>
             </div>
           </form>
+<<<<<<< HEAD
           <!-- <div class="title-con">
+=======
+          <div class="title-con">
+>>>>>>> remotes/origin/master
             <router-link :to="{path: '/home'}" class="title-li"><h2>平台首页</h2></router-link>
             <router-link :to="{path: '/'}" class="title-li"><h2>店铺首页</h2></router-link>
             <router-link :to="{path: '/detail', query:{goodsId: goodsId}}" class="title-li"><h2>产品详情</h2></router-link>
             <router-link :to="{path: '/'}" class="title-li"><h2>客服</h2></router-link>
+<<<<<<< HEAD
           </div> -->
+=======
+          </div>
+>>>>>>> remotes/origin/master
         </div>
         <div class="addCart" @click="toCart">
           <img src="static/img/mk_search_cart.png">
@@ -42,11 +57,19 @@ export default {
     title: {
       type: String,
       default: 'MKTail'
+<<<<<<< HEAD
     }
     // goodsId: {
     //   // type: String || Number,
     //   default: ''
     // }
+=======
+    },
+    goodsId: {
+      type: String,
+      default: ''
+    }
+>>>>>>> remotes/origin/master
   },
   computed: {
     ...mapState(['cartList']),

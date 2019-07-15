@@ -89,17 +89,27 @@
   .add-con-ul {
     display: flex;
     flex-wrap: wrap;
+<<<<<<< HEAD
     height: 131px;
     overflow: hidden;
     transition: all 0.7s;
+=======
+>>>>>>> remotes/origin/master
   }
   .add-con-ul li +li {
     margin-left: 15px;
   }
+<<<<<<< HEAD
   .add-con-ul li:nth-child(4n+1){
     margin-left: 0px;
   }
   .add-con-ul li:nth-child(n+5){
+=======
+  .add-con-ul li:nth-child(5n){
+    margin-left: 0px;
+  }
+  .add-con-ul li:nth-child(5n+5){
+>>>>>>> remotes/origin/master
     margin-top: 20px;
   }
   .add-box {
@@ -130,7 +140,10 @@
   .add-box-1 h5 {
     display: flex;
     align-items: center;
+<<<<<<< HEAD
     width: 194px;
+=======
+>>>>>>> remotes/origin/master
   }
   .add-box-1 .add-posi{
     width: 159px;
@@ -197,6 +210,7 @@
     font-size: 26px;
     cursor: pointer;
   }
+<<<<<<< HEAD
   .add-other{
     display: flex;
     justify-content: space-between;
@@ -213,6 +227,8 @@
   .add-con-ul.add-show{
     height: auto;
   }
+=======
+>>>>>>> remotes/origin/master
 /* 支付方式*/
   .pay-con {}
   .pay-con-ul {
@@ -220,7 +236,10 @@
   }
   .pay-con-li {
     position: relative;
+<<<<<<< HEAD
     cursor: pointer;
+=======
+>>>>>>> remotes/origin/master
   }
   li.pay-con-li + li{
     margin-left: 19px;
@@ -479,7 +498,11 @@
   }
 /* 结算信息*/
   .count-con{
+<<<<<<< HEAD
     /*min-height:160px;*/
+=======
+    min-height:160px;
+>>>>>>> remotes/origin/master
     border:1px solid rgba(226,226,226,1);
     padding: 14px;
   }

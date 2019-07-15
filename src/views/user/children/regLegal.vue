@@ -1,11 +1,18 @@
 <template>
   <div id="reg-legal">
     <div class="container">
+<<<<<<< HEAD
       <regComFooter></regComFooter>
       <div class="middle">
         <div class="title">
           <p class="title-text">法律声明</p>
           <router-link :to="{path: '/register', query: tem}" style="color: #ffd704">返回注册</router-link>
+=======
+      <regHeader></regHeader>
+      <div class="middle">
+        <div class="title">
+          <p class="title-text">法律声明</p>
+>>>>>>> remotes/origin/master
           <span class="effective-date">生效日期 ：2018年12月25日</span>
         </div>
         <div class="middle-content">
@@ -30,6 +37,7 @@
   </div>
 </template>
 <script>
+<<<<<<< HEAD
 import regComFooter from '@/components/regComFooter'
 import regFooter from '@/components/regFooter'
 export default {
@@ -42,6 +50,15 @@ export default {
   mounted () {
     this.tem = this.$route.query
   }
+=======
+import regHeader from '../../../components/regHeader'
+import regFooter from '../../../components/regFooter'
+export default {
+  data () {
+    return {}
+  },
+  components: { regHeader, regFooter }
+>>>>>>> remotes/origin/master
 }
 </script>
 <style scoped>

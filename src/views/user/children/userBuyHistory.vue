@@ -138,6 +138,7 @@
 export default {
   data () {
     return {}
+<<<<<<< HEAD
   },
   props: {
     currentPage: {
@@ -146,6 +147,8 @@ export default {
   },
   methods: {
     handleCurrentChange () {}
+=======
+>>>>>>> remotes/origin/master
   }
 }
 

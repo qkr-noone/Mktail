@@ -16,7 +16,10 @@
     justify-content: space-between;
   }
   .account-sidebar {
+<<<<<<< HEAD
     min-height: 100vh;
+=======
+>>>>>>> remotes/origin/master
     width: 135px;
     border-radius: 6px;
   }
@@ -62,8 +65,13 @@
     color: red;
   }
   .account-content {
+<<<<<<< HEAD
     width: 1083px;
     margin-left: 5px;
+=======
+    flex-grow: 1;
+    background-color: #fff;
+>>>>>>> remotes/origin/master
     margin-bottom: 20px;
     min-height: 800px;
   }

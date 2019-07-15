@@ -6,11 +6,16 @@
       <form>
         <div class="group">
           <label>手机号码：</label>
+<<<<<<< HEAD
           <input v-model="phone" type="text" placeholder="请填写正确的11位手机号码"/>
+=======
+          <input type="text" placeholder="请填写正确的11位手机号码"/>
+>>>>>>> remotes/origin/master
         </div>
         <div class="group">
           <label>验证码：</label>
           <input type="text"/>
+<<<<<<< HEAD
           <span class="get-code"><el-link @click="getphonecode" type="primary">获取验证码</el-link></span>
         </div>
         <div class="group">
@@ -26,6 +31,18 @@
 <!--          </div>-->
         </div>
         <button @click="sendphone" class="btn">确定</button>
+=======
+          <span class="get-code">获取验证码</span>
+        </div>
+        <div class="group">
+          <label class=" proving">验证：</label>
+          <div class="test">
+            <div class="arrow">>></div>
+            <div class="text-right">请按住滑块拖动到最右边</div>
+          </div>
+        </div>
+        <button class="btn">确定</button>
+>>>>>>> remotes/origin/master
       </form>
     </div>
     <div class="title">
@@ -45,6 +62,7 @@
   </div>
 </template>
 <script>
+<<<<<<< HEAD
 import dragVerify from 'vue-drag-verify'
 import {isMobile} from '@/common/utils'
 export default {
@@ -59,6 +77,14 @@ export default {
   components: {
     dragVerify
   },
+=======
+export default {
+  data () {
+    return {
+      panelShow: false
+    }
+  },
+>>>>>>> remotes/origin/master
   methods: {
     hidePanel: function (event) {
       let sp = document.getElementById('myPanel')
@@ -68,6 +94,7 @@ export default {
         }
       }
     },
+<<<<<<< HEAD
     getphonecode () {
       if (isMobile(this.phone) === true) {
         this.API.sendCode({phone: this.phone}).then(res => {
@@ -102,6 +129,8 @@ export default {
         })
       }
     },
+=======
+>>>>>>> remotes/origin/master
     changeShow () {
       this.panelShow = true
     }
@@ -109,6 +138,7 @@ export default {
 }
 </script>
 <style scoped>
+<<<<<<< HEAD
   .con-wrap {
     position: relative;
     font-family:SourceHanSansCN-Regular;
@@ -173,6 +203,11 @@ export default {
     font-weight:300;
     color:rgba(85,85,85,1);
     text-align: center;
+=======
+  @import '../../../assets/css/user/user-set.css';
+  .con-de{
+    position: relative;
+>>>>>>> remotes/origin/master
   }
  .elastic-frame{
     width:379px;
@@ -235,6 +270,7 @@ export default {
     color:rgba(77,77,77,1);
   }
 /*验证码*/
+<<<<<<< HEAD
   /*验证码*/
   .test,.arrow,.text-right{
     display: inline-block;
@@ -258,6 +294,8 @@ export default {
     color:rgba(167,167,167,1);
     text-align: center;
   }
+=======
+>>>>>>> remotes/origin/master
   .proving{
     position: absolute;
     right:300px !important;

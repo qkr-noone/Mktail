@@ -20,6 +20,7 @@
           </span>
           <span class="group">
             <label>退款时间：</label>
+<<<<<<< HEAD
     <el-date-picker
       v-model="stime"
       type="datetimerange"
@@ -30,6 +31,34 @@
       end-placeholder="结束日期"
       align="right">
     </el-date-picker>
+=======
+             <el-select v-model="value2" placeholder="请选择" size="mini" class="short">
+              <el-option
+                v-for="item in options2"
+                :key="item.value2"
+                :label="item.label"
+                :value="item.value2">
+              </el-option>
+            </el-select>
+          </span>
+          <span class="group">
+            <label>从：</label>
+             <el-date-picker
+               v-model="startTime"
+               type="datetime"
+               size="mini"
+               placeholder="选择日期时间"
+               default-time="12:00:00" class="long">
+             </el-date-picker>
+            <label>到：</label>
+             <el-date-picker
+               v-model="endTime"
+               type="datetime"
+               size="mini"
+               placeholder="选择日期时间"
+               default-time="12:00:00" class="long">
+             </el-date-picker>
+>>>>>>> remotes/origin/master
           </span>
         </div>
         <div class="choose-item">
@@ -44,6 +73,7 @@
               </el-option>
             </el-select>
           </span>
+<<<<<<< HEAD
 <!--          <span class="group">-->
 <!--              <label>垫付状态：</label>-->
 <!--               <el-select v-model="value4" placeholder="请选择" size="mini" class="long">-->
@@ -68,6 +98,25 @@
             </span>
       </div>
         <button @click="ComprehensiveQuery">提交</button>
+=======
+          <span class="group">
+              <label>垫付状态：</label>
+               <el-select v-model="value4" placeholder="请选择" size="mini" class="long">
+                <el-option
+                  v-for="item in options4"
+                  :key="item.value4"
+                  :label="item.label"
+                  :value="item.value4">
+                </el-option>
+              </el-select>
+            </span>
+          <span class="group">
+              <label>小二介入：</label>
+               <input class="long" type="text" placeholder="全部">
+            </span>
+      </div>
+        <button>提交</button>
+>>>>>>> remotes/origin/master
       </div>
       <div class="refund">
         <ul class="refund-title">
@@ -78,6 +127,7 @@
           <li>退款状态</li>
           <li>交易操作</li>
         </ul>
+<<<<<<< HEAD
         <ul class="refund-list" v-show="listbox">
           <li class="refund-item" v-for="(item, index) in list" :key='index'>
             <p class="item-title">
@@ -98,6 +148,22 @@
                 <span class="color-type">{{item.spec}}X{{item.num}}</span>
               </p>
               <span class="textColorOrange">{{item.payment}}</span>
+=======
+        <ul class="refund-list">
+          <li class="refund-item">
+            <p class="item-title">
+              <span>2018-12-05 20:59:00</span>
+              <span>定单号300382019621354414</span>
+              <span>飞科旗舰店 <img src="static/img/user/user_part.png"></span>
+            </p>
+            <div class="item-info">
+              <img src="static/img/user/user_demo2.png">
+              <p class="info-title">
+                <span>飞科(FLYCO)电吹风机家用FH6232大功率吹风筒  2000W</span>
+                <span class="color-type">颜色分类：01</span>
+              </p>
+              <span class="textColorOrange">¥45.00</span>
+>>>>>>> remotes/origin/master
               <span class="info-date">2018-12-01 15:21:43</span>
               <span>仅退款</span>
               <span class="textColorBlue">退款成功</span>
@@ -107,6 +173,7 @@
         </ul>
       </div>
     </div>
+<<<<<<< HEAD
     // 退款订单弹窗
     <div class="can_order_box" data-attr="取消订单" v-if="Box">
       <div class="init can_order">
@@ -158,12 +225,15 @@
       </div>
     </div>
   </div>
+=======
+>>>>>>> remotes/origin/master
   </div>
 </template>
 <script>
 export default {
   data () {
     return {
+<<<<<<< HEAD
       pickerOptions: {
         shortcuts: [{
           text: '最近一周',
@@ -285,6 +355,37 @@ export default {
         if (res.success === false) {
         }
       })
+=======
+      startTime: '2018-10-19 12:25:03',
+      endTime: '2018-12-19 13:12:03',
+      value1: '全部',
+      value2: '最近申请',
+      value3: '全部',
+      value4: '全部',
+      options1: [
+        {value1: '选项1', label: '全部'},
+        {value1: '选项2', label: '售中退款'},
+        {value1: '选项3', label: '售后退款'}],
+      options2: [
+        {value2: '选项1', label: '最近申请'},
+        {value2: '选项2', label: '全部'},
+        {value2: '选项3', label: '售后退款'}],
+      options3: [
+        {value3: '选项1', label: '全部'},
+        {value3: '选项2', label: '进行中的订单'},
+        {value3: '选项3', label: '退款待处理'},
+        {value3: '选项4', label: '已拒绝退款'},
+        {value3: '选项5', label: '待买家发货'},
+        {value3: '选项6', label: '待商家发货'},
+        {value3: '选项7', label: '退款关闭'},
+        {value3: '选项8', label: '退款成功'}],
+      options4: [
+        {value4: '选项1', label: '全部'},
+        {value4: '选项2', label: '先行垫付，待商家处理'},
+        {value4: '选项3', label: '先行垫付，退款成功'},
+        {value4: '选项4', label: '先行垫付，退款关闭'},
+        {value4: '选项5', label: '先行垫付，商家拒绝退款'}]
+>>>>>>> remotes/origin/master
     }
   }
 }
@@ -297,10 +398,13 @@ export default {
     font-family:SourceHanSansCN-Regular;
     font-weight:400;
   }
+<<<<<<< HEAD
  .item-info img{
    width: 70px;
    height: 70px;
  }
+=======
+>>>>>>> remotes/origin/master
   .content{
     padding: 30px 0 0 30px;
     text-align: left;
@@ -323,7 +427,11 @@ export default {
     width:120px;
   }
  .choose .long{
+<<<<<<< HEAD
    width:188px;
+=======
+   width:180px;
+>>>>>>> remotes/origin/master
  }
   .choose>button{
     width:150px;
@@ -390,6 +498,7 @@ export default {
  .textColorBlue{
    color:#7A9DF6;
  }
+<<<<<<< HEAD
  /*.group ul,ul>li{*/
  /*  display: block !important;*/
  /*}*/
@@ -690,5 +799,9 @@ export default {
 
  .navs1.active:after {
    border-left-color: #ef72b6;
+=======
+ .group ul,ul>li{
+   display: block !important;
+>>>>>>> remotes/origin/master
  }
 </style>

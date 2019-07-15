@@ -9,6 +9,7 @@
     <transition name="router-fade" mode="out-in">
       <router-view v-if="!$route.meta.keepAlive"></router-view>
     </transition>
+<<<<<<< HEAD
     <MkCode v-if="MKWaiting"></MkCode>
   </div>
 </template>
@@ -37,6 +38,28 @@ export default {
           this.MK_CODE('')
         }, 2500)
       }
+=======
+  </div>
+</template>
+<script>
+export default {
+  name: 'app',
+  provide () {
+    return {
+      reload: this.reload
+    }
+  },
+  data () {
+    return {
+      isRouterAlive: true
+    }
+  },
+  methods: {
+    reload () {
+      this.$nextTick(() => {
+        this.isRouterAlive = true
+      })
+>>>>>>> remotes/origin/master
     }
   }
 }

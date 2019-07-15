@@ -3,10 +3,17 @@
     <div class="sort nav-top">
       <div class="py-container">
         <div class="navitem">
+<<<<<<< HEAD
           <h2 class="nav-all">{{cateTitle}}</h2>
           <ul class="nav-ul">
             <li v-for="(item, index) in nav" :key="item.title">
               <a href="javascript:;" :class="{active: chooseNav === item.path}" @click="index>0&&MK_CODE(item.title);toPage(item.path)">{{item.title}}</a>
+=======
+          <h2 class="nav-all">全部商品分类</h2>
+          <ul class="nav-ul">
+            <li v-for="item in nav" :key="item.title">
+              <router-link :to="{path: '/'+item.path}" :class="{active: chooseNav === item.path}">{{item.title}}</router-link>
+>>>>>>> remotes/origin/master
             </li>
           </ul>
         </div>
@@ -15,12 +22,16 @@
   </div>
 </template>
 <script>
+<<<<<<< HEAD
 import { mapMutations } from 'vuex'
+=======
+>>>>>>> remotes/origin/master
 export default {
   data () {
     return {
       nav: [
         {title: '首页', path: 'home'},
+<<<<<<< HEAD
         {title: '品牌站', path: 'javascript:;'},
         {title: '源工厂', path: 'javascript:;'},
         {title: '商学院', path: 'javascript:;'},
@@ -46,6 +57,20 @@ export default {
       if (route === 'javascript:;') return false
       this.$router.push({ path: '/' + route })
     }
+=======
+        {title: '品牌站', path: '3DShow'},
+        {title: '源工厂', path: 'javascript:;'},
+        {title: '商学院', path: 'javascript:;'},
+        {title: '服务', path: 'javascript:;'},
+        {title: '直播', path: 'javascript:;'},
+        {title: '社区', path: 'javascript:;'}],
+      chooseNav: ''
+    }
+  },
+  mounted () {
+    let path = this.$route.path.split('/')[1]
+    this.chooseNav = path
+>>>>>>> remotes/origin/master
   }
 }
 

@@ -28,14 +28,23 @@
   </div>
 </template>
 <script>
+<<<<<<< HEAD
 import shortcut from '@/components/shortcutHeader'
 import userNav from '@/components/userNav'
 import regFooter from '@/components/regFooter'
+=======
+// import { apiAxios } from '../../common/utils'
+// import { api } from '../../common/api'
+import shortcut from '../../components/shortcutHeader'
+import userNav from '../../components/userNav'
+import regFooter from '../../components/regFooter'
+>>>>>>> remotes/origin/master
 export default {
   data () {
     return {
       title: '安全设置',
       nav: [
+<<<<<<< HEAD
         // {name: '账号管理', path: 'account'},
         {name: '个人资料', path: 'personalInfo'},
         {name: '安全设置', path: 'secure'},
@@ -49,12 +58,31 @@ export default {
         // {name: '银联卡绑定', path: 'bankCard'},
         // {name: '分享绑定', path: 'share'},
         // {name: '应用绑定', path: 'app'}
+=======
+        {name: '账号管理', path: 'account'},
+        {name: '安全设置', path: 'secure'},
+        {name: '手机绑定', path: 'bindingPhone'},
+        {name: '密保问题设置', path: 'secretSet'},
+        {name: '个人资料', path: 'personalInfo'},
+        {name: '收货地址', path: 'address'},
+        {name: '消息提醒设置', path: 'message'},
+        {name: '支付宝绑定', path: 'alipay'},
+        {name: '微博绑定', path: 'weibo'},
+        {name: '微信绑定', path: 'WeChat'},
+        {name: '银联卡绑定', path: 'bankCard'},
+        {name: '分享绑定', path: 'share'},
+        {name: '应用绑定', path: 'app'}
+>>>>>>> remotes/origin/master
       ],
       bgcolor: '#FFD704'
     }
   },
   components: { shortcut, userNav, regFooter },
   created () {
+<<<<<<< HEAD
+=======
+    this.$cookies.get('userInfo')
+>>>>>>> remotes/origin/master
     let path = this.$route.path.split('/')[2]
     this.nav.forEach(item => {
       if (item.path === path) {
@@ -74,6 +102,7 @@ export default {
 
 </script>
 <style scoped>
+<<<<<<< HEAD
   #user{
     background-color: #fff;
   }
@@ -164,4 +193,7 @@ export default {
     color:#FF6641;
     margin-right:10px;
   }
+=======
+@import '../../assets/css/user/user-set.css';
+>>>>>>> remotes/origin/master
 </style>

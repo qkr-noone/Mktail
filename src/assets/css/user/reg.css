@@ -23,7 +23,11 @@
 .middle .title .effective-date{
   font-size:12px;
   color:rgba(124,124,124,1);
+<<<<<<< HEAD
   margin-left:825px;
+=======
+  margin-left:911px;
+>>>>>>> remotes/origin/master
 }
 .middle .middle-content{
   box-sizing:border-box;

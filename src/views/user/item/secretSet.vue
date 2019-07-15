@@ -3,7 +3,11 @@
     <div class="title">
       <a>密保问题设置</a>
     </div>
+<<<<<<< HEAD
     <div class="con-de">
+=======
+    <div class="con-de"  >
+>>>>>>> remotes/origin/master
       <div class="con-item">
         <div class="tip">
           <img src="static/img/user/user_safetytips1.png">
@@ -14,6 +18,7 @@
         <form>
           <div class="group">
             <label>问题一</label>
+<<<<<<< HEAD
             <el-select style="width: 330px" v-model="value1" placeholder="请选择">
               <el-option
                 v-for="item in options1"
@@ -26,10 +31,23 @@
           <div class="group">
             <label class="answer">答案</label>
             <input style="width: 330px" type="text" v-model="answer1" id="ans1"  v-on:blur="change()"/>
+=======
+            <select>
+              <option value="" disabled selected hidden>请选择</option>
+              <option >您最爱吃的美食是？</option>
+              <option >您最爱的一本书是？</option>
+              <option >最喜欢听的一首歌是？</option>
+            </select>
+          </div>
+          <div class="group">
+            <label class="answer">答案</label>
+            <input type="text" v-model="answer1" id="ans1"  v-on:blur="change()"/>
+>>>>>>> remotes/origin/master
             <span class="error"  v-show="!isAnswer"><div class="error-ipt">x</div> 请填写答案</span>
           </div>
           <div class="group">
             <label>问题二</label>
+<<<<<<< HEAD
             <el-select style="width: 330px" v-model="value2" placeholder="请选择">
               <el-option
                 v-for="item in options2"
@@ -42,10 +60,23 @@
           <div class="group">
             <label class="answer">答案</label>
             <input style="width: 330px" type="text" class="answer-test" v-model="answer2" id="ans2" v-on:blur="changeSecon()"/>
+=======
+            <select>
+              <option value="" disabled selected hidden>请选择</option>
+              <option >您小时候的梦想是什么？</option>
+              <option >您最好的朋友叫什么名字？</option>
+              <option >您的初中学校是？</option>
+            </select>
+          </div>
+          <div class="group">
+            <label class="answer">答案</label>
+            <input type="text" class="answer-test" v-model="answer2" id="ans2" v-on:blur="changeSecon()"/>
+>>>>>>> remotes/origin/master
             <span class="error"  v-show="!isSecondAn"><div class="error-ipt">x</div> 请填写答案</span>
           </div>
           <div class="group">
             <label>问题三</label>
+<<<<<<< HEAD
             <el-select style="width: 330px" v-model="value3" placeholder="请选择">
               <el-option
                 v-for="item in options3"
@@ -62,6 +93,22 @@
           </div>
           <div class="group">
             <button @click="SubmitSecretSecurity" class="btn">确定</button>
+=======
+            <select>
+              <option value="" disabled selected hidden>请选择</option>
+              <option >您最喜欢的城市是？</option>
+              <option >第一份工作的公司叫？</option>
+              <option >您的qq邮箱是？</option>
+            </select>
+          </div>
+          <div class="group">
+            <label class="answer">答案</label>
+            <input type="text" v-model="answer3" id="ans3" v-on:blur="changeThird()"/>
+            <span class="error"  v-show="!isThirdAn"><div class="error-ipt">x</div> 请填写答案</span>
+          </div>
+          <div class="group">
+            <button class="btn">确定</button>
+>>>>>>> remotes/origin/master
           </div>
         </form>
       </div>
@@ -77,6 +124,7 @@ export default {
       answer3: '',
       isAnswer: true,
       isSecondAn: true,
+<<<<<<< HEAD
       isThirdAn: true,
       value1: '',
       value2: '',
@@ -91,6 +139,11 @@ export default {
   mounted () {
     this.getquestion()
   },
+=======
+      isThirdAn: true
+    }
+  },
+>>>>>>> remotes/origin/master
   methods: {
     change (item, val) {
       if (!this.answer1) {
@@ -112,6 +165,7 @@ export default {
       } else {
         this.isThirdAn = true
       }
+<<<<<<< HEAD
     },
     getquestion () {
       this.API.getProblemByTypeCode({Authorization: this.Authorization, typeCode: 1}).then(res => {
@@ -133,11 +187,14 @@ export default {
         }
         console.log(res)
       })
+=======
+>>>>>>> remotes/origin/master
     }
   }
 }
 </script>
 <style scoped>
+<<<<<<< HEAD
   /*@import '../../../assets/css/user/user-set.css';*/
   .con-wrap {
     position: relative;
@@ -165,6 +222,9 @@ export default {
     font-weight:bold;
     color: #000000;
   }
+=======
+  @import '../../../assets/css/user/user-set.css';
+>>>>>>> remotes/origin/master
   .error-ipt{
     display: inline-block;
     width:14px;
@@ -220,9 +280,12 @@ export default {
   .con-item form .group label{
     font-size:16px;
   }
+<<<<<<< HEAD
   .con-item img {
     display: inline;
   }
+=======
+>>>>>>> remotes/origin/master
   .con-item form .group input,select{
     width:188px;
     height:37px;
@@ -231,7 +294,11 @@ export default {
     border:1px solid rgba(225,225,225,1);
   }
   .con-item form .group .answer{
+<<<<<<< HEAD
     /*margin-left: -120px;*/
+=======
+    margin-left: -120px;
+>>>>>>> remotes/origin/master
   }
   .con-item form .group .btn{
     width:145px;

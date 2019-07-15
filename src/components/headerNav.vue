@@ -1,21 +1,33 @@
 <template>
+<<<<<<< HEAD
   <div data-component="headerNav">
+=======
+  <div>
+>>>>>>> remotes/origin/master
     <header class="mk-header">
       <div class="mk-head">
         <div class="h-logo" ref='logoIsCursor'>
           <router-link :to="{path: isHome}" ><img src="static/img/mk_logo_main.png"></router-link>
         </div>
         <div class="h-search">
+<<<<<<< HEAD
           <form action="#" @submit.prevent>
             <div class="search_box">
               <div class="search_ipt">
                 <input type="text" ref="search_ipt" name="search" placeholder="" @keyup.enter="searchPro">
+=======
+          <form action="#">
+            <div class="search_box">
+              <div class="search_ipt">
+                <input type="text" ref="search_ipt" placeholder="">
+>>>>>>> remotes/origin/master
                 <a @click="searchPro" class="search_btn">搜索</a>
               </div>
             </div>
           </form>
           <div class="search-tip">
             <ul>
+<<<<<<< HEAD
               <!-- <li><a data-tem='暂存'></a></li> -->
               <li v-for="(item, index) in searchHistory" :key="item.time" v-if="index<5"><a @click="searchIt(item.val)" href='javascript:;'>{{item.val}}</a></li>
             </ul>
@@ -25,6 +37,20 @@
           <img @click="downloadAppBox=true" :src="download_app">
           <p>扫码关注公众号</p>
         </div>
+=======
+              <li><a>脚轮</a></li>
+              <li><a>手机</a></li>
+              <li><a>加湿器</a></li>
+              <li><a>电视</a></li>
+              <li><a>工具柜</a></li>
+            </ul>
+          </div>
+        </div>
+        <!-- <div class="download-app" v-if="isHome">
+          <img src="static/img/mk_app_download.png">
+          <p>扫码安装APP端</p>
+        </div> -->
+>>>>>>> remotes/origin/master
         <div class="addCart" @click="toCart">
           <img src="static/img/mk_search_cart.png">
           <p>我的购物车</p>
@@ -33,37 +59,57 @@
         </div>
       </div>
     </header>
+<<<<<<< HEAD
     <div class="mk_waiting_box" @click="downloadAppBox=false" v-if="downloadAppBox">
       <div class="mk_waiting">
         <i class="el-icon-close mk_waiting_close" @click="downloadAppBox=false"></i>
         <img class="mk_waiting_img" @click.stop :src="download_app">
       </div>
     </div>
+=======
+>>>>>>> remotes/origin/master
   </div>
 </template>
 
 <script>
+<<<<<<< HEAD
 import { mapState } from 'vuex'
 import { getStore, setStore } from '@/common/utils'
+=======
+import { getStore } from '../common/utils'
+>>>>>>> remotes/origin/master
 export default {
   name: 'headerNav',
   data () {
     return {
+<<<<<<< HEAD
       isHome: '', // 判断logo 是否可触发home点击
       // isShops: false
       searchHistory: [],
       download_app: 'static/img/mk_app_download.jpg',
       downloadAppBox: false
+=======
+      isHome: '' // 判断logo 是否可触发home点击
+      // isShops: false
+>>>>>>> remotes/origin/master
     }
   },
   props: [],
   computed: {
+<<<<<<< HEAD
     ...mapState({
       cartList: state => state.cart.cartList
     }),
     cartNum () {
       let num = 0
       this.cartList !== '[]' && this.cartList.length && this.cartList.forEach(item => {
+=======
+    cartNum () {
+      let num = 0
+      let cartList = JSON.parse(getStore('cartList'))
+      console.log(cartList)
+      cartList && cartList.forEach(item => {
+>>>>>>> remotes/origin/master
         item.orderItemList.forEach(list => {
           num += Number(list.num)
         })
@@ -77,6 +123,7 @@ export default {
     // curRoute === '/shops' ? this.isShops = true : this.isShops = false
   },
   mounted () {
+<<<<<<< HEAD
     if (!this.isHome && this.$refs.logoIsCursor) {
       this.$refs.logoIsCursor.children[0].style.cursor = 'default'
     }
@@ -84,6 +131,11 @@ export default {
   },
   activated () {
     this.searchHistory = JSON.parse(getStore('SEARCH_VALUE'))
+=======
+    if (!this.isHome) {
+      this.$refs.logoIsCursor.children[0].style.cursor = 'default'
+    }
+>>>>>>> remotes/origin/master
   },
   methods: {
     searchPro () {
@@ -105,21 +157,41 @@ export default {
       if (SEARCH_VALUE) {
         // 判断当前是否在搜索页
         if (this.$route.path === '/search') {
+<<<<<<< HEAD
+=======
+          console.log('..')
+>>>>>>> remotes/origin/master
           this.$emit('showSearch', [SEARCH_VALUE, IS_LOAD]) // 调用search 页面的showSearch 方法
         } else {
           this.$router.push({path: '/search', query: {keywords: SEARCH_VALUE}})
         }
+<<<<<<< HEAD
         this.searchHistory.unshift({ val: SEARCH_VALUE, time: new Date().getTime() })
         setStore('SEARCH_VALUE', this.searchHistory)
+=======
+>>>>>>> remotes/origin/master
       }
     },
     toCart () {
       this.$router.push({path: '/cart'})
+<<<<<<< HEAD
     },
     searchIt (val) {
       this.$refs.search_ipt.value = val
       this.searchPro()
     }
+=======
+    }
+    // watchEnter (event) {
+    //   console.log('eenter')
+    //   if (event.keyCode === 13) return false
+    //   let SEARCH_VALUE = this.$refs.search_ipt.value
+    //   var keyCode = window.event ? event.keyCode : event.which
+    //   if (keyCode === 13 && SEARCH_VALUE) {
+    //     this.searchPro()
+    //   }
+    // }
+>>>>>>> remotes/origin/master
   }
 }
 </script>
@@ -137,7 +209,11 @@ export default {
     box-shadow:0px 0px 11px 2px rgba(83,83,83,0.22);
   }
   .mk-head{
+<<<<<<< HEAD
     width: 1226px;
+=======
+    max-width: 1226px;
+>>>>>>> remotes/origin/master
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
@@ -158,11 +234,19 @@ export default {
     align-items: center;
     overflow: hidden;
     height: 50px;
+<<<<<<< HEAD
     width: 550px;
     margin: auto;
   }
   .search_ipt {
     width: 550px;
+=======
+    width: 650px;
+    margin: auto;
+  }
+  .search_ipt {
+    width: 650px;
+>>>>>>> remotes/origin/master
     border: 2px solid #E71600;
     /*border-radius: 23px 23px 23px 23px;*/
     height: 34px;
@@ -199,8 +283,12 @@ export default {
   .search-tip {
     display: flex;
     align-items: center;
+<<<<<<< HEAD
     width: 550px;
     overflow: hidden;
+=======
+    width: 650px;
+>>>>>>> remotes/origin/master
     margin: auto;
   }
   .search-tip ul {
@@ -213,9 +301,12 @@ export default {
   .search-tip ul li {
     padding: 0 11px;
   }
+<<<<<<< HEAD
   .search-tip ul li a {
     color: rgba(0, 0, 0, 0.65);
   }
+=======
+>>>>>>> remotes/origin/master
   .search-tip ul li + li{
     border-left: 1px solid #878787;
   }
@@ -224,14 +315,20 @@ export default {
   .download-app {
     display: flex;
     align-items: center;
+<<<<<<< HEAD
     margin-right: 18px;
     font-size: 14px;
     flex-shrink: 0;
+=======
+    margin-right: 68px;
+    font-size: 14px;
+>>>>>>> remotes/origin/master
     margin-bottom: 23px;
   }
   .download-app p{
     margin-left: 12px;
   }
+<<<<<<< HEAD
   .download-app img {
     width: 50px;
     height: 50px;
@@ -266,6 +363,9 @@ export default {
     max-width: 100%;
     border-radius: 8px;
   }
+=======
+
+>>>>>>> remotes/origin/master
 /* 加入购物车 */
   .addCart {
     width:150px;
@@ -275,7 +375,10 @@ export default {
     margin-bottom: 23px;
     margin-right: 68px;
     display: flex;
+<<<<<<< HEAD
     flex-shrink: 0;
+=======
+>>>>>>> remotes/origin/master
     justify-content: center;
     align-items: center;
     cursor: pointer;

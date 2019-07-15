@@ -4,11 +4,19 @@
       <ul class="top">
         <li class="comment-quantity border">
           <p>待评商品</p>
+<<<<<<< HEAD
           <p class="quantity">{{evaluateCount.initial}}</p>
         </li>
         <li class="comment-quantity  evaluated">
           <p>已评商品</p>
           <p class="quantity">{{evaluateCount.through}}</p>
+=======
+          <p class="quantity">0</p>
+        </li>
+        <li class="comment-quantity  evaluated">
+          <p>已评商品</p>
+          <p class="quantity">0</p>
+>>>>>>> remotes/origin/master
         </li>
         <li class="comment-tip border">
           <span>发评价，得云钻，积少成多换礼品<br>
@@ -18,6 +26,7 @@
           <p class="tip">评价小贴士</p>
           <span>发表评价就有机会获得云钻云钻详细规则带图或者被评为精华的图片有机会获得更多的云钻手机发表评价更方便</span>
         </li>
+<<<<<<< HEAD
       </ul>
     </div>
     <div class="tab">
@@ -163,18 +172,108 @@ export default {
     },
     btnEvaluate () {
       this.evaluatGoods = []
+=======
+       </ul>
+    </div>
+    <div class="tab">
+      <div class="tab-title" :class="{tabTitleActive:assessCommodity===false}" @click="tabTitleChange(false)">待评商品</div>
+      <div class="tab-title tab-titleActive" :class="{tabTitleActive:assessCommodity===true}" @click="tabTitleChange(true)">已评商品</div>
+      <div class="recovery orientate"  v-show="assessCommodity===true">
+        <img src="static/img/user/user_delete1.png">
+        <span>回收订单</span>
+      </div>
+    </div>
+    <div class="order-tab" v-show="assessCommodity===false">
+      <ul>
+        <li class="order-item order-itemActive">全部订单</li>
+        <li class="order-item">线上订单</li>
+        <li class="order-item">门店订单</li>
+      </ul>
+      <div class="recovery">
+        <img src="static/img/user/user_delete1.png">
+        <span>回收订单</span>
+      </div>
+    </div>
+    <div class="no-order" v-show="assessCommodity===false">
+      <p>您现在还没有待评价订单</p>
+    </div>
+    <div class="assess-wares" v-show="assessCommodity===true">
+      <ul class="wares-list">
+        <li class="wares-item">
+          <div class="item-title">
+            <ul>
+              <li>订单详情</li>
+              <li>状态</li>
+              <li>操作</li>
+            </ul>
+          </div>
+          <div>
+            <ul class="item-info">
+              <img src="static/img/user/user_demo1.png">
+              <li class="info-title">博世（BOSCH）家用电钻 TSB 1300家居冲击钻手电钻调速正反转 TSB1300 </li>
+              <li class="info-num">X1</li>
+              <li><span>2019-01-07&nbsp;</span><span>21:32:09 &nbsp;</span>初评积分<span>+30</span></li>
+              <li>
+                <a>订单详情</a><br>
+                <a class="textBlue">查看评价</a>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <li class="wares-item">
+          <div class="item-title">
+            <ul>
+              <li>订单详情</li>
+              <li>状态</li>
+              <li>操作</li>
+            </ul>
+          </div>
+          <div>
+            <ul class="item-info">
+              <img src="static/img/user/user_demo1.png">
+              <li class="info-title">博世（BOSCH）家用电钻 TSB 1300家居冲击钻手电钻调速正反转 TSB1300 </li>
+              <li class="info-num">X1</li>
+              <li><span>2019-01-07&nbsp;</span><span>21:32:09 &nbsp;</span>初评积分<span>+30</span></li>
+              <li>
+                <a>订单详情</a><br>
+                <a class="textBlue">查看评价</a>
+              </li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</template>
+<script>
+export default {
+  data () {
+    return {
+      assessCommodity: false
+    }
+  },
+  methods: {
+    tabTitleChange (val) {
+      this.assessCommodity = val
+>>>>>>> remotes/origin/master
     }
   }
 }
 </script>
 <style scoped>
+<<<<<<< HEAD
 /* 结构 */
+=======
+>>>>>>> remotes/origin/master
   ul,ul>li,img,.recovery{
     display: inline-block;
   }
   div,ul,ul>li{
     box-sizing: border-box;
+<<<<<<< HEAD
     user-select: none;
+=======
+>>>>>>> remotes/origin/master
   }
   .con-wrap{
     font-size:14px;
@@ -232,6 +331,10 @@ export default {
     content: '*';
     color:#E71600;
   }
+<<<<<<< HEAD
+=======
+  /**/
+>>>>>>> remotes/origin/master
   .tab{
     height:56px;
     background:rgba(244,244,244,1);
@@ -255,7 +358,10 @@ export default {
     color:#454545;
     border: none;
     background: none;
+<<<<<<< HEAD
     cursor: pointer;
+=======
+>>>>>>> remotes/origin/master
   }
   .tab .orientate{
     position: absolute;
@@ -270,6 +376,30 @@ export default {
     border-bottom: 1px solid #FFFFFF;
     background:rgba(255,255,255,1);
   }
+<<<<<<< HEAD
+=======
+  .order-tab{
+    height:56px;
+    background:#FFFFFF;
+    border:1px solid rgba(224,224,224,1);
+    border-top: none;
+    line-height: 56px;
+    margin-bottom: 5px;
+  }
+  .order-item{
+    width:79px;
+    height:25px;
+    margin-left: 26px;
+    line-height: 25px;
+    text-align: center;
+    font-size:15px;
+    color:#424242;
+  }
+  .order-itemActive{
+    color:#FF9900;
+    border:1px solid #FF9900;
+  }
+>>>>>>> remotes/origin/master
   .recovery{
     width:93px;
     height:22px;
@@ -297,11 +427,16 @@ export default {
     text-align: center;
   }
   .assess-wares{
+<<<<<<< HEAD
     min-height: 345px;
+=======
+    height:404px;
+>>>>>>> remotes/origin/master
     border:1px solid rgba(224,224,224,1);
     background: #FFFFFF;
     border-top: none;
   }
+<<<<<<< HEAD
 /* 主体内容 */
   .com_title {
     height: 55px;
@@ -443,5 +578,50 @@ export default {
     margin-top: 20px;
     background-color: #FFFFFF;
     border-radius: 4px;
+=======
+  .wares-list{
+    display: flex;
+    flex-direction: column;
+    padding:34px 20px 0 20px;
+  }
+  .assess-wares .wares-item{
+    height:152px;
+    border:1px solid #E7E7E7;
+    color:#686868;
+    margin-bottom: 17px;
+  }
+  .wares-item .item-title{
+    height:41px;
+    background:rgba(244,244,244,1);
+    line-height: 41px;
+  }
+  .wares-item .item-title li:first-child{
+    margin:0 356px 0 227px;
+  }
+  .wares-item .item-title li:nth-child(2){
+    margin-right: 210px;
+  }
+  .wares-item .item-info{
+    height:111px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 100px 0 17px;
+    color:#676767;
+  }
+  .wares-item .item-info .info-title{
+    width:248px;
+    margin-left: -80px;
+  }
+  .wares-item .item-info li a{
+    color:#686868;
+    margin-bottom: 5px;
+  }
+  .textBlue{
+    color:#3D8AEA !important;
+  }
+  .wares-item .item-info .info-num{
+    margin-left: -100px;
+>>>>>>> remotes/origin/master
   }
 </style>

@@ -6,6 +6,7 @@ import router from './router'
 import ElementUI from 'element-ui'
 import store from './store'
 import 'element-ui/lib/theme-chalk/index.css'
+<<<<<<< HEAD
 import API from './common/apis'
 import VueCookies from 'vue-cookies'
 import VueCropper from 'vue-cropper'
@@ -17,10 +18,21 @@ Vue.prototype.API = API
 Vue.prototype.URLIP = process.env.BASE_API // 上传文件
 Vue.prototype.U3DIP = process.env.U3D_IP
 Vue.prototype.AFTERIP = process.env.BASE_AFTER
+=======
+import VueCookies from 'vue-cookies'
+let VueScrollTo = require('vue-scrollto')
+// import VueVideoPlayer from 'vue-video-player'
+// import 'video.js/dist/video-js.css'
+// import 'vue-video-player/src/custom-theme.css'
+// import 'videojs-flash'
+// import 'videojs-contrib-hls/dist/videojs-contrib-hls'
+
+>>>>>>> remotes/origin/master
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 Vue.use(VueScrollTo)
 Vue.use(VueCookies)
+<<<<<<< HEAD
 Vue.use(VueCropper)
 
 // 用户手动刷新页面，vuex 中的信息会重设，需重新新增
@@ -36,6 +48,10 @@ if (!getStore('SEARCH_VALUE')) {
   setStore('SEARCH_VALUE', [{ val: '工厂3D', time: new Date().getTime() - 1 }, { val: '工厂直播', time: new Date().getTime() - 2 }, { val: '五金', time: new Date().getTime() - 3 }])
 }
 
+=======
+// Vue.use(VueVideoPlayer)
+/* eslint-disable no-new */
+>>>>>>> remotes/origin/master
 let vueDom = new Vue({
   el: '#app',
   router,

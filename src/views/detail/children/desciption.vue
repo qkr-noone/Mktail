@@ -4,6 +4,7 @@
       <h4>商品介绍</h4>
     </div>
     <ul class="goods-intro unstyled">
+<<<<<<< HEAD
       <li v-for="item in attrItem" :key="item.attribute">{{item.attribute}}：{{item.value}}</li>
       <li v-if="articleNumber">货号:{{articleNumber}}</li>
       <li v-if="series">系列:{{series}}</li>
@@ -13,6 +14,10 @@
         <video preload="metadata" muted width="100%" height="100%" loop="false" autoplay="true" style="background-color: none;" :src="shopsVideo" controls></video>
       </div>
     </div>
+=======
+      <li v-for="item in attrItem" :key="item.text">{{item.text}}：{{item.value}}</li>
+    </ul>
+>>>>>>> remotes/origin/master
     <div class="intro-detail" v-html="goodsIntroduc">
       {{goodsIntroduc}}
     </div>
@@ -32,6 +37,7 @@ export default {
     },
     scroll: {
       type: Object
+<<<<<<< HEAD
     },
     articleNumber: {
       type: String
@@ -41,6 +47,8 @@ export default {
     },
     shopsVideo: {
       type: String
+=======
+>>>>>>> remotes/origin/master
     }
   },
   mounted () {
@@ -83,8 +91,11 @@ ul.goods-intro li {
     display: flex;
     flex-direction: column;
     align-items: center;
+<<<<<<< HEAD
     overflow: hidden;
     margin: 0 25px;
+=======
+>>>>>>> remotes/origin/master
   }
   .intro-detail>img{
     max-width: 100%;
@@ -101,8 +112,11 @@ ul.goods-intro li {
     color:rgba(135,135,135,1);
     margin-left: 20px;
   }
+<<<<<<< HEAD
   .video_box {
     padding: 20px;
     margin: 0 auto;
   }
+=======
+>>>>>>> remotes/origin/master
 </style>

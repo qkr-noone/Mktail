@@ -60,12 +60,25 @@
         </ul>
       </div>
     </div>
+<<<<<<< HEAD
     <regFooter></regFooter>
   </div>
 </template>
 <script>
 import regFooter from '@/components/regFooter'
 import checkoutCounter from '@/components/checkoutCounter'
+=======
+    <div class="footer">
+      <p>MKtail公司版权所有-粤ICP备 <span><img src="static/img/reg/reg_ghs1.png"></span> 京公网安备11010820220134号-京ICP证110507</p>
+    </div>
+  </div>
+</template>
+<script>
+import pageFooter from '../../components/pageFooter'
+import checkoutCounter from '../../components/checkoutCounter'
+import { apiAxios } from '../../common/utils'
+import { api } from '../../common/api'
+>>>>>>> remotes/origin/master
 export default {
   data () {
     return {
@@ -78,6 +91,7 @@ export default {
       cash: 0
     }
   },
+<<<<<<< HEAD
   components: { regFooter, checkoutCounter },
   mounted () {
     this.API.payPageInfo({userName: this.$cookies.get('user-key')}).then(rtn => {
@@ -88,6 +102,27 @@ export default {
     this.API.payUserCash({userName: this.$cookies.get('user-key')}).then(rtn => {
       if (rtn.success === false) return false
       this.cash = rtn
+=======
+  components: { pageFooter, checkoutCounter },
+  mounted () {
+    apiAxios.AxiosG({
+      url: api.payPageInfo,
+      params: {userName: this.$cookies.get('user-key')}
+    }, rtn => {
+      if (rtn.data.success) {
+        this.orderInfo = rtn.data.data
+        console.log(this.orderInfo)
+        this.totalFee = (rtn.data.data.totalFee / 100).toFixed(2)
+      }
+    })
+    apiAxios.AxiosG({
+      url: api.payUserCash,
+      params: {userName: this.$cookies.get('user-key')}
+    }, rtn => {
+      if (rtn.data.success) {
+        this.cash = rtn.data.data
+      }
+>>>>>>> remotes/origin/master
     })
   },
   methods: {
@@ -105,6 +140,7 @@ export default {
         this.once = false
         if (this.isChecked) {
           if (this.password.length > 5) {
+<<<<<<< HEAD
             this.API.payMkWallet({userName: this.$cookies.get('user-key'), paymentPassword: this.password, outTradeNo: this.orderInfo.outTradeNo}).then(res => {
               if (res.success === false) {
                 if (res.data === 4) { // 密码错误
@@ -121,6 +157,23 @@ export default {
               }
               console.log('支付成功', res)
               this.$router.push({path: '/paysuccess'})
+=======
+            apiAxios.AxiosG({
+              url: api.payMkWallet,
+              params: {userName: this.$cookies.get('user-key'), paymentPassword: this.password, orderId: this.orderInfo.orderList}
+            }, res => {
+              // Q. 支付状态 密码错误
+              if (res.data.success) {
+                console.log('支付成功', res)
+                this.$router.push({path: '/paysuccess'})
+              } else {
+                this.$notify.error({
+                  title: '失败',
+                  message: '支付失败'
+                })
+                this.$router.push({path: '/payfail'})
+              }
+>>>>>>> remotes/origin/master
             })
           } else this.isPassword = true
         } else this.$message.warning('请勾选钱包')
@@ -168,6 +221,21 @@ export default {
     color: #E50B0B;
     font-family:SourceHanSansCN-Light;
   }
+<<<<<<< HEAD
+=======
+  .pay .paymark {
+    overflow: hidden;
+    line-height: 26px;
+    text-indent: 38px
+  }
+  .pay .success-icon {
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+    background: url(/static/img/success-icon.png);
+    background-position: 0 0
+  }
+>>>>>>> remotes/origin/master
   .pay .success-info {
     line-height: 30px;
     vertical-align: top;

@@ -1,15 +1,24 @@
 <template>
+<<<<<<< HEAD
   <div ref='bgcolor' data-component="userNav">
     <header class="mk-header">
       <div class="mk-head">
         <div class="h-logo" ref='logoIsCursor'>
           <router-link :to="{path: '/home'}" target="_blank"><img src="static/img/mk_user_logo.png"></router-link>
+=======
+  <div ref='bgcolor'>
+    <header class="mk-header">
+      <div class="mk-head">
+        <div class="h-logo" ref='logoIsCursor'>
+          <router-link :to="{path: '/home'}" ><img src="static/img/mk_user_logo.png"></router-link>
+>>>>>>> remotes/origin/master
         </div>
         <div class="title-se">
           <h1>我的MKTail</h1>
           <div class="title-con">
             <router-link :to="{path: '/user'}" class="title-li"><h2>首页</h2></router-link>
             <router-link :to="{path: '/userSet'}" class="title-li"><h2>账号设置</h2></router-link>
+<<<<<<< HEAD
             <!-- <router-link :to="{path: '/userInfo'}" class="title-li"><h2>消息</h2></router-link> -->
           </div>
         </div>
@@ -18,12 +27,26 @@
             <div class="search_box">
               <div class="search_ipt">
                 <input type="text" ref="search_ipt" name="user_search" placeholder="search product" @keyup.enter="searchPro">
+=======
+            <router-link :to="{path: '/userInfo'}" class="title-li"><h2>消息</h2></router-link>
+          </div>
+        </div>
+        <div class="h-search">
+          <form action="#">
+            <div class="search_box">
+              <div class="search_ipt">
+                <input type="text" ref="search_ipt" placeholder="search product">
+>>>>>>> remotes/origin/master
                 <a @click="searchPro" class="search_btn">搜索</a>
               </div>
             </div>
           </form>
         </div>
+<<<<<<< HEAD
         <div class="addCart" @click="goCart()">
+=======
+        <div class="addCart">
+>>>>>>> remotes/origin/master
           <img src="static/img/mk_search_cart.png">
           <p>我的购物车</p>
           <span v-if="isOver">99</span>
@@ -39,15 +62,22 @@
 </template>
 
 <script>
+<<<<<<< HEAD
 import { mapState } from 'vuex'
 import { getStore, setStore } from '@/common/utils'
+=======
+>>>>>>> remotes/origin/master
 export default {
   name: 'headerNav',
   data () {
     return {
       isOver: 0, // 是否超过99
+<<<<<<< HEAD
       isUser: false, // 用户中心首页
       searchHistory: []
+=======
+      isUser: false // 用户中心首页
+>>>>>>> remotes/origin/master
     }
   },
   props: {
@@ -57,6 +87,7 @@ export default {
     }
   },
   computed: {
+<<<<<<< HEAD
     ...mapState({
       cartList: state => state.cart.cartList
     }),
@@ -67,6 +98,10 @@ export default {
           num += Number(list.num)
         })
       })
+=======
+    cartNum () {
+      let num = 0
+>>>>>>> remotes/origin/master
       return num
     }
   },
@@ -78,7 +113,10 @@ export default {
   },
   mounted () {
     this.$refs.bgcolor.style.backgroundColor = this.color
+<<<<<<< HEAD
     this.searchHistory = JSON.parse(getStore('SEARCH_VALUE'))
+=======
+>>>>>>> remotes/origin/master
   },
   methods: {
     searchPro () {
@@ -100,16 +138,24 @@ export default {
       if (SEARCH_VALUE) {
         // 判断当前是否在搜索页
         if (this.$route.path === '/search') {
+<<<<<<< HEAD
+=======
+          console.log('..')
+>>>>>>> remotes/origin/master
           this.$emit('showSearch', [SEARCH_VALUE, IS_LOAD]) // 调用search 页面的showSearch 方法
         } else {
           this.$router.push({path: '/search', query: {keywords: SEARCH_VALUE}})
         }
+<<<<<<< HEAD
         this.searchHistory.unshift({ val: SEARCH_VALUE, time: new Date().getTime() })
         setStore('SEARCH_VALUE', this.searchHistory)
       }
     },
     goCart () {
       this.$router.push({path: '/cart'})
+=======
+      }
+>>>>>>> remotes/origin/master
     }
   }
 }
@@ -122,7 +168,11 @@ export default {
     margin: 0 auto;
   }
   .h-logo {
+<<<<<<< HEAD
     padding:29px 11px 29px 0px;
+=======
+    padding:29px 11px 29px 23px;
+>>>>>>> remotes/origin/master
   }
   .mk-head{
     width: 1226px;
@@ -214,11 +264,18 @@ export default {
     height:35px;
     background:rgba(246,246,246,1);
     border:1px solid rgba(198,198,198,1);
+<<<<<<< HEAD
     margin-right: 1px;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
+=======
+    margin-right: 68px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+>>>>>>> remotes/origin/master
   }
   .addCart p{
     margin: 0 4px;

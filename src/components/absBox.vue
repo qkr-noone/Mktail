@@ -1,7 +1,13 @@
 <template>
+<<<<<<< HEAD
   <el-carousel :interval="interval" :indicator-position="indicator" :arrow="arrow" height="100%" :autoplay="autoplay">
     <el-carousel-item v-for="item in data" :key="item.id">
       <a :href="item.url || 'javascript:;'"><img :src="item.pic"></a>
+=======
+  <el-carousel :interval="interval" :indicator-position="indicator"     :arrow="arrow" height="100%" :autoplay="autoplay">
+    <el-carousel-item v-for="item in data" :key="item.id">
+      <router-link :to="item.url"><img :src="item.pic"></router-link>
+>>>>>>> remotes/origin/master
     </el-carousel-item>
   </el-carousel>
 </template>

@@ -1,4 +1,5 @@
 /*购物车*/
+<<<<<<< HEAD
   #cart {
     display: flex;
     flex-direction: column;
@@ -7,6 +8,8 @@
   .footer {
     margin-top: auto;
   }
+=======
+>>>>>>> remotes/origin/master
   .cart-th {
     display: flex;
     background: #F2F2F2;
@@ -89,9 +92,13 @@
   }
   
   .chosed {
+<<<<<<< HEAD
     line-height: 26px;
     display: flex;
     align-items: center;
+=======
+    line-height: 26px
+>>>>>>> remotes/origin/master
   }
   
   .sumprice {
@@ -137,9 +144,12 @@
     margin-bottom: 70px;
   }
   .allgoods {margin-top: 20px; margin-bottom: 50px;}
+<<<<<<< HEAD
   .cart_to_home {
     color: #E53031;
   }
+=======
+>>>>>>> remotes/origin/master
   .title-tip {
     display: flex;
     justify-content: space-between;
@@ -198,6 +208,7 @@
     font-size: 16px;
     padding: 0 3px;
   }
+<<<<<<< HEAD
   .flow-addr {
     position: relative;
   }
@@ -244,6 +255,8 @@
     border:1px solid rgba(200,22,35,1);
     line-height: 20px;
   }
+=======
+>>>>>>> remotes/origin/master
   .allgoods .title-tip>h4, .cart-shop {
     text-align: left;
   }
@@ -336,7 +349,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
+<<<<<<< HEAD
     overflow: hidden;
+=======
+>>>>>>> remotes/origin/master
   }
   .item-img img{
     max-width: 100%;
@@ -370,6 +386,10 @@
     display: flex;
     justify-content: center;
     flex-direction: column;
+<<<<<<< HEAD
+=======
+    align-items: flex-start;
+>>>>>>> remotes/origin/master
   }
   .remove {
     color: #585858;

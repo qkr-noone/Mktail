@@ -15,4 +15,8 @@ selenium-debug.log
 *.ntvs*
 *.njsproj
 *.sln
+<<<<<<< HEAD
 config/index.js
+=======
+/config/index.js
+>>>>>>> remotes/origin/master

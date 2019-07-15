@@ -8,6 +8,7 @@
           <div class="title-address">
             <h5>送货至：</h5>
             <div class="address">
+<<<<<<< HEAD
               <span class="flow-addr">
                 <a class="address-box" href="javascript:;">{{destination}}</a>
                 <i class="el-icon-caret-bottom"></i>
@@ -22,12 +23,20 @@
                   </ul>
                 </div>
               </span>
+=======
+              <a class="address-box" href="javascript:;">广东广广州</a>
+              <i class="el-icon-caret-bottom"></i>
+>>>>>>> remotes/origin/master
             </div>
           </div>
         </div>
         <div class="cart-main">
           <div class="cart-title cart-th">
+<<<<<<< HEAD
             <div class="cart-1 select-all-top"><input type="checkbox" :checked="cartList.length && cartList.allChecked === 1" @change="allCheck($event)"/> 全部</div>
+=======
+            <div class="cart-1 select-all-top"><input type="checkbox" :checked="cartList.length && cartList.allChecked === 1" @click="allCheck($event)"/> 全部</div>
+>>>>>>> remotes/origin/master
             <div class="cart-2">商品信息</div>
             <div class="cart-3">规格</div>
             <div class="cart-4">单价(元)</div>
@@ -41,7 +50,11 @@
               <span class="shopname">{{list.sellerName}}</span>
             </div>
             <div class="cart-tip">
+<<<<<<< HEAD
               <!-- <div>
+=======
+              <div>
+>>>>>>> remotes/origin/master
                 <ul class="cart-title cart-tip-box">
                   <li class="cart-20"></li>
                   <li class="cart-21">
@@ -53,13 +66,21 @@
                   <li class="cart-4"><span class="tip-sum"></span></li>
                   <li class="cart-4"></li>
                 </ul>
+<<<<<<< HEAD
               </div> -->
+=======
+              </div>
+>>>>>>> remotes/origin/master
             </div>
             <div class="cart-body">
               <div class="cart-list" v-for="item in list.orderItemList" :key="item.itemId">
                 <ul class="goods-list cart-title" :class="{selectItem: item.checked === 1}">
                   <li class="cart-20">
+<<<<<<< HEAD
                     <input type="checkbox" :checked="item.checked === 1" :data-value="item.checked" @click="goodsCheck($event, item)"/>
+=======
+                    <input type="checkbox" :checked="item.checked === 1" @click="goodsCheck($event, item)"/>
+>>>>>>> remotes/origin/master
                   </li>
                   <li class="cart-21">
                     <div class="good-item">
@@ -67,7 +88,11 @@
                       <div class="item-msg" @click="toDetail(item.goodsId, item.itemId)">{{item.title}}</div>
                     </div>
                   </li>
+<<<<<<< HEAD
                   <li class="cart-3"><span class="attr"><strong>规格：{{item.spec}}</strong></span></li>
+=======
+                  <li class="cart-3"><span class="attr"><strong v-for="(tip, key, value) in JSON.parse(item.spec)" :key="value">{{key}}:{{tip}}</strong></span></li>
+>>>>>>> remotes/origin/master
                   <li class="cart-4"><span class="price">￥{{item.price}}</span></li>
                   <buyNum class="cart-4"
                           :num="item.num"
@@ -77,10 +102,17 @@
                           :checked="item.checked"
                             @edit-num="EditNum">
                   </buyNum>
+<<<<<<< HEAD
                   <li class="cart-4"><span class="sum">{{item.totalFee}}</span></li>
                   <li class="cart-4 add-remove">
                     <a class="remove" href="javascript:;" @click="toCollect(item.goodsId, 1)">加入收藏</a>
                     <a class="remove" href="javascript:;" @click="cartDel(item.itemId, item.sellerId)">删除</a>
+=======
+                  <li class="cart-4"><span class="sum">{{(item.price * item.num).toFixed(2)}}</span></li>
+                  <li class="cart-4 add-remove">
+                    <a class="remove">加入收藏</a>
+                    <a class="remove" @click="cartDel(item.itemId, item.sellerId)">删除</a>
+>>>>>>> remotes/origin/master
                   </li>
                 </ul>
               </div>
@@ -94,22 +126,37 @@
           </div>
           <div class="option">
             <a href="javascript:;" @click="cartDeList(selectList, 0)">删除选中的商品</a>
+<<<<<<< HEAD
             <!-- <a href="javascript:;">加入我的收藏</a> -->
             <a href="javascript:;" @click="cartDeList(cartList, 1)">清除购物车</a>
           </div>
           <div class="toolbar">
             <div class="chosed">已选择<span>{{selectNum}}</span>件商品</div>
+=======
+            <a href="javascript:;">加入我的收藏</a>
+            <a href="javascript:;" @click="cartDeList(cartList, 1)">清除购物车</a>
+          </div>
+          <div class="toolbar">
+            <div class="chosed">已选择<span>{{selectNum}}</span>件商品<i class="el-icon-arrow-up"></i></div>
+>>>>>>> remotes/origin/master
             <div class="sumprice">
               <span><em>总价（不含运费）：</em><i class="summoney">¥{{totalPrice}}</i></span>
               <span><em>已节省：</em><em>-¥{{free}}</em></span>
             </div>
             <div class="sumbtn">
+<<<<<<< HEAD
               <a href="javascript:;" class="sum-btn" @click="count">去结算</a>
+=======
+              <a class="sum-btn" @click="count">去结算</a>
+>>>>>>> remotes/origin/master
             </div>
           </div>
         </div>
       </div>
+<<<<<<< HEAD
       <div class="allgoods" v-else>购物车还未添加商品哦，<router-link class="cart_to_home" :to="{path: '/home'}">逛一逛~</router-link></div>
+=======
+>>>>>>> remotes/origin/master
       <div class="liked">
         <ul class="sui-nav nav-tabs">
           <h2 class="active">
@@ -140,20 +187,35 @@
         </div>
       </div>
     </div>
+<<<<<<< HEAD
     <regFooter class="footer"></regFooter>
+=======
+    <regFooter></regFooter>
+>>>>>>> remotes/origin/master
   </div>
 </template>
 <script>
 import { mapMutations, mapState } from 'vuex'
+<<<<<<< HEAD
 import shortcutHeader from '@/components/shortcutHeader'
 import regFooter from '@/components/regFooter'
 import buyNum from '@/components/buyNum'
 import { setStore, debounce, formatDate } from '@/common/utils'
 export default {
+=======
+import shortcutHeader from '../../components/shortcutHeader'
+import regFooter from '../../components/regFooter'
+import buyNum from '../../components/buyNum'
+import { apiAxios, setStore } from '../../common/utils'
+import { api } from '../../common/api'
+export default {
+  inject: ['reload'],
+>>>>>>> remotes/origin/master
   data () {
     return {
       selectList: [], // 选中商品列表
       free: 0,
+<<<<<<< HEAD
       cartLike: '',
       destination: '请选择',
       addressOne: '',
@@ -161,15 +223,25 @@ export default {
       addressTwoId: '',
       addrOptions: [],
       cityList: []
+=======
+      cartLike: ''
+>>>>>>> remotes/origin/master
     }
   },
   components: { shortcutHeader, buyNum, regFooter },
   computed: {
+<<<<<<< HEAD
     ...mapState({
       cartList: state => state.cart.cartList
     }),
     // 商品总数量
     totalNum () {
+=======
+    ...mapState(
+      ['cartList']
+    ),
+    totalNum () { // 商品总数量
+>>>>>>> remotes/origin/master
       let num = 0
       this.cartList && this.cartList.forEach(item => {
         item.orderItemList.forEach(list => {
@@ -178,6 +250,7 @@ export default {
       })
       return num
     },
+<<<<<<< HEAD
     // 选中商品总价格
     totalPrice () {
       let price = 0
@@ -189,6 +262,17 @@ export default {
     },
     // 选中商品总数量
     selectNum () {
+=======
+    totalPrice () { // 选中商品总价格
+      let price = 0
+      this.selectList && this.selectList.forEach(item => {
+        // 强制类型转换，减法时 (price - 0) + ((item.price * item.num) - 0)
+        price = price + (item.price * item.num)
+      })
+      return price.toFixed(2)
+    },
+    selectNum () { // 选中商品总数量
+>>>>>>> remotes/origin/master
       let selectNum = 0
       this.selectList && this.selectList.forEach(item => {
         selectNum += Number(item.num)
@@ -198,6 +282,7 @@ export default {
   },
   mounted () {
     // this.INIT_BUYCART()
+<<<<<<< HEAD
     this.API.cartList({username: this.$cookies.get('user-key')}).then(rtn => {
       if (rtn.success === false) {
         this.CART_LIST(rtn.data)
@@ -228,6 +313,46 @@ export default {
   },
   methods: {
     ...mapMutations(['CART_LIST']),
+=======
+    apiAxios.AxiosG({
+      url: api.cartList,
+      params: {username: this.$cookies.get('user-key')}
+    }, rtn => {
+      if (rtn.data.success) {
+        this.setCartList(rtn.data.data)
+        // 附加店铺选择属性，用于判断全部商品店铺选择状态
+        this.$set(this.cartList, 'allChecked', 0)
+        for (let val of this.cartList) {
+          // 附加店铺选择属性，用于判断店铺选择状态
+          this.$set(val, 'checked', 0)
+          for (let item of val.orderItemList) {
+            if (item.checked === 1) {
+              this.selectList.push(item)
+            }
+          }
+        }
+        this.isShopsChecked(this.cartList)
+        this.isAllShops(this.cartList)
+      } else {
+        this.setCartList(rtn.data.data)
+        this.$message.info('购物车为空')
+      }
+      setStore('cartList', this.cartList)
+    })
+    apiAxios.AxiosG({
+      url: api.cartLike,
+      params: { categoryId: 21 }
+    }, res => {
+      if (res.data.success) {
+        this.cartLike = res.data.data.contentList
+      }
+    })
+  },
+  methods: {
+    ...mapMutations([
+      'setCartList'
+    ]),
+>>>>>>> remotes/origin/master
     count () {
       if (this.selectList.length) {
         this.$router.push({path: '/getOrderInfo', query: {list: this.selectList}})
@@ -237,9 +362,14 @@ export default {
       }
       return false
     },
+<<<<<<< HEAD
     // 商品选择
     goodsCheck (event, item) {
       if (event.target.checked) {
+=======
+    goodsCheck (event, item) { // 商品选择
+      if (event.currentTarget.checked) {
+>>>>>>> remotes/origin/master
         this._cartEditChecked(item.itemId, item.num, item.sellerId, 1)
         this.selectList.push(item)
       } else {
@@ -247,9 +377,14 @@ export default {
         this.$delete(this.selectList, this.selectList.indexOf(item))
       }
     },
+<<<<<<< HEAD
     // 店铺选择
     shopCheck (event, shopsList) {
       if (event.target.checked) {
+=======
+    shopCheck (event, shopsList) { // 店铺选择
+      if (event.currentTarget.checked) {
+>>>>>>> remotes/origin/master
         shopsList.orderItemList.forEach(item => {
           if (!item.checked) {
             this._cartEditChecked(item.itemId, item.num, item.sellerId, 1)
@@ -265,9 +400,14 @@ export default {
         })
       }
     },
+<<<<<<< HEAD
     // 全选、反选
     allCheck (event) {
       if (event.target.checked) {
+=======
+    allCheck (event) { // 全选、反选
+      if (event.currentTarget.checked) {
+>>>>>>> remotes/origin/master
         this.cartList.forEach(data => {
           data.orderItemList.forEach(item => {
             if (!item.checked) {
@@ -287,6 +427,7 @@ export default {
         })
       }
     },
+<<<<<<< HEAD
     // 修改数量
     EditNum (productNum, productSkuId, sellerId, checked) {
       debounce(() => {
@@ -391,11 +532,101 @@ export default {
               console.log(newPrice, 'price')
               if (newPrice) this.$set(list, 'price', newPrice)
               this.$set(list, 'totalFee', (productNum * newPrice).toFixed(2))
+=======
+    EditNum (productNum, productSkuId, sellerId, checked) { // 修改数量
+      this._cartEditNum(productSkuId, productNum, sellerId, checked)
+    },
+    cartDel (productSkuId, sellerId) { // 删除单条购物车数据
+      this._cartDel(productSkuId, sellerId)
+    },
+    cartDeList (list, index) { // 删除多条、选中的购车数据 index: 0/1  删除选中/清空
+      if (index) {
+        let tem = []
+        list.forEach(tip => {
+          tip.orderItemList.forEach(point => {
+            tem.push(point)
+          })
+        })
+        list = tem
+      } else {
+        if (!list.length) {
+          this.$message.info('未选中商品')
+          return false
+        }
+      }
+      let series = []
+      list.forEach(data => {
+        series.push({skuId: data.itemId, sellerId: data.sellerId})
+      })
+      this._cartAllDel(series)
+    },
+    _cartEditNum (productSkuId, productNum, sellerId, checked) { // 修改数量
+      apiAxios.AxiosG({
+        url: api.cartEdit,
+        params: {userName: this.$cookies.get('user-key'), itemId: productSkuId, num: productNum, sellerId: sellerId, checked: checked}
+      }, res => {
+        if (res.data.success === true) {
+          this.EDIT_CART({productSkuId, productNum, checked})
+        }
+      })
+    },
+    _cartEditChecked (productSkuId, productNum, sellerId, checked) { // 修改选中状态
+      apiAxios.AxiosG({
+        url: api.cartEdit,
+        params: {userName: this.$cookies.get('user-key'), itemId: productSkuId, num: productNum, sellerId: sellerId, checked: checked}
+      }, res => {
+        if (res.data.success === true) {
+          this.EDIT_CART({productSkuId, checked})
+        }
+      })
+    },
+    _cartDel (productSkuId, sellerId) { // 删除购物车
+      apiAxios.AxiosG({
+        url: api.cartDelete,
+        params: {userName: this.$cookies.get('user-key'), itemId: productSkuId, sellerId: sellerId}
+      }, res => {
+        if (res.data.success === true) {
+          this.EDIT_CART({productSkuId})
+          this.$message.info('删除成功！')
+        }
+      })
+    },
+    _cartAllDel (skIdList) { // 删除购物车
+      apiAxios.AxiosP({
+        url: api.cartAllDelete,
+        params: {userName: this.$cookies.get('user-key')},
+        data: skIdList
+      }, res => {
+        if (res.data.success === true) {
+          skIdList.forEach(elem => {
+            let productSkuId = elem.skuId
+            this.EDIT_CART({productSkuId})
+          })
+          this.$message.success('删除成功！')
+        }
+      })
+    },
+    EDIT_CART ({productSkuId, productNum, checked}) {
+      let cart = this.cartList
+      if (productNum) { // 修改数量
+        let isFind = false
+        for (let item of cart) { // 多级联动
+          for (let list of item.orderItemList) {
+            if (list.itemId === productSkuId) {
+              this.$set(list, 'num', productNum)
+              this.$set(list, 'totalFee', (productNum * list.price).toFixed(2))
+>>>>>>> remotes/origin/master
               isFind = true
               break
             }
           }
+<<<<<<< HEAD
           if (isFind) break
+=======
+          if (isFind) {
+            break
+          }
+>>>>>>> remotes/origin/master
         }
       } else if (checked === 1 || checked === 0) { // 修改选中状态
         for (let item of cart) {
@@ -407,7 +638,11 @@ export default {
         }
         this.isShopsChecked(cart)
         this.isAllShops(cart)
+<<<<<<< HEAD
         // this.CART_LIST(this.cartList)
+=======
+        // this.setCartList(this.cartList)
+>>>>>>> remotes/origin/master
       } else { // 根据sku数据删除购物车
         for (let item of cart) {
           for (let index in item.orderItemList) {
@@ -425,12 +660,20 @@ export default {
           }
         }
       }
+<<<<<<< HEAD
       this.CART_LIST(cart)
       // 存入localStorage
       setStore('cartList', cart)
     },
     // 遍历店铺，判断店铺选中状态
     isShopsChecked (cart) {
+=======
+      this.setCartList(cart)
+      // 存入localStorage
+      setStore('cartList', cart)
+    },
+    isShopsChecked (cart) { // 遍历店铺，判断店铺选中状态
+>>>>>>> remotes/origin/master
       cart.forEach(tip => {
         let isAll = tip.orderItemList.every(data => {
           return (data.checked === 1)
@@ -438,8 +681,12 @@ export default {
         isAll ? tip.checked = 1 : tip.checked = 0
       })
     },
+<<<<<<< HEAD
     // 是否选择全部商品
     isAllShops (cart) {
+=======
+    isAllShops (cart) { // 是否选择全部商品
+>>>>>>> remotes/origin/master
       let isAllShops = cart.every(data => {
         return (data.checked === 1)
       })
@@ -447,6 +694,7 @@ export default {
     },
     toDetail (goodsId, skuId) {
       this.$router.push({path: '/detail', query: {goodsId: goodsId, skuId: skuId}})
+<<<<<<< HEAD
     },
     // 切换省，显示市列表
     tabAddr (provinceid, province) {
@@ -484,11 +732,17 @@ export default {
           }
         })
       } else this.isMaskLogin = true
+=======
+>>>>>>> remotes/origin/master
     }
   }
 }
 
 </script>
 <style scoped>
+<<<<<<< HEAD
+=======
+/*@import "../../assets/css/cart/webbase.css";*/
+>>>>>>> remotes/origin/master
 @import "../../assets/css/cart/cart.css"
 </style>

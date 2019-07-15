@@ -24,6 +24,7 @@
         </div>
       </div>
     </div>
+<<<<<<< HEAD
     <regFooter></regFooter>
   </div>
 </template>
@@ -31,15 +32,45 @@
 import shortcut from '@/components/shortcutHeader'
 import userNav from '@/components/userNav'
 import regFooter from '@/components/regFooter'
+=======
+    <pageFooter></pageFooter>
+  </div>
+</template>
+<script>
+// import { apiAxios } from '../../common/utils'
+// import { api } from '../../common/api'
+import shortcut from '../../components/shortcutHeader'
+import userNav from '../../components/userNav'
+import pageFooter from '../../components/pageFooter'
+>>>>>>> remotes/origin/master
 export default {
   data () {
     return {
       title: '1',
+<<<<<<< HEAD
       nav: []
     }
   },
   components: { shortcut, userNav, regFooter },
   created () {
+=======
+      nav: [
+        {name: '购物车', path: 'userCart'},
+        {name: '我的订单', path: 'userOrder'},
+        {name: '我的收藏', path: 'userCollect'},
+        {name: '我的评价', path: 'userAssess'},
+        {name: '我的足迹', path: 'userHistory'},
+        {name: '我的优惠', path: 'userFee'},
+        {name: '我的发票', path: 'userTip'},
+        {name: '退款维权', path: 'userProtect'},
+        {name: '购买过的店铺', path: 'userBuyHistory'}
+      ]
+    }
+  },
+  components: { shortcut, userNav, pageFooter },
+  created () {
+    this.$cookies.get('userInfo')
+>>>>>>> remotes/origin/master
     let path = this.$route.path.split('/')[2]
     this.nav.forEach(item => {
       if (item.path === path) {
@@ -59,7 +90,14 @@ export default {
 
 </script>
 <style scoped>
+<<<<<<< HEAD
 @import '../../assets/css/user/user.css';
+=======
+/*@import '../../assets/css/cart/webbase.css';
+@import '../../assets/css/user/pages-seckillOrder.css';*/
+@import '../../assets/css/user/user.css';
+/*@import "../../assets/css/search/search.css"*/
+>>>>>>> remotes/origin/master
   .user {
     display: flex;
     justify-content: space-between;

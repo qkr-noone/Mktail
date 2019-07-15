@@ -23,9 +23,12 @@
     content: '、'
   }
   .tags-choose li:last-child { border: none; }
+<<<<<<< HEAD
   .has_pointer {
     cursor: pointer;
   }
+=======
+>>>>>>> remotes/origin/master
 
 /*查找商品列表*/
   .goods-list {
@@ -54,7 +57,11 @@
   }
   .p-list:hover {
     outline: #ddd auto 5px;
+<<<<<<< HEAD
     box-shadow: 0 0px 2px 2px #E9E9E9;
+=======
+    box-shadow: 0 4px 6px 6px #ddd;
+>>>>>>> remotes/origin/master
   }
   .p-img {
     margin-bottom: 5px; width: 204px; padding:0;position: relative;
@@ -139,7 +146,11 @@
     font-style: normal;
   }
   .p-attr {
+<<<<<<< HEAD
     height: 33px;
+=======
+    height: 32px;
+>>>>>>> remotes/origin/master
     line-height:17px;;
     margin-bottom: 8px;
     overflow: hidden;
@@ -158,11 +169,14 @@
   .p-attr a{
     color: #6C6C6C;
     padding:0 9px;
+<<<<<<< HEAD
     cursor: pointer;
   }
   .p-attr a:hover{
     color: #E53031;
     text-decoration: underline;
+=======
+>>>>>>> remotes/origin/master
   }
   .p-attr a>em{
     font-style: normal;
@@ -291,6 +305,7 @@
   .p-add a:last-child{border-left: 1px solid #E9E9E9FF}
   .p-add a span{margin-left: 3px;}
   .p-add a img {margin-bottom: 2px;}
+<<<<<<< HEAD
   .block {
     display: flex;
     justify-content: center;
@@ -307,6 +322,8 @@
     margin-right: 10px;
     cursor: pointer;
   }
+=======
+>>>>>>> remotes/origin/master
 
 /* 自定义 */
   .brand{ width: 90px; text-align: left; 
@@ -416,7 +433,11 @@
     position: absolute;
     top: 10px;
     right: 10px;
+<<<<<<< HEAD
     width: 112px;
+=======
+    width: 110px;
+>>>>>>> remotes/origin/master
     height: auto;
     line-height: 22px;
     overflow: hidden;
@@ -639,7 +660,11 @@
   }
   .abs-ul, .abs-li{ display: flex; flex-direction: column; }
   li.abs-li+li { margin-top: 18px; }
+<<<<<<< HEAD
   .abs-li-a { width: 172px;height: 163px; overflow: hidden;margin: 0 auto;}
+=======
+  .abs-li-a { width: 172px;height: 163px; overflow: hidden;margin: 0 auto; }
+>>>>>>> remotes/origin/master
   .abs-li-a img { width: 100%; overflow: hidden; }
   .abs-li-pri {font-size:16px; color:rgba(201,0,0,1); line-height:16px;
     padding: 11px 8px 7px 8px;}
@@ -666,6 +691,7 @@
     font-style: normal;
     color: #0074C5;
   }
+<<<<<<< HEAD
   .abs-li-a, .best-go-li-a, .youlike-li-a {
     transition: all 0.2s linear;
   }
@@ -673,6 +699,8 @@
     box-shadow: 0 15px 30px rgba(0,0,0,0.2);
     transform: translate3d(0, -2px, 0);
   }
+=======
+>>>>>>> remotes/origin/master
 
 /* 底部精选*/
   .bestGoods {

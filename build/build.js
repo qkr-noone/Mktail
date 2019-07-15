@@ -11,7 +11,11 @@ const webpack = require('webpack')
 const config = require('../config')
 const webpackConfig = require('./webpack.prod.conf')
 
+<<<<<<< HEAD
 const spinner = ora('building for ' + process.env.env_config)
+=======
+const spinner = ora('building for production...')
+>>>>>>> remotes/origin/master
 spinner.start()
 
 rm(path.join(config.build.assetsRoot, config.build.assetsSubDirectory), err => {

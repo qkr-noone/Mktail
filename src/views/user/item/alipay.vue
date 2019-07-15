@@ -84,6 +84,7 @@ export default {
 }
 </script>
 <style scoped>
+<<<<<<< HEAD
   .con-wrap {
     position: relative;
     font-family:SourceHanSansCN-Regular;
@@ -152,6 +153,11 @@ export default {
     font-weight:300;
     color:rgba(85,85,85,1);
     text-align: center;
+=======
+  @import '../../../assets/css/user/user-set.css';
+  .con-de{
+    position: relative;
+>>>>>>> remotes/origin/master
   }
   .con-de a{
     color:#829FDF;
@@ -162,6 +168,7 @@ export default {
     top:116px;
     left:301px;
   }
+<<<<<<< HEAD
   /*绑定弹窗*/
   .elastic-frame{
     width:500px;
@@ -206,6 +213,8 @@ export default {
     font-weight:400;
     color:rgba(255,255,255,1);
   }
+=======
+>>>>>>> remotes/origin/master
   .point{
     position: fixed;
     right: 0;

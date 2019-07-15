@@ -14,7 +14,11 @@
     border-radius: 2px;
     height: 178px;
   }
+<<<<<<< HEAD
   .con-item-other {
+=======
+  .con-item-other{
+>>>>>>> remotes/origin/master
     flex-grow: 1;
     text-align: left;
     align-items: center;
@@ -26,6 +30,7 @@
   }
   .con-item-other a {
     color: #5D5C5C;
+<<<<<<< HEAD
     display: flex;
     justify-content: center;
     align-items: center;
@@ -35,26 +40,46 @@
     font-size: 28px;
     line-height: 28px;
     margin-left: 5px;
+=======
+>>>>>>> remotes/origin/master
   }
   .con-item-user {
     display: flex;
     flex-direction: column;
+<<<<<<< HEAD
     justify-content: center;
     align-items: center;
     width: 180px;
     height: 180px;
+=======
+    justify-content: space-between;
+    align-items: center;
+    width: 180px;
+    height: 188px;
+    background:rgba(231,22,0,1);
+    box-shadow: 2px 3px 7px 0px rgba(60,59,59,0.34);
+    margin-top: -5px;
+    color: #fff;
+>>>>>>> remotes/origin/master
   }
   .user-head {
     border-radius: 50%;
     overflow: hidden;
+<<<<<<< HEAD
     border: 1px solid rgba(204, 204, 204, 1);
     width: 80px;
     height: 80px;
+=======
+    width: 60px;
+    height: 60px;
+    margin-top: 22px;
+>>>>>>> remotes/origin/master
     display: flex;
     justify-content: center;
     align-items: center;
   }
   .user-name {
+<<<<<<< HEAD
     font-size: 14px;
     margin-top: 12px;
     color: #7F7F7F;
@@ -64,6 +89,13 @@
     border-radius: 50%;
     width: 68px;
     height: 68px;
+=======
+    margin: 22px 0;
+    font-size: 14px;
+  }
+  .user-head>img{
+    width: 60px;
+>>>>>>> remotes/origin/master
   }
   .user-service {
     height: 40px;
@@ -124,10 +156,15 @@
     padding: 0 5px;
   }
   .us-look li {
+<<<<<<< HEAD
     /*width: 172px;*/
     /*height: 172px;*/
     width: 205px;
     height: 205px;
+=======
+    width: 172px;
+    height: 172px;
+>>>>>>> remotes/origin/master
     border:1px solid rgba(237,237,237,1);
     overflow: hidden;
   }
@@ -141,10 +178,17 @@
   .us-order {
     border-top: 1px solid #F4F4F4;
     border-bottom: 1px solid #F4F4F4;
+<<<<<<< HEAD
     /*padding-bottom: 11px;*/
   }
   .us-order li {
     height: 60px;
+=======
+    padding-bottom: 11px;
+  }
+  .us-order li {
+    height: 40px;
+>>>>>>> remotes/origin/master
     width: calc(20% - 5px);
     justify-content: center;
     align-items: center;
@@ -156,12 +200,15 @@
   .us-order-a {
     font-size: 14px;
     color: #878787;
+<<<<<<< HEAD
     display: flex;
     justify-content: center;
     align-items: center;
   }
   .us-order-a img {
     margin-right: 9px;
+=======
+>>>>>>> remotes/origin/master
   }
   .us-order-str {
     color: #FF4606;
@@ -178,10 +225,15 @@
   }
   .con-le-flow {
     width: 100%;
+<<<<<<< HEAD
     overflow: hidden;
     background: url(/static/img/mk_user_flow_bg.png) no-repeat top;
     background-size: contain;
     background-color: #FFD704;
+=======
+    background-color: #FFD704;
+    overflow: hidden;
+>>>>>>> remotes/origin/master
   }
   .con-le-like, .con-ri-focus, .con-ri-his{
     width: 100%;
@@ -260,7 +312,11 @@
   }
   /* 猜你喜欢 */
   .con-le-like {
+<<<<<<< HEAD
     margin-top: 30px;
+=======
+    margin-top: 15px;
+>>>>>>> remotes/origin/master
   }
   .hot-con-ul {
     display: flex;
@@ -330,11 +386,18 @@
     align-items: center;
   }
   .ri-his-abs a {
+<<<<<<< HEAD
     margin-top: 2px;
     margin-bottom: 2px;
     border-radius: 4px;
     width:350px;
     height:244px;
+=======
+    margin-top: 4px;
+    border-radius: 4px;
+    width:350px;
+    height:160px;
+>>>>>>> remotes/origin/master
     overflow: hidden;
   }
   .ri-his-abs a img{

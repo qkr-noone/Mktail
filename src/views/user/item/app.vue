@@ -25,6 +25,7 @@ export default {
 }
 </script>
 <style scoped>
+<<<<<<< HEAD
   .con-wrap {
     position: relative;
     font-family:SourceHanSansCN-Regular;
@@ -52,13 +53,19 @@ export default {
     font-weight:bold;
     color: #000000;
   }
+=======
+  @import '../../../assets/css/user/user-set.css';
+>>>>>>> remotes/origin/master
   .con-item {
     text-align: left;
     font-size:14px;
     font-family:SourceHanSansCN-Regular;
     font-weight:400;
     color:rgba(97,97,97,1);
+<<<<<<< HEAD
     margin-left: 40px;
+=======
+>>>>>>> remotes/origin/master
   }
   .con-item .title{
     margin: 45px 0 25px 0;

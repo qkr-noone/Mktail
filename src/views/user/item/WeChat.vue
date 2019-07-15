@@ -85,6 +85,7 @@ export default {
 }
 </script>
 <style scoped>
+<<<<<<< HEAD
   .con-wrap {
     position: relative;
     font-family:SourceHanSansCN-Regular;
@@ -203,6 +204,18 @@ export default {
     font-family: SourceHanSansCN-Regular;
     font-weight: 400;
     color: rgba(255,255,255,1);
+=======
+  @import '../../../assets/css/user/user-set.css';
+  .con-de{
+    position: relative;
+  }
+  .elastic-frame{
+    position: absolute;
+    top:45px;
+    left:296px;
+  }
+  .elastic-frame .btn{
+>>>>>>> remotes/origin/master
     background:rgba(254,133,4,1);
   }
   .bindinged .text{

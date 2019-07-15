@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
   <div class="home_store_shops store_common">
     <shortcut></shortcut>
     <headerNav></headerNav>
@@ -319,4 +320,27 @@ export default {
       align-items: center;
     }
   }
+=======
+  <div id="shops-index">
+    <keep-alive>
+      <router-view></router-view>
+    </keep-alive>
+    <shortcutHeader></shortcutHeader>
+    <div>shops</div>
+    <pageFooter></pageFooter>
+  </div>
+</template>
+<script>
+import shortcutHeader from '../../components/shortcutHeader'
+import pageFooter from '../../components/pageFooter'
+export default {
+  data () {
+    return {}
+  },
+  components: { shortcutHeader, pageFooter }
+}
+
+</script>
+<style scoped>
+>>>>>>> remotes/origin/master
 </style>

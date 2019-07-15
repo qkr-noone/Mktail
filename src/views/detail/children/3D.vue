@@ -6,9 +6,14 @@
     <div class="intro-detail">
       <div class="tab-box">
         <div class="threeD-box">
+<<<<<<< HEAD
           <img :src="cover3d">
           <!-- <iframe ref="threeDSrc" style="width: 100%; height: 100%;" frameborder="0" scrolling="no"></iframe> -->
           <a class="threeD-btn" href="javascript:;" v-show="!is3Ding" @click="threeDUrl()">
+=======
+          <iframe ref="threeDSrc" style="width: 100%; height: 100%;" frameborder="0" scrolling="no"></iframe>
+          <a class="threeD-btn" v-show="!is3Ding" @click="threeDUrl(show3d)">
+>>>>>>> remotes/origin/master
             <img src="static/img/mk_search_play.png">
           </a>
         </div>
@@ -31,6 +36,7 @@ export default {
     }
   },
   props: {
+<<<<<<< HEAD
     scroll: {
       type: Object
     },
@@ -54,6 +60,13 @@ export default {
     },
     linkmanQq: {
       type: String
+=======
+    show3d: {
+      type: String
+    },
+    scroll: {
+      type: Object
+>>>>>>> remotes/origin/master
     }
   },
   mounted () {
@@ -62,8 +75,20 @@ export default {
     })
   },
   methods: {
+<<<<<<< HEAD
     threeDUrl () {
       this.$router.push({ path: '/3D/3Dshow', query: { id: this.threeId, logoPic: this.logoPic, InfoName: this.InfoName, homeShops: this.seller, goodsId: this.goodsId, linkmanQq: this.linkmanQq } })
+=======
+    threeDUrl (threeDUrl) {
+      console.log(threeDUrl)
+      this.is3Ding = true
+      this.$refs.threeDSrc.src = threeDUrl
+      return false
+    },
+    threeDclose () {
+      this.is3Ding = false
+      return false
+>>>>>>> remotes/origin/master
     }
   }
 }
@@ -87,14 +112,19 @@ export default {
   }
   .tab-box .threeD-box{
     position: relative;
+<<<<<<< HEAD
     /* background-color: #E0E0E0; */
     background-color: #000;
+=======
+    background-color: #E0E0E0;
+>>>>>>> remotes/origin/master
     margin: 20px auto;
     width:861px;
     border: 1px solid #ddd;
     height:484px;
     overflow: hidden;
   }
+<<<<<<< HEAD
   .threeD-box > img{
     position: absolute;
     max-width: 861px;
@@ -103,6 +133,8 @@ export default {
     left: 50%;
     transform: translate(-50%,-50%);
   }
+=======
+>>>>>>> remotes/origin/master
   .threeD-btn{
     position: absolute;
     width: 100px;

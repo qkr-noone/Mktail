@@ -1,5 +1,6 @@
 <template>
   <div class="con-wrap">
+<<<<<<< HEAD
     <div class="title" id="addressSet">
       <a>收货地址</a>
     </div>
@@ -57,10 +58,62 @@
         <div class="user-inf-push">
           <a href="javascript:;" @click="submitForm('ruleForm')">保存</a>
         </div>
+=======
+    <div class="back"></div>
+    <div class="title">
+      <a>收货地址</a>
+    </div>
+    <div class="con-de"  >
+      <div class="con-item top">
+        <p class="add"><button class="addBtn">新增收货地址</button> <span>新增收货地址 您已创建<span>3</span> 个收货地址，最多可创建20个</span></p>
+        <div class="send">当前配送至
+          <span class="sendAdd">中国大陆</span>
+          <span class="changeAdd">切换></span>
+        </div>
+        <form>
+          <div class="group">
+            <label class="star">地址信息：</label>
+            <select>
+              <option value="" disabled selected hidden>请选择省/市/区/街道</option>
+              <option >广东省</option>
+              <option >广州市</option>
+              <option >从化区</option>
+            </select>
+          </div>
+          <div class="group detail">
+            <label class="star">详细地址：</label>
+            <textarea  type="text" placeholder="请选择详细地址信息，如道路，门牌号，小区，楼栋号，单元等信息" class="address"></textarea>
+            <p class="detail-address">请填写详细地址</p>
+          </div>
+          <div class="group">
+            <label>邮政编码：</label>
+            <input type="text" placeholder="请填写邮政">
+          </div>
+          <div class="group">
+            <label class="star receiver">收货人姓名：</label>
+            <input type="text" placeholder="长度不超过15个字符">
+          </div>
+          <div class="group">
+            <label class="star">手机号码：</label>
+            <select class="select-phone">
+              <option>中国大陆 &nbsp;&nbsp; +86</option>
+              <option>中国香港 &nbsp;&nbsp; +86</option>
+            </select>
+            <input type="text" placeholder="电话号码和手机号必须一致" class="select-input">
+          </div>
+          <div class="group">
+            <input type="checkbox" class="checkbox"/><span>设为默认收货地址</span>
+          </div>
+          <div class="group">
+            <button class="btn">保存</button>
+          </div>
+        </form>
+>>>>>>> remotes/origin/master
       </div>
       <div class="con-item middle">
         <div class="tab-nav">
           <ul>
+<<<<<<< HEAD
             <li class="tab-item tabactive">全部地址</li>
           </ul>
         </div>
@@ -81,12 +134,53 @@
               </div>
             </div>
           </div>
+=======
+            <li class="tab-item" @click="change(0)" :class="{tabactive :choose===0}">全部地址</li>
+            <li class="tab-item"  @click="change(1)" :class="{tabactive :choose===1}">地址编辑</li>
+            <li class="tab-item"  @click="change(2)" :class="{tabactive :choose===2}">地址删除</li>
+          </ul>
+        </div>
+        <div class="middle-content">
+          <div class="content-item" v-show="choose===0">
+            <div class="address-info">
+              <div class="info">
+               <p>吴亦凡<span class="phone">15*******19</span></p>
+                <hr>
+                <p>广东省&nbsp;广州市&nbsp;番禺区全区<br><span class="home-detail"> 街口街东城路7号</span></p>
+                <span class="default-address default-active">默认地址</span>
+              </div>
+            </div>
+            <div class="address-info">
+              <div class="info">
+                <p>鹿晗<span class="phone">15*******19</span></p>
+                <hr>
+                <p>广东省&nbsp;广州市&nbsp;番禺区全区<br><span class="home-detail"> 街口街东城路7号</span></p>
+                <span class="default-address">默认地址</span>
+              </div>
+            </div>
+            <div class="address-info">
+              <div class="info">
+                <p>麦当劳<span class="phone">15*******19</span></p>
+                <hr>
+                <p>广东省&nbsp;广州市&nbsp;番禺区全区<br><span class="home-detail"> 街口街东城路7号</span></p>
+                <span class="default-address">默认地址</span>
+              </div>
+            </div>
+          </div>
+          <div class="content-item" v-show="choose===1">
+            <p>这是地址编辑</p>
+          </div>
+          <div class="content-item" v-show="choose===2">
+            <p>这是地址删除</p>
+          </div>
+>>>>>>> remotes/origin/master
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
+<<<<<<< HEAD
 // import lodash from 'lodash' // 函数防抖
 export default {
   data () {
@@ -351,11 +445,23 @@ export default {
       this.$message.success({
         message: '请在下方表格输入新增信息'
       })
+=======
+export default {
+  data () {
+    return {
+      choose: 0
+    }
+  },
+  methods: {
+    change (val) {
+      this.choose = val
+>>>>>>> remotes/origin/master
     }
   }
 }
 </script>
 <style scoped>
+<<<<<<< HEAD
   .con-wrap {
     position: relative;
     font-family:SourceHanSansCN-Regular;
@@ -469,12 +575,22 @@ export default {
     height: auto;
     display: flex;
   }
+=======
+  @import '../../../assets/css/user/user-set.css';
+>>>>>>> remotes/origin/master
   .con-wrap{
     background: #F4F4F4;
   }
   .top{
+<<<<<<< HEAD
     background: #FFFFFF;
     padding:20px 0px 40px 26px;
+=======
+    height:470px;
+    background: #FFFFFF;
+    padding-left: 26px;
+    padding-top: 14px;
+>>>>>>> remotes/origin/master
     margin-bottom: 10px;
   }
   .con-item,.title{
@@ -492,7 +608,10 @@ export default {
     font-weight:400;
     color:rgba(46,46,46,1);
     margin-right: 20px;
+<<<<<<< HEAD
     cursor: pointer;
+=======
+>>>>>>> remotes/origin/master
   }
   .top .add span{
     font-size:12px;
@@ -501,7 +620,11 @@ export default {
     color:rgba(163,163,163,1);
   }
   .top .send{
+<<<<<<< HEAD
     width:580px;
+=======
+    width:500px;
+>>>>>>> remotes/origin/master
     height:30px;
     background:rgba(244,244,244,1);
     text-align: left;
@@ -522,7 +645,106 @@ export default {
   .send .sendAdd{
     margin:0 293px 0 20px;
   }
+<<<<<<< HEAD
   .middle{
+=======
+  .top form{
+    text-align: left;
+  }
+  .detail{
+    height:50px !important;
+  }
+  .top form .group{
+    margin-bottom: 20px;
+    width:600px;
+    position: relative;
+    height:30px;
+    line-height: 30px;
+  }
+  .top form .group input,select,.address{
+    position: absolute;
+    left:100px;
+  }
+  .address{
+    box-sizing:border-box;
+    width:405px;
+    height:50px;
+    padding-left: 11px;
+    padding-right: 11px;
+    padding-top: 5px;
+  }
+  .top form .group input{
+    height:30px;
+    width:405px;
+    padding-left: 11px;
+    padding-right: 11px;
+    box-sizing:border-box;
+    white-space:normal;
+    line-height: 30px;
+  }
+  .top form .group label{
+    position: absolute;
+    right:510px;
+    font-size:14px;
+    font-family:SourceHanSansCN-Regular;
+    font-weight:400;
+    color:#353535;
+  }
+  .top form .group select{
+    height:30px;
+    width:405px;
+    padding-left: 11px;
+  }
+.group .detail-address{
+  font-size:14px;
+  font-family:SourceHanSansCN-Regular;
+  font-weight:400;
+  color:rgba(255,70,6,1);
+  position: absolute;
+  left:100px;
+  top:44px;
+}
+  .receiver{
+    position: absolute;
+    right:495px !important;
+    width:120px;
+  }
+  .select-phone{
+    width:150px !important;
+  }
+  .select-input{
+    width:250px !important;
+    position: absolute;
+    left:255px !important;
+  }
+  .group .checkbox{
+    height:20px !important;
+    width:20px !important;
+    position: absolute;
+    left: 100px!important;
+    top:5px;
+  }
+  .group span{
+    margin-left: 130px;
+    font-size:14px;
+    font-family:SourceHanSansCN-Regular;
+    font-weight:400;
+    color:#353535;
+  }
+  .group .btn{
+    width:55px;
+    height:30px;
+    background:rgba(254,133,4,1);
+    font-size:14px;
+    font-family:SourceHanSansCN-Regular;
+    font-weight:400;
+    color:rgba(255,255,255,1);
+    position: absolute;
+    left: 100px;
+  }
+  .middle{
+    height:281px;
+>>>>>>> remotes/origin/master
     background:rgba(255,255,255,1);
     border:1px solid rgba(227,227,227,1);
   }
@@ -556,7 +778,13 @@ export default {
    background: #FFFFFF;
  }
   .middle-content{
+<<<<<<< HEAD
     display: flex;
+=======
+    height:239px;
+    display: flex;
+    justify-content: center;
+>>>>>>> remotes/origin/master
     align-items: center;
   }
   .middle .address-info{
@@ -567,6 +795,7 @@ export default {
     display: inline-block;
     margin-right: 15px;
     margin-left: 15px;
+<<<<<<< HEAD
     float: left;
   }
   div.address-info:nth-child(n+4){
@@ -577,6 +806,14 @@ export default {
     height:154px;
     border:2px dashed  rgba(227,227,227,1);
     padding:20px 12px 0 12px;
+=======
+  }
+  .middle .address-info .info{
+    width:284px;
+    height:154px;
+    border:2px dashed  rgba(227,227,227,1);
+    padding:20px 0 0 12px;
+>>>>>>> remotes/origin/master
   }
   .middle .address-info .info .phone{
     margin-left: 15px;
@@ -604,6 +841,7 @@ export default {
     font-family:SourceHanSansCN-Regular;
     font-weight:400;
     color:rgba(135,135,135,1);
+<<<<<<< HEAD
     margin-top: 30px;
     display: flex;
     justify-content: space-between;
@@ -618,6 +856,10 @@ export default {
   }
   .add-change >span+span{
     margin-left: 10px;
+=======
+    margin-left: 200px;
+    margin-top: 30px;
+>>>>>>> remotes/origin/master
   }
   .default-active{
     color:#FF4606 !important;

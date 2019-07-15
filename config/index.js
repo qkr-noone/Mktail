@@ -10,10 +10,25 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
+<<<<<<< HEAD
     proxyTable: {},
 
     // Various Dev Server settings
     host: '192.168.1.39', // can be overwritten by process.env.HOST
+=======
+    proxyTable: {
+        '/urlApi': {
+            target: '',
+            changeOrigin: true,
+            pathRewrite: { //需要rewrite重写的, 如果在服务器端做了处理则可以不要这段
+                '^/urlApi': ''
+            }
+        }
+    },
+
+    // Various Dev Server settings
+    host: 'localhost', // can be overwritten by process.env.HOST
+>>>>>>> remotes/origin/master
     port: 8082, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: true,
     errorOverlay: true,
@@ -33,7 +48,11 @@ module.exports = {
      */
 
     // https://webpack.js.org/configuration/devtool/#development
+<<<<<<< HEAD
     devtool: 'cheap-module-eval-source-map', // 生产版本推荐 cheap-module-source-map
+=======
+    devtool: 'cheap-module-eval-source-map',
+>>>>>>> remotes/origin/master
 
     // If you have problems debugging vue-files in devtools,
     // set this to false - it *may* help

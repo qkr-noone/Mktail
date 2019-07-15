@@ -1,11 +1,18 @@
 <template>
   <div id="reg-paas">
     <div class="container">
+<<<<<<< HEAD
       <regComFooter></regComFooter>
       <div class="middle">
         <div class="title">
           <p class="title-text">隐私权政策 </p>
           <router-link :to="{path: '/register', query: tem}" style="color: #ffd704">返回注册</router-link>
+=======
+      <regHeader></regHeader>
+      <div class="middle">
+        <div class="title">
+          <p class="title-text">隐私权政策 </p>
+>>>>>>> remotes/origin/master
           <div class="date">
             <span>最近更新日期：2018年1月1日</span>
             <span class="valid">生效日期：2018年12月25日</span>
@@ -350,6 +357,7 @@
   </div>
 </template>
 <script>
+<<<<<<< HEAD
 import regComFooter from '@/components/regComFooter'
 import regFooter from '@/components/regFooter'
 export default {
@@ -362,6 +370,15 @@ export default {
   mounted () {
     this.tem = this.$route.query
   }
+=======
+import regHeader from '../../../components/regHeader'
+import regFooter from '../../../components/regFooter'
+export default {
+  data () {
+    return {}
+  },
+  components: { regHeader, regFooter }
+>>>>>>> remotes/origin/master
 }
 </script>
 <style scoped>

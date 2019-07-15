@@ -6,6 +6,7 @@
       <div>
         <div class="threeD-box">
           <iframe ref="threeDSrc" style="width: 100%; height: 100%;" frameborder="0" scrolling="no"></iframe>
+<<<<<<< HEAD
           <div class="cross">
             <!-- <div>平台首页</div> -->
             <router-link to="/home">平台首页</router-link>
@@ -19,13 +20,19 @@
           </div>
           <Submit :submitNum="submitNum"/>
           <Custom :customNum="customNum" @custom="customBtn"/>
+=======
+>>>>>>> remotes/origin/master
           <a class="threeD-btn" v-show="!is3Ding">
             <img src="static/img/mk_search_play.png">
           </a>
           <div class="menu-box">
+<<<<<<< HEAD
             <a href="javascript:;" @click="btnUrl()" class="set-menu">
               <img src="static/img/3D_menu.png">
             </a>
+=======
+            <a href="javascript:;" class="set-menu"><img src="static/img/3D_menu.png"></a>
+>>>>>>> remotes/origin/master
             <h2 class="get-set-h">自定义产品</h2>
             <a href="javascript:;" class="get-user" @click="getForm()">获取</a>
           </div>
@@ -35,6 +42,7 @@
                 <el-form-item label="所在行业：" prop="industry">
                   <el-input v-model="ruleForm.industry"></el-input>
                 </el-form-item>
+<<<<<<< HEAD
                 <el-form-item label="公司名称：" prop="companyName">
                   <el-input v-model="ruleForm.companyName"></el-input>
                 </el-form-item>
@@ -43,16 +51,35 @@
                 </el-form-item>
                 <el-form-item label="联系人：" prop="linkman">
                   <el-input v-model="ruleForm.linkman"></el-input>
+=======
+                <el-form-item label="公司名称：" prop="name">
+                  <el-input v-model="ruleForm.name"></el-input>
+                </el-form-item>
+                <el-form-item label="联系手机：" prop="mobile">
+                  <el-input v-model="ruleForm.mobile"></el-input>
+                </el-form-item>
+                <el-form-item label="联系人：" prop="username">
+                  <el-input v-model="ruleForm.username"></el-input>
+>>>>>>> remotes/origin/master
                 </el-form-item>
                 <el-form-item label="电话：" prop="phone">
                   <el-input v-model="ruleForm.phone"></el-input>
                 </el-form-item>
+<<<<<<< HEAD
                 <el-form-item label="E-mail：" prop="email">
                   <el-input v-model="ruleForm.email"></el-input>
                 </el-form-item>
               </el-form>
               <div class="user-inf-push">
                 <a href="javascript:;" @click="obtain('ruleForm')">下载3D和数据表</a>
+=======
+                <el-form-item label="E-mail：" prop="emali">
+                  <el-input v-model="ruleForm.emali"></el-input>
+                </el-form-item>
+              </el-form>
+              <div class="user-inf-push">
+                <a href="javascript:;">下载3D和数据表</a>
+>>>>>>> remotes/origin/master
                 <p>*温馨提示：提交之后经卖家审核后，自动发送到所提供的邮箱请确保填写正确邮箱。</p>
               </div>
               <div class="close" @click="closeForm()">
@@ -62,6 +89,7 @@
           </div>
         </div>
         <div class="threeD-list">
+<<<<<<< HEAD
           <div>
             <div class="threeD-left">
               <i class="el-icon-arrow-left" @click="goodsLeft"></i>
@@ -80,10 +108,42 @@
               <p>{{infoName}}</p>
             </div>
           </div>
+=======
+          <div class="threeD-title">
+            <h3 class="name">同店铺产品推荐</h3>
+          </div>
+          <ul class="threeD-ul">
+            <li class="threeD-li">
+              <a class="threeD-li-a Center" href="javascript:;" @click="threeDUrl('http://192.168.0.33:8080/qn18/index.html?spuid=10111054')">
+                <img src="/static/img/3D_show2.png">
+              </a>
+              <h5 class="threeD-li-h">4寸PU电泳旱冰轮</h5>
+            </li>
+            <li class="threeD-li">
+              <a class="threeD-li-a Center" href="javascript:;" @click="threeDUrl('http://192.168.0.33:8080/qn18/index.html?spuid=10112268')">
+                <img src="/static/img/3D_show3.png">
+              </a>
+              <h5 class="threeD-li-h">2寸金钻活动轮</h5>
+            </li>
+            <li class="threeD-li">
+              <a class="threeD-li-a Center" href="javascript:;" @click="threeDUrl('http://192.168.0.33:8080/qn18/index.html?spuid=10112269')">
+                <img src="/static/img/3D_show4.png">
+              </a>
+              <h5 class="threeD-li-h">2寸白PU大班轮</h5>
+            </li>
+            <li class="threeD-li">
+              <a class="threeD-li-a Center" href="javascript:;" @click="threeDUrl('http://192.168.0.33:8080/qn18/index.html?spuid=10113046')">
+                <img src="/static/img/3D_show1.png">
+              </a>
+              <h5 class="threeD-li-h">重型铸铁PU绿双轴刹车轮</h5>
+            </li>
+          </ul>
+>>>>>>> remotes/origin/master
         </div>
       </div>
     </div>
     <pageFooter></pageFooter>
+<<<<<<< HEAD
 
     <threeLogin/>
   </div>
@@ -119,12 +179,30 @@ export default {
         phone: '',
         email: '',
         seller: this.$route.query.homeShops
+=======
+  </div>
+</template>
+<script>
+import shortcut from '../../components/shortcutHeader'
+import live3Dheader from '../../components/live3Dheader'
+import pageFooter from '../../components/pageFooter'
+export default {
+  data () {
+    return {
+      is3Ding: false,
+      isForm: false,
+      tDTitll: 'MKTail',
+      goodsId: '149187842867965',
+      ruleForm: {
+        name: ''
+>>>>>>> remotes/origin/master
       },
       rules: {
         industry: [
           { required: true, message: '请输入所在行业', trigger: 'blur' },
           { min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur' }
         ],
+<<<<<<< HEAD
         companyName: [
           { required: true, message: '请输入公司名称', trigger: 'blur' },
           { min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur' }
@@ -134,6 +212,17 @@ export default {
           { min: 11, max: 11, message: '请输入正确手机号', trigger: 'blur' }
         ],
         linkman: [
+=======
+        name: [
+          { required: true, message: '请输入公司名称', trigger: 'blur' },
+          { min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur' }
+        ],
+        mobile: [
+          { required: true, message: '请输入联系手机：', trigger: 'blur' },
+          { min: 11, max: 11, message: '请输入正确手机号', trigger: 'blur' }
+        ],
+        username: [
+>>>>>>> remotes/origin/master
           { required: true, message: '请输入联系人：', trigger: 'blur' },
           { min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur' }
         ],
@@ -141,19 +230,28 @@ export default {
           { required: false, message: '请输入电话', trigger: 'blur' },
           { min: 1, max: 7, message: '', trigger: 'blur' }
         ],
+<<<<<<< HEAD
         email: [
+=======
+        emali: [
+>>>>>>> remotes/origin/master
           { required: true, message: '请输入E-mail', trigger: 'blur' },
           { min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur' }
         ]
       }
     }
   },
+<<<<<<< HEAD
   components: { shortcut, live3Dheader, pageFooter, Submit, Custom, threeLogin },
+=======
+  components: { shortcut, live3Dheader, pageFooter },
+>>>>>>> remotes/origin/master
   mounted () {
     this.$nextTick(() => {
       document.documentElement.scrollTop = 133
       document.body.scrollTop = 133
     })
+<<<<<<< HEAD
     // console.log(this.$route.query)
     this.findSellerThreeDDataF()
     this.infoName = this.$route.query.InfoName
@@ -163,6 +261,9 @@ export default {
     this.linkmanQq = this.$route.query.linkmanQq
     // let threeDUrl = this.U3DIP + '/index.html?id=24' // http://192.168.0.34:8080/qn30/index.html?spuid=10112267
     let threeDUrl = this.U3DIP + '/index.html?id=' + this.$route.query.id
+=======
+    let threeDUrl = 'http://192.168.0.33:8080/qn30/index.html?spuid=10112269'
+>>>>>>> remotes/origin/master
     // http://192.168.0.33:8080/qn5/ http://192.168.0.33:8080/qn17/index.html?spuid=10112269 http://120.79.93.197/we5/
     this.$refs.threeDSrc.src = threeDUrl
     this.is3Ding = true
@@ -195,6 +296,7 @@ export default {
         }
       }
     },
+<<<<<<< HEAD
     findSellerThreeDDataF () {
       this.API.findSellerThreeDData({ sellerId: this.$route.query.homeShops }).then(res => {
         this.goodsTotal = res.goodsComboList.length
@@ -220,6 +322,8 @@ export default {
         this.findSellerThreeDDataF()
       }
     },
+=======
+>>>>>>> remotes/origin/master
     threeDUrl (threeDUrl) {
       this.$refs.threeDSrc.src = threeDUrl
       this.is3Ding = true
@@ -230,6 +334,7 @@ export default {
     },
     closeForm () {
       this.isForm = false
+<<<<<<< HEAD
     },
     btnUrl () {
       this.customNum = Math.random()
@@ -267,11 +372,14 @@ export default {
     recommendedBtn (item) {
       console.log(item)
       this.$router.push({ path: '/detail/desciption', query: { goodsId: item.id } })
+=======
+>>>>>>> remotes/origin/master
     }
   }
 }
 
 </script>
+<<<<<<< HEAD
 <style lang="scss" scoped>
 /*3D展示*/
 .threeD-box{
@@ -374,6 +482,8 @@ export default {
   }
 }
 </style>
+=======
+>>>>>>> remotes/origin/master
 <style scoped>
 /*3D展示*/
   .threeD-box{
@@ -385,7 +495,10 @@ export default {
     background-color: #E0E0E0;
     border: 1px solid #ddd;
     border-top: 16px solid #353535;
+<<<<<<< HEAD
     border-bottom: 16px solid #353535;
+=======
+>>>>>>> remotes/origin/master
     overflow: hidden;
     position: relative;
   }
@@ -400,6 +513,76 @@ export default {
   .threeD-btn img{
     width: 100%;
   }
+<<<<<<< HEAD
+=======
+/*店铺推荐*/
+  .threeD-list{
+    background:rgba(53,53,53,1);
+    padding-bottom: 26px;
+    margin-bottom: 84px;
+  }
+  .threeD-title {
+    margin: 0 auto;
+    max-width: 1366px;
+    min-width: 1266px;
+    height:55px;
+    display: flex;
+    align-items: center;
+  }
+  .name {
+    font-size:18px;
+    font-family:SourceHanSansCN-Light;
+    font-weight:300;
+    color:rgba(255,255,255,1);
+    height: 29px;
+    border-left: 5px solid #fff;
+    margin-left: 7px;
+    padding-left: 10px;
+  }
+  .threeD-ul {
+    margin: 0 auto;
+    width: 1366px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .threeD-li {
+    width:337px;
+    height:255px;
+    background-color: #EBEBEB;
+    position: relative;
+  }
+  .threeD-li-a {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+  .Center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .threeD-li-a img{
+    width: 100%;
+    height: auto;
+  }
+  .threeD-li-h {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height:27px;
+    line-height: 27px;
+    text-align: center;
+    background-color: #CCCCCC;
+    font-size:16px;
+    font-family:SourceHanSansCN-Regular;
+    font-weight:400;
+    color:rgba(39,39,39,1);
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 0 8px;
+  }
+>>>>>>> remotes/origin/master
 
 /* 菜单*/
   .menu-box {
@@ -409,9 +592,13 @@ export default {
     display: flex;
     align-items: center;
   }
+<<<<<<< HEAD
   .set-menu {
     position: relative;
   }
+=======
+  .set-menu {}
+>>>>>>> remotes/origin/master
   .get-set-h {
     font-size:28px;
     font-family:SourceHanSansCN-Normal;
@@ -433,11 +620,18 @@ export default {
 /* 获取用户信息表格*/
   .user-info {
     position: absolute;
+<<<<<<< HEAD
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
     /* bottom: 0;
     right: 0; */
+=======
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+>>>>>>> remotes/origin/master
   }
   .user-info-box {
     width:400px;

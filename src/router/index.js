@@ -1,9 +1,15 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+<<<<<<< HEAD
 import store from '@/store'
 import vueCookies from 'vue-cookies'
 
 Vue.use(vueCookies)
+=======
+import VueCookies from 'vue-cookies'
+
+Vue.use(VueCookies)
+>>>>>>> remotes/origin/master
 Vue.use(Router)
 
 let router
@@ -32,16 +38,33 @@ router = new Router({
       component: resolve => require(['@/views/home/index'], resolve)
     },
     {
+<<<<<<< HEAD
+=======
+      path: '/test',
+      meta: {
+        keepAlive: true
+      },
+      component: resolve => require(['@/views/test/index'], resolve)
+    },
+    {
+      path: '/test/detail',
+      component: resolve => require(['@/views/test/detail'], resolve)
+    },
+    {
+>>>>>>> remotes/origin/master
       path: '/search',
       name: 'search',
       component: resolve => require(['@/views/search/index'], resolve)
     },
     {
+<<<<<<< HEAD
       path: '/feedback',
       name: 'feedback',
       component: resolve => require(['@/views/search/feedback'], resolve)
     },
     {
+=======
+>>>>>>> remotes/origin/master
       path: '/detail',
       redirect: '/detail/desciption',
       component: resolve => require(['@/views/detail/index'], resolve),
@@ -138,6 +161,7 @@ router = new Router({
     },
     { // 用户中心首页
       path: '/user',
+<<<<<<< HEAD
       meta: { isLogin: true },
       component: resolve => require(['@/views/user/user'], resolve),
       children: [
@@ -192,130 +216,240 @@ router = new Router({
         {
           path: 'userAssess',
           meta: { isLogin: true },
+=======
+      meta: {
+        isLogin: true
+      },
+      component: resolve => require(['@/views/user/user'], resolve),
+      children: [
+        {
+          path: 'userCart',
+          component: resolve => require(['@/views/user/children/userCart'], resolve)
+        },
+        {
+          path: 'userOrder',
+          component: resolve => require(['@/views/user/children/userOrder'], resolve)
+        },
+        {
+          path: 'userCollectGoods',
+          component: resolve => require(['@/views/user/children/userCollectGoods'], resolve)
+        },
+        {
+          path: 'userCollect',
+          component: resolve => require(['@/views/user/children/userCollect'], resolve)
+        },
+        {
+          path: 'userAssess',
+>>>>>>> remotes/origin/master
           component: resolve => require(['@/views/user/children/userAssess'], resolve)
         },
         {
           path: 'userHistory',
+<<<<<<< HEAD
           meta: { isLogin: true },
+=======
+>>>>>>> remotes/origin/master
           component: resolve => require(['@/views/user/children/userHistory'], resolve)
         },
         {
           path: 'userFee',
+<<<<<<< HEAD
           meta: { isLogin: true },
           component: resolve => require(['@/views/user/children/userFee'], resolve)
         },
         {
           path: 'userInvoiceInfo',
           meta: { isLogin: true },
+=======
+          component: resolve => require(['@/views/user/children/userFee'], resolve)
+        },
+        {
+          path: 'userTip',
+          component: resolve => require(['@/views/user/children/userTip'], resolve)
+        },
+        {
+          path: 'userProtect',
+          component: resolve => require(['@/views/user/children/userProtect'], resolve)
+        },
+        {
+          path: 'userInvoiceInfo',
+>>>>>>> remotes/origin/master
           component: resolve => require(['@/views/user/children/userInvoiceInfo'], resolve)
         },
         {
           path: 'userInvoiceManage',
+<<<<<<< HEAD
           meta: { isLogin: true },
+=======
+>>>>>>> remotes/origin/master
           component: resolve => require(['@/views/user/children/userInvoiceManage'], resolve)
         },
         {
           path: 'userRefundManage',
+<<<<<<< HEAD
           meta: { isLogin: true },
+=======
+>>>>>>> remotes/origin/master
           component: resolve => require(['@/views/user/children/userRefundManage'], resolve)
         },
         {
           path: 'userComplaintManage',
+<<<<<<< HEAD
           meta: { isLogin: true },
+=======
+>>>>>>> remotes/origin/master
           component: resolve => require(['@/views/user/children/userComplaintManage'], resolve)
         },
         {
           path: 'userReportManage',
+<<<<<<< HEAD
           meta: { isLogin: true },
+=======
+>>>>>>> remotes/origin/master
           component: resolve => require(['@/views/user/children/userReportManage'], resolve)
         },
         {
           path: 'userBuyHistory',
+<<<<<<< HEAD
           meta: { isLogin: true },
+=======
+>>>>>>> remotes/origin/master
           component: resolve => require(['@/views/user/children/userBuyHistory'], resolve)
         }
       ]
     },
     { // 用户中心账户设置
       path: '/userSet',
+<<<<<<< HEAD
       redirect: '/userSet/personalInfo',
       meta: { isLogin: true },
+=======
+      meta: {
+        isLogin: true
+      },
+>>>>>>> remotes/origin/master
       component: resolve => require(['@/views/user/userSet'], resolve),
       children: [
         {
           path: 'account',
+<<<<<<< HEAD
           meta: { isLogin: true },
+=======
+>>>>>>> remotes/origin/master
           component: resolve => require(['@/views/user/item/account'], resolve)
         },
         {
           path: 'address',
+<<<<<<< HEAD
           meta: { isLogin: true },
+=======
+>>>>>>> remotes/origin/master
           component: resolve => require(['@/views/user/item/address'], resolve)
         },
         {
           path: 'alipay',
+<<<<<<< HEAD
           meta: { isLogin: true },
+=======
+>>>>>>> remotes/origin/master
           component: resolve => require(['@/views/user/item/alipay'], resolve)
         },
         {
           path: 'app',
+<<<<<<< HEAD
           meta: { isLogin: true },
+=======
+>>>>>>> remotes/origin/master
           component: resolve => require(['@/views/user/item/app'], resolve)
         },
         {
           path: 'bankCard',
+<<<<<<< HEAD
           meta: { isLogin: true },
+=======
+>>>>>>> remotes/origin/master
           component: resolve => require(['@/views/user/item/bankCard'], resolve)
         },
         {
           path: 'bindingPhone',
+<<<<<<< HEAD
           meta: { isLogin: true },
+=======
+>>>>>>> remotes/origin/master
           component: resolve => require(['@/views/user/item/bindingPhone'], resolve)
         },
         {
           path: 'message',
+<<<<<<< HEAD
           meta: { isLogin: true },
+=======
+>>>>>>> remotes/origin/master
           component: resolve => require(['@/views/user/item/message'], resolve)
         },
         {
           path: 'personalInfo',
+<<<<<<< HEAD
           meta: { isLogin: true },
+=======
+>>>>>>> remotes/origin/master
           component: resolve => require(['@/views/user/item/personalInfo'], resolve)
         },
         {
           path: 'secretSet',
+<<<<<<< HEAD
           meta: { isLogin: true },
+=======
+>>>>>>> remotes/origin/master
           component: resolve => require(['@/views/user/item/secretSet'], resolve)
         },
         {
           path: 'secure',
+<<<<<<< HEAD
           meta: { isLogin: true },
+=======
+>>>>>>> remotes/origin/master
           component: resolve => require(['@/views/user/item/secure'], resolve)
         },
         {
           path: 'share',
+<<<<<<< HEAD
           meta: { isLogin: true },
+=======
+>>>>>>> remotes/origin/master
           component: resolve => require(['@/views/user/item/share'], resolve)
         },
         {
           path: 'WeChat',
+<<<<<<< HEAD
           meta: { isLogin: true },
+=======
+>>>>>>> remotes/origin/master
           component: resolve => require(['@/views/user/item/WeChat'], resolve)
         },
         {
           path: 'weibo',
+<<<<<<< HEAD
           meta: { isLogin: true },
+=======
+>>>>>>> remotes/origin/master
           component: resolve => require(['@/views/user/item/weibo'], resolve)
         }
       ]
     },
     {
       path: '/userInfo',
+<<<<<<< HEAD
       meta: { isLogin: true },
+=======
+      meta: {
+        isLogin: true
+      },
+>>>>>>> remotes/origin/master
       component: resolve => require(['@/views/user/userInfo'], resolve)
     },
     {
       path: '/shops',
+<<<<<<< HEAD
       redirect: '/shops/home',
       component: resolve => require(['@/views/shops/index'], resolve),
       children: [{
@@ -372,12 +506,27 @@ router = new Router({
           component: resolve => require(['@/views/category/children/3cdigital'], resolve)
         }
       ]
+=======
+      meta: {
+        keepAlive: true
+      },
+      component: resolve => require(['@/views/shops/index'], resolve)
+    },
+    {
+      path: '/3DShow',
+      component: resolve => require(['@/views/3D/3DShow'], resolve)
+    },
+    {
+      path: '/live/factory',
+      component: resolve => require(['@/views/live/factory'], resolve)
+>>>>>>> remotes/origin/master
     }
   ]
 })
 
 router.beforeEach((to, from, next) => {
   // 占坑 this.$cookies 获取不到 => router.app.$cookies
+<<<<<<< HEAD
   // 可直接使用 vueCookies   vueCookies.get('token')
   // console.log(this, router.app.$cookies)
   // to.matched
@@ -428,6 +577,21 @@ router.beforeEach((to, from, next) => {
         }
       }
     } else { // 不需要登陆
+=======
+  // console.log(this, router.app.$cookies)
+  // to.matched
+  let login = router.app.$cookies.get('user-key')
+  if (to.meta.isLogin) {
+    login ? next() : next({ path: '/login', query: { back: to.fullPath } })
+  } else {
+    if (to.path === '/login') {
+      if (to.query.back) {
+        next()
+      } else {
+        next({ path: '/login', query: { back: from.fullPath } })
+      }
+    } else {
+>>>>>>> remotes/origin/master
       next()
     }
   }

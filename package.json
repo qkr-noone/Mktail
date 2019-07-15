@@ -11,12 +11,17 @@
     "e2e": "node test/e2e/runner.js",
     "test": "npm run unit && npm run e2e",
     "lint": "eslint --ext .js,.vue src test/unit test/e2e/specs",
+<<<<<<< HEAD
     "build:prod": "cross-env NODE_ENV=production env_config=prod node build/build.js",
     "build:inner": "cross-env NODE_ENV=production env_config=inner node build/build.js"
+=======
+    "build": "node build/build.js"
+>>>>>>> remotes/origin/master
   },
   "dependencies": {
     "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
+<<<<<<< HEAD
     "cross-env": "^5.2.0",
     "element-ui": "^2.4.9",
     "qs": "^6.6.0",
@@ -30,6 +35,21 @@
     "vue-qr": "^2.1.0",
     "vue-router": "^3.0.1",
     "vue-scrollto": "^2.13.0",
+=======
+    "element-ui": "^2.4.9",
+    "save": "^2.3.3",
+    "video.js": "^7.3.0",
+    "videojs-contrib-hls": "^5.15.0",
+    "videojs-flash": "^2.1.2",
+    "vue": "^2.5.2",
+    "vue-awesome-swiper": "^3.1.3",
+    "vue-cookies": "^1.5.12",
+    "vue-piczoom": "^1.0.6",
+    "vue-router": "^3.0.1",
+    "vue-scrollto": "^2.13.0",
+    "vue-video-player": "^5.0.2",
+    "vue2.0-zoom": "^2.1.1",
+>>>>>>> remotes/origin/master
     "vuex": "^3.0.1"
   },
   "devDependencies": {
@@ -82,7 +102,11 @@
     "uglifyjs-webpack-plugin": "^1.1.1",
     "url-loader": "^0.5.8",
     "vue-jest": "^1.0.2",
+<<<<<<< HEAD
     "vue-loader": "^14.2.4",
+=======
+    "vue-loader": "^13.3.0",
+>>>>>>> remotes/origin/master
     "vue-style-loader": "^3.0.1",
     "vue-template-compiler": "^2.5.2",
     "webpack": "^3.6.0",
