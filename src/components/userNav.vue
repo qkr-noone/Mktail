@@ -40,12 +40,14 @@
 
 <script>
 import { mapState } from 'vuex'
+import { getStore, setStore } from '@/common/utils'
 export default {
   name: 'headerNav',
   data () {
     return {
       isOver: 0, // 是否超过99
-      isUser: false // 用户中心首页
+      isUser: false, // 用户中心首页
+      searchHistory: []
     }
   },
   props: {
@@ -76,6 +78,7 @@ export default {
   },
   mounted () {
     this.$refs.bgcolor.style.backgroundColor = this.color
+    this.searchHistory = JSON.parse(getStore('SEARCH_VALUE'))
   },
   methods: {
     searchPro () {
@@ -97,11 +100,12 @@ export default {
       if (SEARCH_VALUE) {
         // 判断当前是否在搜索页
         if (this.$route.path === '/search') {
-          console.log('..')
           this.$emit('showSearch', [SEARCH_VALUE, IS_LOAD]) // 调用search 页面的showSearch 方法
         } else {
           this.$router.push({path: '/search', query: {keywords: SEARCH_VALUE}})
         }
+        this.searchHistory.unshift({ val: SEARCH_VALUE, time: new Date().getTime() })
+        setStore('SEARCH_VALUE', this.searchHistory)
       }
     },
     goCart () {

@@ -17,7 +17,10 @@
           <span class="item-price">￥{{item.price}}</span>
           <span class="item-num">{{item.num}}</span>
           <span>
-            <a v-if="list.status === 3 || list.status === 4" href="javascript:;" style="color: #414141">退款/退货</a>
+            <a v-if="(list.status === 3 || list.status === 4)&&item.checked===1" href="javascript:;" style="color: #414141" @click="refundOrder(list.orderId, list.sellerId, list.status)">退款/退货</a>
+            <a v-if="(list.status === 3 || list.status === 4)&&item.checked===2" href="javascript:;" style="color: #414141" @click="refundDetail(list.orderId, list.sellerId, list.status)">待商家同意退款</a>
+            <a v-if="(list.status === 3 || list.status === 4)&&item.checked===3" href="javascript:;" style="color: #414141" @click="refundDetail(list.orderId, list.sellerId, list.status)">请退款</a>
+            <a v-if="(list.status === 3 || list.status === 4)&&item.checked===4" href="javascript:;" style="color: #414141" @click="refundDetail(list.orderId, list.sellerId, list.status)">退款中</a>
             <span v-if="list.status === 3 || list.status === 4 || list.status === 5"><a href="javascript:;" style="color: #414141">投诉卖家</a></span><br>
             <span v-if="list.status === 5"><a href="javascript:;" style="color: #414141">申请售后</a></span>
             <span v-if="list.status === 5"><a href="javascript:;" style="color: #414141">售后中</a></span>
@@ -90,6 +93,9 @@ export default {
         // (function (tip) { this.API.addToCart({ itemId: tip.itemId, num: tip.num, name: this.$cookies.get('user-key') }).then(res => {}) })(tip)
       })
       this.$router.push('/cart')
+    },
+    refundDetail (orderId, sellerId, status, refundOrderId) {
+      this.$emit('boxOrderRefund', [orderId, sellerId, status, refundOrderId])
     }
   }
 }

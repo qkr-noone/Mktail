@@ -17,16 +17,12 @@
           <div class="search-tip">
             <ul>
               <!-- <li><a data-tem='暂存'></a></li> -->
-              <li><a>3D</a></li>
-              <li><a>直播</a></li>
-              <li><a>场景定制</a></li>
-              <li><a>电视</a></li>
-              <li><a>工具柜</a></li>
+              <li v-for="(item, index) in searchHistory" :key="item.time" v-if="index<5"><a @click="searchIt(item.val)" href='javascript:;'>{{item.val}}</a></li>
             </ul>
           </div>
         </div>
         <div class="download-app" v-if="isHome">
-          <img src="static/img/mk_app_download.png">
+          <img @click="downloadAppBox=true" :src="download_app">
           <p>扫码关注公众号</p>
         </div>
         <div class="addCart" @click="toCart">
@@ -37,17 +33,27 @@
         </div>
       </div>
     </header>
+    <div class="mk_waiting_box" @click="downloadAppBox=false" v-if="downloadAppBox">
+      <div class="mk_waiting">
+        <i class="el-icon-close mk_waiting_close" @click="downloadAppBox=false"></i>
+        <img class="mk_waiting_img" @click.stop :src="download_app">
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
+import { getStore, setStore } from '@/common/utils'
 export default {
   name: 'headerNav',
   data () {
     return {
-      isHome: '' // 判断logo 是否可触发home点击
+      isHome: '', // 判断logo 是否可触发home点击
       // isShops: false
+      searchHistory: [],
+      download_app: 'static/img/mk_app_download.jpg',
+      downloadAppBox: false
     }
   },
   props: [],
@@ -74,11 +80,14 @@ export default {
     if (!this.isHome && this.$refs.logoIsCursor) {
       this.$refs.logoIsCursor.children[0].style.cursor = 'default'
     }
+    this.searchHistory = JSON.parse(getStore('SEARCH_VALUE'))
+  },
+  activated () {
+    this.searchHistory = JSON.parse(getStore('SEARCH_VALUE'))
   },
   methods: {
     searchPro () {
       let SEARCH_VALUE = this.$refs.search_ipt.value
-      console.log('search', SEARCH_VALUE, 2)
       let IS_LOAD = true // 重新关键词search
       let searchMap =
         {
@@ -96,15 +105,20 @@ export default {
       if (SEARCH_VALUE) {
         // 判断当前是否在搜索页
         if (this.$route.path === '/search') {
-          console.log('..')
           this.$emit('showSearch', [SEARCH_VALUE, IS_LOAD]) // 调用search 页面的showSearch 方法
         } else {
           this.$router.push({path: '/search', query: {keywords: SEARCH_VALUE}})
         }
+        this.searchHistory.unshift({ val: SEARCH_VALUE, time: new Date().getTime() })
+        setStore('SEARCH_VALUE', this.searchHistory)
       }
     },
     toCart () {
       this.$router.push({path: '/cart'})
+    },
+    searchIt (val) {
+      this.$refs.search_ipt.value = val
+      this.searchPro()
     }
   }
 }
@@ -186,6 +200,7 @@ export default {
     display: flex;
     align-items: center;
     width: 550px;
+    overflow: hidden;
     margin: auto;
   }
   .search-tip ul {
@@ -197,6 +212,9 @@ export default {
   }
   .search-tip ul li {
     padding: 0 11px;
+  }
+  .search-tip ul li a {
+    color: rgba(0, 0, 0, 0.65);
   }
   .search-tip ul li + li{
     border-left: 1px solid #878787;
@@ -214,7 +232,40 @@ export default {
   .download-app p{
     margin-left: 12px;
   }
-
+  .download-app img {
+    width: 50px;
+    height: 50px;
+  }
+  .mk_waiting_box {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0,0,0, 0.1);
+    z-index: 1000;
+    overflow-y: hidden;
+  }
+  .mk_waiting {
+    position: relative;
+    left: 50%;
+    top: 50%;
+    width: 380px;
+    transform: translate(-50%, -50%);
+  }
+  .mk_waiting_close {
+    position: absolute;
+    color: red;
+    right: 4px;
+    top: 4px;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  .mk_waiting_img {
+    max-height: 100%;
+    max-width: 100%;
+    border-radius: 8px;
+  }
 /* 加入购物车 */
   .addCart {
     width:150px;

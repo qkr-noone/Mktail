@@ -81,12 +81,12 @@
             <div class="abs-con">
               <ul class="abs-ul">
                 <li class="abs-li" v-for="list in absList" :key="list.id">
-                  <router-link :to="{path: '/detail', query: {goodsId: list.goodsId}}" class="abs-li-a"><img :src="list.pic"></router-link>
+                  <a :href="list.url" class="abs-li-a"><img :src="list.pic"></a>
                   <p class="abs-li-pri">¥{{list.price}}</p>
                   <div class="abs-li-des">
                     <a>{{list.title}}</a>
                   </div>
-                  <span class="abs-li-com">已有<em>233</em>人评价</span>
+                  <span class="abs-li-com">已有<em>{{list.preview||0}}</em>人评价</span>
                 </li>
               </ul>
             </div>
@@ -163,7 +163,7 @@
               </ul>
             </div>
             <div class="block" v-if="totalPages > 1">
-              <router-link class="youthink" :to="{path:'/feedback'}">说说你的使用感受</router-link>
+              <a class="youthink" :to="{path:'/feedback'}" @click.stop.prevent="MK_CODE('感受')">说说你的使用感受</a>
               <el-pagination
                 :current-page.sync="currentPage"
                 :page-size="40"
@@ -181,12 +181,12 @@
           <h2>{{bestGoCate.name}}</h2>
           <ul class="best-go-ul">
             <li class="best-go-li" v-for="list in bestGoList" :key="list.id">
-              <router-link :to="{path: '/detail', query: {goodsId: list.goodsId}}" class="best-go-li-a"><img :src="list.pic"></router-link>
+              <a :href="list.url" class="best-go-li-a"><img :src="list.pic"></a>
               <div class="best-go-li-des">
                 <a>{{list.title}}</a>
               </div>
               <p class="best-go-li-pri">¥{{list.price}}</p>
-              <span class="best-go-li-com">已有<em>233</em>人评价</span>
+              <span class="best-go-li-com">已有<em>{{list.preview||0}}</em>人评价</span>
             </li>
           </ul>
         </div>
@@ -195,7 +195,7 @@
           <h2>{{likeCate.name}}</h2>
           <ul class="youlike-ul">
             <li class="youlike-li" v-for="list in likeList" :key="list.id">
-              <router-link :to="{path: '/detail', query: {goodsId: list.goodsId}}" class="youlike-li-a"><img :src="list.pic"></router-link>
+              <a :href="list.url" class="youlike-li-a"><img :src="list.pic"></a>
               <div class="youlike-li-des">
                 <a>{{list.title}}</a>
               </div>
@@ -214,13 +214,27 @@
     <div class="point">
       <div class="point-con">
         <ul class="point-ul">
-          <li class="point-li"><a data-attr="二维码"><img src="static/img/mk_search_point_1.png"></a></li>
-          <li class="point-li"><a data-attr="运营商客服"><img src="static/img/mk_search_point_2.png"></a></li>
-          <li class="point-li"><router-link :to="{path:'/cart'}" data-attr="购物车"><img src="static/img/mk_search_point_3.png"></router-link></li>
-          <li class="point-li"><router-link :to="{path:'/user/userCollectGoods'}" data-attr="收藏"><img src="static/img/mk_search_point_4.png"></router-link></li>
+          <li class="point-li">
+            <a title="扫码关注平台动态" @click="downloadAppBox=true"><img src="static/img/mk_search_point_1.png"></a>
+          </li>
+          <li class="point-li">
+            <a title="联系平台客服" @click.stop.prevent="MK_CODE('运营商客服')"><img src="static/img/mk_search_point_2.png"></a>
+          </li>
+          <li class="point-li">
+            <router-link :to="{path:'/cart'}" title="查看购物车"><img src="static/img/mk_search_point_3.png"></router-link>
+          </li>
+          <li class="point-li">
+            <router-link :to="{path:'/user/userCollectGoods'}" title="我的收藏"><img src="static/img/mk_search_point_4.png"></router-link>
+          </li>
         </ul>
       </div>
       <div class="point-li top-box"  v-scroll-to="'#headTop'"><a class="top"><i class="el-icon-caret-top"></i><p>TOP</p></a></div>
+    </div>
+    <div class="mk_waiting_box" @click="downloadAppBox=false" v-if="downloadAppBox">
+      <div class="mk_waiting">
+        <i class="el-icon-close mk_waiting_close" @click="downloadAppBox=false"></i>
+        <img class="mk_waiting_img" @click.stop :src="download_app">
+      </div>
     </div>
   </div>
 </template>
@@ -232,6 +246,7 @@ import absBox from '@/components/absBox'
 import pageFooter from '@/components/pageFooter'
 import regFooter from '@/components/regFooter'
 import { formatDate } from '@/common/utils'
+import { mapMutations } from 'vuex'
 export default {
   data () {
     return {
@@ -268,7 +283,9 @@ export default {
       bestGoCate: '',
       likeList: [], // 搜索底部猜你喜欢
       likeCate: '',
-      bottomAbs: [] // 底部广告
+      bottomAbs: [], // 底部广告
+      download_app: 'static/img/mk_app_download.jpg',
+      downloadAppBox: false
     }
   },
   components: { pageFooter, shortcut, headerNav, absBox, homeNav, regFooter },
@@ -313,6 +330,7 @@ export default {
     })
   },
   methods: {
+    ...mapMutations(['MK_CODE']),
     handleOnePrice (e) {
       // 过滤
       this.smallPrice = e.target.value.replace(/[^\d]/g, '')
@@ -678,4 +696,34 @@ export default {
   max-width: 100%;
   max-height: 100%;
 }
+  .mk_waiting_box {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0,0,0, 0.1);
+    z-index: 1000;
+    overflow-y: hidden;
+  }
+  .mk_waiting {
+    position: relative;
+    left: 50%;
+    top: 50%;
+    width: 380px;
+    transform: translate(-50%, -50%);
+  }
+  .mk_waiting_close {
+    position: absolute;
+    color: red;
+    right: 4px;
+    top: 4px;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  .mk_waiting_img {
+    max-height: 100%;
+    max-width: 100%;
+    border-radius: 8px;
+  }
 </style>

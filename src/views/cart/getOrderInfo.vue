@@ -525,7 +525,7 @@ export default {
         userId: this.$cookies.get('user-key'), // "用户id",
         buyerMessageList: messageList, // "买家留言", buyerMessageList: [{buyerMessage, sellerId}]
         buyerNick: userInfo.username, // "买家昵称",
-        buyMobile: userInfo.phone, // 买家手机号
+        buyerMobile: userInfo.phone, // 买家手机号
         buyerRate: '', // "买家是否已经评价",
         receiverAreaName: this.defaultAddress.province + this.defaultAddress.city + this.defaultAddress.alias + this.defaultAddress.address, // "收货人地区名称(省，市，县)街道",
         receiverMobile: this.defaultAddress.mobile, // "收货人手机",

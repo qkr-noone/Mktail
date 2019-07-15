@@ -5,8 +5,8 @@
         <div class="navitem">
           <h2 class="nav-all">{{cateTitle}}</h2>
           <ul class="nav-ul">
-            <li v-for="item in nav" :key="item.title">
-              <router-link :to="{path: '/'+item.path}" :class="{active: chooseNav === item.path}">{{item.title}}</router-link>
+            <li v-for="(item, index) in nav" :key="item.title">
+              <a href="javascript:;" :class="{active: chooseNav === item.path}" @click="index>0&&MK_CODE(item.title);toPage(item.path)">{{item.title}}</a>
             </li>
           </ul>
         </div>
@@ -15,16 +15,16 @@
   </div>
 </template>
 <script>
+import { mapMutations } from 'vuex'
 export default {
   data () {
     return {
       nav: [
         {title: '首页', path: 'home'},
-        {title: '品牌站', path: '3DShow'},
-        {title: '源工厂', path: 'shops'},
+        {title: '品牌站', path: 'javascript:;'},
+        {title: '源工厂', path: 'javascript:;'},
         {title: '商学院', path: 'javascript:;'},
         {title: '服务', path: 'javascript:;'},
-        {title: '直播', path: 'javascript:;'},
         {title: '社区', path: 'javascript:;'}
       ],
       chooseNav: ''
@@ -39,6 +39,13 @@ export default {
   mounted () {
     let path = this.$route.path.split('/')[1]
     this.chooseNav = path
+  },
+  methods: {
+    ...mapMutations(['MK_CODE']),
+    toPage (route) {
+      if (route === 'javascript:;') return false
+      this.$router.push({ path: '/' + route })
+    }
   }
 }
 

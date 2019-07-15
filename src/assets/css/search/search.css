@@ -639,7 +639,7 @@
   }
   .abs-ul, .abs-li{ display: flex; flex-direction: column; }
   li.abs-li+li { margin-top: 18px; }
-  .abs-li-a { width: 172px;height: 163px; overflow: hidden;margin: 0 auto; }
+  .abs-li-a { width: 172px;height: 163px; overflow: hidden;margin: 0 auto;}
   .abs-li-a img { width: 100%; overflow: hidden; }
   .abs-li-pri {font-size:16px; color:rgba(201,0,0,1); line-height:16px;
     padding: 11px 8px 7px 8px;}
@@ -665,6 +665,13 @@
   .abs-li-com em {
     font-style: normal;
     color: #0074C5;
+  }
+  .abs-li-a, .best-go-li-a, .youlike-li-a {
+    transition: all 0.2s linear;
+  }
+  .abs-li-a:hover, .best-go-li-a:hover, .youlike-li-a:hover{
+    box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+    transform: translate3d(0, -2px, 0);
   }
 
 /* 底部精选*/

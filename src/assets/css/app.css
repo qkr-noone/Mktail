@@ -91,7 +91,9 @@
     height: auto;
     background-repeat: no-repeat;
     transition: background-color ease-in 0.4s;
-    background: url(/static/img/mk_home_banner_bg.png) center no-repeat;
+    background-image: url(/static/img/mk_home_banner_bg.png);
+    background-repeat: no-repeat;
+    background-position: center;
   }
   .clearfix {
     clear: both
@@ -459,7 +461,7 @@
   }
   .other-info li:hover{box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);}
   .other-info li a img{ width: 30px; }
-  .other-info li a h5{ margin-top: 2px; }
+  .other-info li a h5{ margin-top: 2px; color: #878787;}
 
 /* 会员3D服务*/
   .bsale {
@@ -667,17 +669,17 @@
  .hot-title p{margin-left: 23px;margin-right: 7px;}
  .hot-title p+p{color: #878787; cursor: pointer;}
  .hot-con-ul { display: flex;flex-wrap: wrap;justify-content: space-between; }
- .hot-con-ul li {
+ .hot-con-ul>a {
   padding: 13px 23px 15px 23px;
   background-color: #fff;
   transition: all 0.2s linear;
   cursor: pointer;
  }
- .hot-con-ul li:hover {
+ .hot-con-ul>a:hover {
   box-shadow: 0 15px 30px rgba(0,0,0,0.2);
   transform: translate3d(0, -2px, 0);
  }
- .hot-con-ul li:nth-child(n+6) {
+ .hot-con-ul>a:nth-child(n+6) {
     margin-top: 11px;
   }
 /* END */

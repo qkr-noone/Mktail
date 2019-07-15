@@ -12,7 +12,7 @@
               <div class="all-sort-list2">
                 <!-- 截取15条类目 -->
                 <div class="item bo" v-for="item in menuData.slice(0,15)"  :key="item.id" >
-                  <h3><a href="">{{ item.name }}</a><i class="el-icon-arrow-right"></i></h3>
+                  <h3><a href="javascript:;">{{ item.name }}</a><i class="el-icon-arrow-right"></i></h3>
                   <div class="item-list clearfix">
                     <div class="subitem">
                       <dl class="fore1" v-for="list in item.children" v-if="list.children.length" :key="list.id">
@@ -29,14 +29,14 @@
               <div id="myCarousel" data-ride="carousel" data-interval="4000" class="sui-carousel">
                 <el-carousel :interval="5000" arrow="always" height="100%" @change="carouselChange">
                   <el-carousel-item v-for="item in bannerList" :key="item.id">
-                    <router-link :to="{path:item.url}"><img :src="item.pic"></router-link>
+                    <a :href="item.url" target="_blank"><img :src="item.pic"></a>
                   </el-carousel-item>
                 </el-carousel>
               </div>
               <div class="style-recom">
                 <li v-for="list in absList" :key="list.id" :data-href="list.url" :href="list.url">
                   <div><h3>{{list.title}}</h3><h4>{{list.subTitle}}</h4></div>
-                  <router-link :to="{path: list.url}"><img class="wrap" :src="list.pic"></router-link>
+                  <a :href="list.url" target="_blank"><img class="wrap" :src="list.pic"></a>
                 </li>
               </div>
             </div>
@@ -57,15 +57,15 @@
                 </div>
               </div>
               <div class="news-info">
-                <li v-for="(list, index) in tipHot" :key="list.id" v-if="index === 0"><a href="javascript:;"><span class="news-tip">【热门】</span>{{list.title}}</a></li>
-                <li v-for="(list, index) in tipKnown" :key="list.id" v-if="index === 0"><a href="javascript:;"><span class="news-tip">【知识】</span>{{list.title}}</a></li>
-                <li v-for="(list, index) in tipAbs" :key="list.id" v-if="index === 0"><a href="javascript:;"><span class="news-tip">【公告】</span>{{list.title}}</a></li>
+                <li v-for="(list, index) in tipHot" :key="list.id" v-if="index === 0"><a href="javascript:;" @click="MK_CODE('热门')"><span class="news-tip">【热门】</span>{{list.title}}</a></li>
+                <li v-for="(list, index) in tipKnown" :key="list.id" v-if="index === 0"><a href="javascript:;" @click="MK_CODE('知识')"><span class="news-tip">【知识】</span>{{list.title}}</a></li>
+                <li v-for="(list, index) in tipAbs" :key="list.id" v-if="index === 0"><a href="javascript:;" @click="MK_CODE('公告')"><span class="news-tip">【公告】</span>{{list.title}}</a></li>
               </div>
               <div class="other-info">
-                <li><a><img src="static/img/mk_huiyuan.png"><h5>会员</h5></a></li>
-                <li><a><img src="static/img/mk_chongzhi.png"><h5>充值</h5></a></li>
-                <li><a><img src="static/img/mk_hongbao.png"><h5>红包</h5></a></li>
-                <li><a><img src="static/img/mk_gongyi.png"><h5>公益</h5></a></li>
+                <li @click="MK_CODE('会员')"><a href="javascript:;"><img src="static/img/mk_huiyuan.png"><h5>会员</h5></a></li>
+                <li @click="MK_CODE('充值')"><a href="javascript:;"><img src="static/img/mk_chongzhi.png"><h5>充值</h5></a></li>
+                <li @click="MK_CODE('红包')"><a href="javascript:;"><img src="static/img/mk_hongbao.png"><h5>红包</h5></a></li>
+                <li @click="MK_CODE('公益')"><a href="javascript:;"><img src="static/img/mk_gongyi.png"><h5>公益</h5></a></li>
               </div>
             </div>
           </div>
@@ -83,9 +83,9 @@
     <div class="container_h">
       <div class="py-container classify">
         <div class="sty-con" v-for="list in classList" :key="list.id">
-          <div class="sty-con-left" :href="list.url || 'javascript:;'">
+          <a class="sty-con-left" :href="list.url || 'javascript:;'">
             <img :src="list.pic">
-          </div>
+          </a>
           <div class="sty-con-right">
             <div class="style-con-class">
               <a></a> <!-- 电动工具 -->
@@ -93,36 +93,36 @@
               <a></a> <!-- 电动工具 -->
             </div>
             <ul class="sty-con-ul">
-              <li class="sty-con-li" :href="data.url || 'javascript:;'" v-for="(data, index) in hardwareList" :key="data.id" v-if="index < 4 && list.id === data.contentId">
+              <a class="sty-con-li" :href="data.url || 'javascript:;'" v-for="(data, index) in hardwareList" :key="data.id" v-if="index < 4 && list.id === data.contentId">
                 <h2>{{data.title}}</h2>
                 <a :href="data.url || 'javascript:;'"><img class="wrap" :src="data.pic"></a>
                 <div><span>{{data.price}}元</span><div class="before-pri"><span>288元</span></div></div>
-              </li>
-              <li class="sty-con-li" :href="data.url || 'javascript:;'" v-for="(data, index) in lifeShops" :key="data.id" v-if="index < 4 && list.id === data.contentId">
+              </a>
+              <a class="sty-con-li" :href="data.url || 'javascript:;'" v-for="(data, index) in lifeShops" :key="data.id" v-if="index < 4 && list.id === data.contentId">
                 <h2>{{data.title}}</h2>
                 <a :href="data.url || 'javascript:;'"><img class="wrap" :src="data.pic"></a>
                 <div><span>{{data.price}}元</span><div class="before-pri"><span>288元</span></div></div>
-              </li>
-              <li class="sty-con-li" :href="data.url || 'javascript:;'" v-for="(data, index) in mechanicList" :key="data.id" v-if="index < 4 && list.id === data.contentId">
+              </a>
+              <a class="sty-con-li" :href="data.url || 'javascript:;'" v-for="(data, index) in mechanicList" :key="data.id" v-if="index < 4 && list.id === data.contentId">
                 <h2>{{data.title}}</h2>
                 <a :href="data.url || 'javascript:;'"><img class="wrap" :src="data.pic"></a>
                 <div><span>{{data.price}}元</span><div class="before-pri"><span>288元</span></div></div>
-              </li>
-              <li class="sty-con-li" :href="data.url || 'javascript:;'" v-for="(data, index) in elecList" :key="data.id" v-if="index < 4 && list.id === data.contentId">
+              </a>
+              <a class="sty-con-li" :href="data.url || 'javascript:;'" v-for="(data, index) in elecList" :key="data.id" v-if="index < 4 && list.id === data.contentId">
                 <h2>{{data.title}}</h2>
                 <a :href="data.url || 'javascript:;'"><img class="wrap" :src="data.pic"></a>
                 <div><span>{{data.price}}元</span><div class="before-pri"><span>288元</span></div></div>
-              </li>
-              <li class="sty-con-li" :href="data.url || 'javascript:;'" v-for="(data, index) in threeCList" :key="data.id" v-if="index < 4 && list.id === data.contentId">
+              </a>
+              <a class="sty-con-li" :href="data.url || 'javascript:;'" v-for="(data, index) in threeCList" :key="data.id" v-if="index < 4 && list.id === data.contentId">
                 <h2>{{data.title}}</h2>
                 <a :href="data.url || 'javascript:;'"><img class="wrap" :src="data.pic"></a>
                 <div><span>{{data.price}}元</span><div class="before-pri"><span>288元</span></div></div>
-              </li>
-              <li class="sty-con-li" :href="data.url || 'javascript:;'" v-for="(data, index) in cartLife" :key="data.id" v-if="index < 4 && list.id === data.contentId">
+              </a>
+              <a class="sty-con-li" :href="data.url || 'javascript:;'" v-for="(data, index) in cartLife" :key="data.id" v-if="index < 4 && list.id === data.contentId">
                 <h2>{{data.title}}</h2>
                 <a :href="data.url || 'javascript:;'"><img class="wrap" :src="data.pic"></a>
                 <div><span>{{data.price}}元</span><div class="before-pri"><span>288元</span></div></div>
-              </li>
+              </a>
             </ul>
           </div>
         </div>
@@ -197,13 +197,13 @@
         <div>
           <div class="hot-title">
             <p>猜你喜欢</p>
-            <p @click="changeLike()">换一换</p>
+            <p @click="MK_CODE('换一换')" attr="changeLike()">换一换</p>
           </div>
           <div class="hot-con">
             <ul class="hot-con-ul">
-              <li v-for="list in likeList" :key="list.id" :href="list.url || 'javascript:;'">
+              <a v-for="list in likeList" :key="list.id" :href="list.url || 'javascript:;'">
                 <youLike :like="list"></youLike>
-              </li>
+              </a>
             </ul>
           </div>
         </div>
@@ -232,8 +232,8 @@
           <li class="point-li point-bd4" v-scroll-to="'#school'"><a>商学院</a></li>
           <li class="point-li point-ad5" v-scroll-to="'#yourLike'"><a>猜你喜欢</a></li>
           <li class="point-li" v-scroll-to="'#headTop'"><a class=" top"><i class="el-icon-arrow-up"></i><p>顶部</p></a></li>
-          <li class="point-li"><a>反馈</a></li>
-          <li class="point-li"><a>举报</a></li>
+          <li class="point-li"><a @click="MK_CODE('反馈')">反馈</a></li>
+          <li class="point-li"><a  @click="MK_CODE('举报')">举报</a></li>
         </ul>
       </div>
     </div>
@@ -248,7 +248,7 @@ import absBox from '@/components/absBox'
 import youLike from '@/components/youLike'
 import pageFooter from '@/components/pageFooter'
 import regFooter from '@/components/regFooter'
-import { mapState } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 
 export default {
   data () {
@@ -317,7 +317,6 @@ export default {
     // 主页banner广告
     this.API.homeBanner({categoryId: 2}).then(rtn => {
       this.absList = rtn.contentList || []
-      console.log('hooo', this.absList)
     })
     // 会员3D
     this.API.homeBanner({categoryId: 3}).then(rtn => {
@@ -397,6 +396,7 @@ export default {
     })
   },
   methods: {
+    ...mapMutations(['MK_CODE']),
     carouselChange (index, key) {
       if (this.bannerList[index] && this.bannerList[index].bgcolor) this.bgImg = this.bannerList[index].bgcolor
     },

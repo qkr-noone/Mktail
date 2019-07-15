@@ -4,10 +4,10 @@
       <div class="shortcut">
         <div class="sc-left">
           <p v-if="this.isHome" class="backHome child" @click="home">返回首页</p>
-          <p class="child">网站导航</p>
-          <a class="child">商家服务</a>
-          <a class="child">客户服务</a>
-          <a class="child"><i class="el-icon-location"></i>广州</a>
+          <p class="child" @click="MK_CODE('网站导航')">网站导航</p>
+          <a class="child" @click="MK_CODE('商家服务')">商家服务</a>
+          <a class="child" @click="MK_CODE('客户服务')">客户服务</a>
+          <a class="child" @click="MK_CODE('客户服务')"><i class="el-icon-location"></i>广州</a>
         </div>
         <div class="sc-right">
           <ul>
@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 export default {
   name: 'shortcutHeader',
   data () {
@@ -64,6 +64,7 @@ export default {
     this.isHome = (curRoute === '/home' ? '' : '/home')
   },
   methods: {
+    ...mapMutations(['MK_CODE']),
     home () {
       this.$router.push({path: '/home'})
     },

@@ -1,6 +1,6 @@
 import API from '@/common/apis'
 import vueCookies from 'vue-cookies'
-import { USER_INFO, USER_TOKEN, USER_LOGIN, USER_LOGOUT, USER_CLEAR } from '@/store/mutation-types'
+import { USER_INFO, USER_TOKEN, USER_LOGIN, USER_LOGOUT, USER_CLEAR, MK_CODE } from '@/store/mutation-types'
 import { setStore, removeStore } from '@/common/utils'
 
 const user = {
@@ -9,7 +9,8 @@ const user = {
 
   state: {
     token: vueCookies.get('token'),
-    userInfo: {} // 用户信息
+    userInfo: {},
+    MKWaiting: ''
   },
 
   mutations: {
@@ -18,6 +19,9 @@ const user = {
     },
     [USER_INFO]: (state, userInfo) => {
       state.userInfo = userInfo
+    },
+    [MK_CODE]: (state, MKWaiting) => {
+      state.MKWaiting = MKWaiting
     }
   },
 
@@ -77,6 +81,11 @@ const user = {
     // 清理数据
     [USER_CLEAR] ({commit}) {
       return new Promise(resolve => {})
+    },
+
+    // 弹框
+    [MK_CODE] ({commit}, MKWaiting) {
+      commit(MK_CODE, MKWaiting)
     }
   }
 }
